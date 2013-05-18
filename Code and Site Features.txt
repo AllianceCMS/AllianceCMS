@@ -1,0 +1,42 @@
+
+Processes:
+
+- First thing to do is look for the $_GET['site_id'] variable in order to choose which site to load. If $_GET['site_id']is == null, then load mygamersden.com sitewide home page.
+
+- We also need to initialize code structures in each individual Controller Action (i.e. instantiate the database object, html/form helpers, etc...). This way the site only loads what is used and needed. This should speed up load and execution times.
+    - $thisController->usingSubSystem("sql", "forms");
+
+
+Features:
+
+- There will be three levels of permissions: 
+    - Site wide Admin permissions (will grant/restrict permissions for mygamersden.com moderators)
+    - Site wide Member permissions (will grant/restrict permissions for individual member permissions, regardless of associated Den or Fan Club)
+    - Individual Den and Fan Club permissions (will grant/restrict permissions for Den/Fan Club features)
+
+- Each site element, (i.e. navigation link, Controller Action (???that is attached to a view???)), anything that will need to have special permissions, will need to be documented in the plug-in's installation code/document (which will most likely be named 'plugin.php'):
+    - $navLinks(array("link1" => "pluginMainPage.php", "link2" => "pluginSettings.php");
+    - $pluginMenus("menu1" => "menuDisplayContent.php", "menu2" => "menuShowStuff.php");
+
+- Each Controller Action (???that is attached to a view???) will be categorized into one of six separate 'content types':
+    - site_admin: Site wide 'admin' page (any administrative Controller Action that is not associated with a Den or Fan Club)
+    - site_content: Site wide 'content' page (any non-administrative Controller Action that is not associated with a Den or Fan Club)
+    - den_admin: Den 'admin' page (any administrative Controller Action that is associated with a particular Den)
+    - den_content: Den 'content' page (any non-administrative Controller Action that is associated with a particular Den)
+    - fan_admin: Fan Club 'admin' page (any administrative Controller Action that is associated with a particular Fan Club)
+    - fan_content: Fan Club 'content' page (any non-administrative Controller Action that is associated with a particular Fan Club)
+
+- Each Controller Action (???that is attached to a view???) will designate it's own 'content type'
+    - i.e. $thisController->contentType("site_admin");
+    - i.e. $thisController->contentType("site_content");
+    - i.e. $thisController->contentType("den_admin");
+    - i.e. $thisController->contentType("den_content");
+    - i.e. $thisController->contentType("fan_admin");
+    - i.e. $thisController->contentType("fan_content");
+
+
+
+
+
+
+

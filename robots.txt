@@ -1,0 +1,12 @@
+User-agent: *
+Disallow: /*.tpl.php$
+Disallow: /*.xml$
+Disallow: /admin/
+Disallow: /handlers/
+Disallow: /includes/
+Disallow: /install/
+Disallow: /languages/
+Disallow: /themes/
+Disallow: /core.php
+Disallow: /footer.php
+Disallow: /header.php

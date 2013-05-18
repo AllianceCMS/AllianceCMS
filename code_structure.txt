@@ -1,0 +1,11 @@
+
+index.php
+plugin_folder/plugin/index.php (i.e. plugins/news/index.php)
+	header.php
+		core.php
+		    includes/config/const.folders.php
+		    includes/config/required.php
+		    	handlers/db/db.php
+		    	handlers/templates/template.php
+		    includes/config/const.core.php
+	footer.php

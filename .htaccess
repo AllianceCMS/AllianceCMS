@@ -1,0 +1,14 @@
+ErrorDocument 400 /errors/http_errors.php?400
+ErrorDocument 401 /errors/http_errors.php?401
+ErrorDocument 403 /errors/http_errors.php?403
+ErrorDocument 404 /errors/http_errors.php?404
+ErrorDocument 405 /errors/http_errors.php?404
+ErrorDocument 408 /errors/http_errors.php?404
+ErrorDocument 500 /errors/http_errors.php?500
+
+IndexIgnore *
+
+<Files ~ "\.xml$">
+Order allow,deny
+Deny from all
+</Files>

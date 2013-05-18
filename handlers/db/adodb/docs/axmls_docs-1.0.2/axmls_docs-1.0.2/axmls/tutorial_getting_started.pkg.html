@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Getting Started</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+	<table class="tutorial-nav-box">
+	<tr>
+		<td style="width: 30%">
+							<span class="disabled"><img src="../media/images/previous_button_disabled.png" alt="Previous"></span>
+					</td>
+		<td style="text-align: center">
+					</td>
+		<td style="text-align: right; width: 30%">
+							<a href="../axmls/tutorial_using_axmls.pkg.html"><img src="../media/images/next_button.png" alt="Next"></a>
+					</td>
+	</tr>
+	<tr>
+		<td style="width: 30%">
+					</td>
+		<td style="text-align: center">
+					</td>
+		<td style="text-align: right; width: 30%">
+							<span class="detail">Using AXMLS</span>
+					</td>
+	</tr>
+</table>
+	
+Getting Started<p>Adodb-xmlschema, or 
+				AXMLS, is a set of classes that 
+				allow the user to quickly and easily build or upgrade a 
+				database on almost any RDBMS using the excellent 
+				ADOdb database library and a simple 
+				XML formatted schema file. Our goal is to give developers a 
+				tool that's simple to use, but that will allow them to create a 
+				single file that can build, upgrade, and manipulate databases 
+				on most RDBMS platforms.</p>
+	Installing axmls<p>The easiest way to install AXMLS to 
+			download and install any recent version of the 
+			ADOdb database abstraction library. To 
+			install AXMLS manually, simply copy the 
+			adodb-xmlschema.inc.php file and the 
+			xsl directory into your 
+			adodb directory.</p>
+	Using AXMLS in Your 
+			Application<p>There are two steps involved in using 
+				AXMLS in your application: first, 
+				you must create a schema, or XML representation of your 
+				database, and second, you must create the PHP code that will 
+				parse and execute the schema.</p>
+		<p>Let's begin with a schema that describes a typical, if simplistic 
+			user management table for an application.</p>
+		<pre class="listing"><pre>
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;schema version=&quot;0.2&quot;&gt;
+
+  &lt;table name=&quot;users&quot;&gt;
+    &lt;desc&gt;A typical users table for our application.&lt;/desc&gt;
+    &lt;field name=&quot;userId&quot; type=&quot;I&quot;&gt;
+      &lt;descr&gt;A unique ID assigned to each user.&lt;/descr&gt;
+      &lt;KEY/&gt;
+      &lt;AUTOINCREMENT/&gt;
+    &lt;/field&gt;
+    
+    &lt;field name=&quot;userName&quot; type=&quot;C&quot; size=&quot;16&quot;&gt;&lt;NOTNULL/&gt;&lt;/field&gt;
+    
+    &lt;index name=&quot;userName&quot;&gt;
+      &lt;descr&gt;Put a unique index on the user name&lt;/descr&gt;
+      &lt;col&gt;userName&lt;/col&gt;
+      &lt;UNIQUE/&gt;
+    &lt;/index&gt;
+  &lt;/table&gt;
+  
+  &lt;sql&gt;
+    &lt;descr&gt;Insert some data into the users table.&lt;/descr&gt;
+    &lt;query&gt;insert into users (userName) values ( 'admin' )&lt;/query&gt;
+    &lt;query&gt;insert into users (userName) values ( 'Joe' )&lt;/query&gt;
+  &lt;/sql&gt;
+&lt;/schema&gt;			
+</pre></pre>
+		<p>Let's take a detailed look at this schema.</p>
+		<p>The opening &lt;?xml version=&quot;1.0&quot;?&gt; tag is 
+					required by XML. The &lt;schema&gt; tag 
+					tells the parser that the enclosed markup defines an XML 
+					schema. The version=&quot;0.2&quot; attribute sets 
+					<em>the version of the AXMLS DTD used by the XML 
+					schema.</em> <p>All versions of AXMLS prior 
+					to version 1.0 have a schema version of &quot;0.1&quot;. The current 
+					schema version is &quot;0.2&quot;.</p></p>
+				<pre class="listing"><pre>
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;schema version=&quot;0.2&quot;&gt;
+  ...
+&lt;/schema&gt;
+</pre></pre>
+			<p>Next we define one or more tables. A table consists of a 
+					fields (and other objects) enclosed by 
+					&lt;table&gt; tags. The 
+					name=&quot;&quot; attribute specifies the name of 
+					the table that will be created in the database.</p>
+				<pre class="listing"><pre>
+&lt;table name=&quot;users&quot;&gt;
+
+    &lt;desc&gt;A typical users table for our application.&lt;/desc&gt;
+    &lt;field name=&quot;userId&quot; type=&quot;I&quot;&gt;
+      &lt;descr&gt;A unique ID assigned to each user.&lt;/descr&gt;
+      &lt;KEY/&gt;
+      &lt;AUTOINCREMENT/&gt;
+    &lt;/field&gt;
+    
+    &lt;field name=&quot;userName&quot; type=&quot;C&quot; size=&quot;16&quot;&gt;&lt;NOTNULL/&gt;&lt;/field&gt;
+    
+&lt;/table&gt;
+</pre></pre>
+				<p>This table is called &quot;users&quot; and has a description and 
+					two fields. The description is optional, and is currently 
+					only for your own information; it is not applied to the 
+					database.</p>
+				<p>The first &lt;field&gt; tag will create 
+					a field named &quot;userId&quot; of type &quot;I&quot;, or integer. (See the 
+					ADOdb Data Dictionary 
+					documentation for a list of valid types.) This 
+					&lt;field&gt; tag encloses two special 
+					field options: &lt;KEY/&gt;, which 
+					specifies this field as a primary key, and 
+					&lt;AUTOINCREMENT/&gt;, which specifies 
+					that the database engine should automatically fill this 
+					field with the next available value when a new row is 
+					inserted.</p>
+				<p>The second &lt;field&gt; tag will create 
+					a field named &quot;userName&quot; of type &quot;C&quot;, or character, and of 
+					length 16 characters. The &lt;NOTNULL/&gt; 
+					option specifies that this field does not allow 
+					NULLs.</p>
+			<p>There are two ways to add indexes to a table. The 
+					simplest is to mark a field with the 
+					&lt;KEY/&gt; option as described above; a 
+					primary key is a unique index. The second and more powerful 
+					method uses the &lt;index&gt; tags.</p>
+				<pre class="listing"><pre>
+&lt;table name=&quot;users&quot;&gt;
+  ...
+    
+  &lt;index name=&quot;userName&quot;&gt;
+    &lt;descr&gt;Put a unique index on the user name&lt;/descr&gt;
+    &lt;col&gt;userName&lt;/col&gt;
+    &lt;UNIQUE/&gt;
+  &lt;/index&gt;
+    
+&lt;/table&gt;
+</pre></pre>
+				<p>The &lt;index&gt; tag specifies that an 
+					index should be created on the enclosing table. The 
+					name=&quot;&quot; attribute provides the name of the 
+					index that will be created in the database. The 
+					description, as above, is for your information only. The 
+					&lt;col&gt; tags list each column that 
+					will be included in the index. Finally, the 
+					&lt;UNIQUE/&gt; tag specifies that this 
+					will be created as a unique index.</p>
+			<p>Finally, AXMLS allows you to include arbitrary SQL that 
+					will be applied to the database when the schema is 
+					executed.</p>
+				<pre class="listing"><pre>
+&lt;sql&gt;
+  &lt;descr&gt;Insert some data into the users table.&lt;/descr&gt;
+  &lt;query&gt;insert into users (userName) values ( 'admin' )&lt;/query&gt;
+  &lt;query&gt;insert into users (userName) values ( 'Joe' )&lt;/query&gt;
+&lt;/sql&gt;
+</pre></pre>
+				<p>The &lt;sql&gt; tag encloses any number 
+					of SQL queries that you define for your own use.</p>
+		<p>Now that we've defined an XML schema, you need to know how to 
+			apply it to your database. Here's a simple PHP script that shows 
+			how to load the schema.</p>
+		<p><pre class="listing"><pre>
+&lt;?PHP
+/* You must tell the script where to find the ADOdb and
+ * the AXMLS libraries.
+ */
+require( &quot;path_to_adodb/adodb.inc.php&quot;);
+require( &quot;path_to_adodb/adodb-xmlschema.inc.php&quot; );
+
+/* Configuration information. Define the schema filename,
+ * RDBMS platform (see the ADODB documentation for valid
+ * platform names), and database connection information here.
+ */
+$schemaFile = 'example.xml';
+$platform = 'mysql';
+$dbHost = 'localhost';
+$dbName = 'database';
+$dbUser = 'username';
+$dbPassword = 'password';
+
+/* Start by creating a normal ADODB connection.
+ */
+$db = ADONewConnection( $platform );
+$db-&gt;Connect( $dbHost, $dbUser, $dbPassword, $dbName );
+
+/* Use the database connection to create a new adoSchema object.
+ */
+$schema = new adoSchema( $db );
+
+/* Call ParseSchema() to build SQL from the XML schema file.
+ * Then call ExecuteSchema() to apply the resulting SQL to 
+ * the database.
+ */
+$sql = $schema-&gt;ParseSchema( $schemaFile );
+$result = $schema-&gt;ExecuteSchema();
+?&gt;
+</pre></pre></p>
+		<p>Let's look at each part of the example in turn. After you 
+			manually create the database, there are three steps required to 
+			load (or upgrade) your schema.</p>
+		<p>First, create a normal ADOdb connection. The variables 
+					and values here should be those required to connect to your 
+					database.</p>
+				<pre class="listing"><pre>
+$db = ADONewConnection( 'mysql' );
+$db-&gt;Connect( 'host', 'user', 'password', 'database' );
+</pre></pre>
+			<p>Second, create the adoSchema object that load and 
+					manipulate your schema. You must pass an ADOdb database 
+					connection object in order to create the adoSchema 
+					object.</p>
+				<pre class="listing"><pre>
+$schema = new adoSchema( $db );
+</pre></pre>
+			<p>Third, call ParseSchema() to parse the 
+					schema and then ExecuteSchema() to apply 
+					it to the database. You must pass 
+					ParseSchema() the path and filename of 
+					your schema file.</p>
+				<pre class="listing"><pre>
+$schema-&gt;ParseSchema( $schemaFile ); 
+$schema-&gt;ExecuteSchema(); 
+</pre></pre>
+		<p>Execute the above code and then log into your database. If you've 
+			done all this right, you should see your tables, indexes, and 
+			SQL.</p>
+		<p>You can find the source files for this tutorial in the 
+			examples directory as 
+			tutorial_shema.xml and 
+			tutorial.php. See the class documentation for 
+			a more detailed description of the adoSchema methods, including 
+			methods and schema elements that are not described in this 
+			tutorial.</p>
+
+	<table class="tutorial-nav-box">
+	<tr>
+		<td style="width: 30%">
+							<span class="disabled"><img src="../media/images/previous_button_disabled.png" alt="Previous"></span>
+					</td>
+		<td style="text-align: center">
+					</td>
+		<td style="text-align: right; width: 30%">
+							<a href="../axmls/tutorial_using_axmls.pkg.html"><img src="../media/images/next_button.png" alt="Next"></a>
+					</td>
+	</tr>
+	<tr>
+		<td style="width: 30%">
+					</td>
+		<td style="text-align: center">
+					</td>
+		<td style="text-align: right; width: 30%">
+							<span class="detail">Using AXMLS</span>
+					</td>
+	</tr>
+</table>
+	
+	<p class="notes" id="credit">
+		Documentation generated on Tue, 27 Jul 2004 20:05:45 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</p>
+	</div></body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+	<title>adodb-xmlschema</title>
+	<link rel="stylesheet" href="../media/stylesheet.css" />
+</head>
+<body>
+<h1>adodb-xmlschema</h1>
+
+<hr />
+<p>Originally written by <a href="mailto:richtl@arscognita.com">Richard Tango-Lowy</a> with many fine additions and improvements by <a href="mailto:dcech@phpwerx.net">Dan Cech</a>.</p>
+
+<p>For more information or to <a href="http://sourceforge.net/tracker/?group_id=81768&atid=563961">report bugs</a> or <a href="http://sourceforge.net/tracker/?group_id=81768&atid=563964">enhancements</a>, or to <a href="http://sourceforge.net/project/showfiles.php?group_id=81768">download</a> the latest version, visit the <a href="http://sourceforge.net/projects/adodb-xmlschema/">adodb-xmlschema Sourceforge Project Page</a>.</p>
+
+<h2>Introduction</h2>
+<p><b>adodb-xmlschema</b> is a class that allows the user to quickly and easily build or upgrade a database on almost any RDBMS using the excellent <a href="http://php.weblogs.com/ADODB">ADODB database library</a> and a simple XML formatted schema file.</p>
+
+<p>This library is dual-licensed under a BSD-style license and under the <b><a href="http://opensource.org/licenses/lgpl-license.php">GNU Lesser Public License</a></b>.  See the <B>LICENSE</B> file for more information.</p>
+
+<h2>Features</h2>
+<ul>
+	<li>Darned easy to install (included with all newer versions of ADODB).</li>
+	<li>Create, upgrade and remove schemas on any platform supported by ADODB.</li>
+	<li>Extract a schema from an existing database.</li>
+	<li>Embed RDBMS-specific sections in a schema.</li>
+	<li>Embed arbitrary SQL in a schema.</li>
+	<li>Embed data in a schema.</li>
+</ul>
+
+<h2>Installation</h2>
+<p>To install adodb-xmlschema, simply copy the <tt>adodb-xmlschema.inc.php</tt> file and the <tt>xsl</tt> directory into your <b>ADODB</b> directory.</p>
+
+<h2>Documentation</h2>
+<p>See the <tt>docs</tt> directory for online documentation and tutorials.</p>
+
+<h2>News</h2>
+
+<h3>Version 1.0.2</h3>
+<ul>
+	<li>Table prefixing is now working correctly.</li>
+	<li>Support for uninstalling databases with the RemoveSchema command.</li>
+	<li>You can now embed default data within the schema for population of tables.</li>
+	<li>Many other fixes</li>
+</ul>
+
+<h3>Version 1.0.1</h3>
+<ul>
+	<li>The PHP XSLT module is now optional, and is only required for DTD conversions.</li>
+	<li>It's now possible to execute the SQL inline (during parsing).
+	<li>Added a <em>Using AXMLS</em> tutorial (browse to index.html in the docs directory).</li>
+</ul>
+
+<h3>Version 1.0</h3>
+<ul>
+	<li>Thanks to Dan, AXMLS now uses XSLT to convert between DTD schema versions. XSLT will also allow us to create other transformations against the schema format in the future.</li>
+	<li>Indexes are now part of the table object; they should no longer be declared seperately in the schema XML.</li>
+	<li>Upgrading is now transparent. If you apply a schema to an existing table, the table gets upgraded to the new schema. This has been tested on Oracle and MySQL, but doesn't yet work on PostgreSQL (Very soon, very soon).</li>
+	<li>In addition to parsing files, adoSchema now has methods for parsing XML Schema strings. This should give us more room to extend the library, and give you, the developer, room to manipulate the schema string should you feel the need.</li>
+	<li>Check out the new <em>Getting Started</em> tutorial (browse to index.html in the docs directory) and improved autodocs. An Advanced User's Guide is in the works.</li>
+</ul>
+
+<hr />
+<h2>Thanks</h2>
+<p>Thanks to John Lim for giving us ADODB, and for the hard work that keeps it on top of things.  And particulary for the datadict code that made xmlschema possible.</p>
+
+<hr />
+<p>$Id: package_axmls.html,v 1.10 2004/07/28 17:18:32 dcech Exp $</p>
+</body>
+</html>
