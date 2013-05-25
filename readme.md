@@ -10,7 +10,7 @@ I am proud to announce the arrival of AllianceCMS, a Social Content Management S
 	<li>Flexible</li>
 	<li>Secure</li>
 	<li>Web Standards Compliant</li>
-	<li>PHP5+ Compatible Only</li>
+	<li>PHP5.3+ Compatible Only</li>
 	<li>Easy To Develop With</li>
 	<li>Easy To Create Custom Look And Layout</li>
 </ul>
