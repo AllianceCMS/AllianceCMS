@@ -20,9 +20,9 @@ AllianceCMS is still under development, with new features added frequently. If y
 Here are some areas that could use a contribution:
 
 <ul>
-	<li>Translation</li>
 	<li>Graphic Design/CSS/Theme Creation</li>
 	<li>Plugin Development</li>
 	<li>Data Management</li>
 	<li>Documentation</li>
+	<li>Translation</li>
 </ul>
