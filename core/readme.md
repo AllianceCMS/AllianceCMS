@@ -3,24 +3,23 @@ AllianceCMS
 
 I am proud to announce the arrival of AllianceCMS, a Social Content Management System.
 
-<dl>
-    <dt>
-        alÂ·liÂ·ance
-    </dt>
-    <dd>
-        <p>
-            Pronunciation: \ə-ˈlī-ən(t)s\<br />
-            Function: noun<br />
-            Date: 14th century<br />
-        </p>
-        <p>
-            <strong>1</strong> <strong>a</strong>: the state of being allied; the action of allying <strong>b</strong>: a bond or connection between families, states, parties, or individuals (a closer alliance between government and industry)<br />
-            <strong>2</strong>: an association to further the common interests of the members; specifically : a confederation of nations by treaty<br />
-            <strong>3</strong>: union by relationship in qualities : affinity<br />
-            <strong>4</strong>: a treaty of alliance<br />
-        <p>
-    </dd>
-</dl> 
+##alÂ·liÂ·ance
+
+Pronunciation: \ə-ˈlī-ən(t)s\
+
+Function: noun
+
+Date: 14th century
+
+**1 a**: the state of being allied; the action of allying
+
+**1 b**: a bond or connection between families, states, parties, or individuals (a closer alliance between government and industry)
+
+**2**: an association to further the common interests of the members; specifically : a confederation of nations by treaty
+
+**3**: union by relationship in qualities : affinity
+
+**4**: a treaty of alliance
 
 <h2>What Is AllianceCMS?</h2>
 
