@@ -8,7 +8,7 @@
 	},
 	"autoload" : {
 		"psr-0" : {
-			"Acms\\Core\\System" : "package/Acms.Core/src/"
+			"Acms" : "package/Acms.Core/src/"
 		}
 	}
 }

@@ -10,5 +10,5 @@ return array(
     'Twig_' => array($vendorDir . '/twig/twig/lib'),
     'Slim\\Extras' => array($vendorDir . '/slim/extras'),
     'Slim' => array($vendorDir . '/slim/slim'),
-    'Acms\\Core\\System' => array($baseDir . '/package/Acms.Core/src'),
+    'Acms' => array($baseDir . '/package/Acms.Core/src'),
 );
