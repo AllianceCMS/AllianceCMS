@@ -1,6 +1,6 @@
 <?php
-require_once ('package/Acms.Core/src/Acms/Core/Bootstrap.php');
 require_once ('config/system.php');
+require_once (PACKAGES . 'Acms.Core/src/Acms/Core/Bootstrap.php');
 require_once (INCLUDES . 'required.php');
 echo 'no error';
 exit();
