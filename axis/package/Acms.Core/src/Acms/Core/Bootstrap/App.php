@@ -3,7 +3,7 @@
 // require 'CustomView.php';
 
 /**
- * $root = /core
+ * $root = /axis
  */
 $root = dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))));
 require $root . '/vendor/autoload.php';
@@ -78,7 +78,7 @@ $app->get('/', function () use($app)
 $app->get('/', function () use($app, $root)
 {
     $app->render('index.html', array(
-        'themeDir' => '../core/themes/zerofour/'
+        'themeDir' => '../axis/themes/zerofour/'
     ));
 });
 //*/

@@ -16,7 +16,7 @@
     }
 
     $baseDir = "";
-    while (!file_exists("{$baseDir}core.php")) {
+    while (!file_exists("{$baseDir}hub.php")) {
 		$baseDir .= "..".DS;
 	}
 

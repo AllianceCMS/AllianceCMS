@@ -1,15 +1,15 @@
 <?php
+$axis = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
+echo '$root is: ' . $axis . '<br />';
 
-$root = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
-echo '$root is: ' . $root . '<br />';
-
-//*
-$loader = require $root.'/package/Aura.Autoload/scripts/instance.php';
+// *
+$loader = require $axis . '/package/Aura.Autoload/scripts/instance.php';
+//$loader = require 'C:\xampp-acms\htdocs\alliancecms\axis\package\Aura.Autoload\scripts/instance.php';
 $loader->register();
 $loader->setPaths([
-    'Acms\\' => $root.'/package/Acms.Core/src/',
-    'Aura\View\\' => $root.'/package/Aura.View/src/'
-    ]);
-//*/
+    'Acms\\' => $axis . '/package/Acms.Core/src/',
+    'Aura\View\\' => $axis . '/package/Aura.View/src/'
+]);
+// */
 
-echo '$root is: ' . $root . '<br />';
+echo '$root is: ' . $axis . '<br />';

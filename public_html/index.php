@@ -51,7 +51,7 @@ $tpl->set("menu4", $menu4);
 $tpl->set("menu5", $menu5);
 //*/
 
-include 'C:\xampp-acms\htdocs\alliancecms\axis\plugins\core\news/index.php';
+include 'C:\xampp-acms\htdocs\alliancecms\axis\plugins\axis\news/index.php';
 
 $tpl->set("body",	$body);
 
