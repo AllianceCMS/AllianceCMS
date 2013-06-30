@@ -1,5 +1,7 @@
 <?php
 
+echo "hello";
+exit;
     require_once("../core.php");
 
     if (!defined('DB_TYPE')) {

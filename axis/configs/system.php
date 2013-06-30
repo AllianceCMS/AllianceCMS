@@ -66,14 +66,20 @@ define("PUBLIC_HTML", BASE_DIR . 'public_html' . DS);
 define("CONFIGS", AXIS . 'configs' . DS);
 define("INCLUDES", AXIS . 'includes' . DS);
 define("PACKAGES", AXIS . 'packages' . DS);
+define("PACKAGES_ACMS_CORE", PACKAGES . 'Acms.Core' . DS . 'src' . DS . 'Acms' . DS . 'Core' . DS);
 define("HANDLERS", PACKAGES . 'handlers' . DS);
 define('AXIS_PLUGINS', AXIS . 'plugins' . DS);
 define('AXIS_THEMES', AXIS . 'themes' . DS);
 define('VENUES_PLUGINS', VENUES . 'plugins' . DS);
 define('VENUES_THEMES', VENUES . 'themes' . DS);
+
+define("PLUGINS_AXIS", AXIS . "plugins" . DS);
+
 define("ADMIN", BASE_DIR . "admin" . DS);
 define("LANGUAGES", BASE_DIR . "languages" . DS);
 define("INSTALL", BASE_DIR . "install" . DS);
+
+define("DBCONNFILE", CONFIGS . 'dbconnections.php');
 
 /*
 $fileSystem = array(
@@ -132,5 +138,5 @@ $fileSystem['install'] = $baseDir . 'install' . DS;
 // New db connection file, used with ADOdb
 //*
 //define("DBCONNFILE", HANDLERS . "db" . DS . "connections" . DS . "dbconnections.php");
-define("DBCONNFILE", CONFIGS . 'dbconnections.php'');
+//define("DBCONNFILE", CONFIGS . 'dbconnections.php'');
 //*/

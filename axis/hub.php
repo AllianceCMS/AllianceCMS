@@ -1,9 +1,17 @@
 <?php
-require_once ('config/system.php');
+require_once ('configs/system.php');
 require_once (PACKAGES . 'Acms.Core/src/Acms/Core/Bootstrap.php');
 require_once (INCLUDES . 'required.php');
-echo 'no error';
-exit();
+
+//
+// BEGIN: Need to setup router to load the following code, instead of using 'header("Location: ");'
+//
+
+
+
+//
+// END: Need to setup router to load the following code, instead of using 'header("Location: ");'
+//
 
 //
 // STOPPED REFACTORING NEW CODE HERE
@@ -11,12 +19,12 @@ exit();
 // STOPPED REFACTORING NEW CODE HERE
 //
 
+/*
 // Check to see if the database config file exists.
 if (! file_exists(DBCONNFILE)) {
-
     // Go to the installation page if the dabase config file doesn't exist, and we're not already there.
     if (THIS_PATH != "install" . DS . "index.php") {
-        header("Location: " . INSTALL . "index.php");
+        header("Location: " . AXIS_PLUGINS . "core/install/index.php");
         exit();
     } else {
 
@@ -94,3 +102,4 @@ if (! file_exists(DBCONNFILE)) {
         $htmlHelper = new HtmlHelper();
         $formHelper = new HtmlFormHelper();
     }
+*/

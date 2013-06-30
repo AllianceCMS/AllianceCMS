@@ -1,7 +1,11 @@
 <?php
+
 //require dirname(__DIR__) . '/axis/package/Acms.Core/src/Acms/Core/Bootstrap.php';
 
 require_once (dirname(__dir__) . ('/axis/hub.php'));
+
+echo 'I am here ' . __FILE__ . ': ' . __LINE__ . '<br />';
+exit;
 
 $mySystem = new Acms\Core\System;
 echo $mySystem->filePaths;
