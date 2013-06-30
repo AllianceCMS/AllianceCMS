@@ -1,6 +1,6 @@
 <?php
 require_once ('configs/system.php');
-require_once (CONFIGS . 'Autoload.php');
+require_once (CONFIGS . 'autoload.php');
 require_once (INCLUDES . 'required.php');
 
 //
@@ -102,4 +102,4 @@ if (! file_exists(DBCONNFILE)) {
         $htmlHelper = new HtmlHelper();
         $formHelper = new HtmlFormHelper();
     }
-*/
+//*/

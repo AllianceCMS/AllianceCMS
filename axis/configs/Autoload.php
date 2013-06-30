@@ -1,16 +1,9 @@
 <?php
-// $axis = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
-// echo '$root is: ' . $axis . '<br />';
-
-// *
-$loader = require PACKAGES . 'Aura.Autoload/scripts/instance.php';
-// $loader = require 'C:\xampp-acms\htdocs\alliancecms\axis\package\Aura.Autoload\scripts/instance.php';
+// Set Paths for AuraPHP's Autoloader
+$loader = require PACKAGES . 'Aura.Autoload' . DS . 'scripts' . DS . 'instance.php';
 $loader->register();
 $loader->setPaths([
-    'Acms\\' => PACKAGES . 'Acms.Core/src/',
-    'Aura\Router\\' => PACKAGES . 'Aura.Router/src/',
-    'Aura\View\\' => PACKAGES . 'Aura.View/src/',
+    'Acms\\' => PACKAGES . 'Acms.Core' . DS . 'src' . DS,
+    'Aura\Router\\' => PACKAGES . 'Aura.Router' . DS . 'src' . DS,
+    'Aura\View\\' => PACKAGES . 'Aura.View' . DS . 'src' . DS
 ]);
-// */
-
-//echo '$axis is: ' . $axis . '<br />';

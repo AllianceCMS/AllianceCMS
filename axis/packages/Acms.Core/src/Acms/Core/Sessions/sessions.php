@@ -1,6 +1,4 @@
 <?php
-
-// require_once(HANDLERS."db".DS."adodb".DS."session".DS."adodb-cryptsession2.php");
 require_once (PACKAGES_ACMS_CORE . "Db" . DS . "adodb" . DS . "session" . DS . "adodb-cryptsession2.php");
 // $ADODB_SESS_DEBUG = true;
 $options['table'] = $sql->getDbPrefix() . "sessions2";

@@ -1,14 +1,14 @@
 <?php
 
-//require dirname(__DIR__) . '/axis/package/Acms.Core/src/Acms/Core/Bootstrap.php';
-
 require_once (dirname(__dir__) . ('/axis/hub.php'));
 
-echo '<br />I am here ' . __FILE__ . ': ' . __LINE__ . '<br />';
+echo '<br />I am here: ' . __FILE__ . ': ' . __LINE__ . '<br />';
 //exit;
 
+// Testing /axis/configs/autoload.php (/axis/packages/Acms.Core/src/Acms/Core/System.php is not being used,
+// and might not be used in the future)
 $mySystem = new Acms\Core\System;
-echo $mySystem->filePaths;
+echo '<br />' . $mySystem->filePaths . '<br />';
 
 /*
 use Aura\View\Template;
@@ -66,5 +66,5 @@ $tpl->set("body",	$body);
 echo $tpl->fetch('C:\xampp-acms\htdocs\alliancecms\axis\themes/emplode/theme.tpl.php');
 //*/
 
-echo '<br />I am here ' . __FILE__ . ': ' . __LINE__ . '<br />';
+echo '<br />I am here: ' . __FILE__ . ': ' . __LINE__ . '<br />';
 exit;
