@@ -1,5 +1,7 @@
 <?php
-require dirname(__DIR__) . '/core/package/Acms.Core/src/Acms/Core/Bootstrap.php';
+//require dirname(__DIR__) . '/axis/package/Acms.Core/src/Acms/Core/Bootstrap.php';
+
+require_once (dirname(__dir__) . ('/axis/hub.php'));
 
 $mySystem = new Acms\Core\System;
 echo $mySystem->filePaths;
@@ -35,11 +37,11 @@ $finder->setPaths([
 //echo $template->fetch(__DIR__ . '/zerofour/index');
 
 $tpl = new Acms\Core\Template();
-$tpl->set("themeImages", "emplode/images");
+$tpl->set("themeImages", 'C:\xampp-acms\htdocs\alliancecms\axis\themes/emplode/images');
 $tpl->set("site_title", 'AllianceCMS.com');
 $tpl->set("site_author", 'Burnsy');
 $tpl->set("site_description", 'This is a site description');
-$tpl->set("site_styleSheet", "emplode/style.css");
+$tpl->set("site_styleSheet", 'C:\xampp-acms\htdocs\alliancecms\axis\themes/emplode/style.css');
 /*
 $tpl->set("nav1", $nav1);
 $tpl->set("menu1", $menu1);
@@ -49,9 +51,9 @@ $tpl->set("menu4", $menu4);
 $tpl->set("menu5", $menu5);
 //*/
 
-include 'news/index.php';
+include 'C:\xampp-acms\htdocs\alliancecms\axis\plugins\core\news/index.php';
 
 $tpl->set("body",	$body);
 
-echo $tpl->fetch("emplode/theme.tpl.php");
+echo $tpl->fetch('C:\xampp-acms\htdocs\alliancecms\axis\themes/emplode/theme.tpl.php');
 
