@@ -8,7 +8,8 @@ $loader = require PACKAGES . 'Aura.Autoload/scripts/instance.php';
 $loader->register();
 $loader->setPaths([
     'Acms\\' => PACKAGES . 'Acms.Core/src/',
-    'Aura\View\\' => PACKAGES . 'Aura.View/src/'
+    'Aura\Router\\' => PACKAGES . 'Aura.Router/src/',
+    'Aura\View\\' => PACKAGES . 'Aura.View/src/',
 ]);
 // */
 

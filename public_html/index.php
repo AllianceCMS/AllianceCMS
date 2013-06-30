@@ -4,8 +4,8 @@
 
 require_once (dirname(__dir__) . ('/axis/hub.php'));
 
-echo 'I am here ' . __FILE__ . ': ' . __LINE__ . '<br />';
-exit;
+echo '<br />I am here ' . __FILE__ . ': ' . __LINE__ . '<br />';
+//exit;
 
 $mySystem = new Acms\Core\System;
 echo $mySystem->filePaths;
@@ -40,12 +40,15 @@ $finder->setPaths([
 
 //echo $template->fetch(__DIR__ . '/zerofour/index');
 
+/*
 $tpl = new Acms\Core\Template();
 $tpl->set("themeImages", 'C:\xampp-acms\htdocs\alliancecms\axis\themes/emplode/images');
 $tpl->set("site_title", 'AllianceCMS.com');
 $tpl->set("site_author", 'Burnsy');
 $tpl->set("site_description", 'This is a site description');
 $tpl->set("site_styleSheet", 'C:\xampp-acms\htdocs\alliancecms\axis\themes/emplode/style.css');
+//*/
+
 /*
 $tpl->set("nav1", $nav1);
 $tpl->set("menu1", $menu1);
@@ -55,9 +58,13 @@ $tpl->set("menu4", $menu4);
 $tpl->set("menu5", $menu5);
 //*/
 
+/*
 include 'C:\xampp-acms\htdocs\alliancecms\axis\plugins\axis\news/index.php';
 
 $tpl->set("body",	$body);
 
 echo $tpl->fetch('C:\xampp-acms\htdocs\alliancecms\axis\themes/emplode/theme.tpl.php');
+//*/
 
+echo '<br />I am here ' . __FILE__ . ': ' . __LINE__ . '<br />';
+exit;

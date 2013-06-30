@@ -1,6 +1,6 @@
 <?php
 require_once ('configs/system.php');
-require_once (PACKAGES . 'Acms.Core/src/Acms/Core/Bootstrap.php');
+require_once (CONFIGS . 'Autoload.php');
 require_once (INCLUDES . 'required.php');
 
 //
