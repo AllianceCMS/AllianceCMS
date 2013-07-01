@@ -10,6 +10,15 @@ echo '<br />I am here: ' . __FILE__ . ': ' . __LINE__ . '<br />';
 $mySystem = new Acms\Core\System;
 echo '<br />' . $mySystem->filePaths . '<br />';
 
+
+//*
+// Testing Gaufrette filesystem abstraction package
+
+require_once (TESTS . '/gaufrette.php');
+
+//*/
+
+
 /*
 use Aura\View\Template;
 use Aura\View\EscaperFactory;

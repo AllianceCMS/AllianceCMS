@@ -5,5 +5,6 @@ $loader->register();
 $loader->setPaths([
     'Acms\\' => PACKAGES . 'Acms.Core' . DS . 'src' . DS,
     'Aura\Router\\' => PACKAGES . 'Aura.Router' . DS . 'src' . DS,
-    'Aura\View\\' => PACKAGES . 'Aura.View' . DS . 'src' . DS
+    'Aura\View\\' => PACKAGES . 'Aura.View' . DS . 'src' . DS,
+    'Gaufrette\\' => PACKAGES . 'Knp.Gaufrette' . DS . 'src' . DS,
 ]);

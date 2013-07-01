@@ -66,17 +66,20 @@ define("PUBLIC_HTML", BASE_DIR . 'public_html' . DS);
 define("CONFIGS", AXIS . 'configs' . DS);
 define("INCLUDES", AXIS . 'includes' . DS);
 define("PACKAGES", AXIS . 'packages' . DS);
-define("PACKAGES_ACMS_CORE", PACKAGES . 'Acms.Core' . DS . 'src' . DS . 'Acms' . DS . 'Core' . DS);
-define("HANDLERS", PACKAGES . 'handlers' . DS);
+define("TESTS", AXIS . 'tests' . DS);
 
-define('AXIS_PLUGINS', AXIS . 'plugins' . DS);
-define('AXIS_THEMES', AXIS . 'themes' . DS);
-define('VENUES_PLUGINS', VENUES . 'plugins' . DS);
-define('VENUES_THEMES', VENUES . 'themes' . DS);
+define("PACKAGE_ACMS_CORE", PACKAGES . 'Acms.Core' . DS . 'src' . DS . 'Acms' . DS . 'Core' . DS);
+//define("HANDLERS", PACKAGES . 'handlers' . DS);
 
-define("ADMIN", BASE_DIR . "admin" . DS);
-define("LANGUAGES", BASE_DIR . "languages" . DS);
-define("INSTALL", BASE_DIR . "install" . DS);
+define('PLUGINS_AXIS', AXIS . 'plugins' . DS);
+define('THEMES_AXIS', AXIS . 'themes' . DS);
+
+define('PLUGINS_VENUES', VENUES . 'plugins' . DS);
+define('THEMES_VENUES', VENUES . 'themes' . DS);
+
+//define("ADMIN", BASE_DIR . "admin" . DS);
+//define("LANGUAGES", BASE_DIR . "languages" . DS);
+//define("INSTALL", BASE_DIR . "install" . DS);
 
 define("DBCONNFILE", CONFIGS . 'dbconnections.php');
 

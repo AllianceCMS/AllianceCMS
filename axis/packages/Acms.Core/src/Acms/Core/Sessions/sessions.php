@@ -1,5 +1,5 @@
 <?php
-require_once (PACKAGES_ACMS_CORE . "Db" . DS . "adodb" . DS . "session" . DS . "adodb-cryptsession2.php");
+require_once (PACKAGE_ACMS_CORE . "Db" . DS . "adodb" . DS . "session" . DS . "adodb-cryptsession2.php");
 // $ADODB_SESS_DEBUG = true;
 $options['table'] = $sql->getDbPrefix() . "sessions2";
 ADOdb_Session::config($sql->getDbSoftware(), $sql->getDbHost(), $sql->getDbUser(), $sql->getDbPassword(), $sql->getDbName(), $options);

@@ -24,7 +24,7 @@ require_once (INCLUDES . 'required.php');
 if (! file_exists(DBCONNFILE)) {
     // Go to the installation page if the dabase config file doesn't exist, and we're not already there.
     if (THIS_PATH != "install" . DS . "index.php") {
-        header("Location: " . AXIS_PLUGINS . "core/install/index.php");
+        header("Location: " . PLUGINS_AXIS . "core/install/index.php");
         exit();
     } else {
 

@@ -8,15 +8,15 @@ if (file_exists(DBCONNFILE)) {
 
     // Load ADOdb
     require_once (DBCONNFILE);
-    require_once (PACKAGES_ACMS_CORE . 'Db' . DS . 'adodb' . DS . 'adodb.inc.php');
-    require_once (PACKAGES_ACMS_CORE . 'Db' . DS . 'adodb' . DS . 'adodb-exceptions.inc.php');
+    require_once (PACKAGE_ACMS_CORE . 'Db' . DS . 'adodb' . DS . 'adodb.inc.php');
+    require_once (PACKAGE_ACMS_CORE . 'Db' . DS . 'adodb' . DS . 'adodb-exceptions.inc.php');
 
     // Instantiate Database Object
     $sql = new Acms\Core\Db\Db();
     $sql->debug(0);
 
     // Load Session Functionality (Needs Database access to store sessions)
-    require_once (PACKAGES_ACMS_CORE . "Sessions" . DS . "sessions.php");
+    require_once (PACKAGE_ACMS_CORE . "Sessions" . DS . "sessions.php");
 
     // Everything loaded up till here needs to be loaded in this order
 
