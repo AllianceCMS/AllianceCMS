@@ -25,6 +25,8 @@ if (file_exists(DBCONNFILE)) {
     // require_once(HANDLERS."templates".DS."menus.php");
 }
 
+
+
 // First lets parse the folder structure for plugins and include 'main.php'
 
 //require_once (INCLUDES . 'pluginParser.php');
@@ -35,4 +37,4 @@ if (file_exists(DBCONNFILE)) {
 
 // Now lets call the router so we can attach plugin routes to their respective functions
 
-require_once (INCLUDES . 'router.php');
+//require_once (INCLUDES . 'router.php');

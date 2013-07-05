@@ -5,16 +5,23 @@ require_once (dirname(__dir__) . ('/axis/hub.php'));
 echo '<br />I am here: ' . __FILE__ . ': ' . __LINE__ . '<br />';
 //exit;
 
+/*
 // Testing /axis/configs/autoload.php (/axis/packages/Acms.Core/src/Acms/Core/System.php is not being used,
 // and might not be used in the future)
 $mySystem = new Acms\Core\System;
 echo '<br />' . $mySystem->filePaths . '<br />';
+//*/
 
 
 //*
 // Testing Gaufrette filesystem abstraction package
 
-require_once (TESTS . '/gaufrette.php');
+//require_once (TESTS . '/gaufrette.php');
+
+//require_once (TESTS . 'twig/twig_01.php');
+
+require_once ('../axis/tests/twig/twig_01.php');
+
 
 //*/
 
