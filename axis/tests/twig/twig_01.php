@@ -21,7 +21,7 @@ $twig = new Twig_Environment($twigLoader);
 echo '<br />I am here: ' . __FILE__ . ': ' . __LINE__ . '<br />';
 //exit;
 
-echo $twig->render('Hello {{ name }}!', array('name' => 'Fabien'));
+echo $twig->render('<br />Hello {{ name }}!<br />', array('name' => 'Fabien'));
 //*/
 
 /*
