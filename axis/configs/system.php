@@ -39,26 +39,12 @@ foreach ($pathArray as $key => $val) {
 $thisPath = $currentDir . $currentFile;
 //*/
 
-/*
 define("THIS_FILE", $currentFile);
 define("THIS_DIR", $currentDir);
 define("THIS_PATH", $thisPath);
 define("BASE_URL", $baseUrl);
 define("BASE_DIR", $baseDir);
-define("ADMIN", BASE_DIR . "admin" . DS);
-define("HANDLERS", BASE_DIR . "handlers" . DS);
-define("INCLUDES", BASE_DIR . "includes" . DS);
-define("PLUGINS", BASE_DIR . "plugins" . DS);
-define("THEMES", BASE_DIR . "themes" . DS);
-define("LANGUAGES", BASE_DIR . "languages" . DS);
-define("INSTALL", BASE_DIR . "install" . DS);
-//*/
 
-define("THIS_FILE", $currentFile);
-define("THIS_DIR", $currentDir);
-define("THIS_PATH", $thisPath);
-define("BASE_URL", $baseUrl);
-define("BASE_DIR", $baseDir);
 define("AXIS", BASE_DIR . 'axis' . DS);
 define("VENUES", BASE_DIR . 'venues' . DS);
 define("PUBLIC_HTML", BASE_DIR . 'public_html' . DS);
@@ -81,7 +67,7 @@ define('THEMES_VENUES', VENUES . 'themes' . DS);
 //define("LANGUAGES", BASE_DIR . "languages" . DS);
 //define("INSTALL", BASE_DIR . "install" . DS);
 
-define("DBCONNFILE", CONFIGS . 'dbconnections.php');
+define("DBCONNFILE", VENUES . DS . 'default' . DS . 'dbConnections.php');
 
 /*
 $fileSystem = array(

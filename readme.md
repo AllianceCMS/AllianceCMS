@@ -23,6 +23,7 @@ I am proud to announce the arrival of AllianceCMS, a Social Content Management S
 
 ##What Is AllianceCMS?
 
+* Open Source (BSD 2-Clause License)
 * Easy To Use
 * Flexible
 * Secure

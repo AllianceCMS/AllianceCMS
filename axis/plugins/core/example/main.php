@@ -1,10 +1,78 @@
 <?php
 
+/*
+$frontRoutes['example']['My Example Page']['name'] = 'example';
+$frontRoutes['example']['My Example Page']['path'] = '/example';
+$frontRoutes['example']['My Example Page']['type'] = 'front';
+$frontRoutes['example']['My Example Page']['info'] = array(
+    'values' => array(
+        'controller' => 'example_01'
+    ),
+);
+
+
+$adminRoutes['example']['Example Admin Page']['name'] = 'admin_example';
+$adminRoutes['example']['Example Admin Page']['path'] = '/example';
+$adminRoutes['example']['Example Admin Page']['type'] = 'admin';
+$adminRoutes['example']['Example Admin Page']['info'] = array(
+    'values' => array(
+        'controller' => 'admin_example'
+    ),
+);
+//*/
+
+$pluginRoutes['example']['My Example Page']['name'] = 'example'; // Required: Route name
+$pluginRoutes['example']['My Example Page']['path'] = '/example'; // Required: Route path
+$pluginRoutes['example']['My Example Page']['type'] = 'front'; // Required: admin, front, back
+$pluginRoutes['example']['My Example Page']['perms'] = array('View Example Page'); // Optional
+$pluginRoutes['example']['My Example Page']['specs']['values'] = array('controller' => 'example_01'); // Required: Callback function
+
+$pluginRoutes['example']['Example Admin Page']['name'] = 'admin_example'; // Required: Route name
+$pluginRoutes['example']['Example Admin Page']['path'] = '/example'; // Required: Route path
+$pluginRoutes['example']['Example Admin Page']['type'] = 'admin'; // Required: admin, front, back
+$pluginRoutes['example']['Example Admin Page']['perms'] = array('Example Page Admin'); // Optional
+$pluginRoutes['example']['Example Admin Page']['specs']['values'] = array('controller' => 'example_admin'); // Required: Callback function
+
+
+/*
+//$adminRoutes['example']['Example Admin Page']['name'] = 'example';
+$adminRoutes['example']['Example Admin Page']['path'] = array(
+    'example' => array(
+        'path' => '/admin/example',
+        'values' => array(
+            'controller' => 'example_admin'
+        ),
+    ),
+);
+//*/
+
+/*
+$adminRoutes['example']['Example Admin Page']['info'] = array(
+    'values' => array(
+        'controller' => 'example_admin'
+    ),
+);
+//*/
+
+function example_01()
+{
+    echo '<br />Hello Example 01<br />';
+}
+
+
+function example_admin()
+{
+    echo '<br />Hello Example Admin<br />';
+}
+
+//*/
+
 // Single Page Simple Example
 
 //*
- // New test 03 plan for setting up $plugins array
+// New test 03 plan for setting up $plugins array
 
+/*
 $plugins['hello_world'] = array( // was a page entry
     'content_name' => 'General Greeting',
 //    'route_path' => '/hello',
@@ -15,7 +83,35 @@ $plugins['hello_world'] = array( // was a page entry
         'permissions' => array('View Specific Greeting' => true),
     ),
 );
+//*/
 
+/*
+$routeName = null;
+$routePath = '/plugin';
+$routeFiller = array(
+    'values' => array(
+        'controller' => 'pluginSimple01'
+    )
+);
+
+$mapRoutes->add($routeName, '/{:venue}' . $routePath, $routeFiller);
+//*/
+
+
+
+/*
+echo "<br />\$routes['plugin_manager']['name'] = " . $routes['plugin_manager']['name'] . "<br />";
+echo "<br />\$routes['plugin_manager']['path'] = " . $routes['plugin_manager']['path'] . "<br />";
+
+echo '<br /><pre>$routes:<br />';
+echo print_r($routes['plugin_manager']['info']);
+echo '</pre><br />';
+//exit;
+//*/
+
+//$mapRoutes->add($routes['plugin_manager']['name'], '/{:venue}' . $routes['plugin_manager']['path'], $routes['plugin_manager']['info']);
+
+/*
 $mapRoutes->add(null, '/hello', array(
     'values' => array(
         'controller' => 'helloSimple01',
@@ -44,6 +140,7 @@ function helloSimple01()
 {
     echo '<br />Hello Simple 01';
 }
+
 function goodbySimple01()
 {
     echo '<br />Goodbye Simple 01';
@@ -58,6 +155,7 @@ function goodbySimple02()
 {
     echo '<br />Goodbye Simple 02';
 }
+//*/
 
 // Contents of 'specific_greeting.tpl.php' -
 //     <h1>Hello John!</h1>

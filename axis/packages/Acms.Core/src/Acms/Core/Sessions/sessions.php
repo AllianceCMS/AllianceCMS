@@ -1,4 +1,5 @@
 <?php
+/*
 require_once (PACKAGE_ACMS_CORE . "Db" . DS . "adodb" . DS . "session" . DS . "adodb-cryptsession2.php");
 // $ADODB_SESS_DEBUG = true;
 $options['table'] = $sql->getDbPrefix() . "sessions2";
@@ -16,3 +17,4 @@ if ($_COOKIE['logged_status'] == "logged_in") {
     $_SESSION['login_name'] = $_COOKIE['login_name'];
     $_SESSION['password'] = $_COOKIE['cookpass'];
 }
+//*/
