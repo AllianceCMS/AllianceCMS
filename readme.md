@@ -23,11 +23,12 @@ I am proud to announce the arrival of AllianceCMS, a Social Content Management S
 
 ##What Is AllianceCMS?
 
+* Open Source (BSD 2-Clause License)
 * Easy To Use
 * Flexible
 * Secure
 * Web Standards Compliant
-* PHP5.3+ Compatible Only
+* PHP5.3+ Compatible
 * Easy To Develop With
 * Easy To Create Custom Look And Layout
 
