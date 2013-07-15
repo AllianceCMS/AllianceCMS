@@ -16,7 +16,7 @@ function themesSimple01()
 }
 
 // Mapping Routes
-$mapRoutes->add('home', '/');
+//$mapRoutes->add('home', '/');
 
 $mapRoutes->add('read', '/blog/read/{:id}{:format}', array(
     'params' => array(
@@ -34,6 +34,7 @@ $mapRoutes->add('read', '/blog/read/{:id}{:format}', array(
  * Query Db and find out which plugins are installed
  */
 
+// Include only installed plugins 'main.php' so we have access to routes
 $result = $sql->fetchAll('SELECT folder_path, folder_name FROM a_plugins WHERE active = 2');
 
 /*
@@ -66,34 +67,11 @@ echo '</pre><br />';
 //*/
 
 /*
-foreach ($frontRoutes as $plugin => $pluginPage) {
-
-    foreach ($pluginPage as $route) {
-
-        $mapRoutes->add($route['name'], '/{:venue}' . $route['path'], $route['info']);
-
-        if ($route['type'] === 'front') {
-            $mapRoutes->add($route['name'], '/{:venue}' . $route['path'], $route['info']);
-        } else if ($route['type'] === 'admin') {
-            $adminRoutes[$plugin] = array(
-                $route['name'] => $route['path'],
-                'info' => $route['info'],
-            );
-        }
-    }
-}
-//*/
-
-/*
  echo '<br /><pre>$adminRoutes:<br />';
 echo print_r($adminRoutes);
 echo '</pre><br />';
 //exit;
 //*/
-
-// STOPPED WORKING HERE!!!
-// STOPPED WORKING HERE!!!
-// STOPPED WORKING HERE!!!
 
 //*
 if (isset($pluginRoutes)) {
@@ -114,7 +92,7 @@ if (isset($pluginRoutes)) {
 
             //$mapRoutes->add($route['name'], '/{:venue}' . $route['path'], $route['info']);
 
-            /*
+            //*
             echo '<br /><pre>$route = ';
             echo print_r($route);
             echo '</pre><br />';
@@ -158,59 +136,12 @@ if (isset($pluginRoutes)) {
                         $adminRoutes['routes'][$route['name']][$key] = $value;
                     }
                 }
-                    //$route['specs'],
-                    /*
-                    'params' => $route['specs']['params'],
-                    'values' => $route['specs']['values'],
-                    'secure' => $route['specs']['secure'],
-                    'method' => $route['specs']['method'],
-                    'routable' => $route['specs']['routable'],
-                    'is_match' => $route['specs']['is_match'],
-                    'generate' => $route['specs']['generate'],
-                    //*/
-                /*
-                $adminRoutes[$plugin] = array(
-                    $route['name'] => $route['path'],
-                    'specs' => $route['specs'],
-                );
-                //*/
             }
             //*/
         }
     }
 }
 //*/
-
-// STOPPED WORKING HERE!!!
-// STOPPED WORKING HERE!!!
-// STOPPED WORKING HERE!!!
-
-/*
-foreach ($adminRoutes as $plugin => $pluginPage) {
-
-    foreach ($pluginPage as $route) {
-
-        // Add $route['path'] to $attachAdminRoutes['routes'] so we can create a master array for $mapRoutes->attach
-        $attachAdminRoutes['routes'] = array($route['path']);
-
-        $mapRoutes->attach('/{:venue}/admin', array(
-            'routes' => $route['path'],
-        ));
-
-        //$mapRoutes->add($route['name'], '/{:venue}' . $route['path'], $route['info']);
-
-         if ($route['type'] === 'front') {
-        $mapRoutes->add($route['name'], '/{:venue}' . $route['path'], $route['info']);
-        } else if ($route['type'] === 'admin') {
-        $adminRoutes[$plugin] = array(
-            $route['name'] => $route['path'],
-            'info' => $route['info'],
-        );
-        }
-    }
-}
-//*/
-
 
 /*
 echo '<br /><pre>$attachAdminRoutes = ';
@@ -248,48 +179,6 @@ if (isset($adminRoutes)) {
     //*/
 
 }
-//$adminRoutes['routes'];
-
-/*
-foreach ($adminRoutes as $adminRoute) {
-    $mapRoutes->attach('/{:venue}/admin', array(
-        'routes' => $adminRoute,
-    ));
-}
-//*/
-
-/*
-// Create Route Group 'admin'
-// TODO: FINISH WORKING ON THIS
-$mapRoutes->attach('/{:venue}/admin', array(
-
-    // the routes to attach
-    'routes' => array(
-
-        // a short-form route named 'cron'
-        //'cron' => '/cron',
-
-        // a long-form route named 'themes'
-        'themes' => array(
-            'path' => '/themes',
-            'values' => array(
-                'controller' => 'themesSimple01',
-            ),
-        ),
-    ),
-));
-//*/
-
-// Include only installed plugins 'main.php' so we have access to routes
-
-
-// BEGIN TEST TEST TEST
-// BEGIN TEST TEST TEST
-//include_once PLUGINS_AXIS . 'core' . DS . 'example' . DS . 'main.php'; // Allows us to have access to this plugins $plugins array
-//$mapRoutes->add($routes['plugin_manager']['name'], '/{:venue}' . $routes['plugin_manager']['path'], $routes['plugin_manager']['info']);
-// BEGIN TEST TEST TEST
-// BEGIN TEST TEST TEST
-
 
 // Matching Routes
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);

@@ -1,58 +1,18 @@
 <?php
 echo '<br />Begin Testing Plugin Manager<br />';
 
-//use Symfony\Component\Finder\Finder;
-
-/*
-$pluginRoute = array(
-    'type' => 'admin', // admin, front, back
-    'perms' => array(
-        'Manage Plugins',
-    ),
-    'name' => 'plugin_admin',
-    'path' => '/admin/plugins',
-    'params' => array( // The regular expression subpatterns for path params; inline params will override these settings
-        'id' => '(\d+)',
-    ),
-    'values' => array( // The default values for the route. These will be overwritten by matching params from the path
-        'controller' => 'blog',
-        'action' => 'read',
-        'id' => 1,
-    ),
-    'method' => array( // The $server['REQUEST_METHOD'] must match one of these values
-        'GET',
-        'POST',
-    ),
-    'secure' => false, // When true the $server['HTTPS'] value must be on, or the request must be on port 443; when false, neither of those must be in place
-    'routable' = true, // When false the route will not be used for matching, only for generating paths
-    'is_match ' = 'myMatchFunction', // NEED TO TEST. A custom callback or closure with the signature function(array $server, \ArrayObject $matches) that returns true on a match, or false if not. This allows developers to build any kind of matching logic for the route, and to change the $matches for param values from the path
-    'generate' = 'myDataFunction', // NEED TO TEST. A custom callback or closure with the signature function(\aura\router\Route $route, array $data) that returns a modified $data array to be used when generating the path
-)
-//*/
-
 //*
 $pluginRoutes['plugin_manager']['Plugins Admin Page']['name'] = 'plugin_admin'; // Required: Route name
 $pluginRoutes['plugin_manager']['Plugins Admin Page']['path'] = '/plugins'; // Required: Route path
 $pluginRoutes['plugin_manager']['Plugins Admin Page']['type'] = 'admin'; // Required: admin, front, back
 $pluginRoutes['plugin_manager']['Plugins Admin Page']['perms'] = array('Manage Plugins'); // Optional
 $pluginRoutes['plugin_manager']['Plugins Admin Page']['specs']['params'] = array('id' => '(\d+)'); // Optional
-//$pluginRoutes['plugin_manager']['Plugins Admin Page']['specs']['values'] = array('controller' => 'pluginsAdmin', 'id' => '1'); // Required: Callback function
+$pluginRoutes['plugin_manager']['Plugins Admin Page']['specs']['values'] = array('controller' => 'pluginsAdmin', 'id' => '1'); // Required: Callback function
 //$pluginRoutes['plugin_manager']['Plugins Admin Page']['specs']['secure'] = false; // Optional
 //$pluginRoutes['plugin_manager']['Plugins Admin Page']['specs']['method'] = array('GET'); // Optional
 //$pluginRoutes['plugin_manager']['Plugins Admin Page']['specs']['routable'] = true; // Optional
 //$pluginRoutes['plugin_manager']['Plugins Admin Page']['specs']['is_match'] = myMatchFunction(); // Optional
 //$pluginRoutes['plugin_manager']['Plugins Admin Page']['specs']['generate'] = myDataFunction(); // Optional
-//*/
-
-/*
-$adminRoutes['plugin_manager']['Plugins Admin Page']['path'] = array(
-    'plugin_admin' => array(
-        'path' => '/admin/plugins',
-        'values' => array(
-            'controller' => 'pluginsAdmin'
-        ),
-    ),
-);
 //*/
 
 function pluginsAdmin() {
