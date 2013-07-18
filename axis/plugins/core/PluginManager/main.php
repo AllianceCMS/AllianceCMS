@@ -1,5 +1,5 @@
 <?php
-echo '<br />Begin Testing Plugin Manager<br />';
+//echo '<br />Begin Testing Plugin Manager<br />';
 
 //*
 $pluginRoutes['plugin_manager']['Plugins Admin Page']['name'] = 'plugin_admin'; // Required: Route name
@@ -89,4 +89,4 @@ function findPlugins() {
     echo '<br />End Processing Venue Plugins<br />';
 }
 
-echo '<br />End Testing Plugin Manager<br />';
+//echo '<br />End Testing Plugin Manager<br />';

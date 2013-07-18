@@ -11,19 +11,20 @@
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
 		<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800" rel="stylesheet" type="text/css" />
-		<script src="js/jquery.min.js"></script>
-		<script src="js/jquery.dropotron.js"></script>
-		<script src="js/config.js"></script>
-		<script src="js/skel.min.js"></script>
-		<script src="js/skel-panels.min.js"></script>
+		<script src="{{theme_folder}}/js/jquery.min.js"></script>
+		<script src="{{theme_folder}}/js/jquery.dropotron.js"></script>
+		<!-- TODO: css folder is hardcoded in config.js, need to figure this one out -->
+		<script src="{{theme_folder}}/js/config.js"></script>
+		<script src="{{theme_folder}}/js/skel.min.js"></script>
+		<script src="{{theme_folder}}/js/skel-panels.min.js"></script>
 		<noscript>
-			<link rel="stylesheet" href="css/skel-noscript.css" />
-			<link rel="stylesheet" href="css/style.css" />
-			<link rel="stylesheet" href="css/style-desktop.css" />
+			<link rel="stylesheet" href="{{theme_folder}}/css/skel-noscript.css" />
+			<link rel="stylesheet" href="{{theme_folder}}/css/style.css" />
+			<link rel="stylesheet" href="{{theme_folder}}/css/style-desktop.css" />
 		</noscript>
-		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie9.css" /><![endif]-->
-		<!--[if lte IE 8]><script src="js/html5shiv.js"></script><link rel="stylesheet" href="css/ie8.css" /><![endif]-->
-		<!--[if lte IE 7]><link rel="stylesheet" href="css/ie7.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="{{theme_folder}}/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><script src="{{theme_folder}}/js/html5shiv.js"></script><link rel="stylesheet" href="{{theme_folder}}/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 7]><link rel="stylesheet" href="{{theme_folder}}/css/ie7.css" /><![endif]-->
 	</head>
 	<body class="homepage">
 
@@ -38,7 +39,7 @@
 									<div class="inner">
 
 										<!-- Logo -->
-											<h1><a href="#" id="logo">ZeroFour</a></h1>
+											<h1><a href="#" id="logo">{{main_venue_name}}</a></h1>
 
 										<!-- Nav -->
 											<nav id="nav">
@@ -72,10 +73,10 @@
 
 							<!-- Banner -->
 								<div id="banner">
-									<h2><strong>ZeroFour:</strong> A free responsive site template<br />
-									built on HTML5 and CSS3 by <a href="http://html5up.net">HTML5 UP</a></h2>
-									<p>Does this statement make you want to click the shiny blue button?</p>
-									<a href="#" class="button button-big button-icon button-icon-check">Yes it does</a>
+									<h2><strong>AllianceCMS:</strong> A secure, flexible, web standards compliant
+									Content Management System targeting the creation of social networks</h2>
+									<p>Want to give AllianceCMS a test spin?</p>
+									<a href="#" class="button button-big button-icon button-icon-check">Download Now!</a>
 								</div>
 
 						</div>
@@ -94,14 +95,14 @@
 									<div class="12u">
 										<header class="first major">
 											<h2>This is an important heading</h2>
-											<span class="byline">And this is where we talk about why weâ€™re <strong>pretty awesome</strong> ...</span>
+											<span class="byline">And this is where we talk about why we’re <strong>pretty awesome</strong> ...</span>
 										</header>
 									</div>
 								</div>
 								<div class="row">
 									<div class="4u">
 										<section>
-											<span class="image image-full"><?php $this->image('images/pic01.jpg'); ?></span>
+											<span class="image image-full"><img src="{{theme_folder}}/images/pic01.jpg" alt="" /></span>
 											<header class="second second-friends">
 												<h3>OMFG Whats That</h3>
 												<span class="byline">Nevermind its just a wall lol</span>
@@ -110,7 +111,7 @@
 									</div>
 									<div class="4u">
 										<section>
-											<span class="image image-full"><img src="images/pic02.jpg" alt="" /></span>
+											<span class="image image-full"><img src="{{theme_folder}}/images/pic02.jpg" alt="" /></span>
 											<header class="second second-gear">
 												<h3>Really Close Up</h3>
 												<span class="byline">This looks pretty harmless</span>
@@ -119,7 +120,7 @@
 									</div>
 									<div class="4u">
 										<section>
-											<span class="image image-full"><img src="images/pic03.jpg" alt="" /></span>
+											<span class="image image-full"><img src="{{theme_folder}}/images/pic03.jpg" alt="" /></span>
 											<header class="second second-chart">
 												<h3>Pretty Blue LEDs</h3>
 												<span class="byline">Just so many of them man</span>
@@ -149,7 +150,7 @@
 										<section>
 											<header class="major">
 												<h2>And this is a subheading</h2>
-												<span class="byline">Itâ€™s important but clearly not *that* important</span>
+												<span class="byline">It’s important but clearly not *that* important</span>
 											</header>
 											<p>Phasellus quam turpis, feugiat sit amet ornare in, hendrerit in lectus.
 											Praesent semper mod quis eget mi. Etiam eu ante risus. Aliquam erat volutpat.
@@ -192,7 +193,7 @@
 
 											<!-- Excerpt -->
 												<article class="box-excerpt">
-													<a href="#" class="image image-left"><img src="images/pic04.jpg" alt="" /></a>
+													<a href="#" class="image image-left"><img src="{{theme_folder}}/images/pic04.jpg" alt="" /></a>
 													<div>
 														<header>
 															<span class="date">December 20, 2012</span>
@@ -206,7 +207,7 @@
 
 											<!-- Excerpt -->
 												<article class="box-excerpt">
-													<a href="#" class="image image-left"><img src="images/pic05.jpg" alt="" /></a>
+													<a href="#" class="image image-left"><img src="{{theme_folder}}/images/pic05.jpg" alt="" /></a>
 													<div>
 														<header>
 															<span class="date">December 15, 2012</span>
@@ -220,7 +221,7 @@
 
 											<!-- Excerpt -->
 												<article class="box-excerpt">
-													<a href="#" class="image image-left"><img src="images/pic06.jpg" alt="" /></a>
+													<a href="#" class="image image-left"><img src="{{theme_folder}}/images/pic06.jpg" alt="" /></a>
 													<div>
 														<header>
 															<span class="date">December 12, 2012</span>
@@ -240,7 +241,7 @@
 										<section class="box-spotlight">
 											<h2 class="icon icon-paper">Spotlight</h2>
 											<article>
-												<a href="#" class="image image-full"><img src="images/pic07.jpg" alt=""></a>
+												<a href="#" class="image image-full"><img src="{{theme_folder}}/images/pic07.jpg" alt=""></a>
 												<header>
 													<h3><a href="#">Why staplers matter</a></h3>
 													<span class="byline">They hold things together</span>

@@ -134,7 +134,7 @@
 			{
 				color: #fff;
 				text-decoration: none;
-				text-transform: uppercase;
+				/* text-transform: uppercase; */
 				font-weight: 800;
 				font-size: 0.95em;
 				letter-spacing: 0.075em;
@@ -191,7 +191,7 @@
 		{
 			color: #aaa;
 			text-decoration: none;
-			text-transform: uppercase;
+			/* text-transform: uppercase; */
 			font-weight: 800;
 			font-size: 0.8em;
 			letter-spacing: 0.075em;

@@ -4,9 +4,11 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
+prefix = parent.location.protocol + '//';
+
 window._skel_config = {
 	preset: 'standard',
-	prefix: 'css/style',
+	prefix: prefix + window.location.hostname + '/themes/core/zerofour/css/style',
 	resetCSS: true,
 	breakpoints: {
 		'desktop': {

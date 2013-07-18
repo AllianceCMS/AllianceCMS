@@ -5,51 +5,86 @@
      *
      */
 
+    /*
     $sql->dbSelect("sites", "name, title, tagline, description, active_theme, owner_id, default_plugin, maintenance_flag", "id = ".intval(1));
     $row = $sql->dbFetch();
+    //*/
 
-    define("CORE_SITE_NAME",             $row->fields['name']);
-    define("CORE_SITE_TITLE",            $row->fields['title']);
-    define("CORE_SITE_TAGLINE",          $row->fields['tagline']);
-    define("CORE_SITE_DESCRIPTION",      $row->fields['description']);
-    define("CORE_SITE_THEME",            $row->fields['active_theme']);
-    define("CORE_SITE_ADMIN_ID",         $row->fields['owner_id']);
-    define("CORE_SITE_DEFAULT_PLUGIN",   $row->fields['default_plugin']);
-    define("CORE_SITE_MAINTENANCE_FLAG", $row->fields['maintenance_flag']);
+    $select = $connection->newSelect();
+    $select->cols(['name, title, tagline, description, active_theme, venue_admin, default_plugin, maintenance_flag'])
+    ->from('a_venues')
+    ->where('id = :id');
+    $bind = ['id' => intval(1)];
+    $fields = $connection->fetchOne($select, $bind);
+
+    /*
+    echo '<br />$fields = ';
+    echo print_r($fields);
+    echo '<br />';
+
+    echo '$fields["name"] = ' . $fields['name'];
+    exit;
+    //*/
+
+    define("MAIN_VENUE_NAME",             $fields['name']);
+    define("MAIN_VENUE_TITLE",            $fields['title']);
+    define("MAIN_VENUE_TAGLINE",          $fields['tagline']);
+    define("MAIN_VENUE_DESCRIPTION",      $fields['description']);
+    define("MAIN_VENUE_THEME",            $fields['active_theme']);
+    define("MAIN_VENUE_ADMIN_ID",         $fields['venue_admin']);
+    define("MAIN_VENUE_DEFAULT_PLUGIN",   $fields['default_plugin']);
+    define("MAIN_VENUE_MAINTENANCE_FLAG", $fields['maintenance_flag']);
+
+    unset($fields);
 
     /**
      * Setup Sub Site Constants
      *
      */
 
+    /*
     $sql->dbSelect("sites", "name, title, tagline, description, active_theme, owner_id, default_plugin, maintenance_flag", "id = {$site_id}");
     $row = $sql->dbFetch();
+    //*/
 
-    define("SITE_NAME",             $row->fields['name']);
-    define("SITE_TITLE",            $row->fields['title']);
-    define("SITE_TAGLINE",          $row->fields['tagline']);
-    define("SITE_DESCRIPTION",      $row->fields['description']);
-    define("SITE_THEME",            $row->fields['active_theme']);
-    define("SITE_ADMIN_ID",         $row->fields['owner_id']);
-    define("SITE_DEFAULT_PLUGIN",   $row->fields['default_plugin']);
-    define("SITE_MAINTENANCE_FLAG", $row->fields['maintenance_flag']);
+    $select = $connection->newSelect();
+    $select->cols(['name, title, tagline, description, active_theme, venue_admin, default_plugin, maintenance_flag'])
+    ->from('a_venues')
+    ->where('name = :name');
+    $bind = ['name' => $pathVenue]; // $pathVenue is defined in 'load_router.php'
+    $fields = $connection->fetchOne($select, $bind);
+
+    define("VENUE_NAME",             $fields['name']);
+    define("VENUE_TITLE",            $fields['title']);
+    define("VENUE_TAGLINE",          $fields['tagline']);
+    define("VENUE_DESCRIPTION",      $fields['description']);
+    define("VENUE_THEME",            $fields['active_theme']);
+    define("VENUE_ADMIN_ID",         $fields['venue_admin']);
+    define("VENUE_DEFAULT_PLUGIN",   $fields['default_plugin']);
+    define("VENUE_MAINTENANCE_FLAG", $fields['maintenance_flag']);
+
+    unset($fields);
+
 
     /**
      * Setup User Constants
      *
      */
 
+    /*
     $sql->dbSelect("users", "display_name, email_address", "id = ".intval(CORE_SITE_ADMIN_ID));
     $row = $sql->dbFetch();
 
-    define("SITE_ADMIN_NAME", $row->fields['display_name']);
-    define("SITE_ADMIN_EMAIL", $row->fields['email_address']);
+    define("VENUE_ADMIN_NAME", $row->fields['display_name']);
+    define("VENUE_ADMIN_EMAIL", $row->fields['email_address']);
+    //*/
 
     /**
      * Setup Theme Constants
      *
      */
 
+    /*
     $sql->dbSelect("themes", "name, designer, folder_name, favicon", "id = ".intval(SITE_THEME));
     $row = $sql->dbFetch();
 
@@ -57,12 +92,14 @@
     define("THEME_DESIGNER",    $row->fields['designer']);
     define("THEME_FOLDER_NAME", $row->fields['folder_name']."/");
     define("THEME_FAVICON",     $row->fields['favicon']);
+    //*/
 
     /**
      * Setup Plugin Constants
      *
      */
 
+    /*
     $sql->dbSelect("plugins", "name, folder_base_dir, folder_name", "id = ".intval(SITE_DEFAULT_PLUGIN));
     $row = $sql->dbFetch();
 
@@ -76,6 +113,7 @@
     define("PLUGINS_NAME",            $row->fields['name']);
     define("PLUGINS_FOLDER_BASE_DIR", $basePluginDir);
     define("PLUGINS_FOLDER_NAME",     $row->fields['folder_name']);
+    //*/
 
 
     /**

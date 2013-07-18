@@ -6,7 +6,7 @@ if (file_exists(DBCONNFILE)) {
     $connection_factory = new Aura\Sql\ConnectionFactory();
 
     // Instantiate Database Object
-    $sql = $connection_factory->newInstance(
+    $connection = $connection_factory->newInstance(
 
         // adapter name
         DB_SOFTWARE,

@@ -118,7 +118,7 @@
 		#titleBar .title
 		{
 			display: block;
-			text-transform: uppercase;
+			/* text-transform: uppercase; */
 			font-weight: 800;
 			letter-spacing: 0.04em;
 			color: #fff;
@@ -163,7 +163,7 @@
 			border-top: solid 1px rgba(255,255,255,0.05);
 			border-bottom: solid 1px rgba(0,0,0,0.15);
 			padding: 0 1em 0 1em;
-			text-transform: uppercase;
+			/* text-transform: uppercase; */
 			font-weight: 700;
 			font-size: 0.95em;
 			letter-spacing: 0.075em;

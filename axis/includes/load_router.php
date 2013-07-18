@@ -1,47 +1,21 @@
 <?php
 
-//*
-// Begin Testing Aura.Router
-
+/*
 echo '<br />Begin Testing Aura.Router<br />';
-
 echo '<br />';
+//*/
+
+$dispatch = false;
 
 // Initialize Aura.Router
 $mapRoutes = require PACKAGES . 'Aura.Router/scripts/instance.php';
-
-function themesSimple01()
-{
-    echo '<br />Hello Themes Admin Simple 01<br />';
-}
-
-// Mapping Routes
-//$mapRoutes->add('home', '/');
-
-$mapRoutes->add('read', '/blog/read/{:id}{:format}', array(
-    'params' => array(
-        'id' => '(\d+)',
-        'format' => '(\..+)?',
-    ),
-    'values' => array(
-    'controller' => 'blog',
-    'action' => 'read',
-    'format' => 'html',
-    ),
-));
 
 /**
  * Query Db and find out which plugins are installed
  */
 
 // Include only installed plugins 'main.php' so we have access to routes
-$result = $sql->fetchAll('SELECT folder_path, folder_name FROM a_plugins WHERE active = 2');
-
-/*
-echo '<br /><pre>\$result:<br />';
-echo print_r($result);
-echo '</pre><br />';
-//*/
+$result = $connection->fetchAll('SELECT folder_path, folder_name FROM a_plugins WHERE active = 2');
 
 foreach ($result as $row) {
 
@@ -51,243 +25,130 @@ foreach ($result as $row) {
     if (file_exists(BASE_DIR . $plugin_folder_path . $plugin_folder_name . DS . 'main.php')) {
         include_once(BASE_DIR . $plugin_folder_path . $plugin_folder_name . DS . 'main.php');
     }
-
-    /*
-    if ($plugin_folder_name === 'PluginManager') {
-        $mapRoutes->add($routes['plugin_manager']['name'], '/{:venue}' . $routes['plugin_manager']['path'], $routes['plugin_manager']['info']);
-    }
-    //*/
 }
 
-/*
-echo '<br /><pre>$frontRoutes:<br />';
-echo print_r($frontRoutes);
-echo '</pre><br />';
-//exit;
-//*/
-
-/*
- echo '<br /><pre>$adminRoutes:<br />';
-echo print_r($adminRoutes);
-echo '</pre><br />';
-//exit;
-//*/
-
-//*
 if (isset($pluginRoutes)) {
     foreach ($pluginRoutes as $plugin => $pluginPage) {
-        /*
-        echo '<br /><pre>$plugin = ';
-        echo print_r($plugin);
-        echo '</pre><br />';
-        //*/
-
-        /*
-        echo '<br /><pre>$pluginPage = ';
-        echo print_r($pluginPage);
-        echo '</pre><br />';
-        //*/
 
         foreach ($pluginPage as $route) {
 
-            //$mapRoutes->add($route['name'], '/{:venue}' . $route['path'], $route['info']);
-
-            //*
-            echo '<br /><pre>$route = ';
-            echo print_r($route);
-            echo '</pre><br />';
-            //*/
-
-            //*
             if ($route['type'] === 'front') {
                 $mapRoutes->add($route['name'], '/{:venue}' . $route['path'], $route['specs']);
             } else if ($route['type'] === 'admin') {
-                $adminRoutes['routes'][$route['name']] = array(
+                // Create array so we can attach admin routes
+                $adminRoutes['routes'][$route['name']] = [
                     'path' => $route['path'],
-                );
-
-                /*
-                echo '<br /><pre>$route["specs"] = ';
-                echo print_r($route['specs']);
-                echo '</pre><br />';
-                //*/
+                ];
 
                 foreach ($route['specs'] as $key => $value) {
-
-                    /*
-                    echo '<br /><pre>$adminRoutes["routes"][$route["name"]] = ';
-                    echo print_r($adminRoutes['routes'][$route['name']]);
-                    echo '</pre><br />';
-                    //*/
-
-                    /*
-                    echo '<br /><pre>$key = ';
-                    echo print_r($key);
-                    echo '</pre><br />';
-                    //*/
-
-                    /*
-                    echo '<br /><pre>$value = ';
-                    echo print_r($value);
-                    echo '</pre><br />';
-                    //*/
 
                     if ($value) {
                         $adminRoutes['routes'][$route['name']][$key] = $value;
                     }
                 }
             }
-            //*/
         }
     }
 }
-//*/
-
-/*
-echo '<br /><pre>$attachAdminRoutes = ';
-echo print_r($attachAdminRoutes);
-echo '</pre><br />';
-//*/
 
 if (isset($adminRoutes)) {
-    /*
-    echo '<br /><pre>$adminRoutes = ';
-    echo print_r($adminRoutes);
-    echo '</pre><br />';
-    //*/
 
+    // attach admin routes
     $mapRoutes->attach('/{:venue}/admin', $adminRoutes);
-
-    /*
-    $mapRoutes->attach('/{:venue}/admin', array(
-
-        // the routes to attach
-        'routes' => array(
-
-            // a short-form route named 'cron'
-            //'cron' => '/cron',
-
-            // a long-form route named 'themes'
-            'plugin_admin' => array(
-                'path' => '/plugins',
-                'values' => array(
-                    'controller' => 'pluginsAdmin',
-                ),
-            ),
-        ),
-    ));
-    //*/
 
 }
 
-// Matching Routes
+// Match Routes
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// get the route based on the path and server
-$auraRoute = $mapRoutes->match($path, $_SERVER);
+$pathArray = explode('/', $path);
+array_shift($pathArray);
 
-//*
-echo '<br /><pre>$auraRoute:<br />';
-echo print_r($auraRoute);
+/*
+echo '<br /><pre>$path:<br />';
+echo print_r($path);
 echo '</pre><br />';
 //exit;
 //*/
 
-if (! $auraRoute) {
+/*
+echo '<br /><pre>$pathArray:<br />';
+echo print_r($pathArray);
+echo '</pre><br />';
+//exit;
+//*/
 
-    // NEED TO CHANGE THIS TO REDIRECT TO CUSTOM 404
-    // NEED TO CHANGE THIS TO REDIRECT TO CUSTOM 404
-    // NEED TO CHANGE THIS TO REDIRECT TO CUSTOM 404
+//echo '<br />$pathArray[0]: '. $pathArray[0] . '<br />';
 
-    // If no route found then redirect client to root route
-    //header("Location: /");
+$pathVenue = $pathArray[0];
 
-    // NEED TO CHANGE THIS TO REDIRECT TO CUSTOM 404
-    // NEED TO CHANGE THIS TO REDIRECT TO CUSTOM 404
-    // NEED TO CHANGE THIS TO REDIRECT TO CUSTOM 404
+if ($path === '/') {
+    // Send user to main venue
+    // create a new Select object
+    $select = $connection->newSelect();
 
+    // SELECT * FROM foo WHERE bar > :bar ORDER BY baz
+    $select->cols(['name'])
+    ->from('a_venues')
+    ->where('id = :id');
 
-    //*
-    // no route object was returned
-    echo "<br />No application route was found for that URI path.<br />";
-    exit();
+    $bind = ['id' => intval(1)];
+
+    // If there is a main venue, redirect to the main venue
+    if($list = $connection->fetchAll($select, $bind)) {
+        header("Location: /" . $list[0]['name']);
+        exit;
+    } else {
+        // No main venue (should never happen if site has been installed)
+        // This means the db was corrupted, since we'll never reach this if there is a dbConnections.php)
+        // Give some kind of error
+    }
+}
+
+// Check if venue exists (in database)
+
+$select = $connection->newSelect();
+$select->cols(['name, active, active_theme'])
+    ->from('a_venues')
+    ->where('name = :name')
+    ->orderBy(['name']);
+
+$bind = ['name' => $pathVenue];
+//$list = $connection->fetchAll($select, $bind);
+
+// If venue exists
+if ($currentVenue = $connection->fetchAll($select, $bind)) {
+
+    /*
+    echo '<br /><pre>$list:<br />';
+    echo print_r($list);
+    echo '</pre><br />';
+    //exit;
     //*/
-}
 
-// does the route indicate a controller?
-if (isset($auraRoute->values['controller'])) {
-    // take the controller class directly from the route
-    $controller = $auraRoute->values['controller'];
+    //echo '<br />$list[0]["active"] is: ' . $list[0]['active'] . '<br />';
+
+    // Check if venue is active
+
+    // If venue is active, load venue
+    if ($currentVenue[0]['active'] === '2') {
+        echo '<br />Load Venue<br />';
+        $dispatch = true;
+    } else {
+        // If venue is not active, give message stating it exists but is not active/available
+        echo '<br />Venue Is Not Active<br />';
+    }
 } else {
-    // use a default controller
-    $controller = 'index';
-}
-
-$controller();
-
-function index() {
-    echo '<br />Hello Function index<br />';
-}
-
-function blog() {
-    echo '<br />Hello Function blog<br />';
+    // Venue does not exist
+    // Send to 'venue' plugin and prompt user to create venue (Should probably make some venue names unavailable for use)
+    echo '<br />Create Venue<br />';
+    $dispatch = true;
 }
 
 /*
-echo '<pre>$auraRoute = ';
-echo print_r($auraRoute);
-echo '</pre>';
-//*/
-
 echo '<br />';
-
 echo '<br />End Testing Aura.Router<br />';
-
-
-// Create loop so we can add routes to Aura.Router's mapped routes
-
-/*
- foreach ($plugins as $key => $value) {
-echo '$key = ' . $key . ' => $value = ' . $value;
-echo '<br />Do something with $plugins array.<br />';
-}
 //*/
-
-/*
- $keys = extract($plugins);
-
-echo '<br />Result of $keys 2: <br />';
-echo '<pre>';
-echo print_r($keys);
-echo '</pre>';
-//*/
-
-/*
- function multiarray_keys($ar) {
-
-foreach($ar as $k => $v) {
-$keys[] = $k;
-if (is_array($ar[$k]))
-    $keys = array_merge($keys, multiarray_keys($ar[$k]));
-}
-return $keys;
-}
-
-foreach ($plugins as $plugin_name) {
-//echo '$plugin_name = ' . $plugin_name;
-//echo array_keys($content_name);
-
-$keys = multiarray_keys($plugin_name);
-
-echo '<br />Result of $keys : <br />';
-echo '<pre>';
-echo print_r($plugins);
-echo '</pre>';
-
-echo '<br />Do something with $plugins array.<br />';
-}
-//*/
-
 
 // End Testing Aura.Router
 //*/
