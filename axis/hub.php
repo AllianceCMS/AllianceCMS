@@ -4,8 +4,8 @@ require_once (CONFIGS . 'autoload.php');
 require_once (INCLUDES . 'load_db.php');
 require_once (INCLUDES . 'load_router.php');
 require_once (CONFIGS . 'venue_info.php');
-require_once (INCLUDES . 'load_dispatcher.php');
 require_once (INCLUDES . 'load_templates.php');
+require_once (INCLUDES . 'load_dispatcher.php');
 
 //
 // BEGIN: Need to setup router to load the following code, instead of using 'header("Location: ");'

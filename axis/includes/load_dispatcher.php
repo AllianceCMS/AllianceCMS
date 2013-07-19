@@ -29,7 +29,17 @@ if ($dispatch) {
         $controller = 'index';
     }
 
-    $controller($template_vars);
+    $body = $controller($auraRoute->values);
+
+    //*
+    if (function_exists('customHeaders')) {
+        $tpl->set("customHeaders", customHeaders());
+    }
+
+    $tpl->set("body",	$body);
+
+    echo $tpl->fetch($theme_path . "/theme.tpl.php");
+    //*/
 
     function index() {
         echo '<br />Hello Function index<br />';

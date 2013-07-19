@@ -87,7 +87,7 @@ if ($path === '/') {
     // create a new Select object
     $select = $connection->newSelect();
 
-    // SELECT * FROM foo WHERE bar > :bar ORDER BY baz
+    // Get main venue
     $select->cols(['name'])
     ->from('a_venues')
     ->where('id = :id');
@@ -132,7 +132,7 @@ if ($currentVenue = $connection->fetchAll($select, $bind)) {
 
     // If venue is active, load venue
     if ($currentVenue[0]['active'] === '2') {
-        echo '<br />Load Venue<br />';
+        //echo '<br />Load Venue<br />';
         $dispatch = true;
     } else {
         // If venue is not active, give message stating it exists but is not active/available
@@ -141,8 +141,19 @@ if ($currentVenue = $connection->fetchAll($select, $bind)) {
 } else {
     // Venue does not exist
     // Send to 'venue' plugin and prompt user to create venue (Should probably make some venue names unavailable for use)
+
+    // Get main venue
+    $select = $connection->newSelect();
+    $select->cols(['name'])
+    ->from('a_venues')
+    ->where('id = :id');
+    $bind = ['id' => intval(1)];
+    $list = $connection->fetchAll($select, $bind);
+
+    header('Location: /'. $list[0]['name'] . '/admin/venues/create/'. $pathVenue);
+    exit;
     echo '<br />Create Venue<br />';
-    $dispatch = true;
+    //$dispatch = true;
 }
 
 /*

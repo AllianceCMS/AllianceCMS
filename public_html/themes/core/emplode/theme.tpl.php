@@ -2,13 +2,13 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-    	<title>{{main_venue_title}}</title>
+    	<title><?php echo $venue_title; ?></title>
 
-    	<link rel="stylesheet" media="screen" href="{{theme_folder}}/css/style.css" />
+    	<link rel="stylesheet" media="screen" href="<?php echo $theme_folder; ?>/css/style.css" />
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     	<meta name="author" content="<?php /* echo $site_author; */ ?>" />
-        <meta name="description" content="{{main_venue_description}}"/>
+        <meta name="description" content="<?php echo $venue_description; ?>"/>
     	<meta name="keywords" content="" />
     	<meta name="robots" content="all"></head>
 
@@ -32,9 +32,9 @@
         		<div id="site_title">
         			<h1>
                         <!-- <a href="">Alliance<span>CMS</span></a> -->
-                        <a href="{{base_url}}">{{main_venue_title}}</a>
+                        <a href="<?php echo $base_url; ?>"><?php echo $venue_title; ?></a>
                     </h1>
-        			<p>{{main_venue_tagline}}</p>
+        			<p><?php echo $venue_tagline; ?></p>
         		</div>
 
         	</div>
@@ -60,7 +60,7 @@
         					<div id="main_content">
 
                                 <br />
-                                {% block content %}{% endblock %} <!-- {{body}} -->
+                                <?php echo $body; ?>
                                 <br />
 
                             </div>

@@ -1,6 +1,8 @@
 <?php
 //echo '<br />Begin Testing Plugin Manager<br />';
 
+use Acms\Core\Templates\Template;
+
 //*
 $pluginRoutes['plugin_manager']['Plugins Admin Page']['name'] = 'plugin_admin'; // Required: Route name
 $pluginRoutes['plugin_manager']['Plugins Admin Page']['path'] = '/plugins'; // Required: Route path
@@ -15,15 +17,20 @@ $pluginRoutes['plugin_manager']['Plugins Admin Page']['specs']['values'] = array
 //$pluginRoutes['plugin_manager']['Plugins Admin Page']['specs']['generate'] = myDataFunction(); // Optional
 //*/
 
-function pluginsAdmin() {
+function pluginsAdmin($values) {
 
-    echo '<br />Hello Plugins Admin Page<br />';
+    $body = new Template(dirname(__FILE__) . DS . 'templates/main.tpl.php');
+    $body->set('hello', 'Hello Plugins Admin Page');
+
+    return $body;
+
+    //echo '<br />Hello Plugins Admin Page<br />';
 
     //findPlugins();
 
 }
 
-function findPlugins() {
+function findPlugins($values) {
 
     echo '<br />Begin Processing Axis Plugins<br />';
 
