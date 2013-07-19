@@ -11,7 +11,7 @@ $auraLoader->setPaths([
     'Aura\Sql\\' => PACKAGES . 'Aura.Sql' . DS . 'src' . DS,
 //    'Aura\View\\' => PACKAGES . 'Aura.View' . DS . 'src' . DS,
 //    'Twig' => PACKAGES . 'SensioLabs.Twig' . DS . 'lib' . DS,
-    'Symfony\\' => PACKAGES . 'Symfony' . DS . 'src' . DS,
-    'Gaufrette\\' => PACKAGES . 'Knp.Gaufrette' . DS . 'src' . DS,
+//    'Symfony\\' => PACKAGES . 'Symfony' . DS . 'src' . DS,
+//    'Gaufrette\\' => PACKAGES . 'Knp.Gaufrette' . DS . 'src' . DS,
 ]);
 
