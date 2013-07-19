@@ -20,7 +20,7 @@ $pluginRoutes['Home']['Front Page']['specs']['values'] = array('controller' => '
 
 function homeFrontPage($values) {
 
-    $body = new Template(dirname(__FILE__) . DS . 'templates/main.tpl.php');
+    $body = new Template(dirname(__FILE__) . DS . 'views/main.tpl.php');
 
     return $body;
 

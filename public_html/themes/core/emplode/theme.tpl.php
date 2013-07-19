@@ -22,11 +22,12 @@
         <div id="header">
         	<div class="center_wrapper">
 
-        		<div id="toplinks">
+                <div id="toplinks">
         			<div id="toplinks_inner">
-        				<a href="#">Sitemap</a> | <a href="#">Privacy Policy</a> | <a href="#">FAQ</a>
+        				<a href="https://twitter.com/jbWebWare">Twitter</a> | <a href="https://www.facebook.com/jbwebware">Facebook</a> | <a href="irc://chat.freenode.net/jbwebware">IRC</a>
         			</div>
         		</div>
+
         		<div class="clearer">&nbsp;</div>
 
         		<div id="site_title">
@@ -43,7 +44,7 @@
         <div id="navigation">
         	<div class="center_wrapper">
 
-        		<?php /* echo $nav1; */ ?>
+        		<?php echo $nav1; ?>
 
         		<div class="clearer">&nbsp;</div>
 
@@ -92,10 +93,11 @@
 
         </div>
 
+
         <div id="dashboard">
         	<div id="dashboard_content">
         		<div class="center_wrapper">
-
+                    <!--
         			<div class="col3 left">
         				<div class="col3_content">
 
@@ -142,10 +144,11 @@
         			</div>
 
         			<div class="clearer">&nbsp;</div>
-
+                    -->
         		</div>
         	</div>
         </div>
+
 
         <div id="footer">
         	<div class="center_wrapper">

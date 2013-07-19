@@ -25,6 +25,8 @@ $bind = ['id' => intval(VENUE_THEME)];
 $fields = $connection->fetchOne($select, $bind);
 $theme_path = $fields['folder_path'] . $fields['folder_name'];
 
+include TEMPLATES . 'nav.php';
+
 /*
 $setupMenu = new Menus("1");
 $menu1 = $setupMenu->getMenus();
@@ -51,8 +53,9 @@ $tpl->set("venue_title", VENUE_TITLE);
 $tpl->set("venue_description", VENUE_DESCRIPTION);
 $tpl->set("venue_tagline", VENUE_TAGLINE);
 //$tpl->set("venue_styleSheet", THEMES.THEME_FOLDER_NAME."style.css");
-/*
+
 $tpl->set("nav1", $nav1);
+/*
 $tpl->set("menu1", $menu1);
 $tpl->set("menu2", $menu2);
 $tpl->set("menu3", $menu3);

@@ -70,6 +70,7 @@ define('THEMES_VENUES', VENUES . 'themes' . DS);
 
 //define('THEMES', PUBLIC_HTML . 'themes' . DS);
 define('THEMES', PUBLIC_HTML . 'themes' . DS);
+define('TEMPLATES', THEMES . DS . 'templates' . DS);
 
 define("DBCONNFILE", VENUES . DS . 'default' . DS . 'dbConnections.php');
 //*/
