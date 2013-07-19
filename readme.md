@@ -1,7 +1,7 @@
 AllianceCMS
 ===========
 
-I am proud to announce the arrival of AllianceCMS, a Social Content Management System.
+We are proud to announce the arrival of AllianceCMS, a Social Content Management System.
 
 >##al·li·ance
 >
@@ -23,16 +23,18 @@ I am proud to announce the arrival of AllianceCMS, a Social Content Management S
 
 ##What Is AllianceCMS?
 
-* Open Source (BSD 2-Clause License)
-* Easy To Use
 * Flexible
 * Secure
-* Web Standards Compliant
-* PHP 5.4+ Compatible
+* Easy To Use
 * Easy To Develop With
 * Easy To Create Custom Look And Layout
+* PHP 5.4+ Compatible
+* Web Standards Compliant
+* Open Source (BSD 2-Clause License)
 
-AllianceCMS is still under development, with new features added frequently. If you would like to get involved, please contact me at [contribute@alliancecms.com](mailto:contribute@alliancecms.com)
+##Join The AllianceCMS Community!
+
+AllianceCMS is still under development, with new features added frequently. If you would like to get involved, please contact us at [contribute@alliancecms.com](mailto:contribute@alliancecms.com)
 
 Here are some areas that could use a contribution:
 
