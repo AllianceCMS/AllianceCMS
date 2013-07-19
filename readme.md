@@ -32,6 +32,8 @@ We are proud to announce the arrival of AllianceCMS, a Social Content Management
 * Web Standards Compliant
 * Open Source (BSD 2-Clause License)
 
+##Join The AllianceCMS Community!
+
 AllianceCMS is still under development, with new features added frequently. If you would like to get involved, please contact us at [contribute@alliancecms.com](mailto:contribute@alliancecms.com)
 
 Here are some areas that could use a contribution:
