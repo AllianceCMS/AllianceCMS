@@ -1,16 +1,25 @@
 <?php
-namespace Acms\Core\Db;
-
 /**
- * File Doc Block
- *
- * Database connection/usage class
+ * @file
+ * Generic Database Handler.
  */
 
 /**
- * Class Doc Block
+ * @defgroup database Database Abstraction Layer
+ * @{
+ * Documentation for all Database related functionality.
+ */
+
+namespace Acms\Core\Data\Db;
+
+/**
+ * Db
  *
- * Database connection/usage class
+ * Database connection/usage class.
+ *
+ * The routines here define the methods and properties needed to handle database connectivity and functionality.
+ *
+ * We use Aura.Sql for minor database abstraction. The available databases are: MySQL, PostgreSQL, and Sqlite
  */
 class Db
 {
@@ -1025,3 +1034,5 @@ class Db
         return $this->_conn->ErrorMsg();
     }
 }
+
+/** @} */ // End group database */

@@ -30,7 +30,7 @@ We are proud to announce the arrival of AllianceCMS, a Social Content Management
 * Easy To Create Custom Look And Layout
 * PHP 5.4+ Compatible
 * Web Standards Compliant
-* Open Source (BSD 2-Clause License)
+* Open Source Licensing (Apache License, Version 2.0)
 
 ##Join The AllianceCMS Community!
 
