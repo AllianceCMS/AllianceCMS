@@ -41,8 +41,7 @@ if (! file_exists(DBCONNFILE)) {
         $htmlHelper = new HtmlHelper();
         $formHelper = new HtmlFormHelper();
     }
-} else
-    if (SITE_MAINTENANCE_FLAG == 2) {
+} elseif (SITE_MAINTENANCE_FLAG == 2) {
 
         // If the site maintenance flag is set, display the "Site Down" page.
 

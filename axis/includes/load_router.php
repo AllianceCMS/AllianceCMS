@@ -1,195 +1,133 @@
 <?php
 
-/*
-echo '<br />Begin Testing Aura.Router<br />';
-echo '<br />';
-//*/
-
+// Don't dispatch route if not explicitly told to do so
 $dispatch = false;
 
-// Initialize Aura.Router
-$mapRoutes = require PACKAGES . 'Aura.Router/scripts/instance.php';
+// Get 'maintenance_flag' for main venue
+$sql->dbSelect('venues', 'maintenance_flag', 'id = :id', ['id' => intval(1)]);
+$result = $sql->dbFetch('one');
 
-/**
- * Query Db and find out which plugins are installed
- */
+// If maintenance_flag is turned on send user to maintenance page/plugin (???possibly plugin that contains '404' pages???)
+if ((int) $result['maintenance_flag'] === intval(2)) {
+    // Display 'Site undergoing maintenance' page
+    echo 'Site is down for maintenance, please check back later.';
+    exit;
+} else {
 
-// Include only installed plugins 'main.php' so we have access to routes
-//$result = $connection->fetchAll('SELECT folder_path, folder_name FROM a_plugins WHERE active = 2');
+    // Initialize Aura.Router
+    $mapRoutes = require PACKAGES . 'Aura.Router/scripts/instance.php';
 
-$sql->dbSelect('plugins', 'folder_path, folder_name', 'active = :active', ['active' => intval(2)]);
-$result = $sql->dbFetch();
+    /**
+     * Query Db and find out which plugins are installed
+     */
 
-/*
-echo '<br /><pre />$result: ';
-echo print_r($result);
-echo '<pre /><br />';
-//*/
+    // Include only installed plugins 'main.php' so we have access to routes
+    $sql->dbSelect('plugins', 'folder_path, folder_name', 'active = :active', ['active' => intval(2)]);
+    $result = $sql->dbFetch();
 
-foreach ($result as $row) {
+    foreach ($result as $row) {
 
-    $plugin_folder_path = $row['folder_path'];
-    $plugin_folder_name = $row['folder_name'];
+        $plugin_folder_path = $row['folder_path'];
+        $plugin_folder_name = $row['folder_name'];
 
-    if (file_exists(BASE_DIR . $plugin_folder_path . $plugin_folder_name . DS . 'main.php')) {
-        include_once(BASE_DIR . $plugin_folder_path . $plugin_folder_name . DS . 'main.php');
+        if (file_exists(BASE_DIR . $plugin_folder_path . $plugin_folder_name . DS . 'main.php')) {
+            include_once(BASE_DIR . $plugin_folder_path . $plugin_folder_name . DS . 'main.php');
+        }
     }
-}
 
-// TODO: The next two 'if' statements need to be a class method
-if (isset($pluginRoutes)) {
-    foreach ($pluginRoutes as $plugin => $pluginPage) {
+    // TODO: The next two 'if' statements need to be a class method
+    // Parse plugin paths
+    if (isset($pluginRoutes)) {
+        foreach ($pluginRoutes as $plugin => $pluginPage) {
 
-        foreach ($pluginPage as $route) {
+            foreach ($pluginPage as $route) {
 
-            if ($route['type'] === 'front') {
-                $mapRoutes->add($route['name'], '/{:venue}' . $route['path'], $route['specs']);
-            } else if ($route['type'] === 'admin') {
-                // Create array so we can attach admin routes
-                $adminRoutes['routes'][$route['name']] = [
-                    'path' => $route['path'],
-                ];
+                if ($route['type'] === 'front') {
+                    // If plugin route is a front end route then add route to routing map
+                    $mapRoutes->add($route['name'], '/{:venue}' . $route['path'], $route['specs']);
+                } else if ($route['type'] === 'admin') {
+                    // Create array so we can attach admin routes to routing map
+                    $adminRoutes['routes'][$route['name']] = [
+                        'path' => $route['path'],
+                    ];
 
-                foreach ($route['specs'] as $key => $value) {
+                    foreach ($route['specs'] as $key => $value) {
 
-                    if ($value) {
-                        $adminRoutes['routes'][$route['name']][$key] = $value;
+                        if ($value) {
+                            $adminRoutes['routes'][$route['name']][$key] = $value;
+                        }
                     }
                 }
             }
         }
     }
-}
 
-if (isset($adminRoutes)) {
+    // If there are 'admin' routes, attach routes to routing map
+    if (isset($adminRoutes)) {
 
-    // attach admin routes
-    $mapRoutes->attach('/{:venue}/admin', $adminRoutes);
+        // attach admin routes
+        $mapRoutes->attach('/{:venue}/admin', $adminRoutes);
 
-}
+    }
 
-// Match Routes
-// TODO: The following four lines of active code need to be a class method
-$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    // Match Routes
+    // TODO: The following five lines of active code needs to be a class method
+    $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); // Used in this file and in load_dispatcher.php
+    $pathArray = explode('/', $path);
+    array_shift($pathArray);
+    $pathVenue = $pathArray[0];
+    unset($pathArray);
 
-$pathArray = explode('/', $path);
-array_shift($pathArray);
+    // If there is no venue in the path, send user to main venue
+    if ($path === '/') {
 
-/*
- echo '<br /><pre>$path:<br />';
-echo print_r($path);
-echo '</pre><br />';
-//exit;
-//*/
+        // Send user to main venue
 
-/*
- echo '<br /><pre>$pathArray:<br />';
-echo print_r($pathArray);
-echo '</pre><br />';
-//exit;
-//*/
+        $sql->dbSelect('venues', 'name', 'id = :id', ['id' => intval(1)]);
 
-//echo '<br />$pathArray[0]: '. $pathArray[0] . '<br />';
+        // If there is a main venue, redirect to the main venue
+        if($list = $sql->dbFetch()) {
+            header("Location: /" . $list[0]['name']);
+            exit;
+        } else {
+            // No main venue (should never happen if site has been installed)
+            // This means the db was corrupted, since we'll never reach this if there is a dbConnections.php)
+            // Give some kind of error
+        }
+    }
 
-$pathVenue = $pathArray[0];
+    // If there is a venue parameter in the path, try to load the venue
 
-//echo '<br />$pathVenue: '. $pathVenue . '<br />';
-//exit;
+    // Check if venue exists (in database)
+    $sql->dbSelect('venues', 'name, active, active_theme', 'name = :name', ['name' => $pathVenue], 'ORDER BY name');
 
-if ($path === '/') {
-    // Send user to main venue
-    // create a new Select object
+    // If venue exists
+    if ($currentVenue = $sql->dbFetch()) {
 
-    /*
-    $select = $connection->newSelect();
+        // Check if venue is active
 
-    // Get main venue
-    $select->cols(['name'])
-    ->from('a_venues')
-    ->where('id = :id');
+        // If venue is active, load venue
+        if ($currentVenue[0]['active'] === '2') {
+            //echo '<br />Load Venue<br />';
+            $dispatch = true;
+        } else {
+            // If venue is not active, give message stating it exists but is not active/available
+            echo '<br />Venue Exists But Is Not Active<br />';
+            $dispatch = true;
+        }
+    } else {
+        // Venue does not exist
 
-    $bind = ['id' => intval(1)];
-    //*/
+        // Send to 'venue' plugin and prompt user to create venue (Should probably make some venue names unavailable for use)
 
-    $sql->dbSelect('venues', 'name', 'id = :id', ['id' => intval(1)]);
-    //$result = $sql->dbFetch();
+        // Get main venue
+        $sql->dbSelect('venues', 'name', 'id = :id', ['id' => intval(1)]);
+        $list = $sql->dbFetch();
 
-    // If there is a main venue, redirect to the main venue
-    if($list = $sql->dbFetch()) {
-        header("Location: /" . $list[0]['name']);
+        // Redirect user to 'Venue Creation' page (Venues plugin)
+        header('Location: /'. $list[0]['name'] . '/admin/venues/create/'. $pathVenue);
         exit;
-    } else {
-        // No main venue (should never happen if site has been installed)
-        // This means the db was corrupted, since we'll never reach this if there is a dbConnections.php)
-        // Give some kind of error
     }
 }
 
-// Check if venue exists (in database)
-
-/*
-$select = $connection->newSelect();
-$select->cols(['name, active, active_theme'])
-    ->from('a_venues')
-    ->where('name = :name')
-    ->orderBy(['name']);
-
-$bind = ['name' => $pathVenue];
-//$list = $connection->fetchAll($select, $bind);
-//*/
-
-$sql->dbSelect('venues', 'name, active, active_theme', 'name = :name', ['name' => $pathVenue], 'ORDER BY name');
-//$result = $sql->dbFetch();
-
-// If venue exists
-if ($currentVenue = $sql->dbFetch()) {
-
-    /*
-    echo '<br /><pre>$list:<br />';
-    echo print_r($list);
-    echo '</pre><br />';
-    //exit;
-    //*/
-
-    //echo '<br />$list[0]["active"] is: ' . $list[0]['active'] . '<br />';
-
-    // Check if venue is active
-
-    // If venue is active, load venue
-    if ($currentVenue[0]['active'] === '2') {
-        //echo '<br />Load Venue<br />';
-        $dispatch = true;
-    } else {
-        // If venue is not active, give message stating it exists but is not active/available
-        echo '<br />Venue Is Not Active<br />';
-    }
-} else {
-    // Venue does not exist
-    // Send to 'venue' plugin and prompt user to create venue (Should probably make some venue names unavailable for use)
-
-    // Get main venue
-    /*
-    $select = $connection->newSelect();
-    $select->cols(['name'])
-    ->from('a_venues')
-    ->where('id = :id');
-    $bind = ['id' => intval(1)];
-    $list = $connection->fetchAll($select, $bind);
-    //*/
-
-    $sql->dbSelect('venues', 'name', 'id = :id', ['id' => intval(1)]);
-    $list = $sql->dbFetch();
-
-    header('Location: /'. $list[0]['name'] . '/admin/venues/create/'. $pathVenue);
-    exit;
-    echo '<br />Create Venue<br />';
-    //$dispatch = true;
-}
-
-/*
-echo '<br />';
-echo '<br />End Testing Aura.Router<br />';
-//*/
-
-// End Testing Aura.Router
-//*/
+unset($result);

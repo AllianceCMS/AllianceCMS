@@ -247,9 +247,8 @@ class Db
 	 *
 	 * Example selecting data from the database:
 	 * @code
-	 * $sql = new Db;
-	 *
 	 * $sql->dbSelect('links', 'label, url', 'active = :active', ['active' => intval(2)], 'ORDER BY link_order');
+	 * $result = $sql->dbFetch();
 	 * @endcode
 	 *
 	 * @param string $queryTableName

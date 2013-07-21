@@ -2,59 +2,22 @@
 
 use Acms\Core\Data\Db;
 
-// If the database config file (/venues/default/dbConnections.php) exists:
+// If the database config file (/venues/default/dbConnections.php) exists create database object
 if (file_exists(DBCONNFILE)) {
 
     $sql = new Db;
 
-    /*
-    require_once (DBCONNFILE);
-    $connection_factory = new Aura\Sql\ConnectionFactory();
-
-    // Instantiate Database Object
-    $connection = $connection_factory->newInstance(
-
-        // adapter name
-        DB_ADAPTER,
-
-        // DSN elements for PDO; this can also be
-        // an array of key-value pairs
-        'host=' . DB_HOST . ';dbname=' . DB_NAME,
-
-        // username for the connection
-        DB_USER,
-
-        // password for the connection
-        DB_PASSWORD);
-    //*/
 } else {
 
-    // Match Routes
-    $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    // If the database config file (/venues/default/dbConnections.php) does not exist send user to installation page
 
+    // Match Routes
+    // TODO: The following five lines of active code needs to be a class method
+    $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $pathArray = explode('/', $path);
     array_shift($pathArray);
-
-    /*
-     echo '<br /><pre>$path:<br />';
-    echo print_r($path);
-    echo '</pre><br />';
-    //exit;
-    //*/
-
-    /*
-     echo '<br /><pre>$pathArray:<br />';
-    echo print_r($pathArray);
-    echo '</pre><br />';
-    //exit;
-    //*/
-
-    //echo '<br />$pathArray[0]: '. $pathArray[0] . '<br />';
-
     $pathVenue = $pathArray[0];
-
-    //echo '<br />$pathVenue: '. $pathVenue . '<br />';
-    //exit;
+    unset($pathArray);
 
     // Go to the installation page if the dabase config file doesn't exist, and we're not already there.
     if ($pathVenue != 'install') {
@@ -66,7 +29,7 @@ if (file_exists(DBCONNFILE)) {
 
         $installRoutes = require PACKAGES . 'Aura.Router/scripts/instance.php';
 
-        // TODO: This needs to be a class method
+        // TODO: The next two 'if' statements need to be a class method
         if (isset($pluginRoutes)) {
             foreach ($pluginRoutes as $plugin => $pluginPage) {
 
@@ -98,28 +61,11 @@ if (file_exists(DBCONNFILE)) {
 
         }
 
-        //$installRoutes->add($route['name'], '/{:venue}' . $route['path'], $route['specs']);
-
         $auraRoute = $installRoutes->match($path, $_SERVER);
-
-        /*
-        echo '<br />$auraRoute: ';
-        echo print_r($auraRoute);
-        echo '<br />';
-        //*/
 
         $controller = $auraRoute->values['controller'];
 
         $controller($auraRoute->values);
         exit;
-        // Execute this block only during site installation (doesn't matter which step of the installation we're on).
-
-        // You can initialize any code needed for every page loaded. Ask yourself, "Does this code really need to run on every page load?".
-        // Maybe add session data here?
-
-        // Will initialize helpers in Controller Actions
-        //$htmlHelper = new HtmlHelper;
-        //$formHelper = new HtmlFormHelper;
-
     }
 }
