@@ -10,7 +10,9 @@
  * Documentation for all Database related functionality.
  */
 
-namespace Acms\Core\Data\Db;
+namespace Acms\Core\Data;
+
+use Aura\Sql\ConnectionFactory;
 
 /**
  * Db
@@ -19,15 +21,20 @@ namespace Acms\Core\Data\Db;
  *
  * The routines here define the methods and properties needed to handle database connectivity and functionality.
  *
- * We use Aura.Sql for minor database abstraction. The available databases are: MySQL, PostgreSQL, and Sqlite
+ * We use Aura.Sql for minor database abstraction. The available databases are: MySQL, PostgreSQL, SQLite3 and Microsoft SQL Server
  */
 class Db
 {
 
     /**
-     * Methods: In progress
+     * 1. Sets all class properties to null
+     * 2. Checks if dbConnections.php exists
+     * 3. Sets up class properies related to database connection
+     * 4. Creates database connection using a lazy-connect method
      *
-     * ******************************************************************************
+     *     From the Aura.Sql documentation: "The connection will lazy-connect to the database the first time you issue a query
+     *     of any sort. This means you can create the connection object, and if you never issue a query, it will never connect
+     *     to the database."
      */
     public function __construct()
     {
@@ -36,81 +43,126 @@ class Db
         if (is_file(DBCONNFILE)) {
             if ($this->getDbInfo()) {
                 if ($this->dbConnect()) {
-                    return TRUE;
+                    return true;
                 } else {
-                    return FALSE;
+                    return false;
                 }
             } else {
-                return FALSE;
+                return false;
             }
         } else {
-            return FALSE;
+            return false;
         }
     }
 
+    /*
     public function debug($value)
     {
-        // return $this->_connObject->debug = $value;
-        return $this->_conn->debug = $value;
+        // return $this->connObject->debug = $value;
+        return $this->conn->debug = $value;
     }
+    //*/
 
-    public function getDbInfo()
+    private function getDbInfo()
     {
         if (is_file(DBCONNFILE)) {
 
-            $this->setDbSoftware(DB_SOFTWARE);
+            require_once(DBCONNFILE);
+
+            $this->setDbAdapter(DB_ADAPTER);
             $this->setDbHost(DB_HOST);
             $this->setDbUser(DB_USER);
             $this->setDbPassword(DB_PASSWORD);
             $this->setDbName(DB_NAME);
             $this->setDbPrefix(DB_PREFIX);
-            $this->setDbPersistent(DB_PERSISTENT);
+            //$this->setDbPersistent(DB_PERSISTENT);
             $this->setDbActive(DB_ACTIVE);
 
-            return TRUE;
+            return true;
         } else {
-            return FALSE;
+            return false;
         }
     }
 
     /**
-     * Database connection methods
-     * ******************************************************************************
+     * Connects to database server and selects database.
+     *
+     * Db::__construct should be the only one using this method.
+     *
+     * @param string $dbAdapter
+     *     Database adapter name: i.e. mysql, pgsql, sqlite, sqlsrv
+     * @param string $dbHost
+     *     IP or hostname of the database server
+     * @param string $dbDbName
+     *     Database name
+     * @param string $dbUser
+     *     Database Username
+     * @param string $dbPassword
+     *     Database Password
+     *
+     * @return true|false Returns true if database connection is successful, false if database connection fails.
      */
-    public function dbConnect($dbHost = NULL, $dbUser = NULL, $dbPassword = NULL, $dbDbName = NULL)
+
+    public function dbConnect($dbAdapter = null, $dbHost = null, $dbDbName = null, $dbUser = null, $dbPassword = null)
     {
-        if ($dbHost == NULL) {
+
+        if ($this->getDbAdapter() == null) {
+            $dbAdapter = "mysql";
+        } else {
+            $dbAdapter = $this->getDbAdapter();
+        }
+
+        if ($dbHost == null) {
             $dbHost = $this->getDbHost();
         }
 
-        if ($dbUser == NULL) {
-            $dbUser = $this->getDbUser();
-        }
-
-        if ($dbPassword == NULL) {
-            $dbPassword = $this->getDbPassword();
-        }
-
-        if ($dbDbName == NULL) {
+        if ($dbDbName == null) {
             $dbDbName = $this->getDbName();
         }
 
-        if ($this->getDbSoftware() == NULL) {
-            $dbSoftware = "mysql";
-        } else {
-            $dbSoftware = $this->getDbSoftware();
+        if ($dbUser == null) {
+            $dbUser = $this->getDbUser();
         }
 
-        $this->_conn = NewADOConnection($dbSoftware);
+        if ($dbPassword == null) {
+            $dbPassword = $this->getDbPassword();
+        }
 
-        if ($this->_conn->Connect($dbHost, $dbUser, $dbPassword, $dbDbName)) {
-            return TRUE;
+        $connection_factory = new ConnectionFactory();
+        $this->conn = $connection_factory->newInstance(
+
+            // adapter name
+            $dbAdapter,
+
+            // DSN elements for PDO; this can also be
+            // an array of key-value pairs
+            'host='.$dbHost.';dbname='.$dbDbName,
+
+            // username for the connection
+            $dbUser,
+
+            // password for the connection
+            $dbPassword
+        );
+
+        if ($this->conn) {
+            return true;
         } else {
-            return FALSE;
+            return false;
         }
 
         /*
-         * $this->_connObject = NewADOConnection($dbSoftware); if($this->_connObject->Connect($dbHost, $dbUser, $dbPassword, $dbDbName)) { return TRUE; } else { return FALSE; }
+        $this->conn = NewADOConnection($dbAdapter);
+
+        if ($this->conn->Connect($dbHost, $dbUser, $dbPassword, $dbDbName)) {
+            return true;
+        } else {
+            return false;
+        }
+        //*/
+
+        /*
+         * $this->connObject = NewADOConnection($dbAdapter); if($this->connObject->Connect($dbHost, $dbUser, $dbPassword, $dbDbName)) { return true; } else { return false; }
          */
     }
 
@@ -119,7 +171,7 @@ class Db
      *
      * Selects database for queries.
      *
-     * TODO: Finish converting to ADOdb
+     * @todo:: Finish converting to Aura.Sql
      */
     public function dbSelectDb($dbName = "")
     {
@@ -135,7 +187,7 @@ class Db
      *
      * Create database.
      *
-     * TODO: Finish converting to ADOdb
+     * @todo:: Finish converting to Aura.Sql
      */
     public function dbCreateDb($dbName = "")
     {
@@ -154,6 +206,7 @@ class Db
      *
      * @param array $queries
      *
+     * @todo:: Finish converting to Aura.Sql
      */
 
     /*
@@ -168,11 +221,12 @@ class Db
      *
      * @param array $queries
      *
+     * @todo:: Finish converting to Aura.Sql
      */
     public function dbExecuteQueries($queries)
     {
         for ($i = 0; $i < count($queries); $i ++) {
-            $this->setDbRecordSet($this->_conn->Execute($queries[$i]));
+            $this->setDbRecordSet($this->conn->Execute($queries[$i]));
         }
     }
 
@@ -181,7 +235,7 @@ class Db
      *
      * Closes the identified link (usually unnecessary).
      *
-     * TODO: Finish converting to ADOdb
+     * @todo:: Finish converting to Aura.Sql
      */
     public function dbClose()
     {
@@ -189,27 +243,53 @@ class Db
     }
 
     /**
-     * Prime Custom Database Methods
-     * ******************************************************************************
-     */
+	 * Select data from the database
+	 *
+	 * Example selecting data from the database:
+	 * @code
+	 * $sql = new Db;
+	 *
+	 * $sql->dbSelect('links', 'label, url', 'active = :active', ['active' => intval(2)], 'ORDER BY link_order');
+	 * @endcode
+	 *
+	 * @param string $queryTableName
+	 *     Name of the table you want to query
+	 * @param string $queryWhatClause
+	 *     Table colums you want to return in your result set
+	 * @param string $queryWhereClause
+	 *     Where clause for query: i.e. 'id > :id AND active = :active'
+	 * @param array $queryBindValues
+	 *     Values to bind to WHERE clause: i.e. ['id' = intval(3), 'active' = intval(2)]
+	 * @param string $queryAdditionalClauses
+	 *     Add additional clauses to query: i.e. 'ORDER BY link_order'
+	 *
+	 * @todo: Re-evaluate using Aura.SQL Query Objects
+	 */
 
-    /**
-     * =dbSelect
-     */
-    public function dbSelect($queryTableName, $queryWhatClause = "*", $queryWhereClause = NULL, $queryLimitClause = NULL)
+    public function dbSelect($queryTableName, $queryWhatClause = "*", $queryWhereClause = null, $queryBindValues = null, $queryAdditionalClauses = null)
     {
-        $query = "SELECT " . $queryWhatClause . " FROM " . $this->getDbPrefix() . $queryTableName;
+        $queryText = 'SELECT ' . $queryWhatClause . ' FROM ' . $this->getDbPrefix() . $queryTableName;
 
         if (isset($queryWhereClause)) {
-            $query .= " WHERE " . $queryWhereClause;
+            $queryText .= ' WHERE ' . $queryWhereClause;
         }
 
-        if (isset($queryLimitClause)) {
-            $query .= " LIMIT " . $queryLimitClause;
+        //*
+        if (isset($queryAdditionalClauses)) {
+            $queryText .= ' ' . $queryAdditionalClauses;
+        }
+        //*/
+
+        if (isset($queryBindValues)) {
+            $bindValues = $queryBindValues;
         }
 
-        $this->setDbRecordSet($this->_conn->Execute($query));
-        // $this->setDbRecordSet($this->_connObject->Execute($query));
+        $this->setQueryText($queryText);
+        $this->setBindValues($bindValues);
+
+        //return $this->conn->fetchOne($text, $bind);
+        //$this->setDbRecordSet($this->conn->Execute($query));
+        // $this->setDbRecordSet($this->connObject->Execute($query));
     }
 
     /**
@@ -217,15 +297,19 @@ class Db
      *
      * Sends query to database. Remember to put the semicolon outside the doublequoted
      * query string.
+     *
+     * @todo:: Finish converting to Aura.Sql
      */
     public function dbQuery($query)
     {
-        $this->setDbRecordSet($this->_conn->Execute($query));
+        $this->setDbRecordSet($this->conn->Execute($query));
         // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
     }
 
     /**
      * =dbInsert
+     *
+     * @todo:: Finish converting to Aura.Sql
      */
     public function dbInsert($queryTableName, $queryInput)
     {
@@ -248,14 +332,16 @@ class Db
         $query = substr($query, 0, - 2);
         $query .= ")";
 
-        $this->setDbRecordSet($this->_conn->Execute($query));
+        $this->setDbRecordSet($this->conn->Execute($query));
         // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
     }
 
     /**
      * =dbUpdate
+     *
+     * @todo:: Finish converting to Aura.Sql
      */
-    public function dbUpdate($queryTableName, $queryInput, $queryWhereClause = NULL)
+    public function dbUpdate($queryTableName, $queryInput, $queryWhereClause = null)
     {
         $queryInputColumns = array_keys($queryInput);
         $queryInputValues = array_values($queryInput);
@@ -272,12 +358,14 @@ class Db
             $query .= " WHERE " . $queryWhereClause;
         }
 
-        $this->setDbRecordSet($this->_conn->Execute($query));
+        $this->setDbRecordSet($this->conn->Execute($query));
         // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
     }
 
     /**
      * =dbDelete
+     *
+     * @todo:: Finish converting to Aura.Sql
      */
     public function dbDelete($queryTableName, $queryWhereClause)
     {
@@ -289,12 +377,14 @@ class Db
             $query .= " WHERE " . $queryWhereClause;
         }
 
-        $this->setDbRecordSet($this->_conn->Execute($query));
+        $this->setDbRecordSet($this->conn->Execute($query));
         // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
     }
 
     /**
      * =dbCreateTable
+     *
+     * @todo:: Finish converting to Aura.Sql
      */
     public function dbCreateTable($queryTableName, $queryInput)
     {
@@ -311,12 +401,14 @@ class Db
 
         $query .= ")";
 
-        $this->setDbRecordSet($this->_conn->Execute($query));
+        $this->setDbRecordSet($this->conn->Execute($query));
         // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
     }
 
     /**
      * =dbAlterTable
+     *
+     * @todo:: Finish converting to Aura.Sql
      */
     public function dbAlterTable($queryTableName, $queryFunction, $queryInput)
     {
@@ -351,14 +443,14 @@ class Db
                 break;
         }
 
-        $this->setDbRecordSet($this->_conn->Execute($query));
+        $this->setDbRecordSet($this->conn->Execute($query));
         // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
     }
 
     /**
      * =dbDropTable
      *
-     * TODO: Finish converting to ADOdb
+     * @todo:: Finish converting to Aura.Sql
      */
     public function dbDropTable()
     {}
@@ -369,14 +461,40 @@ class Db
      */
 
     /**
-     * =dbFetch
-     *
      * Fetches result set.
+     *
+	 * @param string $fetchType
+	 *     Type of fetch you would like to perform:
+	 *         1. **all**: Returns a sequential array of all rows. The rows themselves are associative arrays where the keys are the column names.
+	 *         2. **assoc**: Returns an associative array of all rows where the key is the first column.
+	 *         3. **col**: Returns a sequential array of all values in the first column.
+	 *         4. **one**: Returns the first row as an associative array where the keys are the column names.
+	 *         5. **pairs**: Returns an associative array where each key is the first column and each value is the second column.
+	 *         6. **value**: Returns the value of the first row in the first column.
+	 *
+     * @return Returns result set depending on $fetchType, false if no matching $fetchType
      */
-    public function dbFetch()
+    public function dbFetch($fetchType = 'all')
     {
+
+        switch ($fetchType) {
+            case 'all':
+                return $this->conn->fetchAll($this->getQueryText(), $this->getBindValues());
+            case 'assoc':
+                return $this->conn->fetchAssoc($this->getQueryText(), $this->getBindValues());
+            case 'col':
+                return $this->conn->fetchCol($this->getQueryText(), $this->getBindValues());
+            case 'one':
+                return $this->conn->fetchOne($this->getQueryText(), $this->getBindValues());
+            case 'pairs':
+                return $this->conn->fetchPairs($this->getQueryText(), $this->getBindValues());
+            case 'value':
+                return $this->conn->fetchValue($this->getQueryText(), $this->getBindValues());
+            default:
+                return false;
+        }
         // echo "\$this->getDbRecordSet() = ".$this->getDbRecordSet()."<br /><br />";
-        return $this->getDbRecordSet();
+        //return $this->getDbRecordSet();
     }
 
     /**
@@ -384,26 +502,30 @@ class Db
      *
      * Fetches result set as an enumerated array.
      *
-     * TODO: Finish converting to ADOdb
+     * @todo:: Finish converting to Aura.Sql
      */
+    /*
     public function dbFetchRow()
     {
         $this->setDbRow(mysql_fetch_row($this->getDbResult()));
         return $this->getDbRow();
     }
+    //*/
 
     /**
      * =dbFetchObject
      *
      * Fetches result set as an object. See mysql_fetch_array for result types.
      *
-     * TODO: Finish converting to ADOdb
+     * @todo:: Finish converting to Aura.Sql
      */
+    /*
     public function dbFetchObject()
     {
         $this->setDbObject(mysql_fetch_object($this->getDbResult()));
         return $this->getDbObject();
     }
+    //*/
 
     /**
      * =dbFetchArray
@@ -411,15 +533,15 @@ class Db
      * Fetches result set as associative array. Result type can be MYSQL_ASSOC,
      * MYSQL_NUM, or MYSQL_BOTH (default).
      *
-     * TODO: Finish converting to ADOdb
+     * @todo:: Finish converting to Aura.Sql
      */
+    /*
     public function dbFetchArray()
     {
 
-        /*
-         * $this->setDbArray(mysql_fetch_array($this->getDbResult())); return $this->getDbArray();
-         */
+        //this->setDbArray(mysql_fetch_array($this->getDbResult())); return $this->getDbArray();
     }
+    //*/
 
     /**
      * =dbFetchResult
@@ -427,12 +549,14 @@ class Db
      * Returns single-field result. Field identifier can be field offset (0), field
      * name (FirstName) or table-dot name (myfield.mytable).
      *
-     * TODO: Finish converting to ADOdb
+     * @todo:: Finish converting to Aura.Sql
      */
+    /*
     public function dbFetchResult($queryRowIdentifier = 0, $queryField = 0)
     {
         $this->setDbQueryResult(mysql_result($this->getDbResult(), $queryRowIdentifier, $queryField));
     }
+    //*/
 
     /**
      * Info about Queries
@@ -442,7 +566,7 @@ class Db
     /**
      * =dbInfo
      *
-     * TODO: Finish converting to ADOdb
+     * @todo:: Finish converting to Aura.Sql
      */
     public function dbInfo()
     {
@@ -459,7 +583,7 @@ class Db
      *
      * Designate the row number desired
      *
-     * TODO: Finish converting to ADOdb
+     * @todo:: Finish converting to Aura.Sql
      */
     public function dbDataSeek($queryRowIdentifier)
     {
@@ -469,84 +593,88 @@ class Db
     /*
      * /** Database Attributes ******************************************************************************
      */
-    private $_dbSoftware;
+    private $dbAdapter;
 
-    private $_dbHost;
+    private $dbHost;
 
-    private $_dbUser;
+    private $dbUser;
 
-    private $_dbPassword;
+    private $dbPassword;
 
-    private $_dbName;
+    private $dbName;
 
-    private $_dbPrefix;
+    private $dbPrefix;
 
-    private $_dbPersistent;
+    private $dbPersistent;
 
-    private $_dbActive;
+    private $dbActive;
 
-    private $_conn;
+    private $conn;
 
-    private $_connObject;
+    private $connObject;
 
-    private $_result;
+    private $queryText;
 
-    private $_recordSet;
+    private $bindValues;
 
-    private $_queryRow;
+    private $result;
 
-    private $_queryObject;
+    private $recordSet;
 
-    private $_queryArray;
+    private $queryRow;
 
-    private $_queryResult;
+    private $queryObject;
 
-    private $_queryRowIdentifier;
+    private $queryArray;
 
-    private $_baseUrl;
+    private $queryResult;
 
-    private $_baseDir;
+    private $queryRowIdentifier;
 
-    private $_handlersDir;
+    private $baseUrl;
 
-    private $_includesDir;
+    private $baseDir;
 
-    private $_pluginsDir;
+    private $handlersDir;
 
-    private $_themesDir;
+    private $includesDir;
+
+    private $pluginsDir;
+
+    private $themesDir;
 
     /**
-     * =initClassVars
-     *
-     * Purpose: This method initializes all class variables to NULL
+     * This method initializes all class variables to null
      */
     private function initClassVars()
     {
-        $this->_dbSoftware = NULL;
-        $this->_dbHost = NULL;
-        $this->_dbUser = NULL;
-        $this->_dbPassword = NULL;
-        $this->_dbName = NULL;
-        $this->_dbPrefix = NULL;
-        $this->_dbPersistent = NULL;
-        $this->_dbActive = NULL;
-        $this->_conn = NULL;
-        $this->_connObject = NULL;
-        $this->_result = NULL;
+        $this->dbAdapter = null;
+        $this->dbHost = null;
+        $this->dbUser = null;
+        $this->dbPassword = null;
+        $this->dbName = null;
+        $this->dbPrefix = null;
+        $this->dbPersistent = null;
+        $this->dbActive = null;
+        $this->conn = null;
+        $this->connObject = null;
+        $this->queryText = null;
+        $this->bindValues = null;
+        $this->result = null;
 
-        $this->_recordSet = NULL;
-        $this->_queryRow = NULL;
-        $this->_queryObject = NULL;
-        $this->_queryArray = NULL;
-        $this->_queryResult = NULL;
-        $this->_queryRowIdentifier = NULL;
+        $this->recordSet = null;
+        $this->queryRow = null;
+        $this->queryObject = null;
+        $this->queryArray = null;
+        $this->queryResult = null;
+        $this->queryRowIdentifier = null;
 
-        $this->_baseUrl = NULL;
-        $this->_baseDir = NULL;
-        $this->_handlersDir = NULL;
-        $this->_includesDir = NULL;
-        $this->_pluginsDir = NULL;
-        $this->_themesDir = NULL;
+        $this->baseUrl = null;
+        $this->baseDir = null;
+        $this->handlersDir = null;
+        $this->includesDir = null;
+        $this->pluginsDir = null;
+        $this->themesDir = null;
     }
 
     /**
@@ -555,19 +683,20 @@ class Db
      */
 
     /**
-     * =setDbSoftware
+     * Sets $this->dbAdapter
+     *
      */
-    public function setDbSoftware($dbSoftware)
+    public function setDbAdapter($dbAdapter)
     {
-        $this->_dbSoftware = $dbSoftware;
+        $this->dbAdapter = $dbAdapter;
     }
 
     /**
-     * =getDbSoftware
+     * Gets $this->bAdapter
      */
-    public function getDbSoftware()
+    public function getDbAdapter()
     {
-        return $this->_dbSoftware;
+        return $this->dbAdapter;
     }
 
     /**
@@ -575,7 +704,7 @@ class Db
      */
     public function setDbHost($dbHost)
     {
-        $this->_dbHost = $dbHost;
+        $this->dbHost = $dbHost;
     }
 
     /**
@@ -583,7 +712,7 @@ class Db
      */
     public function getDbHost()
     {
-        return $this->_dbHost;
+        return $this->dbHost;
     }
 
     /**
@@ -591,7 +720,7 @@ class Db
      */
     public function setDbUser($dbUser)
     {
-        $this->_dbUser = $dbUser;
+        $this->dbUser = $dbUser;
     }
 
     /**
@@ -599,7 +728,7 @@ class Db
      */
     public function getDbUser()
     {
-        return $this->_dbUser;
+        return $this->dbUser;
     }
 
     /**
@@ -607,7 +736,7 @@ class Db
      */
     public function setDbPassword($dbPassword)
     {
-        $this->_dbPassword = $dbPassword;
+        $this->dbPassword = $dbPassword;
     }
 
     /**
@@ -615,7 +744,7 @@ class Db
      */
     public function getDbPassword()
     {
-        return $this->_dbPassword;
+        return $this->dbPassword;
     }
 
     /**
@@ -623,7 +752,7 @@ class Db
      */
     public function setDbName($dbName)
     {
-        $this->_dbName = $dbName;
+        $this->dbName = $dbName;
     }
 
     /**
@@ -631,7 +760,7 @@ class Db
      */
     public function getDbName()
     {
-        return $this->_dbName;
+        return $this->dbName;
     }
 
     /**
@@ -639,7 +768,7 @@ class Db
      */
     public function setDbPrefix($dbPrefix)
     {
-        $this->_dbPrefix = $dbPrefix;
+        $this->dbPrefix = $dbPrefix;
     }
 
     /**
@@ -647,7 +776,7 @@ class Db
      */
     public function getDbPrefix()
     {
-        return $this->_dbPrefix;
+        return $this->dbPrefix;
     }
 
     /**
@@ -655,7 +784,7 @@ class Db
      */
     public function setDbPersistent($dbPersistent)
     {
-        $this->_dbPersistent = $dbPersistent;
+        $this->dbPersistent = $dbPersistent;
     }
 
     /**
@@ -663,7 +792,7 @@ class Db
      */
     public function getDbPersistent()
     {
-        return $this->_dbPersistent;
+        return $this->dbPersistent;
     }
 
     /**
@@ -671,7 +800,7 @@ class Db
      */
     public function setDbActive($dbActive)
     {
-        $this->_dbActive = $dbActive;
+        $this->dbActive = $dbActive;
     }
 
     /**
@@ -679,20 +808,21 @@ class Db
      */
     public function getDbActive()
     {
-        return $this->_dbActive;
+        return $this->dbActive;
     }
 
     /**
      * =setDbConn
-     * TODO: Finish working on this method.
+     *
+     * @todo:: Finish converting to Aura.Sql
      */
-    public function setDbConn($dbSoftware = NULL)
+    public function setDbConn($dbAdapter = null)
     {
-        if ($dbSoftware == NULL) {
-            $dbSoftware = $this->getDbSoftware();
+        if ($dbAdapter == null) {
+            $dbAdapter = $this->getDbAdapter();
         }
 
-        $this->_conn = NewADOConnection($dbSoftware);
+        $this->conn = NewADOConnection($dbAdapter);
     }
 
     /**
@@ -700,19 +830,21 @@ class Db
      */
     public function getDbConn()
     {
-        return $this->_conn;
+        return $this->conn;
     }
 
     /**
      * =setDbConnObject
+     *
+     * @todo:: Finish converting to Aura.Sql
      */
-    public function setDbConnObject($dbSoftware = NULL)
+    public function setDbConnObject($dbAdapter = null)
     {
-        if ($dbSoftware == NULL) {
-            $dbSoftware = $this->getDbSoftware();
+        if ($dbAdapter == null) {
+            $dbAdapter = $this->getDbAdapter();
         }
 
-        $this->_connObject = NewADOConnection($dbSoftware);
+        $this->connObject = NewADOConnection($dbAdapter);
     }
 
     /**
@@ -720,15 +852,48 @@ class Db
      */
     public function getDbConnObject()
     {
-        return $this->_connObject;
+        return $this->connObject;
+    }
+
+    /**
+     * Set $this->queryText for use in fetch methods
+     */
+    public function setQueryText($queryText)
+    {
+        $this->queryText = $queryText;
+    }
+
+    /**
+     * Get  $this->queryText for use in fetch methods
+     */
+    public function getQueryText()
+    {
+        return $this->queryText;
+    }
+
+    /**
+     * Set $this->bindValues for use in fetch methods
+     */
+    public function setBindValues($bindValues)
+    {
+        $this->bindValues = $bindValues;
+    }
+
+    /**
+     * Get  $this->bindValues for use in fetch methods
+     */
+    public function getBindValues()
+    {
+        return $this->bindValues;
     }
 
     /**
      * =setDbResult
+     *
      */
     public function setDbResult($dbResult)
     {
-        $this->_result = $dbResult;
+        $this->result = $dbResult;
     }
 
     /**
@@ -736,7 +901,7 @@ class Db
      */
     public function getDbResult()
     {
-        return $this->_result;
+        return $this->result;
     }
 
     /**
@@ -744,7 +909,7 @@ class Db
      */
     public function setDbRecordSet($dbRecordSet)
     {
-        $this->_recordSet = $dbRecordSet;
+        $this->recordSet = $dbRecordSet;
     }
 
     /**
@@ -752,7 +917,7 @@ class Db
      */
     public function getDbRecordSet()
     {
-        return $this->_recordSet;
+        return $this->recordSet;
     }
 
     /**
@@ -760,7 +925,7 @@ class Db
      */
     public function setDbRow($dbRow)
     {
-        $this->_queryRow = $dbRow;
+        $this->queryRow = $dbRow;
     }
 
     /**
@@ -768,7 +933,7 @@ class Db
      */
     public function getDbRow()
     {
-        return $this->_queryRow;
+        return $this->queryRow;
     }
 
     /**
@@ -776,7 +941,7 @@ class Db
      */
     public function setDbObject($dbObject)
     {
-        $this->_queryObject = $dbObject;
+        $this->queryObject = $dbObject;
     }
 
     /**
@@ -784,7 +949,7 @@ class Db
      */
     public function getDbObject()
     {
-        return $this->_queryObject;
+        return $this->queryObject;
     }
 
     /**
@@ -792,7 +957,7 @@ class Db
      */
     public function setDbArray($dbArray)
     {
-        $this->_queryArray = $dbArray;
+        $this->queryArray = $dbArray;
     }
 
     /**
@@ -800,7 +965,7 @@ class Db
      */
     public function getDbArray()
     {
-        return $this->_queryArray;
+        return $this->queryArray;
     }
 
     /**
@@ -808,7 +973,7 @@ class Db
      */
     public function setDbQueryResult($dbQueryResult)
     {
-        $this->_queryResult = $dbQueryResult;
+        $this->queryResult = $dbQueryResult;
     }
 
     /**
@@ -816,7 +981,7 @@ class Db
      */
     public function getDbQueryResult()
     {
-        return $this->_queryResult;
+        return $this->queryResult;
     }
 
     /**
@@ -824,7 +989,7 @@ class Db
      */
     public function setDbRowIdentifier($dbRowIdentifier)
     {
-        $this->_queryRowIdentifier = $dbRowIdentifier;
+        $this->queryRowIdentifier = $dbRowIdentifier;
     }
 
     /**
@@ -832,7 +997,7 @@ class Db
      */
     public function getDbRowIdentifier()
     {
-        return $this->_queryRowIdentifier;
+        return $this->queryRowIdentifier;
     }
 
     /**
@@ -944,7 +1109,7 @@ class Db
     /**
      * =dbFieldFlags
      *
-     * Returns flags associated with enumerated field (for example, NOT NULL,
+     * Returns flags associated with enumerated field (for example, NOT null,
      * AUTO_INCREMENT, BINARY).
      */
     public function dbFieldFlags()
@@ -969,7 +1134,7 @@ class Db
     /**
      * =dbInsertId
      *
-     * Returns AUTO_INCREMENTED ID of INSERT; or FALSE if insert failed or last query
+     * Returns AUTO_INCREMENTED ID of INSERT; or false if insert failed or last query
      * was not an insert.
      */
     public function dbInsertId()
@@ -1021,7 +1186,7 @@ class Db
      */
     public function dbErrNo()
     {
-        return $this->_conn->ErrorNo();
+        return $this->conn->ErrorNo();
     }
 
     /**
@@ -1031,7 +1196,7 @@ class Db
      */
     public function dbErrorMsg()
     {
-        return $this->_conn->ErrorMsg();
+        return $this->conn->ErrorMsg();
     }
 }
 

@@ -17,12 +17,21 @@ echo '<br />Begin Testing Acms.Core.Template<br />';
 echo '<br />';
 //*/
 
+/*
 $select = $connection->newSelect();
 $select->cols(['name, folder_path, folder_name, author, author_email, author_site'])
     ->from('a_themes')
     ->where('id = :id');
 $bind = ['id' => intval(VENUE_THEME)];
 $fields = $connection->fetchOne($select, $bind);
+$theme_path = $fields['folder_path'] . $fields['folder_name'];
+//*/
+
+$sql->dbSelect('themes',
+    'name, folder_path, folder_name, author, author_email, author_site',
+    'id = :id',
+    ['id' => intval(VENUE_THEME)]);
+$fields = $sql->dbFetch('one');
 $theme_path = $fields['folder_path'] . $fields['folder_name'];
 
 include TEMPLATES . 'nav.php';

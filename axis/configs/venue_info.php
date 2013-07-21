@@ -10,17 +10,25 @@
     $row = $sql->dbFetch();
     //*/
 
+    /*
     $select = $connection->newSelect();
     $select->cols(['name, title, tagline, description, active_theme, venue_admin, default_plugin, maintenance_flag'])
     ->from('a_venues')
     ->where('id = :id');
     $bind = ['id' => intval(1)];
     $fields = $connection->fetchOne($select, $bind);
+    //*/
+
+    $sql->dbSelect('venues',
+        'name, title, tagline, description, active_theme, venue_admin, default_plugin, maintenance_flag',
+        'id = :id',
+        ['id' => intval(1)]);
+    $fields = $sql->dbFetch('one');
 
     /*
-    echo '<br />$fields = ';
+    echo '<br /><pre>$fields = ';
     echo print_r($fields);
-    echo '<br />';
+    echo '</pre><br />';
 
     echo '$fields["name"] = ' . $fields['name'];
     exit;
@@ -47,12 +55,20 @@
     $row = $sql->dbFetch();
     //*/
 
+    /*
     $select = $connection->newSelect();
     $select->cols(['name, title, tagline, description, active_theme, venue_admin, default_plugin, maintenance_flag'])
     ->from('a_venues')
     ->where('name = :name');
     $bind = ['name' => $pathVenue]; // $pathVenue is defined in 'load_router.php'
     $fields = $connection->fetchOne($select, $bind);
+    //*/
+
+    $sql->dbSelect('venues',
+        'name, title, tagline, description, active_theme, venue_admin, default_plugin, maintenance_flag',
+        'name = :name',
+        ['name' => $pathVenue]); // $pathVenue is defined in 'load_router.php'
+    $fields = $sql->dbFetch('one');
 
     define("VENUE_NAME",             $fields['name']);
     define("VENUE_TITLE",            $fields['title']);

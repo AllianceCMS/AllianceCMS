@@ -5,15 +5,23 @@
  *
  */
 
+/*
 $select = $connection->newSelect();
 $select->cols(['label, url'])
 ->from('a_links')
 ->where('location = :location')
 ->where('active = :active')
 ->orderBy(['link_order']);
-
 $bind = ['location' => intval(1), 'active' => intval(2)];
 $links = $connection->fetchAll($select, $bind);
+//*/
+
+$sql->dbSelect('links',
+    'label, url',
+    'location = :location AND active = :active',
+    ['location' => intval(1), 'active' => intval(2)],
+    'ORDER BY link_order');
+$links = $sql->dbFetch();
 
 /*
 echo '<br />$links: ';
