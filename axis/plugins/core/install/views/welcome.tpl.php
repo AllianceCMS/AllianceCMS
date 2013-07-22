@@ -25,9 +25,9 @@
     We Will Now Walk You Through The Installation Process
 </p>
 
-<?php $formHelper->inputFormStart("index.php"); ?>
+<?php $formHelper->inputFormStart('/install/language'); ?>
     <p>
-        <?php $formHelper->inputHidden("install", "1"); ?>
-        <?php $formHelper->inputSubmit("submit", "Start Installation", array("class" => "button")); ?>
+        <?php $formHelper->inputHidden('install', '1'); ?>
+        <?php $formHelper->inputSubmit('submit', 'Start Installation', array('class' => 'button')); ?>
     </p>
 <?php $formHelper->inputFormEnd(); ?>

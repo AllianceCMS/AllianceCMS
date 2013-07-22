@@ -1,1 +1,0 @@
-<h1>Install AlliancCMS</h1>

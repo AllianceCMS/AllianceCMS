@@ -16,36 +16,69 @@ class Template {
     }
 
     /**
+     * Check if array is associative or sequential
+     *
+     * @param $file string the file name you want to load
+     */
+    public function isAssoc($arr = null) {
+        if (is_array($arr)) {
+            return array_keys($arr) !== range(0, count($arr) - 1);
+        }
+    }
+
+    /**
      * Set a template variable.
      */
     public function set($name, $value) {
+
+
         if (is_array($value)) {
-            for ($i = 0; $i < count($value); $i++) {
-                if (is_object($value[$i])) {
-                    if ($value[$i] instanceof Template) {
-                        $this->vars[$name][$i] = $value[$i]->fetch();
+            // Process associative array
+            if ($this->isAssoc($value)) {
+                foreach ($value as $key => $val) {
+                    if (is_object($value[$key])) {
+                        if ($value[$key] instanceof Template) {
+                            $this->vars[$name][$key] = $value[$key]->fetch();
+                        } else {
+                            $this->vars[$name][$key] = $value[$key];
+                        }
                     } else {
-                        $this->vars[$name][$i] = $value[$i];
+                        $this->vars[$name] = $value; // original
+                        //$this->vars[$name][$key] = $value; // testing, for menu functionality
                     }
-                } else {
-                    $this->vars[$name] = $value; // original
-                    //$this->vars[$name][$i] = $value; // testing, for menu functionality
+                    $this->vars[$name][$key] = is_object($value[$key]) ? $value[$key]->fetch() : $value[$key];
                 }
-                $this->vars[$name][$i] = is_object($value[$i]) ? $value[$i]->fetch() : $value[$i];
+
+            } else {
+                // Process sequential array
+                for ($i = 0; $i < count($value); $i++) {
+                    if (is_object($value[$i])) {
+                        if ($value[$i] instanceof Template) {
+                            $this->vars[$name][$i] = $value[$i]->fetch();
+                        } else {
+                            $this->vars[$name][$i] = $value[$i];
+                        }
+                    } else {
+                        $this->vars[$name] = $value; // original
+                        //$this->vars[$name][$i] = $value; // testing, for menu functionality
+                    }
+                    $this->vars[$name][$i] = is_object($value[$i]) ? $value[$i]->fetch() : $value[$i];
+                }
             }
         } else {
             if (is_object($value)) {
+
+                // Process object
                 if ($value instanceof Template) {
                     $this->vars[$name] = $value->fetch();
                 } else {
                     $this->vars[$name] = $value;
                 }
             } else {
+                // Process variable
                 $this->vars[$name] = $value;
             }
-
         }
-
     }
 
     /**

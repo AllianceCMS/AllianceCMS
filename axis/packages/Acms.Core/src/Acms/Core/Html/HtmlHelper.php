@@ -1,5 +1,36 @@
 <?php
+/**
+ * @file
+ * HTML Helper.
+ */
 
+/**
+ * @defgroup HtmlHelpers HTML Helpers
+ * @{
+ * Documentation for all HTML Helper related functionality.
+ * @}
+ */
+
+/**
+ *
+ * @defgroup HtmlHelper HtmlHelper Functionality
+ * @ingroup HtmlHelpers
+ * @{
+ *
+ * Documentation for HtmlHelper Class
+ *
+ */
+
+/**
+ * Class HtmlHelper
+ *
+ * This Class is used to process html tags.
+ *
+ * Functions of this Class:
+ * Create and Setup HTML tags
+ * Improve Security by Validating Input and Escape Output on the fly
+ *
+ */
 
 namespace Acms\Core\Html;
 
@@ -44,3 +75,6 @@ class HtmlHelper
 
     }
 }
+
+/** @} */ // End group HtmlHelper */
+

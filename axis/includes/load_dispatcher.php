@@ -25,6 +25,12 @@ if ($dispatch) {
         $controller = 'index';
     }
 
+    /*
+    echo '<br /><pre>$auraRoute: ';
+    echo print_r($auraRoute);
+    echo '</pre><br />';
+    //*/
+
     // Assign the controller to the body of the base/theme template
     $body = $controller($auraRoute->values);
     $tpl->set("body",	$body);

@@ -45,7 +45,7 @@ $finderVenues = new Finder();
 $finderVenues
 ->files()
 ->name('main.php')
-->in(VENUES);
+->in(ZONES);
 
 foreach ($finderVenues as $file) {
     // Print the absolute path

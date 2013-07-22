@@ -73,7 +73,8 @@ define("THIS_QUERY_STRING", $thisQueryString); // Used in nav.tpl.php
 
 // AllianceCMS folder locations
 define("AXIS", BASE_DIR . 'axis' . DS);
-define("VENUES", BASE_DIR . 'venues' . DS);
+//define("VENUES", BASE_DIR . 'venues' . DS);
+define("ZONES", BASE_DIR . 'zones' . DS);
 define("PUBLIC_HTML", BASE_DIR . 'public_html' . DS);
 
 // System folder locations
@@ -89,8 +90,9 @@ define("PACKAGE_ACMS_CORE", PACKAGES . 'Acms.Core' . DS . 'src' . DS . 'Acms' . 
 define('PLUGINS_AXIS', AXIS . 'plugins' . DS);
 //define('THEMES_AXIS', AXIS . 'themes' . DS);
 
-// Venue plugin/theme folder locations
-define('PLUGINS_VENUES', VENUES . 'plugins' . DS);
+// Domains plugin/theme folder locations
+define('PLUGINS_ZONES', ZONES . 'plugins' . DS);
+//define('PLUGINS_VENUES', VENUES . 'plugins' . DS);
 //define('THEMES_VENUES', VENUES . 'themes' . DS);
 
 // Theme/Template folder locations
@@ -99,7 +101,7 @@ define('THEMES', PUBLIC_HTML . 'themes' . DS);
 define('TEMPLATES', THEMES . DS . 'templates' . DS);
 
 // Database connections file location
-define("DBCONNFILE", VENUES . DS . 'default' . DS . 'dbConnections.php');
+define("DBCONNFILE", ZONES . DS . 'default' . DS . 'dbConnections.php');
 //*/
 
 //*

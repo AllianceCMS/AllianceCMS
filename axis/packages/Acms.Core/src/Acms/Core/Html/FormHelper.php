@@ -1,21 +1,21 @@
 <?php
-
 /**
- * forms.php: This is a Form proccessing Class, part of the htmlHelper package
- * This Class is used to process forms.
- *
- * Functions of this Class:
- * Create and Setup HTML Forms
- * Create and Setup Common Form Input Fields
- * Improve Security by Validating Input and Escape Output on the fly
- *
- * @author Jesse Burns <jburns131@jbwebware.com>
- * @version 0.01
- * @package htmlHelper
+ * @file
+ * Form Helper.
  */
 
 /**
- * Class htmlFormHelper
+ *
+ * @defgroup FormHelper FormHelper Functionality
+ * @ingroup HtmlHelpers
+ * @{
+ *
+ * Documentation for FormHelper Class
+ *
+ */
+
+/**
+ * Class FormHelper
  *
  * This Class is used to process forms.
  *
@@ -23,9 +23,6 @@
  * Create and Setup HTML Forms
  * Create and Setup Common Form Input Fields
  * Improve Security by Validating Input and Escape Output on the fly
- *
- * @package htmlHelper
- * @subpackage htmlFormHelper
  */
 
 namespace Acms\Core\Html;
@@ -523,3 +520,5 @@ class FormHelper
     }
 
 }
+
+/** @} */ // End group FormHelper */
