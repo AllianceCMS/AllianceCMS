@@ -1,31 +1,31 @@
 <?php
 
     if (empty($siteName)) {
-        $siteName = "";
+        $siteName = '';
     }
-    
+
     if (empty($siteTitle)) {
-        $siteTitle = "";
+        $siteTitle = '';
     }
-    
+
     if (empty($siteTagline)) {
-        $siteTagline = "";
+        $siteTagline = '';
     }
-    
+
     if (empty($siteEmail)) {
-        $siteEmail = "";
+        $siteEmail = '';
     }
-    
+
     if (empty($siteEmailName)) {
-        $siteEmailName = "";
+        $siteEmailName = '';
     }
-    
+
     if (empty($siteDescription)) {
-        $siteDescription = "";
+        $siteDescription = '';
     }
-    
+
     if (empty($siteKeywords)) {
-        $siteKeywords = "";
+        $siteKeywords = '';
     }
 ?>
 
@@ -33,9 +33,9 @@
     <strong>Please Confirm This Site Information, Then Install Site</strong>
 </p>
 
-<div class="content_separator"></div>
+<div class='content_separator'></div>
 
-<table class="data_table">
+<table class='data_table'>
     <tr>
         <td>
             <strong>Website Name:</strong>
@@ -77,52 +77,48 @@
         </td>
     </tr>
     <tr>
-        <td style="vertical-align: top;">
+        <td style='vertical-align: top;'>
             <strong>Description:</strong>
         </td>
         <td>
-            <?php $formHelper->inputTextArea("siteDescription", $siteDescription, "", 7, 25, "", 1); ?>
+            <?php $formHelper->inputTextArea('siteDescription', $siteDescription, '', 7, 25, '', 1); ?>
         </td>
     </tr>
     <tr>
-        <td style="vertical-align: top;">
+        <td style='vertical-align: top;'>
             <strong>Keywords:</strong>
         </td>
         <td>
-            <?php $formHelper->inputTextArea("siteKeywords", $siteKeywords, "", 7, 25, "", 1); ?>
+            <?php $formHelper->inputTextArea('siteKeywords', $siteKeywords, '', 7, 25, '', 1); ?>
         </td>
     </tr>
 </table>
 
-<div style="float: left; margin:0 5px 5px 0;">
+<div style='float: left; margin:0 5px 5px 0;'>
     <?php
-        $formHelper->inputFormStart("index.php");
-        $formHelper->inputHidden("install", "7");
-        
-        for ($i = 0; $i < count($installData); $i++) {
-            foreach($installData[$i] as $attribute => $value) {
-                $formHelper->inputHidden($attribute, $value);
-            }
+        $formHelper->inputFormStart('/install/site-info');
+        $formHelper->inputHidden('install', '7');
+
+        foreach($installData as $attribute => $value) {
+            $formHelper->inputHidden($attribute, $value);
         }
-        
-        $formHelper->inputSubmit("", "Go Back", array("class" => "button"));
-        $formHelper->inputFormEnd(); 
+
+        $formHelper->inputSubmit('', 'Go Back', array('class' => 'button'));
+        $formHelper->inputFormEnd();
     ?>
 </div>
 
 <div>
     <?php
-        $formHelper->inputFormStart("index.php");
-        $formHelper->inputHidden("install", "9");
-        
-        for ($i = 0; $i < count($installData); $i++) {
-            foreach($installData[$i] as $attribute => $value) {
-                $formHelper->inputHidden($attribute, $value);
-            }
+        $formHelper->inputFormStart('/install/confirm-installation');
+        $formHelper->inputHidden('install', '9');
+
+        foreach($installData as $attribute => $value) {
+            $formHelper->inputHidden($attribute, $value);
         }
-        
-        $formHelper->inputSubmit("", "Continue", array("class" => "button"));
-        $formHelper->inputFormEnd(); 
+
+        $formHelper->inputSubmit('', 'Continue', array('class' => 'button'));
+        $formHelper->inputFormEnd();
     ?>
 </div>
-<div style="clear: left"></div>
+<div style='clear: left'></div>

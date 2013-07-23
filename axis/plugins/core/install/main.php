@@ -305,7 +305,7 @@ function install_confirm_db_info($routeValues)
         $body->set('formHelper',  $formHelper);
         $body->set('installData', $installData);
 
-        // Setup any installation data that is in $_POST
+        // Set template vars from $_POST
         foreach($_POST as $attribute => $value) {
             if ((!($attribute == 'install')) && (!($attribute == 'installData')) && (!($attribute == 'submit'))) {
                 if ($value != '') {
@@ -395,8 +395,9 @@ function install_test_db_connection($routeValues)
         $dbPrefix = '';
     }
 
+    //*
     // Create connection (lazy-connection, won't connect to db unless a query is submitted, hense Db::dbActiveConnect)
-    $return = $sql->dbConnect(
+    $sql->dbConnect(
         $dbAdapter,
         $dbHostName,
         $dbDatabase,
@@ -404,14 +405,72 @@ function install_test_db_connection($routeValues)
         $dbPassword
     );
 
+    /*
+     // Actively connect to database, if an exception is thrown then the connection failed
+    try {
+    $sql->dbActiveConnect();
+    $validConnection = 1;
+    }
+    catch (PDOException $e) {
+    $validConnection = '';
+    }
+    //*/
+
+    //*
     // Actively connect to database, if an exception is thrown then the connection failed
     try {
-        $sql->dbActiveConnect();
+        $sql->dbValidConnection();
         $validConnection = 1;
     }
     catch (PDOException $e) {
         $validConnection = '';
     }
+    //*/
+
+    /*
+    if ($sql->dbValidConnection()) {
+        $validConnection = 1;
+    } else {
+        $validConnection = '';
+    }
+    //*/
+
+    /*
+    $connection_factory = new Aura\Sql\ConnectionFactory();
+    $connection = $connection_factory->newInstance(
+
+        // adapter name
+        $dbAdapter,
+
+        // DSN elements for PDO; this can also be
+        // an array of key-value pairs
+        'host='.$dbHostName.';dbname='.$dbDatabase,
+
+        // username for the connection
+        $dbUserName,
+
+        // password for the connection
+        $dbPassword
+    );
+
+    $pdo = null;
+    try {
+        $pdo = $connection->getPdo();
+        //$connection->connect();
+        //$validConnection = 1;
+    } catch (Exception $e) {
+        // on failure
+        //$validConnection = '';
+    }
+
+    if ($pdo) {
+        // Success, Continue
+        $validConnection = 1;
+    } else {
+        // Failed, Go back and enter proper credentials
+        $validConnection = '';
+    }
+    //*/
 
     // End DB Connection Test
 
@@ -433,7 +492,7 @@ function install_test_db_connection($routeValues)
     $body->set('installData',     $installData);
     $body->set('validConnection', $validConnection);
 
-    // Setup any installation data that is in $_POST
+    // Set template vars from $_POST
     foreach($_POST as $attribute => $value) {
         if ((!($attribute == 'install')) && (!($attribute == 'installData')) && (!($attribute == 'submit'))) {
             $body->set($attribute, $value);
@@ -554,12 +613,12 @@ function install_admin_info($routeValues)
                 }
             }
         }
-    }
-
-    // Setup any installation data that is in $_POST
-    foreach($_POST as $attribute => $value) {
-        if ((!($attribute == 'install')) && (!($attribute == 'installData')) && (!($attribute == 'submit'))) {
-            $body->set($attribute, $value);
+    } else {
+        // Set template vars from $_POST
+        foreach($_POST as $attribute => $value) {
+            if ((!($attribute == 'install')) && (!($attribute == 'installData')) && (!($attribute == 'submit'))) {
+                $body->set($attribute, $value);
+            }
         }
     }
 
@@ -684,7 +743,7 @@ function install_confirm_admin_info($routeValues)
         $body->set('formHelper',  $formHelper);
         $body->set('installData', $installData);
 
-        // Setup any installation data that is in $_POST
+        // Set template vars from $_POST
         foreach($_POST as $attribute => $value) {
             if ((!($attribute == 'install')) && (!($attribute == 'installData')) && (!($attribute == 'submit'))) {
                 if ($value != '') {
@@ -746,6 +805,9 @@ function install_site_info($routeValues)
 
     // Prompt For Site Info
 
+    // Create FormHelper object for use in templates
+    $formHelper = new FormHelper();
+
     foreach($_POST as $key => $value) {
         if ((!($key == 'install')) && (!($key == 'installData')) && (!($key == 'submit'))) {
             $installData[$key] = $value;
@@ -755,10 +817,10 @@ function install_site_info($routeValues)
     $tpl = new Template;
     $tpl->set('title',	    'AllianceCMS: Installation');
     $tpl->set('author',	    'jburns131');
-    $tpl->set('styleSheet',	THEMES.'emplode'.DS.'style.css');
+    $tpl->set('styleSheet',	BASE_URL . 'themes/core/emplode/css/style.css');
 
-    $body = new Template('views'.DS.'siteInfo.tpl.php');
-    $body->set('images',      THEMES.'emplode'.DS.'images');
+    $body = new Template(dirname(__FILE__) . DS . 'views' . DS . 'siteInfo.tpl.php');
+    $body->set('images',      BASE_URL . 'themes/core/emplode/images');
     $body->set('formHelper',  $formHelper);
     $body->set('installData', $installData);
 
@@ -768,14 +830,14 @@ function install_site_info($routeValues)
         }
     }
 
-    $menu[0] = new Template('views'.DS.'menu.tpl.php');
+    $menu[0] = new Template(dirname(__FILE__) . DS . 'views' . DS . 'menu.tpl.php');
     $menu[0]->set('installStage', '6');
-    $menu[0]->set('images',       THEMES.'emplode'.DS.'images');
+    $menu[0]->set('images',       BASE_URL . 'themes/core/emplode/images');
 
     $tpl->set('body', $body);
     $tpl->set('menu', $menu);
 
-    echo $tpl->fetch('views'.DS.'theme.tpl.php');
+    echo $tpl->fetch(dirname(__FILE__) . DS . 'views' . DS . 'theme.tpl.php');
     exit;
 }
 
@@ -817,39 +879,46 @@ function install_confirm_site_info($routeValues)
 
     // Confirm Site Info
 
-    $count = 0;
+    // Create FormHelper object for use in templates
+    $formHelper = new FormHelper();
+
+    // Setup any installation data that's in $_POST
     foreach($_POST as $key => $value) {
         if ((!($key == 'install')) && (!($key == 'installData')) && (!($key == 'submit'))) {
-            $installData[$count] = array($key => $value);
-            $count++;
+            $installData[$key] = $value;
         }
     }
-    unset($count);
 
+    // Setup theme template (only Install plugin should have to do this, once installed axis will take care of this)
     $tpl = new Template;
     $tpl->set('title',	    'AllianceCMS: Installation');
     $tpl->set('author',	    'jburns131');
-    $tpl->set('styleSheet',	THEMES.'emplode'.DS.'style.css');
+    $tpl->set('styleSheet',	BASE_URL . 'themes/core/emplode/css/style.css');
 
-    $body = new Template('views'.DS.'siteConfirm.tpl.php');
-    $body->set('images',      THEMES.'emplode'.DS.'images');
+    // Setup body of plugin template
+    $body = new Template(dirname(__FILE__) . DS . 'views' . DS . 'siteConfirm.tpl.php');
+    $body->set('images',      BASE_URL . 'themes/core/emplode/images');
     $body->set('formHelper',  $formHelper);
     $body->set('installData', $installData);
 
+    // Set template vars from $_POST
     foreach($_POST as $attribute => $value) {
         if ((!($attribute == 'install')) && (!($attribute == 'installData')) && (!($attribute == 'submit'))) {
             $body->set($attribute, $value);
         }
     }
 
-    $menu[0] = new Template('views'.DS.'menu.tpl.php');
+    // Create menu template
+    $menu[0] = new Template(dirname(__FILE__) . DS . 'views' . DS . 'menu.tpl.php');
     $menu[0]->set('installStage', '7');
-    $menu[0]->set('images',       THEMES.'emplode'.DS.'images');
+    $menu[0]->set('images',       BASE_URL . 'themes/core/emplode/images');
 
+    // Pass body and menu template to theme template (only Install plugin should have to do this, once installed axis will take care of this)
     $tpl->set('body', $body);
     $tpl->set('menu', $menu);
 
-    echo $tpl->fetch('views'.DS.'theme.tpl.php');
+    // Render theme template (only Install plugin should have to do this, once installed axis will take care of this)
+    echo $tpl->fetch(dirname(__FILE__) . DS . 'views' . DS . 'theme.tpl.php');
     exit;
 }
 
@@ -891,22 +960,22 @@ function install_confirm_installation($routeValues)
 
     // ok To Install?
 
-    $count = 0;
+    // Create FormHelper object for use in templates
+    $formHelper = new FormHelper();
+
     foreach($_POST as $key => $value) {
         if ((!($key == 'install')) && (!($key == 'installData')) && (!($key == 'submit'))) {
-            $installData[$count] = array($key => $value);
-            $count++;
+            $installData[$key] = $value;
         }
     }
-    unset($count);
 
     $tpl = new Template;
     $tpl->set('title',	    'AllianceCMS: Installation');
     $tpl->set('author',	    'jburns131');
-    $tpl->set('styleSheet',	THEMES.'emplode'.DS.'style.css');
+    $tpl->set('styleSheet',	BASE_URL . 'themes/core/emplode/css/style.css');
 
-    $body = new Template('views'.DS.'siteConfirmInstall.tpl.php');
-    $body->set('images',      THEMES.'emplode'.DS.'images');
+    $body = new Template(dirname(__FILE__) . DS . 'views' . DS . 'siteConfirmInstall.tpl.php');
+    $body->set('images',      BASE_URL . 'themes/core/emplode/images');
     $body->set('formHelper',  $formHelper);
     $body->set('installData', $installData);
 
@@ -916,14 +985,14 @@ function install_confirm_installation($routeValues)
         }
     }
 
-    $menu[0] = new Template('views'.DS.'menu.tpl.php');
+    $menu[0] = new Template(dirname(__FILE__) . DS . 'views' . DS . 'menu.tpl.php');
     $menu[0]->set('installStage', '8');
-    $menu[0]->set('images',       THEMES.'emplode'.DS.'images');
+    $menu[0]->set('images',       BASE_URL . 'themes/core/emplode/images');
 
     $tpl->set('body', $body);
     $tpl->set('menu', $menu);
 
-    echo $tpl->fetch('views'.DS.'theme.tpl.php');
+    echo $tpl->fetch(dirname(__FILE__) . DS . 'views' . DS . 'theme.tpl.php');
     exit;
 }
 
@@ -962,6 +1031,8 @@ function install_complete_installation($routeValues)
     echo '</pre><br />';
     //*/
 
+    // Complete Installation
+
     //*
     // Create Database Tables
     // If Clean Installation: Go To 'cleanup.php' File That Deletes 'Install.php', Fixes File Permissions And Links To Main Site
@@ -973,22 +1044,27 @@ function install_complete_installation($routeValues)
         require_once('install.data.php');
     }
 
+    // Installation Complete Page
+
+    // Create FormHelper object for use in templates
+    $formHelper = new FormHelper();
+
     $tpl = new Template;
     $tpl->set('title',	    'AllianceCMS: Installation');
     $tpl->set('author',	    'jburns131');
-    $tpl->set('styleSheet',	THEMES.'emplode'.DS.'style.css');
+    $tpl->set('styleSheet',	BASE_URL . 'themes/core/emplode/css/style.css');
 
-    $body = new Template('views'.DS.'installComplete.tpl.php');
-    $body->set('images',     THEMES.'emplode'.DS.'images');
+    $body = new Template(dirname(__FILE__) . DS . 'views' . DS . 'installComplete.tpl.php');
+    $body->set('images',     BASE_URL . 'themes/core/emplode/images');
     $body->set('formHelper', $formHelper);
 
-    $menu[0] = new Template('views'.DS.'menu.tpl.php');
+    $menu[0] = new Template(dirname(__FILE__) . DS . 'views' . DS . 'menu.tpl.php');
     $menu[0]->set('installStage', '9');
-    $menu[0]->set('images',       THEMES.'emplode'.DS.'images');
+    $menu[0]->set('images',       BASE_URL . 'themes/core/emplode/images');
 
     $tpl->set('body', $body);
     $tpl->set('menu', $menu);
 
-    echo $tpl->fetch('views'.DS.'theme.tpl.php');
+    echo $tpl->fetch(dirname(__FILE__) . DS . 'views' . DS . 'theme.tpl.php');
     exit;
 }

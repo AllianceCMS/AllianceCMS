@@ -1,31 +1,31 @@
 <?php
 
     if (empty($siteName)) {
-        $siteName = "";
+        $siteName = '';
     }
-    
+
     if (empty($siteTitle)) {
-        $siteTitle = "";
+        $siteTitle = '';
     }
-    
+
     if (empty($siteTagline)) {
-        $siteTagline = "";
+        $siteTagline = '';
     }
-    
+
     if (empty($siteEmail)) {
-        $siteEmail = "";
+        $siteEmail = '';
     }
-    
+
     if (empty($siteEmailName)) {
-        $siteEmailName = "";
+        $siteEmailName = '';
     }
-    
+
     if (empty($siteDescription)) {
-        $siteDescription = "";
+        $siteDescription = '';
     }
-    
+
     if (empty($siteKeywords)) {
-        $siteKeywords = "";
+        $siteKeywords = '';
     }
 ?>
 
@@ -33,16 +33,16 @@
     <strong>Please Enter Your Site Information</strong>
 </p>
 
-<div class="content_separator"></div>
+<div class='content_separator'></div>
 
-<?php $formHelper->inputFormStart("index.php"); ?>
-    <table class="data_table">
+<?php $formHelper->inputFormStart('/install/confirm-site-info'); ?>
+    <table class='data_table'>
         <tr>
             <td>
                 <strong>Website Name:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText("siteName", $siteName); ?>
+                <?php $formHelper->inputText('siteName', $siteName); ?>
             </td>
         </tr>
         <tr>
@@ -50,7 +50,7 @@
                 <strong>Title:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText("siteTitle", $siteTitle); ?>
+                <?php $formHelper->inputText('siteTitle', $siteTitle); ?>
             </td>
         </tr>
         <tr>
@@ -58,7 +58,7 @@
                 <strong>Tagline:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText("siteTagline", $siteTagline); ?>
+                <?php $formHelper->inputText('siteTagline', $siteTagline); ?>
             </td>
         </tr>
         <tr>
@@ -67,7 +67,7 @@
                 Email Address That Users Will Receive Emails From (admin@yoursite.com)
             </td>
             <td>
-                <?php $formHelper->inputText("siteEmail", $siteEmail); ?>
+                <?php $formHelper->inputText('siteEmail', $siteEmail); ?>
             </td>
         </tr>
         <tr>
@@ -76,39 +76,37 @@
                 Title Of Email Address That Users Will Receive Emails From (Site Admin)
             </td>
             <td>
-                <?php $formHelper->inputText("siteEmailName", $siteEmailName); ?>
+                <?php $formHelper->inputText('siteEmailName', $siteEmailName); ?>
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: top;">
+            <td style='vertical-align: top;'>
                 <strong>Description:</strong>
             </td>
             <td>
-                <?php $formHelper->inputTextArea("siteDescription", $siteDescription, "", 7, 25); ?>
+                <?php $formHelper->inputTextArea('siteDescription', $siteDescription, '', 7, 25); ?>
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: top;">
+            <td style='vertical-align: top;'>
                 <strong>Keywords:</strong>
             </td>
             <td>
-                <?php $formHelper->inputTextArea("siteKeywords", $siteKeywords, "", 7, 25); ?>
+                <?php $formHelper->inputTextArea('siteKeywords', $siteKeywords, '', 7, 25); ?>
             </td>
         </tr>
     </table>
-    
+
     <?php
-        $formHelper->inputHidden("install", "8");
-        
-        for ($i = 0; $i < count($installData); $i++) {
-            foreach($installData[$i] as $attribute => $value) {
-                if (((string)(strpos($attribute, "site")) !== ((string)0))) {
-                    $formHelper->inputHidden($attribute, $value);
-                }
+        $formHelper->inputHidden('install', '8');
+
+        foreach($installData as $attribute => $value) {
+            if (((string)(strpos($attribute, 'site')) !== ((string)0)) || ($attribute == 'language')) {
+                $formHelper->inputHidden($attribute, $value);
             }
         }
-        
-        $formHelper->inputSubmit("", "Continue", array("class" => "button"));
+
+        $formHelper->inputSubmit('', 'Continue', array('class' => 'button'));
     ?>
-    
+
 <?php $formHelper->inputFormEnd(); ?>

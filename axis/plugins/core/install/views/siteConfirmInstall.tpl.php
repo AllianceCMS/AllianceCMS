@@ -12,13 +12,11 @@
     <?php
         $formHelper->inputFormStart("index.php");
         $formHelper->inputHidden("install", "10");
-        
-        for ($i = 0; $i < count($installData); $i++) {
-            foreach($installData[$i] as $attribute => $value) {
-                $formHelper->inputHidden($attribute, $value);
-            }
+
+        foreach($installData as $attribute => $value) {
+            $formHelper->inputHidden($attribute, $value);
         }
-        
+
         $formHelper->inputSubmit("", "Install Site", array("class" => "button"));
         $formHelper->inputFormEnd();
     ?>

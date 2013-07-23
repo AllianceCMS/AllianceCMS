@@ -59,7 +59,7 @@ class Db
     public function debug($value)
     {
         // return $this->connObject->debug = $value;
-        return $this->conn->debug = $value;
+        return $this->connection->debug = $value;
     }
     //*/
 
@@ -86,6 +86,20 @@ class Db
 
     /**
      * Connects to database server and selects database.
+     *
+     * Db::__construct will do this for you if 'dbConnections.php' exists.
+     *
+     * Example: Manually creating 'lazy-connect' connection (should use axis $sql Db object most times):
+     * @code
+     * $sql = new Acms\Core\Data\Db;
+     * $sql->dbConnect(
+     *     $dbAdapter,
+     *     $dbHostName,
+     *     $dbDatabase,
+     *     $dbUserName,
+     *     $dbPassword
+     * );
+     * @endcode
      *
      * Db::__construct should be the only one using this method.
      *
@@ -129,7 +143,7 @@ class Db
         }
 
         $connection_factory = new ConnectionFactory();
-        $this->conn = $connection_factory->newInstance(
+        $this->connection = $connection_factory->newInstance(
 
             // adapter name
             $dbAdapter,
@@ -174,24 +188,90 @@ class Db
 
     public function dbActiveConnect()
     {
-        //*
+        $this->connection->connect();
+    }
+
+    /**
+     * Tests for valid database connection.
+     *
+     * A good way to test database credentials.
+     *
+     * Example:
+     * @code
+     * $sql->dbConnect(); // Needed to create active connection. Creates lazy-load connection. Will only create active connection once a query is executed.
+     *
+     * try {
+     *     $sql->dbValidConnection();
+     *     // Active connection success
+     *     $validConnection = 1;
+     * }
+     * catch (PDOException $e) {
+     *     // Active connection failed
+     *     $validConnection = '';
+     * }
+     *
+     * // Continue script...
+     *
+     * @endcode
+     *
+     * @return true|exception Returns true if database connection is successful, PDOException if database connection fails.
+     */
+
+    public function dbValidConnection()
+    {
+        $pdo = $this->connection->getPdo();
+        /*
+        //$this->connection->connect();
+        $pdo = null;
         try {
-            $this->conn->connect();
-            //echo '<br />Hello True<br />';
-            //return true;
-        }
-        catch (PDOException $e) {
-            //echo '<br />Hello True<br />';
-            //return false;
+            $pdo = $this->connection->getPdo();
+        } catch (Exception $e) {
+            // Continue on failure
         }
         //*/
 
         /*
-        if ($this->conn->connect()) {
+        if ($pdo) {
+            // Success, Continue
+            //$validConnection = 1;
             return true;
         } else {
+            // Failed, Go back and enter proper credentials
+            //$validConnection = '';
             return false;
         }
+        //*/
+
+        /*
+        $pdo = null;
+        try {
+            $pdo = $this->connection->getPdo();
+            //$connection->connect();
+            //$validConnection = 1;
+        } catch (Exception $e) {
+            // on failure
+            //$validConnection = '';
+        }
+        //*/
+
+        /*
+        if ($pdo) {
+            // Success, Continue
+            $validConnection = 1;
+        } else {
+            // Failed, Go back and enter proper credentials
+            $validConnection = '';
+        }
+        //*/
+
+        /*
+        if ($pdo) {
+            return true;
+        } else {
+            // Failed, Go back and enter proper credentials
+            return false;
+        }
+        //*/
         //*/
     }
 
@@ -255,7 +335,7 @@ class Db
     public function dbExecuteQueries($queries)
     {
         for ($i = 0; $i < count($queries); $i ++) {
-            $this->setDbRecordSet($this->conn->Execute($queries[$i]));
+            $this->setDbRecordSet($this->connection->Execute($queries[$i]));
         }
     }
 
@@ -315,8 +395,8 @@ class Db
         $this->setQueryText($queryText);
         $this->setBindValues($bindValues);
 
-        //return $this->conn->fetchOne($text, $bind);
-        //$this->setDbRecordSet($this->conn->Execute($query));
+        //return $this->connection->fetchOne($text, $bind);
+        //$this->setDbRecordSet($this->connection->Execute($query));
         // $this->setDbRecordSet($this->connObject->Execute($query));
     }
 
@@ -330,7 +410,7 @@ class Db
      */
     public function dbQuery($query)
     {
-        $this->setDbRecordSet($this->conn->Execute($query));
+        $this->setDbRecordSet($this->connection->Execute($query));
         // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
     }
 
@@ -360,7 +440,7 @@ class Db
         $query = substr($query, 0, - 2);
         $query .= ")";
 
-        $this->setDbRecordSet($this->conn->Execute($query));
+        $this->setDbRecordSet($this->connection->Execute($query));
         // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
     }
 
@@ -386,7 +466,7 @@ class Db
             $query .= " WHERE " . $queryWhereClause;
         }
 
-        $this->setDbRecordSet($this->conn->Execute($query));
+        $this->setDbRecordSet($this->connection->Execute($query));
         // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
     }
 
@@ -405,7 +485,7 @@ class Db
             $query .= " WHERE " . $queryWhereClause;
         }
 
-        $this->setDbRecordSet($this->conn->Execute($query));
+        $this->setDbRecordSet($this->connection->Execute($query));
         // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
     }
 
@@ -429,7 +509,7 @@ class Db
 
         $query .= ")";
 
-        $this->setDbRecordSet($this->conn->Execute($query));
+        $this->setDbRecordSet($this->connection->Execute($query));
         // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
     }
 
@@ -471,7 +551,7 @@ class Db
                 break;
         }
 
-        $this->setDbRecordSet($this->conn->Execute($query));
+        $this->setDbRecordSet($this->connection->Execute($query));
         // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
     }
 
@@ -507,17 +587,17 @@ class Db
 
         switch ($fetchType) {
             case 'all':
-                return $this->conn->fetchAll($this->getQueryText(), $this->getBindValues());
+                return $this->connection->fetchAll($this->getQueryText(), $this->getBindValues());
             case 'assoc':
-                return $this->conn->fetchAssoc($this->getQueryText(), $this->getBindValues());
+                return $this->connection->fetchAssoc($this->getQueryText(), $this->getBindValues());
             case 'col':
-                return $this->conn->fetchCol($this->getQueryText(), $this->getBindValues());
+                return $this->connection->fetchCol($this->getQueryText(), $this->getBindValues());
             case 'one':
-                return $this->conn->fetchOne($this->getQueryText(), $this->getBindValues());
+                return $this->connection->fetchOne($this->getQueryText(), $this->getBindValues());
             case 'pairs':
-                return $this->conn->fetchPairs($this->getQueryText(), $this->getBindValues());
+                return $this->connection->fetchPairs($this->getQueryText(), $this->getBindValues());
             case 'value':
-                return $this->conn->fetchValue($this->getQueryText(), $this->getBindValues());
+                return $this->connection->fetchValue($this->getQueryText(), $this->getBindValues());
             default:
                 return false;
         }
@@ -637,7 +717,7 @@ class Db
 
     private $dbActive;
 
-    private $conn;
+    private $connection;
 
     private $connObject;
 
@@ -684,7 +764,7 @@ class Db
         $this->dbPrefix = null;
         $this->dbPersistent = null;
         $this->dbActive = null;
-        $this->conn = null;
+        $this->connection = null;
         $this->connObject = null;
         $this->queryText = null;
         $this->bindValues = null;
@@ -840,25 +920,25 @@ class Db
     }
 
     /**
-     * =setDbConn
+     * =setDbconnection
      *
      * @todo:: Finish converting to Aura.Sql
      */
-    public function setDbConn($dbAdapter = null)
+    public function setDbconnection($dbAdapter = null)
     {
         if ($dbAdapter == null) {
             $dbAdapter = $this->getDbAdapter();
         }
 
-        $this->conn = NewADOConnection($dbAdapter);
+        $this->connection = NewADOConnection($dbAdapter);
     }
 
     /**
-     * =getDbConn
+     * =getDbconnection
      */
-    public function getDbConn()
+    public function getDbconnection()
     {
-        return $this->conn;
+        return $this->connection;
     }
 
     /**
@@ -1214,7 +1294,7 @@ class Db
      */
     public function dbErrNo()
     {
-        return $this->conn->ErrorNo();
+        return $this->connection->ErrorNo();
     }
 
     /**
@@ -1224,7 +1304,7 @@ class Db
      */
     public function dbErrorMsg()
     {
-        return $this->conn->ErrorMsg();
+        return $this->connection->ErrorMsg();
     }
 }
 
