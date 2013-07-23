@@ -1,51 +1,51 @@
 <?php
     if (empty($adminLoginName)) {
-        $adminLoginName = "";
+        $adminLoginName = '';
     }
-    
+
     if (empty($adminDisplayName)) {
-        $adminDisplayName = "";
+        $adminDisplayName = '';
     }
-    
+
     if (empty($adminRealName)) {
-        $adminRealName = "";
+        $adminRealName = '';
     }
-    
+
     if (empty($adminEmail)) {
-        $adminEmail = "";
+        $adminEmail = '';
     }
-    
+
     if (empty($adminHideEmail)) {
-        $adminHideEmail = "";
+        $adminHideEmail = '';
     }
-    
+
     if (empty($adminLocation)) {
-        $adminLocation = "";
+        $adminLocation = '';
     }
-    
+
     if (empty($adminWebsite)) {
-        $adminWebsite = "";
+        $adminWebsite = '';
     }
-    
+
     if (empty($adminBio)) {
-        $adminBio = "";
+        $adminBio = '';
     }
-    
+
     if (empty($adminAvatar)) {
-        $adminAvatar = "";
+        $adminAvatar = '';
     }
-    
+
     if (empty($adminSignature)) {
-        $adminSignature = "";
+        $adminSignature = '';
     }
 ?>
 <p>
     <strong>Please Confirm The Main Administrators Information</strong>
 </p>
 
-<div class="content_separator"></div>
+<div class='content_separator'></div>
 
-<table class="data_table">
+<table class='data_table'>
     <tr>
         <td>
             <strong>Login Name:</strong>
@@ -83,7 +83,7 @@
             <strong>Hide Email Address:</strong>
         </td>
         <td>
-            <?php echo (($adminHideEmail == 1) ? "Yes" : "No"); ?>
+            <?php echo (($adminHideEmail == 1) ? 'Yes' : 'No'); ?>
         </td>
     </tr>
     <tr>
@@ -103,11 +103,11 @@
         </td>
     </tr>
     <tr>
-        <td style="vertical-align: top;">
+        <td style='vertical-align: top;'>
             <strong>Bio:</strong>
         </td>
         <td>
-            <?php $formHelper->inputTextArea("adminBio", $adminBio, "", 7, 25, "", 1); ?>
+            <?php $formHelper->inputTextArea('adminBio', $adminBio, '', 7, 25, '', 1); ?>
         </td>
     </tr>
     <tr>
@@ -119,47 +119,43 @@
         </td>
     </tr>
     <tr>
-        <td style="vertical-align: top;">
+        <td style='vertical-align: top;'>
             <strong>Signature:</strong>
         </td>
         <td>
-            <?php $formHelper->inputTextArea("adminSignature", $adminSignature, "", 7, 25, "", 1); ?>
+            <?php $formHelper->inputTextArea('adminSignature', $adminSignature, '', 7, 25, '', 1); ?>
         </td>
     </tr>
 </table>
 
-<div style="float: left; margin:0 5px 5px 0;">
-    
+<div style='float: left; margin:0 5px 5px 0;'>
+
     <?php
-        $formHelper->inputFormStart("index.php");
-        $formHelper->inputHidden("install", "5");
-        
-        for ($i = 0; $i < count($installData); $i++) {
-            foreach($installData[$i] as $attribute => $value) {
-                $formHelper->inputHidden($attribute, $value);
-            }
+        $formHelper->inputFormStart('/install/admin-info');
+        $formHelper->inputHidden('install', '5');
+
+        foreach($installData as $attribute => $value) {
+            $formHelper->inputHidden($attribute, $value);
         }
-        
-        $formHelper->inputSubmit("", "Go Back", array("class" => "button"));
-        $formHelper->inputFormEnd(); 
+
+        $formHelper->inputSubmit('', 'Go Back', array('class' => 'button'));
+        $formHelper->inputFormEnd();
     ?>
-    
+
 </div>
 
 <div>
     <?php
-        $formHelper->inputFormStart("index.php");
-        $formHelper->inputHidden("install", "7");
-        
-        for ($i = 0; $i < count($installData); $i++) {
-            foreach($installData[$i] as $attribute => $value) {
-                $formHelper->inputHidden($attribute, $value);
-            }
+        $formHelper->inputFormStart('/install/site-info');
+        $formHelper->inputHidden('install', '7');
+
+        foreach($installData as $attribute => $value) {
+            $formHelper->inputHidden($attribute, $value);
         }
-        
-        $formHelper->inputSubmit("", "Continue", array("class" => "button"));
-        $formHelper->inputFormEnd(); 
+
+        $formHelper->inputSubmit('', 'Continue', array('class' => 'button'));
+        $formHelper->inputFormEnd();
     ?>
 
 </div>
-<div style="clear: left"></div>
+<div style='clear: left'></div>

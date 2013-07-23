@@ -20,9 +20,11 @@ class Template {
      *
      * @param $file string the file name you want to load
      */
-    public function isAssoc($arr = null) {
-        if (is_array($arr)) {
-            return array_keys($arr) !== range(0, count($arr) - 1);
+    public function isAssoc($array = null) {
+        if (is_array($array)) {
+            foreach(array_keys($array) as $key)
+        		if (!is_int($key)) return TRUE;
+        	return FALSE;
         }
     }
 

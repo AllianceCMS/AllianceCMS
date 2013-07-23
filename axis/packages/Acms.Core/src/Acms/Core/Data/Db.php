@@ -70,7 +70,7 @@ class Db
             require_once(DBCONNFILE);
 
             $this->setDbAdapter(DB_ADAPTER);
-            $this->setDbHost(DB_HOST);
+            $this->setDbHostName(DB_HOST);
             $this->setDbUser(DB_USER);
             $this->setDbPassword(DB_PASSWORD);
             $this->setDbName(DB_NAME);
@@ -90,8 +90,8 @@ class Db
      * Db::__construct should be the only one using this method.
      *
      * @param string $dbAdapter
-     *     Database adapter name: i.e. mysql, pgsql, sqlite, sqlsrv
-     * @param string $dbHost
+     *     Database adapter name: i.e. MySQL = mysql, PostgreSQL = pgsql, SQLite3 = sqlite, Microsoft SQL Server = sqlsrv
+     * @param string $dbHostName
      *     IP or hostname of the database server
      * @param string $dbDbName
      *     Database name
@@ -100,10 +100,10 @@ class Db
      * @param string $dbPassword
      *     Database Password
      *
-     * @return true|false Returns true if database connection is successful, false if database connection fails.
+     * @return object
      */
 
-    public function dbConnect($dbAdapter = null, $dbHost = null, $dbDbName = null, $dbUser = null, $dbPassword = null)
+    public function dbConnect($dbAdapter = null, $dbHostName = null, $dbDbName = null, $dbUser = null, $dbPassword = null)
     {
 
         if ($this->getDbAdapter() == null) {
@@ -112,8 +112,8 @@ class Db
             $dbAdapter = $this->getDbAdapter();
         }
 
-        if ($dbHost == null) {
-            $dbHost = $this->getDbHost();
+        if ($dbHostName == null) {
+            $dbHostName = $this->getDbHostName();
         }
 
         if ($dbDbName == null) {
@@ -136,7 +136,7 @@ class Db
 
             // DSN elements for PDO; this can also be
             // an array of key-value pairs
-            'host='.$dbHost.';dbname='.$dbDbName,
+            'host='.$dbHostName.';dbname='.$dbDbName,
 
             // username for the connection
             $dbUser,
@@ -144,26 +144,55 @@ class Db
             // password for the connection
             $dbPassword
         );
+    }
 
-        if ($this->conn) {
-            return true;
-        } else {
-            return false;
+    /**
+     * Actively create database connection.
+     *
+     * A good way to test database connectivity.
+     *
+     * Example:
+     * @code
+     * $sql = new Db;
+     * $sql->dbConnect(); // Needed to create active connection. Creates lazy-load connection. Will only create active connection once a query is executed.
+     *
+     * try {
+     *     $sql->dbActiveConnect();
+     *     // Active connection success
+     * }
+     * catch (PDOException $e) {
+     *     // Active connection failed
+     *     // Handle exception
+     * }
+     *
+     * // Continue script...
+     *
+     * @endcode
+     *
+     * @return true|exception Returns true if database connection is successful, PDOException if database connection fails.
+     */
+
+    public function dbActiveConnect()
+    {
+        //*
+        try {
+            $this->conn->connect();
+            //echo '<br />Hello True<br />';
+            //return true;
         }
+        catch (PDOException $e) {
+            //echo '<br />Hello True<br />';
+            //return false;
+        }
+        //*/
 
         /*
-        $this->conn = NewADOConnection($dbAdapter);
-
-        if ($this->conn->Connect($dbHost, $dbUser, $dbPassword, $dbDbName)) {
+        if ($this->conn->connect()) {
             return true;
         } else {
             return false;
         }
         //*/
-
-        /*
-         * $this->connObject = NewADOConnection($dbAdapter); if($this->connObject->Connect($dbHost, $dbUser, $dbPassword, $dbDbName)) { return true; } else { return false; }
-         */
     }
 
     /**
@@ -594,7 +623,7 @@ class Db
      */
     private $dbAdapter;
 
-    private $dbHost;
+    private $dbHostName;
 
     private $dbUser;
 
@@ -648,7 +677,7 @@ class Db
     private function initClassVars()
     {
         $this->dbAdapter = null;
-        $this->dbHost = null;
+        $this->dbHostName = null;
         $this->dbUser = null;
         $this->dbPassword = null;
         $this->dbName = null;
@@ -699,19 +728,19 @@ class Db
     }
 
     /**
-     * =setDbHost
+     * =setDbHostName
      */
-    public function setDbHost($dbHost)
+    public function setDbHostName($dbHostName)
     {
-        $this->dbHost = $dbHost;
+        $this->dbHostName = $dbHostName;
     }
 
     /**
-     * =getDbHost
+     * =getDbHostName
      */
-    public function getDbHost()
+    public function getDbHostName()
     {
-        return $this->dbHost;
+        return $this->dbHostName;
     }
 
     /**

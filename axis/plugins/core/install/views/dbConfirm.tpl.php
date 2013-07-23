@@ -23,14 +23,6 @@
     </tr>
     <tr>
         <td>
-            <strong>User Name:</strong>
-        </td>
-        <td>
-            <?php echo (isset($dbUserName)) ? $dbUserName : ''; ?>
-        </td>
-    </tr>
-    <tr>
-        <td>
             <strong>Database:</strong>
         </td>
         <td>
@@ -39,10 +31,18 @@
     </tr>
     <tr>
         <td>
-            <strong>Create Database:</strong>
+            <strong>User Name:</strong>
         </td>
         <td>
-            <?php echo (((isset($dbCreateDatabase)) && ($dbCreateDatabase == '1')) ? 'Yes' : 'No'); ?>
+            <?php echo (isset($dbUserName)) ? $dbUserName : ''; ?>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <strong>Password:</strong>
+        </td>
+        <td>
+            <?php echo (((isset($dbPassword))) ? 'Yes' : 'No'); ?>
         </td>
     </tr>
     <tr>
@@ -53,6 +53,14 @@
             <?php echo (isset($dbDatabasePrefix)) ? $dbDatabasePrefix : ''; ?>
         </td>
     </tr>
+    <tr>
+        <td>
+            <strong>Create Database:</strong>
+        </td>
+        <td>
+            <?php echo (((isset($dbCreateDatabase)) && ($dbCreateDatabase == '1')) ? 'Yes' : 'No'); ?>
+        </td>
+    </tr>
 </table>
 
 <div style='float: left; margin:0 5px 5px 0;'>
@@ -60,10 +68,8 @@
         $formHelper->inputFormStart('/install/database-info');
         $formHelper->inputHidden('install', '2');
 
-        for ($i = 0; $i < count($installData); $i++) {
-            foreach($installData as $attribute => $value) {
-                $formHelper->inputHidden($attribute, $value);
-            }
+        foreach($installData as $attribute => $value) {
+            $formHelper->inputHidden($attribute, $value);
         }
 
         $formHelper->inputSubmit('submit', 'Go Back', array('class' => 'button'));
@@ -73,13 +79,11 @@
 
 <div>
     <?php
-        $formHelper->inputFormStart('/install/test-database-info');
+        $formHelper->inputFormStart('/install/test-database-connection');
         $formHelper->inputHidden('install', '4');
 
-        for ($i = 0; $i < count($installData); $i++) {
-            foreach($installData as $attribute => $value) {
-                $formHelper->inputHidden($attribute, $value);
-            }
+        foreach($installData as $attribute => $value) {
+            $formHelper->inputHidden($attribute, $value);
         }
 
         $formHelper->inputSubmit('submit', 'Continue', array('class' => 'button'));
