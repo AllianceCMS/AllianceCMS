@@ -5,7 +5,7 @@
  *
  */
 
-$dbSoftware       = $_POST['dbSoftware'];
+$dbAdapter       = $_POST['dbAdapter'];
 $dbHostName       = $_POST['dbHostName'];
 $dbUserName       = $_POST['dbUserName'];
 $dbPassword       = $_POST['dbPassword'];
@@ -35,7 +35,7 @@ $data =	 "<?php
  * (This file is created by the AllianceCMS installation script)
  */
 
-define('DB_ADAPTER',    '".$_POST['dbSoftware']."');
+define('DB_ADAPTER',    '".$_POST['dbAdapter']."');
 define('DB_HOST',       '".$_POST['dbHostName']."');
 define('DB_USER',       '".$_POST['dbUserName']."');
 define('DB_PASSWORD',   '".$_POST['dbPassword']."');

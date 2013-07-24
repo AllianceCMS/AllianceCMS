@@ -79,7 +79,9 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
     unset($pathArray);
 
     // If there is no venue in the path, send user to main venue
-    if ($path === '/') {
+    if ($pathVenue === 'install') {
+
+    } elseif ($path === '/') {
 
         // Send user to main venue
 
@@ -93,6 +95,7 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
             // No main venue (should never happen if site has been installed)
             // This means the db was corrupted, since we'll never reach this if there is a dbConnections.php)
             // Give some kind of error
+            exit;
         }
     }
 
