@@ -1039,7 +1039,8 @@ function install_complete_installation($routeValues)
     // If Dirty Installation: Drop Everything From Database And Verify Database Connection Info
 
     if (!defined('DB_SOFTWARE')) {
-        require_once('install.dbConnection.php');
+        require_once('create.dbConnection.php');
+        exit;
         require_once('install.core.php');
         require_once('install.data.php');
     }
