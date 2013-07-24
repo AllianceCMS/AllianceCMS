@@ -32,7 +32,7 @@ if ($dispatch) {
     $tpl->set("body",	$body);
     //*/
 
-    //*
+    /*
     echo '<br /><pre>$auraRoute: ';
     echo print_r($auraRoute);
     echo '</pre><br />';
@@ -47,6 +47,7 @@ if ($dispatch) {
         // Use a default controller
         $controller = 'index';
     }
+
     // Does the route indicate an action?
     if (isset($auraRoute->values['action'])) {
         // Take the controller action directly from the route
@@ -55,10 +56,6 @@ if ($dispatch) {
         // Use a default controller
         $action = 'action';
     }
-
-    //include PLUGINS_AXIS . 'Ciao' . DS . $controller . '.php';
-
-    //use Ciao;
 
     $page = new $controller;
 

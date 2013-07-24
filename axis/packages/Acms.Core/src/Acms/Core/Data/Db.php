@@ -12,7 +12,7 @@
 
 namespace Acms\Core\Data;
 
-use Aura\Sql\ConnectionFactory;
+//use Aura\Sql\ConnectionFactory;
 
 /**
  * Db
@@ -142,7 +142,7 @@ class Db
             $dbPassword = $this->getDbPassword();
         }
 
-        $connection_factory = new ConnectionFactory();
+        $connection_factory = new \Aura\Sql\ConnectionFactory();
         $this->connection = $connection_factory->newInstance(
 
             // adapter name
@@ -219,14 +219,16 @@ class Db
 
     public function dbValidConnection()
     {
-        $pdo = $this->connection->getPdo();
-        /*
+        //$pdo = $this->connection->getPdo();
+        //*
         //$this->connection->connect();
         $pdo = null;
         try {
             $pdo = $this->connection->getPdo();
-        } catch (Exception $e) {
+            return true;
+        } catch (\PDOException $e) {
             // Continue on failure
+            return false;
         }
         //*/
 

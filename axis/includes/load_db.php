@@ -25,7 +25,9 @@ if (file_exists(DBCONNFILE)) {
         exit;
     } else {
 
-        include_once(BASE_DIR . 'axis/plugins/core/Install/main.php');
+        include_once(BASE_DIR . 'axis/plugins/Install/routes.php');
+
+        $acmsLoader->add('Install\\', PLUGINS_AXIS);
 
         $installRoutes = require PACKAGES . 'Aura.Router/scripts/instance.php';
 
@@ -63,9 +65,29 @@ if (file_exists(DBCONNFILE)) {
 
         $auraRoute = $installRoutes->match($path, $_SERVER);
 
-        $controller = $auraRoute->values['controller'];
 
-        $controller($auraRoute->values);
+        // Does the route indicate a controller?
+        if (isset($auraRoute->values['controller'])) {
+            // Take the controller class directly from the route
+            //$controller = 'Ciao\\'.$auraRoute->values['controller'];
+            $controller = $auraRoute->values['namespace'] . '\\' . $auraRoute->values['controller'];
+        }
+
+        // Does the route indicate an action?
+        if (isset($auraRoute->values['action'])) {
+            // Take the controller action directly from the route
+            $action = $auraRoute->values['action'];
+        }
+
+        $page = new $controller;
+
+        // Assign the controller to the body of the base/theme template
+        $page->$action($auraRoute->values);
+
+
+        //$controller = $auraRoute->values['controller'];
+
+        //$controller($auraRoute->values);
         exit;
     }
 }
