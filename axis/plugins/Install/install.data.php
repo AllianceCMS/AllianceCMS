@@ -15,7 +15,8 @@
     $adminLoginName   = $_POST['adminLoginName'];
     $adminDisplayName = $_POST['adminDisplayName'];
     $adminRealName    = $_POST['adminRealName'];
-    $adminPassword    = md5($_POST['adminPassword']);
+    //$adminPassword    = md5($_POST['adminPassword']);
+    $adminPassword    = crypt($_POST['adminPassword'], '$2y$22$alliancecmssocialcmsya$');
     $adminEmail       = $_POST['adminEmail'];
     $adminHideEmail   = intval($_POST['adminHideEmail']);
     $adminLocation    = $_POST['adminLocation'];
@@ -36,11 +37,13 @@
          VALUES
             ('Home', 'news".DS."index.php', 0, 1, 1, 2, ".$sql->getDbConn()->DBDate(time()).");",
 
+        /*
         "INSERT INTO ".$sql->getDbPrefix()."menus
             (name, link, plugin_id, menu_area, active, menu_order, created)
          VALUES
             ('news_menu', 'news".DS."news_menu.php', '1', '1', '2', '2', ".$sql->getDbConn()->DBDate(time())."),
             ('user_menu', 'users".DS."user_menu.php', '2', '1', '2', '1', ".$sql->getDbConn()->DBDate(time()).");",
+        //*/
 
         "INSERT INTO ".$sql->getDbPrefix()."plugins
             (name, version, folder_base_dir, folder_name, description, developer, developer_email, developer_site, active, created)
@@ -48,7 +51,7 @@
             ('News', '0.01', '', 'news', 'This is the default news plugin.', 'jburns131', 'jburns131@jbwebware.com', 'http://www.jbwebware.com', 2, ".$sql->getDbConn()->DBDate(time())."),
             ('User Manager', '0.01', '', 'users', 'This is the default user management plugin.', 'jburns131', 'jburns131@jbwebware.com', 'http://www.jbwebware.com', 2, ".$sql->getDbConn()->DBDate(time()).");",
 
-         "INSERT INTO ".$sql->getDbPrefix()."sites
+         "INSERT INTO ".$sql->getDbPrefix()."venues
             (name, title, tagline, description, keywords, owner_id, owner_email, main_site_email, main_site_email_name, active_theme, default_plugin, maintenance_flag, maintenance_flag_text, language_id, active, created)
          VALUES
             ('{$siteName}', '{$siteTitle}', '{$siteTagline}', '{$siteDescription}', '{$siteKeywords}', 1, '{$adminEmail}', '{$siteEmail}', '{$siteEmailName}', 1, 1, 1, 'Our Site Is Down For Maintenance, Please Come Back Later', 1, 2, ".$sql->getDbConn()->DBDate(time()).");",
@@ -64,11 +67,13 @@
          VALUES
             ('{$adminDisplayName}', '{$adminRealName}', '{$adminLoginName}', '{$adminPassword}', '{$adminEmail}', {$adminHideEmail}, 0, '{$adminLocation}', '{$adminWebsite}', '{$adminBio}', '{$adminAvatar}', '{$adminSignature}', 1, '1', '".getenv('REMOTE_ADDR')."', ".$sql->getDbConn()->DBDate(time()).", '".getenv('REMOTE_ADDR')."', ".$sql->getDbConn()->DBDate(time()).");",
 
+        /*
         "INSERT INTO ".$sql->getDbPrefix()."user_classes
             (name, created)
          VALUES
             ('Main_Admin', ".$sql->getDbConn()->DBDate(time())."),
             ('Admin', ".$sql->getDbConn()->DBDate(time())."),
             ('Forum_Moderator', ".$sql->getDbConn()->DBDate(time()).");"
+        //*/
         )
     );

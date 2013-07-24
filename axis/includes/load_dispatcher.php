@@ -16,6 +16,8 @@ if ($dispatch) {
         //*/
     }
 
+    /*
+    // Old plugin structure (function based)
     // Does the route indicate a controller?
     if (isset($auraRoute->values['controller'])) {
         // Take the controller class directly from the route
@@ -25,14 +27,43 @@ if ($dispatch) {
         $controller = 'index';
     }
 
-    /*
+    // Assign the controller to the body of the base/theme template
+    $body = $controller($auraRoute->values);
+    $tpl->set("body",	$body);
+    //*/
+
+    //*
     echo '<br /><pre>$auraRoute: ';
     echo print_r($auraRoute);
     echo '</pre><br />';
     //*/
 
+    // Does the route indicate a controller?
+    if (isset($auraRoute->values['controller'])) {
+        // Take the controller class directly from the route
+        //$controller = 'Ciao\\'.$auraRoute->values['controller'];
+        $controller = $auraRoute->values['namespace'] . '\\' . $auraRoute->values['controller'];
+    } else {
+        // Use a default controller
+        $controller = 'index';
+    }
+    // Does the route indicate an action?
+    if (isset($auraRoute->values['action'])) {
+        // Take the controller action directly from the route
+        $action = $auraRoute->values['action'];
+    } else {
+        // Use a default controller
+        $action = 'action';
+    }
+
+    //include PLUGINS_AXIS . 'Ciao' . DS . $controller . '.php';
+
+    //use Ciao;
+
+    $page = new $controller;
+
     // Assign the controller to the body of the base/theme template
-    $body = $controller($auraRoute->values);
+    $body = $page->$action($auraRoute->values);
     $tpl->set("body",	$body);
 
     //*
@@ -40,6 +71,12 @@ if ($dispatch) {
     if (function_exists('customHeaders')) {
         $tpl->set("customHeaders", customHeaders());
     }
+
+    /*
+    echo '<br /><pre>$auraRoute: ';
+    echo print_r($auraRoute);
+    echo '</pre><br />';
+    //*/
 
     // Render all templates
     echo $tpl->fetch($theme_path . "/theme.tpl.php");
