@@ -559,13 +559,12 @@ class InstallSite
         // Complete Installation
 
         // Create Database Tables
-        // If Clean Installation: Go To 'cleanup.php' File That Deletes 'Install.php', Fixes File Permissions And Links To Main Venue
-        // If Dirty Installation: Drop Everything From Database And Verify Database Connection Info
+        // ??? From Old Code Base ??? If Clean Installation: Go To 'cleanup.php' File That Deletes 'Install.php', Fixes File Permissions And Links To Main Venue
+        // ??? From Old Code Base ??? If Dirty Installation: Drop Everything From Database And Verify Database Connection Info
 
+        // Create database if requested, create tables, insert data into table fields
         if (!defined('DB_SOFTWARE')) {
-            require_once('install.core.php');
-            //exit;
-            //require_once('install.data.php');
+            require_once('install.data.php');
             require_once('create.dbConnection.php');
         }
 
