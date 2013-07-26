@@ -1,12 +1,12 @@
 <?php
 /**
- * 
+ *
  * This file is part of the Aura Project for PHP.
- * 
+ *
  * @package Aura.Sql
- * 
+ *
  * @license http://opensource.org/licenses/bsd-license.php BSD
- * 
+ *
  */
 namespace Aura\Sql\Connection;
 
@@ -18,132 +18,132 @@ use PDO;
 use PDOStatement;
 
 /**
- * 
+ *
  * Abstract class for SQL drivers.
- * 
+ *
  * @package Aura.Sql
- * 
+ *
  */
 abstract class AbstractConnection
 {
     /**
-     * 
+     *
      * A ColumnFactory for returning column information.
-     * 
+     *
      * @var ColumnFactory
-     * 
+     *
      */
     protected $column_factory;
 
     /**
-     * 
+     *
      * The PDO DSN for the connection. This can be an array of key-value pairs
      * or a string (minus the PDO type prefix).
-     * 
+     *
      * @var string|array
-     * 
+     *
      */
     protected $dsn;
 
     /**
-     * 
+     *
      * The PDO type prefix.
-     * 
+     *
      * @var string
-     * 
+     *
      */
     protected $dsn_prefix;
 
     /**
-     * 
+     *
      * PDO options for the connection.
-     * 
+     *
      * @var array
-     * 
+     *
      */
     protected $options = [];
 
     /**
-     * 
+     *
      * The password for the connection.
-     * 
+     *
      * @var string
-     * 
+     *
      */
     protected $password;
 
     /**
-     * 
+     *
      * A query profiler.
-     * 
+     *
      * @var ProfilerInterface
-     * 
+     *
      */
     protected $profiler;
 
     /**
-     * 
+     *
      * The PDO connection object.
-     * 
+     *
      * @var PDO
-     * 
+     *
      */
     protected $pdo;
 
     /**
-     * 
+     *
      * A query factory
-     * 
+     *
      * @var QueryFactory
-     * 
+     *
      */
     protected $query_factory;
 
     /**
-     * 
+     *
      * The prefix to use when quoting identifier names.
-     * 
+     *
      * @var string
-     * 
+     *
      */
     protected $quote_name_prefix;
 
     /**
-     * 
+     *
      * The suffix to use when quoting identifier names.
-     * 
+     *
      * @var string
-     * 
+     *
      */
     protected $quote_name_suffix;
 
     /**
-     * 
+     *
      * The username for the connection.
-     * 
+     *
      * @var string
-     * 
+     *
      */
     protected $username;
 
     /**
-     * 
+     *
      * Constructor.
-     * 
+     *
      * @param ProfilerInterface $profiler A query profiler.
-     * 
+     *
      * @param ColumnFactory $column_factory A column object factory.
-     * 
+     *
      * @param QueryFactory $query_factory A query object factory.
-     * 
+     *
      * @param mixed $dsn DSN parameters for the PDO connection.
-     * 
+     *
      * @param string $username The username for the PDO connection.
-     * 
+     *
      * @param string $password The password for the PDO connection.
-     * 
+     *
      * @param array $options Options for PDO connection.
-     * 
+     *
      */
     public function __construct(
         ProfilerInterface $profiler,
@@ -164,11 +164,11 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Returns the profiler object.
-     * 
+     *
      * @return ProfilerInterface
-     * 
+     *
      */
     public function getProfiler()
     {
@@ -176,11 +176,11 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Returns the column factory object.
-     * 
+     *
      * @return ColumnFactory
-     * 
+     *
      */
     public function getColumnFactory()
     {
@@ -188,11 +188,11 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Returns the query factory object.
-     * 
+     *
      * @return QueryFactory
-     * 
+     *
      */
     public function getQueryFactory()
     {
@@ -200,11 +200,11 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Returns the DSN string used by the PDO connection.
-     * 
+     *
      * @return string
-     * 
+     *
      */
     public function getDsnString()
     {
@@ -224,17 +224,17 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Sets the PDO connection object; typically used when a shared PDO object
      * already exists in a legacy context.
-     * 
+     *
      * Note that if you use setPdo(), the pre- and post-connect method hooks
      * will not be called.
-     * 
+     *
      * @param PDO $pdo The PDO object.
-     * 
+     *
      * @return void
-     * 
+     *
      */
     public function setPdo(PDO $pdo)
     {
@@ -243,12 +243,12 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Returns the PDO connection object; if it does not exist, creates it to
      * connect to the database.
-     * 
+     *
      * @return PDO
-     * 
+     *
      */
     public function getPdo()
     {
@@ -257,11 +257,11 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Connects to the database by creating the PDO object.
-     * 
+     *
      * @return void
-     * 
+     *
      */
     public function connect()
     {
@@ -275,40 +275,40 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * A hook that executes before the database connection is created.
-     * 
+     *
      * @return void
-     * 
+     *
      */
     public function preConnect()
     {
     }
 
     /**
-     * 
+     *
      * A hook that executes after the database connection is created.
-     * 
+     *
      * @return void
-     * 
+     *
      */
     public function postConnect()
     {
     }
 
     /**
-     * 
+     *
      * Prepares and executes an SQL query, optionally binding values
      * to named placeholders in the query text.
-     * 
+     *
      * @param string|AbstractQuery $query The text of the SQL query; or, a
      * query object.
-     * 
+     *
      * @param array $bind An associative array of data to bind to named
      * placeholders in the query.
-     * 
+     *
      * @return PDOStatement
-     * 
+     *
      */
     public function query($query, array $bind = [])
     {
@@ -319,11 +319,11 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Begins a database transaction and turns off autocommit.
-     * 
+     *
      * @return mixed
-     * 
+     *
      */
     public function beginTransaction()
     {
@@ -335,11 +335,11 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Commits the current database transaction and turns autocommit back on.
-     * 
+     *
      * @return mixed
-     * 
+     *
      */
     public function commit()
     {
@@ -351,12 +351,12 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Rolls back the current database transaction and turns autocommit back
      * on.
-     * 
+     *
      * @return mixed
-     * 
+     *
      */
     public function rollback()
     {
@@ -368,24 +368,24 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Creates a prepared PDOStatement and binds data values to placeholders.
-     * 
+     *
      * PDO itself is touchy about binding values.  If you attempt to bind a
      * value that does not have a corresponding placeholder, PDO will error.
      * This method checks the query text to find placeholders and binds only
      * data values that have placeholders in the text.
-     * 
+     *
      * Similarly, PDO won't bind an array value. This method checks to see if
      * the data to be bound is an array; if it is, the array is quoted and
      * replaced into the text directly instead of binding it.
-     * 
+     *
      * @param string $text The text of the SQL query.
-     * 
+     *
      * @param array $bind The values to bind (or quote) into the PDOStatement.
-     * 
+     *
      * @return PDOStatement
-     * 
+     *
      */
     public function prepare($text, array $bind)
     {
@@ -456,18 +456,18 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Fetches a sequential array of all rows from the database; the rows
      * are represented as associative arrays.
-     * 
+     *
      * @param string|AbstractQuery $query The text of the SQL query; or, a
      * query object.
-     * 
+     *
      * @param array $bind An associative array of data to bind to the named
      * placeholders.
-     * 
+     *
      * @return array
-     * 
+     *
      */
     public function fetchAll($query, $bind = [])
     {
@@ -476,22 +476,22 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Fetches an associative array of all rows from the database; the rows
      * are represented as associative arrays. The array of all rows is keyed
      * on the first column of each row.
-     * 
+     *
      * N.b.: if multiple rows have the same first column value, the last
      * row with that value will override earlier rows.
-     * 
+     *
      * @param string $query The text of the SQL statement, optionally with
      * named placeholders.
-     * 
+     *
      * @param array $data An associative array of data to bind to the named
      * placeholders.
-     * 
+     *
      * @return array
-     * 
+     *
      */
     public function fetchAssoc($query, array $data = [])
     {
@@ -505,17 +505,17 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Fetches the first column of all rows as a sequential array.
-     * 
+     *
      * @param string|AbstractQuery $query The text of the SQL query; or, a
      * query object.
-     * 
+     *
      * @param array $bind An associative array of data to bind to the named
      * placeholders.
-     * 
+     *
      * @return array
-     * 
+     *
      */
     public function fetchCol($query, array $bind = [])
     {
@@ -524,17 +524,17 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Fetches the very first value (i.e., first column of the first row).
-     * 
+     *
      * @param string|AbstractQuery $query The text of the SQL query; or, a
      * query object.
-     * 
+     *
      * @param array $bind An associative array of data to bind to the named
      * placeholders.
-     * 
+     *
      * @return mixed
-     * 
+     *
      */
     public function fetchValue($query, array $bind = [])
     {
@@ -543,18 +543,18 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
-     * Fetches an associative array of all rows as key-value pairs (first 
+     *
+     * Fetches an associative array of all rows as key-value pairs (first
      * column is the key, second column is the value).
-     * 
+     *
      * @param string|AbstractQuery $query The text of the SQL query; or, a
      * query object.
-     * 
+     *
      * @param array $bind An associative array of data to bind to the named
      * placeholders.
-     * 
+     *
      * @return array
-     * 
+     *
      */
     public function fetchPairs($query, array $bind = [])
     {
@@ -567,17 +567,17 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Fetches one row from the database as an associative array.
-     * 
+     *
      * @param string|AbstractQuery $query The text of the SQL query; or, a
      * query object.
-     * 
+     *
      * @param array $bind An associative array of data to bind to the named
      * placeholders.
-     * 
+     *
      * @return array
-     * 
+     *
      */
     public function fetchOne($query, array $bind = [])
     {
@@ -586,18 +586,18 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Safely quotes a value for an SQL statement.
-     * 
+     *
      * If an array is passed as the value, the array values are quoted
-     * and then returned as a comma-separated string; this is useful 
+     * and then returned as a comma-separated string; this is useful
      * for generating `IN()` lists.
-     * 
+     *
      * @param mixed $val The value to quote.
-     * 
-     * @return string An SQL-safe quoted value (or a string of 
+     *
+     * @return string An SQL-safe quoted value (or a string of
      * separated-and-quoted values).
-     * 
+     *
      */
     public function quote($val)
     {
@@ -617,19 +617,19 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Quotes a value and places into a piece of text at a placeholder; the
      * placeholder is a question-mark.
-     * 
+     *
      * @param string $text The text with placeholder(s).
-     * 
+     *
      * @param mixed $bind The data value(s) to quote.
-     * 
+     *
      * @return mixed An SQL-safe quoted value (or string of separated values)
      * placed into the original text.
-     * 
+     *
      * @see quote()
-     * 
+     *
      */
     public function quoteInto($text, $bind)
     {
@@ -670,36 +670,36 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Quote multiple text-and-value pieces.
-     * 
+     *
      * The placeholder is a question-mark; all placeholders will be replaced
      * with the quoted value.   For example ...
-     * 
+     *
      *     $list = [
      *          "WHERE date > ?"   => '2005-01-01',
      *          "  AND date < ?"   => '2005-02-01',
      *          "  AND type IN(?)" => ['a', 'b', 'c'],
      *     ];
-     *     
+     *
      *     $safe = $sql->quoteMulti($list);
-     *     
+     *
      *     // $safe = "WHERE date > '2005-01-02'
      *     //          AND date < 2005-02-01
      *     //          AND type IN('a','b','c')"
      * }}
-     * 
+     *
      * @param array $list A series of key-value pairs where the key is
      * the placeholder text and the value is the value to be quoted into
      * it.  If the key is an integer, it is assumed that the value is
      * piece of literal text to be used and not quoted.
-     * 
+     *
      * @param string $sep Return the list pieces separated with this string
      * (for example ' AND ').
-     * 
+     *
      * @return string An SQL-safe string composed of the list keys and
      * quoted values.
-     * 
+     *
      */
     public function quoteMulti($list, $sep)
     {
@@ -721,25 +721,25 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
-     * Quotes a single identifier name (table, table alias, table column, 
+     *
+     * Quotes a single identifier name (table, table alias, table column,
      * index, sequence).
-     * 
+     *
      * If the name contains `' AS '`, this method will separately quote the
      * parts before and after the `' AS '`.
-     * 
+     *
      * If the name contains a space, this method will separately quote the
      * parts before and after the space.
-     * 
+     *
      * If the name contains a dot, this method will separately quote the
      * parts before and after the dot.
-     * 
+     *
      * @param string $spec The identifier name to quote.
-     * 
+     *
      * @return string|array The quoted identifier name.
-     * 
+     *
      * @see replaceName()
-     * 
+     *
      */
     public function quoteName($spec)
     {
@@ -782,22 +782,22 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Quotes all fully-qualified identifier names ("table.col") in a string,
      * typically an SQL snippet for a SELECT clause.
-     * 
+     *
      * Does not quote identifier names that are string literals (i.e., inside
      * single or double quotes).
-     * 
+     *
      * Looks for a trailing ' AS alias' and quotes the alias as well.
-     * 
+     *
      * @param string $text The string in which to quote fully-qualified
      * identifier names to quote.
-     * 
+     *
      * @return string|array The string with names quoted in it.
-     * 
+     *
      * @see replaceNamesIn()
-     * 
+     *
      */
     public function quoteNamesIn($text)
     {
@@ -857,16 +857,16 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Inserts a row of data into a table.
-     * 
+     *
      * @param string $table The table to insert into.
-     * 
+     *
      * @param array $cols An associative array where the key is the column
      * name and the value is the value to insert for that column.
-     * 
+     *
      * @return int The number of rows affected, typically 1.
-     * 
+     *
      */
     public function insert($table, array $cols)
     {
@@ -878,22 +878,22 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Updates a table with specified data based on WHERE conditions.
-     * 
+     *
      * @param string $table The table to update.
-     * 
+     *
      * @param array $cols An associative array where the key is the column
      * name and the value is the value to use for that column.
-     * 
+     *
      * @param string $cond Conditions for a WHERE clause.
-     * 
+     *
      * @param array $bind Additional data to bind to the query; these are not
      * part of the update, and note that the $cols values will take precedence
      * over these additional values.
-     * 
+     *
      * @return int The number of rows affected.
-     * 
+     *
      */
     public function update($table, array $cols, $cond, array $bind = [])
     {
@@ -909,17 +909,17 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Deletes rows from the table based on WHERE conditions.
-     * 
+     *
      * @param string $table The table to delete from.
-     * 
+     *
      * @param string $cond Conditions for a WHERE clause.
-     * 
+     *
      * @param array $bind Additional data to bind to the query.
-     * 
+     *
      * @return int The number of rows affected.
-     * 
+     *
      */
     public function delete($table, $cond, array $bind = [])
     {
@@ -933,11 +933,11 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Returns a new Select object.
-     * 
+     *
      * @return Select
-     * 
+     *
      */
     public function newSelect()
     {
@@ -945,11 +945,11 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Returns a new Insert object.
-     * 
+     *
      * @return Insert
-     * 
+     *
      */
     public function newInsert()
     {
@@ -957,11 +957,11 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Returns a new Update object.
-     * 
+     *
      * @return Update
-     * 
+     *
      */
     public function newUpdate()
     {
@@ -969,11 +969,11 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Returns a new Delete object.
-     * 
+     *
      * @return Update
-     * 
+     *
      */
     public function newDelete()
     {
@@ -981,17 +981,17 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Modifies an SQL string **in place** to add a `LIMIT ... OFFSET` clause.
-     * 
+     *
      * @param string $text The SQL string.
-     * 
+     *
      * @param int $count The number of rows to return.
-     * 
+     *
      * @param int $offset Skip this many rows first.
-     * 
+     *
      * @return void
-     * 
+     *
      */
     public function limit(&$text, $count, $offset = 0)
     {
@@ -1008,11 +1008,11 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Creates a new PDO object.
-     * 
+     *
      * @return PDO
-     * 
+     *
      */
     protected function newPdo()
     {
@@ -1027,16 +1027,16 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Quotes an identifier name (table, index, etc); ignores empty values and
      * values of '*'.
-     * 
+     *
      * @param string $name The identifier name to quote.
-     * 
+     *
      * @return string The quoted identifier name.
-     * 
+     *
      * @see quoteName()
-     * 
+     *
      */
     protected function replaceName($name)
     {
@@ -1051,16 +1051,16 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Quotes all fully-qualified identifier names ("table.col") in a string.
-     * 
+     *
      * @param string $text The string in which to quote fully-qualified
      * identifier names to quote.
-     * 
+     *
      * @return string|array The string with names quoted in it.
-     * 
+     *
      * @see quoteNamesIn()
-     * 
+     *
      */
     protected function replaceNamesIn($text)
     {
@@ -1085,15 +1085,15 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
-     * Given a column specification, parse into datatype, size, and 
+     *
+     * Given a column specification, parse into datatype, size, and
      * decimal scale.
-     * 
+     *
      * @param string $spec The column specification; for example,
      * "VARCHAR(255)" or "NUMERIC(10,2)".
-     * 
+     *
      * @return array A sequential array of the column type, size, and scale.
-     * 
+     *
      */
     protected function getTypeSizeScope($spec)
     {
@@ -1127,41 +1127,41 @@ abstract class AbstractConnection
     }
 
     /**
-     * 
+     *
      * Returns an list of tables in the database.
-     * 
+     *
      * @param string $schema Optionally, pass a schema name to get the list
      * of tables in this schema.
-     * 
+     *
      * @return array The list of tables in the database.
-     * 
+     *
      */
     abstract public function fetchTableList($schema = null);
 
     /**
-     * 
+     *
      * Returns an array of columns in a table.
-     * 
+     *
      * @param string $spec Return the columns in this table. This may be just
      * a `table` name, or a `schema.table` name.
-     * 
+     *
      * @return array An associative array where the key is the column name
      * and the value is a Column object.
-     * 
+     *
      */
     abstract public function fetchTableCols($spec);
 
     /**
-     * 
+     *
      * Splits an identifier name into two parts, based on the location of the
      * first dot.
-     * 
+     *
      * @param string $name The identifier name to be split.
-     * 
+     *
      * @return array An array of two elements; element 0 is the parts before
      * the dot, and element 1 is the part after the dot. If there was no dot,
      * element 0 will be null and element 1 will be the name as given.
-     * 
+     *
      */
     protected function splitName($name)
     {

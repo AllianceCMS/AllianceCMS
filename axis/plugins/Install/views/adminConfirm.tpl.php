@@ -43,9 +43,9 @@
     <strong>Please Confirm The Main Administrators Information</strong>
 </p>
 
-<div class='content_separator'></div>
+<div class="content_separator"></div>
 
-<table class='data_table'>
+<table class="data_table">
     <tr>
         <td>
             <strong>Login Name:</strong>
@@ -103,7 +103,7 @@
         </td>
     </tr>
     <tr>
-        <td style='vertical-align: top;'>
+        <td style="vertical-align: top;">
             <strong>Bio:</strong>
         </td>
         <td>
@@ -119,7 +119,7 @@
         </td>
     </tr>
     <tr>
-        <td style='vertical-align: top;'>
+        <td style="vertical-align: top;">
             <strong>Signature:</strong>
         </td>
         <td>
@@ -128,7 +128,7 @@
     </tr>
 </table>
 
-<div style='float: left; margin:0 5px 5px 0;'>
+<div style="float: left; margin:0 5px 5px 0;">
 
     <?php
         $formHelper->inputFormStart('/install/admin-info');
@@ -146,7 +146,7 @@
 
 <div>
     <?php
-        $formHelper->inputFormStart('/install/site-info');
+        $formHelper->inputFormStart('/install/venue-info');
         $formHelper->inputHidden('install', '7');
 
         foreach($installData as $attribute => $value) {
@@ -158,4 +158,4 @@
     ?>
 
 </div>
-<div style='clear: left'></div>
+<div style="clear: left"></div>

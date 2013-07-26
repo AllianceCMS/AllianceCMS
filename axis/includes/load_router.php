@@ -21,7 +21,7 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
      * Query Db and find out which plugins are installed
      */
 
-    // Include only installed plugins 'main.php' so we have access to routes
+    // Include only installed plugins 'routes.php' so we have access to routes
     $sql->dbSelect('plugins', 'folder_path, folder_name', 'active = :active', ['active' => intval(2)]);
     $result = $sql->dbFetch();
 
@@ -30,14 +30,7 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
         $plugin_folder_path = $row['folder_path'];
         $plugin_folder_name = $row['folder_name'];
 
-        /*
-        // Old plugin structure (function based)
-        if (file_exists(BASE_DIR . $plugin_folder_path . $plugin_folder_name . DS . 'main.php')) {
-            include_once(BASE_DIR . $plugin_folder_path . $plugin_folder_name . DS . 'main.php');
-        }
-        //*/
-
-        // New MVC way of doing things
+        // Get routes for active plugins and add plugin namespace to autoloader
         if (file_exists(BASE_DIR . $plugin_folder_path . $plugin_folder_name . DS . 'routes.php')) {
             include_once(BASE_DIR . $plugin_folder_path . $plugin_folder_name . DS . 'routes.php');
             $acmsLoader->add($plugin_folder_name . '\\', BASE_DIR . $plugin_folder_path);
@@ -46,12 +39,8 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
 
     }
 
-    //$acmsLoader->add('Ciao\\', PLUGINS_AXIS);
-
-    //*
-    // Old plugin structure (function based)
     // TODO: The next two 'if' statements need to be a class method
-    // Parse plugin paths
+    // Parse plugin routes and add them to the routing map
     if (isset($pluginRoutes)) {
         foreach ($pluginRoutes as $plugin => $pluginPage) {
 
@@ -76,48 +65,6 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
             }
         }
     }
-    //*/
-
-    //*
-    // New MVC way of doing things
-    // TODO: The next two 'if' statements need to be a class method
-    // Parse plugin paths
-
-    /*
-    echo '<br /><pre>$pluginRoutes: ';
-    echo print_r($pluginRoutes);
-    echo '</pre><br />';
-    //exit;
-    //*/
-
-    /*
-    if (isset($pluginRoutes)) {
-        //foreach ($pluginRoutes as $plugin => $pluginPage) {
-
-            foreach ($pluginRoutes as $pluginRoute) {
-
-                if ($pluginRoute['type'] === 'front') {
-                    // If plugin route is a front end route then add route to routing map
-                    $mapRoutes->add($pluginRoute['name'], '/{:venue}' . $pluginRoute['path'], $pluginRoute['specs']);
-                } else if ($pluginRoute['type'] === 'admin') {
-                    // Create array so we can attach admin routes to routing map
-                    $adminRoutes['routes'][$pluginRoute['name']] = [
-                    'path' => $pluginRoute['path'],
-                    ];
-
-                    foreach ($pluginRoute['specs'] as $key => $value) {
-
-                        if ($value) {
-                            $adminRoutes['routes'][$pluginRoute['name']][$key] = $value;
-                        }
-                    }
-                }
-            }
-        //}
-    }
-    //*/
-    //exit;
-    //*/
 
     // If there are 'admin' routes, attach routes to routing map
     if (isset($adminRoutes)) {
@@ -168,7 +115,6 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
 
         // If venue is active, load venue
         if ($currentVenue[0]['active'] === '2') {
-            //echo '<br />Load Venue<br />';
             $dispatch = true;
         } else {
             // If venue is not active, give message stating it exists but is not active/available

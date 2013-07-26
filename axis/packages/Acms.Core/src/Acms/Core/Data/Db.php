@@ -12,8 +12,6 @@
 
 namespace Acms\Core\Data;
 
-//use Aura\Sql\ConnectionFactory;
-
 /**
  * Db
  *
@@ -55,14 +53,6 @@ class Db
         }
     }
 
-    /*
-    public function debug($value)
-    {
-        // return $this->connObject->debug = $value;
-        return $this->connection->debug = $value;
-    }
-    //*/
-
     private function getDbInfo()
     {
         if (is_file(DBCONNFILE)) {
@@ -75,7 +65,6 @@ class Db
             $this->setDbPassword(DB_PASSWORD);
             $this->setDbName(DB_NAME);
             $this->setDbPrefix(DB_PREFIX);
-            //$this->setDbPersistent(DB_PERSISTENT);
             $this->setDbActive(DB_ACTIVE);
 
             return true;
@@ -219,9 +208,6 @@ class Db
 
     public function dbValidConnection()
     {
-        //$pdo = $this->connection->getPdo();
-        //*
-        //$this->connection->connect();
         $pdo = null;
         try {
             $pdo = $this->connection->getPdo();
@@ -230,51 +216,6 @@ class Db
             // Continue on failure
             return false;
         }
-        //*/
-
-        /*
-        if ($pdo) {
-            // Success, Continue
-            //$validConnection = 1;
-            return true;
-        } else {
-            // Failed, Go back and enter proper credentials
-            //$validConnection = '';
-            return false;
-        }
-        //*/
-
-        /*
-        $pdo = null;
-        try {
-            $pdo = $this->connection->getPdo();
-            //$connection->connect();
-            //$validConnection = 1;
-        } catch (Exception $e) {
-            // on failure
-            //$validConnection = '';
-        }
-        //*/
-
-        /*
-        if ($pdo) {
-            // Success, Continue
-            $validConnection = 1;
-        } else {
-            // Failed, Go back and enter proper credentials
-            $validConnection = '';
-        }
-        //*/
-
-        /*
-        if ($pdo) {
-            return true;
-        } else {
-            // Failed, Go back and enter proper credentials
-            return false;
-        }
-        //*/
-        //*/
     }
 
     /**
@@ -284,6 +225,7 @@ class Db
      *
      * @todo:: Finish converting to Aura.Sql
      */
+    /*
     public function dbSelectDb($dbName = "")
     {
         if ($dbName != "") {
@@ -292,22 +234,111 @@ class Db
 
         mysql_select_db($this->getDbName(), $this->getDbConnection());
     }
+    //*/
 
     /**
-     * =dbCreateDb
-     *
      * Create database.
      *
      * @todo:: Finish converting to Aura.Sql
      */
-    public function dbCreateDb($dbName = "")
+    public function dbCreateDatabase($dbName = '', $dbCharset = 'utf8', $dbCollation = 'utf8_general_ci')
     {
-        if ($dbName != "") {
+        if ($dbName != '') {
             $this->setDbName($dbName);
+
+            // TODO: Maybe we should escape values at some point, but binding values adds surrounding quotes to bound values in $queryString, which causes CREATE DATABASE to fail
+
+            $queryString = 'CREATE DATABASE IF NOT EXISTS ' . $dbName . ' CHARACTER SET ' . $dbCharset . ' COLLATE ' . $dbCollation . ';';
+
+            try {
+                $dbStmt = $this->connection->query($queryString);
+            }
+            catch (\PDOException $e)
+            {
+                return false;
+            }
+        } else {
+            return false;
         }
 
-        mysql_query("CREATE DATABASE IF NOT EXISTS " . $this->getDbName(), $this->getDbConnection());
-        // mysql_create_db($this->getDbName(), $this->getDbConnection());
+
+    }
+
+    /**
+     * =dbCreateTable
+     *
+     * @todo:: Finish documenting
+     */
+    public function dbCreateTable($tableName, $tableSchema, $tablePrefix = '')
+    {
+        if (!empty($tablePrefix)) {
+            if ($this->getDbPrefix() == null) {
+                $this->setDbPrefix($tablePrefix);
+            }
+        }
+
+        $queryString = "CREATE TABLE IF NOT EXISTS " . $this->getDbPrefix() . $tableName." (";
+
+        foreach ($tableSchema as $key) {
+
+            $queryString .= " `" . $key['name'] . "` " . $key['type'];
+
+            if ($key['not_null'] == '1') {
+                $queryString .= " NOT NULL";
+            }
+
+            if ($key['signed'] == '1') {
+                $queryString .= " SIGNED";
+            }
+
+            if ($key['autoincrement'] == '1') {
+                $queryString .= " AUTO_INCREMENT";
+            }
+
+            if (!empty($key['default'])) {
+                $queryString .= " DEFAULT " . $key['default'];
+            }
+
+            if ($key['primary_key'] == '1') {
+                $primary_key = $key['name'];
+            }
+
+            /*
+            if (!$key['unique_key'] == '1') {
+                $unique_keys = $key['unique_keys'];
+            }
+            //*/
+
+            $queryString .= ",";
+
+        }
+
+        if (!empty($primary_key)) {
+            $queryString .= " PRIMARY KEY (`" . $primary_key . "`)";
+        }
+
+        if (!empty($unique_keys)) {
+            // Create UNIQUE KEYs
+            //$queryString .= " PRIMARY KEY (`" . $primary_key . "`)";
+        }
+
+        // TODO: Add condition for UNIQUE KEYs when I implement them
+        if (empty($primary_key)) {
+            // Remove trailing comma if there is no primary/unique key
+            $queryString = substr($queryString, 0, -1);
+        }
+
+        $queryString .= ");";
+
+        try {
+            $dbStmt = $this->connection->query($queryString);
+            // Binding values adds surrounding quotes to bound values in $queryString, which causes CREATE DATABASE to fail
+            //$dbStmt = $this->connection->query($queryString, $bindValues);
+        }
+        catch (\PDOException $e)
+        {
+            return false;
+        }
     }
 
     /**
@@ -334,12 +365,14 @@ class Db
      *
      * @todo:: Finish converting to Aura.Sql
      */
+    /*
     public function dbExecuteQueries($queries)
     {
         for ($i = 0; $i < count($queries); $i ++) {
             $this->setDbRecordSet($this->connection->Execute($queries[$i]));
         }
     }
+    //*/
 
     /**
      * =dbClose
@@ -348,10 +381,12 @@ class Db
      *
      * @todo:: Finish converting to Aura.Sql
      */
+    /*
     public function dbClose()
     {
         mysql_close($this->getDbConnection);
     }
+    //*/
 
     /**
 	 * Select data from the database
@@ -396,10 +431,6 @@ class Db
 
         $this->setQueryText($queryText);
         $this->setBindValues($bindValues);
-
-        //return $this->connection->fetchOne($text, $bind);
-        //$this->setDbRecordSet($this->connection->Execute($query));
-        // $this->setDbRecordSet($this->connObject->Execute($query));
     }
 
     /**
@@ -410,40 +441,36 @@ class Db
      *
      * @todo:: Finish converting to Aura.Sql
      */
+    /*
     public function dbQuery($query)
     {
         $this->setDbRecordSet($this->connection->Execute($query));
         // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
     }
+    //*/
 
     /**
      * =dbInsert
      *
      * @todo:: Finish converting to Aura.Sql
      */
-    public function dbInsert($queryTableName, $queryInput)
+
+    public function dbInsert($tableName, $tableColumns, $tablePrefix = '')
     {
-        $queryInputColumns = array_keys($queryInput);
-        $queryInputValues = array_values($queryInput);
-
-        $query = "INSERT INTO " . $this->getDbPrefix() . $queryTableName . " (";
-
-        for ($i = 0; $i < count($queryInputColumns); $i ++) {
-            $query .= $queryInputColumns[$i] . ", ";
+        if (!empty($tablePrefix)) {
+            if ($this->getDbPrefix() == null) {
+                $this->setDbPrefix($tablePrefix);
+            }
         }
 
-        $query = substr($query, 0, - 2);
-        $query .= ") VALUES (";
+        $prefixedTableName = $this->getDbPrefix() . $tableName;
 
-        for ($i = 0; $i < count($queryInputColumns); $i ++) {
-            $query .= "'" . $queryInputValues[$i] . "', ";
-        }
+        $result = $this->connection->insert($prefixedTableName, $tableColumns);
 
-        $query = substr($query, 0, - 2);
-        $query .= ")";
+        // Save this for PostgreSQL implementation
+        //$id = $connection->lastInsertId($table, 'id');
 
-        $this->setDbRecordSet($this->connection->Execute($query));
-        // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
+        return $result;
     }
 
     /**
@@ -451,6 +478,7 @@ class Db
      *
      * @todo:: Finish converting to Aura.Sql
      */
+    /*
     public function dbUpdate($queryTableName, $queryInput, $queryWhereClause = null)
     {
         $queryInputColumns = array_keys($queryInput);
@@ -471,12 +499,14 @@ class Db
         $this->setDbRecordSet($this->connection->Execute($query));
         // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
     }
+    //*/
 
     /**
      * =dbDelete
      *
      * @todo:: Finish converting to Aura.Sql
      */
+    /*
     public function dbDelete($queryTableName, $queryWhereClause)
     {
         $queryWhereClause = strtolower($queryWhereClause);
@@ -490,36 +520,14 @@ class Db
         $this->setDbRecordSet($this->connection->Execute($query));
         // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
     }
-
-    /**
-     * =dbCreateTable
-     *
-     * @todo:: Finish converting to Aura.Sql
-     */
-    public function dbCreateTable($queryTableName, $queryInput)
-    {
-        $queryInputColumns = array_keys($queryInput);
-        $queryInputDataTypeInfo = array_values($queryInput);
-
-        $query = "CREATE TABLE " . $this->getDbPrefix() . $queryTableName . " (";
-
-        for ($i = 0; $i < count($queryInputColumns); $i ++) {
-            $query .= $queryInputColumns[$i] . " " . $queryInputDataTypeInfo[$i] . ", ";
-        }
-
-        $query = substr($query, 0, - 2);
-
-        $query .= ")";
-
-        $this->setDbRecordSet($this->connection->Execute($query));
-        // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
-    }
+    //*/
 
     /**
      * =dbAlterTable
      *
      * @todo:: Finish converting to Aura.Sql
      */
+    /*
     public function dbAlterTable($queryTableName, $queryFunction, $queryInput)
     {
         $queryFunction = strtoupper($queryFunction);
@@ -529,9 +537,9 @@ class Db
             $queryInputValues = array_values($queryInput);
         }
 
-        /*
-         * $query = "ALTER TABLE table RENAME AS new_table"; $query = "ALTER TABLE new_table ADD COLUMN col3 VARCHAR(50)"; $query = "ALTER TABLE new_table DROP COLUMN col2"; //
-         */
+
+        //$query = "ALTER TABLE table RENAME AS new_table"; $query = "ALTER TABLE new_table ADD COLUMN col3 VARCHAR(50)"; $query = "ALTER TABLE new_table DROP COLUMN col2"; //
+
 
         switch ($queryFunction) {
             case "RENAME":
@@ -556,14 +564,17 @@ class Db
         $this->setDbRecordSet($this->connection->Execute($query));
         // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
     }
+    //*/
 
     /**
      * =dbDropTable
      *
      * @todo:: Finish converting to Aura.Sql
      */
+    /*
     public function dbDropTable()
     {}
+    //*/
 
     /**
      * Fetching Data Sets
@@ -678,10 +689,12 @@ class Db
      *
      * @todo:: Finish converting to Aura.Sql
      */
+    /*
     public function dbInfo()
     {
         return mysql_info($this->getDbConnection());
     }
+    //*/
 
     /**
      * Database pointer functions
@@ -695,10 +708,12 @@ class Db
      *
      * @todo:: Finish converting to Aura.Sql
      */
+    /*
     public function dbDataSeek($queryRowIdentifier)
     {
         $this->setDbRowIdentifier(mysql_data_seek($this->getDbResult(), $queryRowIdentifier));
     }
+    //*/
 
     /*
      * /** Database Attributes ******************************************************************************
@@ -1127,16 +1142,20 @@ class Db
      * Opens persistent connection to database. All arguments are optional. Be
      * careful, mysql_close and script termination will not close the connection.
      */
+    /*
     public function dbPConnect()
     {}
+    //*/
 
     /**
      * =dbChangeUser
      *
      * Changes MySQL user on an open link.
      */
+    /*
     public function dbChangeUser()
     {}
+    //*/
 
     /**
      * Info about Queries
@@ -1149,72 +1168,90 @@ class Db
      * Use after a nonzero INSERT, UPDATE, or DELETE query to check number of rows
      * changed.
      */
+    /*
     public function dbAffectedRows()
     {}
+    //*/
 
     /**
      * =dbNumFields
      *
      * Returns number of fields in a result set.
      */
+    /*
     public function dbNumFields()
     {}
+    //*/
 
     /**
      * =dbNumRows
      *
      * Returns number of rows in a result set.
      */
+    /*
     public function dbNumRows()
     {}
+    //*/
 
     /**
      * =dbFetchField
      *
      * Returns information about a field as an object.
      */
+    /*
     public function dbFetchField()
     {}
+    //*/
 
     /**
      * =dbFieldSeek
      *
      * Moves result pointer to specified field offset. Used with mysql_fetch_field.
      */
+    /*
     public function dbFieldSeek()
     {}
+    //*/
 
     /**
      * =dbFetchLengths
      *
      * Returns length of each field in a result set.
      */
+    /*
     public function dbFetchLengths()
     {}
+    //*/
 
     /**
      * =dbFieldName
      *
      * Returns name of enumerated field.
      */
+    /*
     public function dbFieldName()
     {}
+    //*/
 
     /**
      * =dbFieldTable
      *
      * Returns name of specified fields table.
      */
+    /*
     public function dbFieldTable()
     {}
+    //*/
 
     /**
      * =dbFieldType
      *
      * Returns type of offset field (for example, TINYINT, BLOB, VARCHAR).
      */
+    /*
     public function dbFieldType()
     {}
+    //*/
 
     /**
      * =dbFieldFlags
@@ -1222,24 +1259,30 @@ class Db
      * Returns flags associated with enumerated field (for example, NOT null,
      * AUTO_INCREMENT, BINARY).
      */
+    /*
     public function dbFieldFlags()
     {}
+    //*/
 
     /**
      * =dbFieldLen
      *
      * Returns length of enumerated field.
      */
+    /*
     public function dbFieldLen()
     {}
+    //*/
 
     /**
      * =dbFreeResult
      *
      * Frees memory used by result set (usually unnecessary).
      */
+    /*
     public function dbFreeResult()
     {}
+    //*/
 
     /**
      * =dbInsertId
@@ -1247,8 +1290,11 @@ class Db
      * Returns AUTO_INCREMENTED ID of INSERT; or false if insert failed or last query
      * was not an insert.
      */
+
+    /*
     public function dbInsertId()
     {}
+    //*/
 
     /**
      * =dbListFields
@@ -1256,24 +1302,30 @@ class Db
      * Returns result ID for use in mysql_field functions, without performing an
      * actual query.
      */
+    /*
     public function dbListFields()
     {}
+    //*/
 
     /**
      * =dbListDbs
      *
      * Returns result pointer of databases on mysqld. Used with mysql_tablename.
      */
+    /*
     public function dbListDbs()
     {}
+    //*/
 
     /**
      * =dbListTables
      *
      * Returns result pointer of tables in database. Used with mysql_tablename.
      */
+    /*
     public function dbListTables()
     {}
+    //*/
 
     /**
      * =dbTableName
@@ -1281,8 +1333,10 @@ class Db
      * Used with any of the mysql_list functions to return the value referenced by
      * a result pointer.
      */
+    /*
     public function dbTableName()
     {}
+    //*/
 
     /**
      * Error Methods
@@ -1294,20 +1348,24 @@ class Db
      *
      * Returns ID of error.
      */
+    /*
     public function dbErrNo()
     {
         return $this->connection->ErrorNo();
     }
+    //*/
 
     /**
      * =dbError
      *
      * Returns text error message.
      */
+    /*
     public function dbErrorMsg()
     {
         return $this->connection->ErrorMsg();
     }
+    //*/
 }
 
 /** @} */ // End group database */

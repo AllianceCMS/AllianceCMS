@@ -2,11 +2,11 @@
     <strong>Please Choose A Language</strong>
 </p>
 
-<div class='content_separator'></div>
+<div class="content_separator"></div>
 
 <?php $formHelper->inputFormStart('/install/database-info'); ?>
 
-    <table class='data_table'>
+    <table class="data_table">
         <tr>
             <td>
                 <strong>Language:</strong>

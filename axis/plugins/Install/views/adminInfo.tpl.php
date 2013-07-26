@@ -2,7 +2,7 @@
     <strong>Please Enter The Main Administrators Information</strong>
 </p>
 
-<div class='content_separator'></div>
+<div class="content_separator"></div>
 
 <?php
     if (isset($installData['adminFirstIteration'])) {
@@ -37,7 +37,7 @@
 <?php if (!isset($firstIteration)): ?>
     <?php if (isset($adminPasswordMatchError) && $adminPasswordMatchError == 1): ?>
         <p>
-            <span style='color: red;'>Error: Passwords Do Not Match</span>
+            <span style="color: red;">Error: Passwords Do Not Match</span>
         </p>
     <?php endif; ?>
     <?php if (isset($adminEmailMatchError) && $adminEmailMatchError == 1): ?>
@@ -47,36 +47,36 @@
     <?php endif; ?>
     <?php if ($adminLoginName == ''): ?>
         <p>
-            <span style='color: red;'>Error: Please Enter A Login Name</span>
+            <span style="color: red;">Error: Please Enter A Login Name</span>
         </p>
     <?php endif; ?>
     <?php if ($adminPassword == ''): ?>
         <p>
-            <span style='color: red;'>Error: Please Enter A Password</span>
+            <span style="color: red;">Error: Please Enter A Password</span>
         </p>
     <?php endif; ?>
     <?php if ($adminConfirmPassword == ''): ?>
         <p>
-            <span style='color: red;'>Error: Please Confirm Your Password</span>
+            <span style="color: red;">Error: Please Confirm Your Password</span>
         </p>
     <?php endif; ?>
     <?php if ($adminEmail == ''): ?>
         <p>
-            <span style='color: red;'>Error: Please Enter An Email Address</span>
+            <span style="color: red;">Error: Please Enter An Email Address</span>
         </p>
     <?php endif; ?>
     <?php if ($adminConfirmEmail == ''): ?>
         <p>
-            <span style='color: red;'>Error: Please Confirm Your Email Address</span>
+            <span style="color: red;">Error: Please Confirm Your Email Address</span>
         </p>
     <?php endif; ?>
 <?php endif; ?>
 
 <?php $formHelper->inputFormStart('/install/confirm-admin-info'); ?>
-    <table class='data_table'>
+    <table class="data_table">
         <tr>
             <td>
-                <span style='color: red;'>*</span> <strong>Login Name:</strong>
+                <span style="color: red;">*</span> <strong>Login Name:</strong>
             </td>
             <td>
                 <?php $formHelper->inputText('adminLoginName', (isset($adminLoginName)) ? $adminLoginName : ''); ?>
@@ -100,7 +100,7 @@
         </tr>
         <tr>
             <td>
-                <span style='color: red;'>*</span> <strong>Password:</strong>
+                <span style="color: red;">*</span> <strong>Password:</strong>
             </td>
             <td>
                 <?php $formHelper->inputPassword('adminPassword', (isset($adminPassword)) ? $adminPassword : ''); ?>
@@ -108,7 +108,7 @@
         </tr>
         <tr>
             <td>
-                <span style='color: red;'>*</span> <strong>Confirm Password:</strong>
+                <span style="color: red;">*</span> <strong>Confirm Password:</strong>
             </td>
             <td>
                 <?php $formHelper->inputPassword('adminConfirmPassword', (isset($adminConfirmPassword)) ? $adminConfirmPassword : ''); ?>
@@ -116,7 +116,7 @@
         </tr>
         <tr>
             <td>
-                <span style='color: red;'>*</span> <strong>Email Address:</strong>
+                <span style="color: red;">*</span> <strong>Email Address:</strong>
             </td>
             <td>
                 <?php $formHelper->inputText('adminEmail', (isset($adminEmail)) ? $adminEmail : ''); ?>
@@ -124,7 +124,7 @@
         </tr>
         <tr>
             <td>
-                <span style='color: red;'>*</span> <strong>Confirm Email Address:</strong>
+                <span style="color: red;">*</span> <strong>Confirm Email Address:</strong>
             </td>
             <td>
                 <?php $formHelper->inputText('adminConfirmEmail', (isset($adminConfirmEmail)) ? $adminConfirmEmail : ''); ?>
@@ -158,7 +158,7 @@
             </td>
         </tr>
         <tr>
-            <td style='vertical-align: top;'>
+            <td style="vertical-align: top;">
                 <strong>Bio:</strong>
             </td>
             <td>
@@ -174,7 +174,7 @@
             </td>
         </tr>
         <tr>
-            <td style='vertical-align: top;'>
+            <td style="vertical-align: top;">
                 <strong>Signature:</strong>
             </td>
             <td>
@@ -198,5 +198,5 @@
 <?php $formHelper->inputFormEnd(); ?>
 
 <p>
-    <span style='color: red;'>*</span> = Required Field
+    <span style="color: red;">*</span> = Required Field
 </p>

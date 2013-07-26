@@ -69,7 +69,6 @@ if (file_exists(DBCONNFILE)) {
         // Does the route indicate a controller?
         if (isset($auraRoute->values['controller'])) {
             // Take the controller class directly from the route
-            //$controller = 'Ciao\\'.$auraRoute->values['controller'];
             $controller = $auraRoute->values['namespace'] . '\\' . $auraRoute->values['controller'];
         }
 
@@ -81,7 +80,7 @@ if (file_exists(DBCONNFILE)) {
 
         $page = new $controller;
 
-        // Assign the controller to the body of the base/theme template
+        // Dynamically call Install plugins controller/action
         $page->$action($auraRoute->values);
 
 

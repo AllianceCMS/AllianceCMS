@@ -41,7 +41,8 @@ define('DB_USER',       '".$_POST['dbUserName']."');
 define('DB_PASSWORD',   '".$_POST['dbPassword']."');
 define('DB_NAME',       '".$_POST['dbDatabase']."');
 define('DB_PREFIX', 	'".$_POST['dbDatabasePrefix']."');
-define('DB_ACTIVE', 	'1');";
+define('DB_ACTIVE', 	'1');
+";
 
 file_put_contents(DBCONNFILE, $data);
 

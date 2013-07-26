@@ -3,17 +3,21 @@ namespace Install;
 
 use Acms\Core\Templates\Template;
 use Acms\Core\Html\FormHelper;
-//use Acms\Core\Data\Db;
 
 /**
  * Things to fix:
- *     - Instead of sending css/image paths to theme.tpl.php, send $theme_folder and change calls in templates
+ *     - *** COMPLETE *** Instead of sending css/image paths to theme.tpl.php, send $theme_folder and change calls in templates
  *     - Put any repeated code into functions/methods:
- *         template creation
- *         template rendering
- *         setup menu
- *         instantiate FormHelper
+ *         *** COMPLETE *** template creation
+ *         *** COMPLETE *** template rendering
+ *         *** COMPLETE *** setup menu
+ *         *** COMPLETE *** instantiate FormHelper
  *         process errors
+ *     - Validate 'Venue Name' (make sure there are no numbers/symbols
+ *     - Filter/Validate all $_POST data
+ *     - Parse $schema array and check for/throw error before sending them to Db::someMethod
+ *     - Validate form data using javascript (matching passwords, valid 'Venue Name', etc...)
+ *     - Forms: Add links to help info for individual form fields (Venue Name will discribe what a venue name is, how it works, and valid examples)
  */
 
 class InstallSite
@@ -25,13 +29,6 @@ class InstallSite
     // Installation Welcome Page action
     public function installWelcome($routeValues)
     {
-        //*
-        echo '<br /><pre>$_POST: ';
-        echo print_r($_POST);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
         // Installation Welcome Screen
 
         // Setup theme template (only Install plugin should have to do this, once installed axis will take care of this)
@@ -53,13 +50,6 @@ class InstallSite
     // Installation: Language Page action
     public function installLanguage($routeValues)
     {
-        //*
-        echo '<br /><pre>$_POST: ';
-        echo print_r($_POST);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
         // Select Language
 
         $this->startTemplate();
@@ -88,13 +78,6 @@ class InstallSite
     // Installation: Database Info action
     public function installDbInfo($routeValues)
     {
-        //*
-        echo '<br /><pre>$_POST: ';
-        echo print_r($_POST);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
         // Prompt For DB Info
 
         // If confirm_database_info found empty required fields, then process errors sent back to this action
@@ -107,6 +90,7 @@ class InstallSite
             // Setup associative array so we can parse it and send it to the template via Template::set
             if (isset($errorsArray)) {
                 foreach ($errorsArray as $valueArray) {
+                    // Convert |_| back to periods, and convert |-| back to / (if not, URLs will break routing)
                     $errors[$valueArray[0]] = str_replace('|_|', '.', str_replace('|-|', '/', $valueArray[1]));
                 }
             }
@@ -166,13 +150,6 @@ class InstallSite
     // Installation: Confirm Database Info action
     public function installConfirmDbInfo($routeValues)
     {
-        //*
-        echo '<br /><pre>$_POST: ';
-        echo print_r($_POST);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
         // Confirm DB Info
 
         // Check for required fields from db_info pages
@@ -188,6 +165,7 @@ class InstallSite
             foreach($_POST as $attribute => $value) {
                 if ((!($attribute == 'install')) && (!($attribute == 'installData')) && (!($attribute == 'submit'))) {
                     if (!($value == '')) {
+                        // Convert periods to |_|, and convert / to |-| (if not, URLs will break routing)
                         $errors .= '/' . $attribute . '.' . str_replace('.', '|_|', str_replace('/', '|-|', $value));
                     }
                 }
@@ -233,13 +211,6 @@ class InstallSite
     // Installation: Test Connection Info action
     public function installTestDbConnection($routeValues)
     {
-        //*
-        echo '<br /><pre>$_POST: ';
-        echo print_r($_POST);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
         // Test/Confirm DB Connection
 
         // Create database object for testing purposes
@@ -278,21 +249,29 @@ class InstallSite
             $dbPassword = '';
         }
 
-        if (isset($_POST['dbPrefix'])) {
-            $dbPrefix = $_POST['dbPrefix'];
+        if (isset($_POST['dbDatabasePrefix'])) {
+            $dbPrefix = $_POST['dbDatabasePrefix'];
         } else {
             $dbPrefix = '';
         }
 
-        //*
-        // Create connection (lazy-connection, won't connect to db unless a query is submitted, hense Db::dbActiveConnect)
-        $sql->dbConnect(
-            $dbAdapter,
-            $dbHostName,
-            $dbDatabase,
-            $dbUserName,
-            $dbPassword
-        );
+        if (isset($_POST['dbCreateDatabase']) && ($_POST['dbCreateDatabase'] == '1')) {
+            $sql->dbConnect(
+                $dbAdapter,
+                $dbHostName,
+                '',
+                $dbUserName,
+                $dbPassword
+            );
+        } else {
+            $sql->dbConnect(
+                $dbAdapter,
+                $dbHostName,
+                $dbDatabase,
+                $dbUserName,
+                $dbPassword
+            );
+        }
 
         if ($sql->dbValidConnection()) {
             $validConnection = 1;
@@ -302,6 +281,7 @@ class InstallSite
 
         // End DB Connection Test
 
+        // Setup any installation data that's in $_POST
         foreach($_POST as $key => $value) {
             if ((!($key == 'install')) && (!($key == 'installData')) && (!($key == 'submit'))) {
                 $installData[$key] = $value;
@@ -332,30 +312,6 @@ class InstallSite
     // Installation: Admin Info action
     public function installAdminInfo($routeValues)
     {
-        /*
-        echo '<br /><pre>$routeValues: ';
-        echo print_r($routeValues);
-        echo '</pre><br />';
-        //*/
-
-        //*
-        echo '<br /><pre>$_POST: ';
-        echo print_r($_POST);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
-        /*
-        // Template testing code
-
-        $arr = get_defined_vars();
-
-        echo '<br /><pre>$arr: ';
-        echo print_r($arr);
-        echo '</pre><br />';
-        //*/
-
-
         // Prompt For Admin Info
 
         // If confirm_database_info found empty required fields, then process errors sent back to this action
@@ -368,6 +324,7 @@ class InstallSite
             // Setup associative array so we can parse it and send it to the template via Template::set
             if (isset($errorsArray)) {
                 foreach ($errorsArray as $valueArray) {
+                    // Convert |_| back to periods, and convert |-| back to / (if not, URLs will break routing)
                     $errors[$valueArray[0]] = str_replace('|_|', '.', str_replace('|-|', '/', $valueArray[1]));
                 }
             }
@@ -427,30 +384,6 @@ class InstallSite
     // Installation: Confirm Admin Info action
     public function installConfirmAdminInfo($routeValues)
     {
-        /*
-        echo '<br /><pre>$routeValues: ';
-        echo print_r($routeValues);
-        echo '</pre><br />';
-        //*/
-
-        //*
-        echo '<br /><pre>$_POST: ';
-        echo print_r($_POST);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
-        /*
-        // Template testing code
-
-        $arr = get_defined_vars();
-
-        echo '<br /><pre>$arr: ';
-        echo print_r($arr);
-        echo '</pre><br />';
-        //*/
-
-
         // Confirm Admin Info
 
         // Check for required fields from db_info pages
@@ -472,6 +405,7 @@ class InstallSite
             foreach($_POST as $attribute => $value) {
                 if ((!($attribute == 'install')) && (!($attribute == 'installData')) && (!($attribute == 'submit'))) {
                     if (!($value == '')) {
+                        // Convert periods to |_|, and convert / to |-| (if not, URLs will break routing)
                         $errors .= '/' . $attribute . '.' . str_replace('.', '|_|', str_replace('/', '|-|', $value));
                     }
                 }
@@ -528,34 +462,10 @@ class InstallSite
         exit;
     }
 
-    // Installation: Site Info action
-    public function installSiteInfo($routeValues)
+    // Installation: Venue Info action
+    public function installVenueInfo($routeValues)
     {
-        /*
-        echo '<br /><pre>$routeValues: ';
-        echo print_r($routeValues);
-        echo '</pre><br />';
-        //*/
-
-        //*
-        echo '<br /><pre>$_POST: ';
-        echo print_r($_POST);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
-        /*
-        // Template testing code
-
-        $arr = get_defined_vars();
-
-        echo '<br /><pre>$arr: ';
-        echo print_r($arr);
-        echo '</pre><br />';
-        //*/
-
-
-        // Prompt For Site Info
+        // Prompt For Venue Info
 
         foreach($_POST as $key => $value) {
             if ((!($key == 'install')) && (!($key == 'installData')) && (!($key == 'submit'))) {
@@ -564,7 +474,7 @@ class InstallSite
         }
 
         $this->startTemplate();
-        $this->createBody('siteInfo.tpl.php');
+        $this->createBody('venueInfo.tpl.php');
 
         // Send $installData to template
         $this->body->set('installData', $installData);
@@ -581,34 +491,10 @@ class InstallSite
         exit;
     }
 
-    // Installation: Confirm Site Info action
-    public function installConfirmSiteInfo($routeValues)
+    // Installation: Confirm Venue Info action
+    public function installConfirmVenueInfo($routeValues)
     {
-        /*
-        echo '<br /><pre>$routeValues: ';
-        echo print_r($routeValues);
-        echo '</pre><br />';
-        //*/
-
-        //*
-        echo '<br /><pre>$_POST: ';
-        echo print_r($_POST);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
-        /*
-        // Template testing code
-
-        $arr = get_defined_vars();
-
-        echo '<br /><pre>$arr: ';
-        echo print_r($arr);
-        echo '</pre><br />';
-        //*/
-
-
-        // Confirm Site Info
+        // Confirm Venue Info
 
         // Setup any installation data that's in $_POST
         foreach($_POST as $key => $value) {
@@ -618,7 +504,7 @@ class InstallSite
         }
 
         $this->startTemplate();
-        $this->createBody('siteConfirm.tpl.php');
+        $this->createBody('venueConfirm.tpl.php');
 
         // Send $installData to template
         $this->body->set('installData', $installData);
@@ -639,30 +525,6 @@ class InstallSite
     // Installation: Confirm Installation action
     public function installConfirmInstallation($routeValues)
     {
-        /*
-        echo '<br /><pre>$routeValues: ';
-        echo print_r($routeValues);
-        echo '</pre><br />';
-        //*/
-
-        //*
-        echo '<br /><pre>$_POST: ';
-        echo print_r($_POST);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
-        /*
-        // Template testing code
-
-        $arr = get_defined_vars();
-
-        echo '<br /><pre>$arr: ';
-        echo print_r($arr);
-        echo '</pre><br />';
-        //*/
-
-
         // ok To Install?
 
         // Setup any installation data that's in $_POST
@@ -673,7 +535,7 @@ class InstallSite
         }
 
         $this->startTemplate();
-        $this->createBody('siteConfirmInstall.tpl.php');
+        $this->createBody('venueConfirmInstall.tpl.php');
 
         // Send $installData to template
         $this->body->set('installData', $installData);
@@ -692,43 +554,19 @@ class InstallSite
     }
 
     // Installation: Complete Installation action
-    public function installCompleteInstallation($routeValues)
+    public function installInstallationComplete($routeValues)
     {
-        /*
-        echo '<br /><pre>$routeValues: ';
-        echo print_r($routeValues);
-        echo '</pre><br />';
-        //*/
-
-        //*
-        echo '<br /><pre>$_POST: ';
-        echo print_r($_POST);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
-        /*
-        // Template testing code
-
-        $arr = get_defined_vars();
-
-        echo '<br /><pre>$arr: ';
-        echo print_r($arr);
-        echo '</pre><br />';
-        //*/
-
         // Complete Installation
 
-        //*
         // Create Database Tables
-        // If Clean Installation: Go To 'cleanup.php' File That Deletes 'Install.php', Fixes File Permissions And Links To Main Site
+        // If Clean Installation: Go To 'cleanup.php' File That Deletes 'Install.php', Fixes File Permissions And Links To Main Venue
         // If Dirty Installation: Drop Everything From Database And Verify Database Connection Info
 
         if (!defined('DB_SOFTWARE')) {
-            require_once('create.dbConnection.php');
-            exit;
             require_once('install.core.php');
-            require_once('install.data.php');
+            //exit;
+            //require_once('install.data.php');
+            require_once('create.dbConnection.php');
         }
 
         // Installation Complete Page
@@ -748,8 +586,7 @@ class InstallSite
         $this->tpl = new Template();
         $this->tpl->set('title', 'AllianceCMS: Installation');
         $this->tpl->set('author', 'AllianceCMS Dev Team');
-        $this->tpl->set('theme_folder', BASE_URL . 'themes/core/emplode/');
-        //$this->tpl->set('styleSheet', BASE_URL . 'themes/core/emplode/css/style.css');
+        $this->tpl->set('theme_folder', BASE_URL . '/' . 'themes/core/emplode/');
 
     }
 
@@ -760,8 +597,7 @@ class InstallSite
 
         // Setup body of plugin template
         $this->body = new Template(dirname(__FILE__) . DS . 'views' . DS . $view);
-        $this->body->set('theme_folder', BASE_URL . 'themes/core/emplode/');
-        //$this->body->set('images', BASE_URL . 'themes/core/emplode/images');
+        $this->body->set('theme_folder', BASE_URL . '/' . 'themes/core/emplode/');
         $this->body->set('formHelper', $formHelper);
 
     }
@@ -771,8 +607,7 @@ class InstallSite
         // Create menu template
         $this->menu[0] = new Template(dirname(__FILE__) . DS . 'views' . DS . 'menu.tpl.php');
         $this->menu[0]->set('installStage', $stage);
-        $this->menu[0]->set('theme_folder', BASE_URL . 'themes/core/emplode/');
-        //$this->menu[0]->set('images', BASE_URL . 'themes/core/emplode/images');
+        $this->menu[0]->set('theme_folder', BASE_URL . '/' . 'themes/core/emplode/');
 
     }
 

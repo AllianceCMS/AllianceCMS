@@ -5,6 +5,12 @@ if ($dispatch) {
     // Match route to Aura.Routes route map
     $auraRoute = $mapRoutes->match($path, $_SERVER);
 
+    /*
+    echo '<br /><pre>$auraRoute: ';
+    echo print_r($auraRoute);
+    echo '</pre><br />';
+    //*/
+
     // If there is no match then we need to send user to custom '404'
     if (! $auraRoute) {
 
@@ -16,36 +22,14 @@ if ($dispatch) {
         //*/
     }
 
-    /*
-    // Old plugin structure (function based)
     // Does the route indicate a controller?
     if (isset($auraRoute->values['controller'])) {
         // Take the controller class directly from the route
-        $controller = $auraRoute->values['controller'];
-    } else {
-        // Use a default controller
-        $controller = 'index';
-    }
-
-    // Assign the controller to the body of the base/theme template
-    $body = $controller($auraRoute->values);
-    $tpl->set("body",	$body);
-    //*/
-
-    /*
-    echo '<br /><pre>$auraRoute: ';
-    echo print_r($auraRoute);
-    echo '</pre><br />';
-    //*/
-
-    // Does the route indicate a controller?
-    if (isset($auraRoute->values['controller'])) {
-        // Take the controller class directly from the route
-        //$controller = 'Ciao\\'.$auraRoute->values['controller'];
         $controller = $auraRoute->values['namespace'] . '\\' . $auraRoute->values['controller'];
     } else {
         // Use a default controller
-        $controller = 'index';
+        // TODO: ??? Implement this ???
+        //$controller = 'index';
     }
 
     // Does the route indicate an action?
@@ -53,40 +37,38 @@ if ($dispatch) {
         // Take the controller action directly from the route
         $action = $auraRoute->values['action'];
     } else {
-        // Use a default controller
-        $action = 'action';
+        // Use a default action
+        // TODO: ??? Implement this ???
+        //$action = 'action';
     }
 
     $page = new $controller;
+
+    // Create/set 'Main Nav Links' vars and template
+    $sql->dbSelect('links',
+        'label, url',
+        'location = :location AND active = :active',
+        ['location' => intval(1), 'active' => intval(2)],
+        'ORDER BY link_order');
+    $links = $sql->dbFetch();
+
+    // Create navbar template
+    $nav1 = new Acms\Core\Templates\Template(TEMPLATES . 'nav.tpl.php');
+    $nav1->set('currentVenue', $auraRoute->values['venue']);
+    $nav1->set('links', $links);
+
+    // Send navbar to main template (the active theme.tpl.php)
+    $tpl->set("nav1", $nav1);
 
     // Assign the controller to the body of the base/theme template
     $body = $page->$action($auraRoute->values);
     $tpl->set("body",	$body);
 
-    //*
     // If the function 'customHeaders' exists then include custom header into the themes 'header' tags
     if (function_exists('customHeaders')) {
         $tpl->set("customHeaders", customHeaders());
     }
 
-    /*
-    echo '<br /><pre>$auraRoute: ';
-    echo print_r($auraRoute);
-    echo '</pre><br />';
-    //*/
-
-    // Render all templates
+    // Render active theme template (which in turn loads all other templates assigned to it)
     echo $tpl->fetch($theme_path . "/theme.tpl.php");
-    //*/
-
-    // Default controller to load if there is none defined in plugin route
-    function index() {
-        echo '<br />Hello Function index<br />';
-    }
-
-    // Dummy controller
-    // TODO: Need to remove before alpha release
-    function blog() {
-        echo '<br />Hello Function blog<br />';
-    }
 }

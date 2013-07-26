@@ -111,31 +111,31 @@ $pluginRoutes['Install']['Confirm Admin Info'] = [
     ]
 ];
 
-// Create route for Installation: Prompt For Site Info page
-$pluginRoutes['Install']['Prompt For Site Info'] = [
-    'name' => 'install_site_info', // Required: Route name
-    'path' => '/install/site-info', // Required: Route path
+// Create route for Installation: Prompt For Venue Info page
+$pluginRoutes['Install']['Prompt For Venue Info'] = [
+    'name' => 'install_venue_info', // Required: Route name
+    'path' => '/install/venue-info', // Required: Route path
     'type' => 'front', // Required: admin, front, back
     'specs' => [
         'values' => [
             'namespace' => 'Install',
             'controller' => 'InstallSite',
-            'action' => 'installSiteInfo',
+            'action' => 'installVenueInfo',
             'method' => ['POST'],
         ] // Required: namespace/controller/action
     ]
 ];
 
-// Create route for Installation: Confirm Site Info page
-$pluginRoutes['Install']['Confirm Site Info'] = [
-    'name' => 'install_confirm_site_info', // Required: Route name
-    'path' => '/install/confirm-site-info', // Required: Route path
+// Create route for Installation: Confirm Venue Info page
+$pluginRoutes['Install']['Confirm Venue Info'] = [
+    'name' => 'install_confirm_venue_info', // Required: Route name
+    'path' => '/install/confirm-venue-info', // Required: Route path
     'type' => 'front', // Required: admin, front, back
     'specs' => [
         'values' => [
             'namespace' => 'Install',
             'controller' => 'InstallSite',
-            'action' => 'installConfirmSiteInfo',
+            'action' => 'installConfirmVenueInfo',
             'method' => ['POST'],
         ] // Required: namespace/controller/action
     ]
@@ -158,14 +158,14 @@ $pluginRoutes['Install']['Confirm Installation'] = [
 
 // Create route for Installation: Complete Installation page
 $pluginRoutes['Install']['Complete Installation'] = [
-    'name' => 'install_complete_installation', // Required: Route name
-    'path' => '/install/complete-installation', // Required: Route path
+    'name' => 'install_installation_complete', // Required: Route name
+    'path' => '/install/installation-complete', // Required: Route path
     'type' => 'front', // Required: admin, front, back
     'specs' => [
         'values' => [
             'namespace' => 'Install',
             'controller' => 'InstallSite',
-            'action' => 'installCompleteInstallation',
+            'action' => 'installInstallationComplete',
             'method' => ['POST'],
         ] // Required: namespace/controller/action
     ]

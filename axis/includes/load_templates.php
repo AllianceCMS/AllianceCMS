@@ -32,8 +32,8 @@ define("THEME_FAVICON",     $row->fields['favicon']);
  * Was located in 'venue_info.php'
  */
 
-/*
- $sql->dbSelect("menus", "name, link, plugin_id, menu_area", "active = 2 ORDER BY menu_order";
+    /*
+     $sql->dbSelect("menus", "name, link, plugin_id, menu_area", "active = 2 ORDER BY menu_order";
      $row = $sql->dbFetch();
 
      $basePluginDir = NULL;
@@ -50,15 +50,11 @@ define("THEME_FAVICON",     $row->fields['favicon']);
 
 // Get the file system path to the venue's active theme: used for theme images/css/js links
 $sql->dbSelect('themes',
-    'name, folder_path, folder_name, author, author_email, author_site',
+    'name, folder_path, folder_name, artist, artist_email, artist_site',
     'id = :id',
     ['id' => intval(VENUE_THEME)]);
 $fields = $sql->dbFetch('one');
 $theme_path = $fields['folder_path'] . $fields['folder_name'];
-
-// Load navigation links template
-// TODO: This is hard coded. Need to make this dynamic so we can implement template overrides.
-include TEMPLATES . 'nav.tpl.php';
 
 /*
 // Setup Blocks
@@ -81,12 +77,11 @@ $menu5 = $setupMenu->getMenus();
 // Create base/theme template
 $tpl = new Template();
 $tpl->set('base_url', BASE_URL);
-$tpl->set('theme_folder', BASE_URL . $theme_path);
+$tpl->set('theme_folder', BASE_URL . '/' . $theme_path);
 $tpl->set("venue_title", VENUE_TITLE);
 //$tpl->set("venue_author", SITE_ADMIN_NAME);
 $tpl->set("venue_description", VENUE_DESCRIPTION);
 $tpl->set("venue_tagline", VENUE_TAGLINE);
-$tpl->set("nav1", $nav1);
 /*
 $tpl->set("menu1", $menu1);
 $tpl->set("menu2", $menu2);

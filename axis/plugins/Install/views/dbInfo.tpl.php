@@ -2,7 +2,7 @@
     <strong>Please Enter Your Database Connection Information</strong>
 </p>
 
-<div class='content_separator'></div>
+<div class="content_separator"></div>
 
 <?php
 
@@ -30,23 +30,23 @@
 <?php if (isset($dbInfoError)): ?>
     <?php if ($dbHostName == ''): ?>
         <p>
-            <span style='color: red;'>Error: Please Enter A Host Name</span>
+            <span style="color: red;">Error: Please Enter A Host Name</span>
         </p>
     <?php endif; ?>
     <?php if ($dbUserName == ''): ?>
         <p>
-            <span style='color: red;'>Error: Please Enter A User Name</span>
+            <span style="color: red;">Error: Please Enter A User Name</span>
         </p>
     <?php endif; ?>
     <?php if ($dbDatabase == ''): ?>
         <p>
-            <span style='color: red;'>Error: Please Enter A Database Name</span>
+            <span style="color: red;">Error: Please Enter A Database Name</span>
         </p>
     <?php endif; ?>
 <?php endif; ?>
 
 <?php $formHelper->inputFormStart('/install/confirm-database-info'); ?>
-    <table class='data_table'>
+    <table class="data_table">
         <tr>
             <td>
                 <strong>Database Adapter:</strong>
@@ -58,7 +58,7 @@
         </tr>
         <tr>
             <td>
-                <span style='color: red;'>*</span> <strong>Host Name:</strong>
+                <span style="color: red;">*</span> <strong>Host Name:</strong>
             </td>
             <td>
                 <?php $formHelper->inputText('dbHostName', ((isset($installData['dbHostName'])) ? $installData['dbHostName'] : $dbHostName)); ?>
@@ -66,17 +66,17 @@
         </tr>
         <tr>
             <td>
-                <span style='color: red;'>*</span> <strong>Database:</strong>
+                <span style="color: red;">*</span> <strong>Database:</strong>
             </td>
             <td>
                 <?php $formHelper->inputText('dbDatabase', (isset($installData['dbDatabase'])) ? $installData['dbDatabase'] : $dbDatabase); ?>
-                <?php $formHelper->inputCheckBox('dbCreateDatabase', '1', '', ((isset($dbCreateDatabase)) && ($dbCreateDatabase == '1') ? '1' : NULL)); ?>
+                <?php $formHelper->inputCheckBox('dbCreateDatabase', '1', '', ((isset($installData['dbCreateDatabase'])) && ($installData['dbCreateDatabase'] == '1') ? '1' : NULL)); ?>
                 Create?
             </td>
         </tr>
         <tr>
             <td>
-                <span style='color: red;'>*</span> <strong>User Name:</strong>
+                <span style="color: red;">*</span> <strong>User Name:</strong>
             </td>
             <td>
                 <?php $formHelper->inputText('dbUserName', ((isset($installData['dbUserName'])) ? $installData['dbUserName'] : $dbUserName)); ?>
@@ -115,5 +115,5 @@
 <?php $formHelper->inputFormEnd(); ?>
 
 <p>
-    <span style='color: red;'>*</span> = Required Field
+    <span style="color: red;">*</span> = Required Field
 </p>

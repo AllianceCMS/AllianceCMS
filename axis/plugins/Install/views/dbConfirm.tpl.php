@@ -2,9 +2,9 @@
     <strong>Please Confirm That This Database Information Is Correct</strong>
 </p>
 
-<div class='content_separator'></div>
+<div class="content_separator"></div>
 
-<table class='data_table'>
+<table class="data_table">
     <tr>
         <td>
             <strong>Database Adapter:</strong>
@@ -63,7 +63,7 @@
     </tr>
 </table>
 
-<div style='float: left; margin:0 5px 5px 0;'>
+<div style="float: left; margin:0 5px 5px 0;">
     <?php
         $formHelper->inputFormStart('/install/database-info');
         $formHelper->inputHidden('install', '2');
@@ -90,4 +90,4 @@
         $formHelper->inputFormEnd();
     ?>
 </div>
-<div style='clear: left'></div>
+<div style="clear: left"></div>

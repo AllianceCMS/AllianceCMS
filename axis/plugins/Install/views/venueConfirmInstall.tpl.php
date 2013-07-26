@@ -2,7 +2,7 @@
     <strong>You Are Now Ready To Install Your New Website!!!</strong>
 </p>
 
-<div class='content_separator'></div>
+<div class="content_separator"></div>
 
 <p>
     Click the button below to complete the installation of your new website.
@@ -10,7 +10,7 @@
 
 <div>
     <?php
-        $formHelper->inputFormStart('/install/complete-installation');
+        $formHelper->inputFormStart('/install/installation-complete');
         $formHelper->inputHidden('install', '10');
 
         foreach($installData as $attribute => $value) {

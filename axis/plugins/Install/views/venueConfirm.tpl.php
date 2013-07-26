@@ -1,47 +1,47 @@
 <?php
 
-    if (empty($siteName)) {
-        $siteName = '';
+    if (empty($venueName)) {
+        $venueName = '';
     }
 
-    if (empty($siteTitle)) {
-        $siteTitle = '';
+    if (empty($venueTitle)) {
+        $venueTitle = '';
     }
 
-    if (empty($siteTagline)) {
-        $siteTagline = '';
+    if (empty($venueTagline)) {
+        $venueTagline = '';
     }
 
-    if (empty($siteEmail)) {
-        $siteEmail = '';
+    if (empty($venueEmail)) {
+        $venueEmail = '';
     }
 
-    if (empty($siteEmailName)) {
-        $siteEmailName = '';
+    if (empty($venueEmailName)) {
+        $venueEmailName = '';
     }
 
-    if (empty($siteDescription)) {
-        $siteDescription = '';
+    if (empty($venueDescription)) {
+        $venueDescription = '';
     }
 
-    if (empty($siteKeywords)) {
-        $siteKeywords = '';
+    if (empty($venueKeywords)) {
+        $venueKeywords = '';
     }
 ?>
 
 <p>
-    <strong>Please Confirm This Site Information, Then Install Site</strong>
+    <strong>Please Confirm Main Venue Information, Then Install Venue</strong>
 </p>
 
-<div class='content_separator'></div>
+<div class="content_separator"></div>
 
-<table class='data_table'>
+<table class="data_table">
     <tr>
         <td>
-            <strong>Website Name:</strong>
+            <strong>Main Venue Name:</strong>
         </td>
         <td>
-            <?php echo $siteName; ?>
+            <?php echo $venueName; ?>
         </td>
     </tr>
     <tr>
@@ -49,7 +49,7 @@
             <strong>Title:</strong>
         </td>
         <td>
-            <?php echo $siteTitle; ?>
+            <?php echo $venueTitle; ?>
         </td>
     </tr>
     <tr>
@@ -57,46 +57,46 @@
             <strong>Tagline:</strong>
         </td>
         <td>
-            <?php echo $siteTagline; ?>
+            <?php echo $venueTagline; ?>
         </td>
     </tr>
     <tr>
         <td>
-            <strong>Site Email Address:</strong>
+            <strong>Venue Email Address:</strong>
         </td>
         <td>
-            <?php echo $siteEmail; ?>
+            <?php echo $venueEmail; ?>
         </td>
     </tr>
     <tr>
         <td>
-            <strong>Site Email Address Name:</strong>
+            <strong>Venue Email Address Name:</strong>
         </td>
         <td>
-            <?php echo $siteEmailName; ?>
+            <?php echo $venueEmailName; ?>
         </td>
     </tr>
     <tr>
-        <td style='vertical-align: top;'>
+        <td style="vertical-align: top;">
             <strong>Description:</strong>
         </td>
         <td>
-            <?php $formHelper->inputTextArea('siteDescription', $siteDescription, '', 7, 25, '', 1); ?>
+            <?php $formHelper->inputTextArea('venueDescription', $venueDescription, '', 7, 25, '', 1); ?>
         </td>
     </tr>
     <tr>
-        <td style='vertical-align: top;'>
+        <td style="vertical-align: top;">
             <strong>Keywords:</strong>
         </td>
         <td>
-            <?php $formHelper->inputTextArea('siteKeywords', $siteKeywords, '', 7, 25, '', 1); ?>
+            <?php $formHelper->inputTextArea('venueKeywords', $venueKeywords, '', 7, 25, '', 1); ?>
         </td>
     </tr>
 </table>
 
-<div style='float: left; margin:0 5px 5px 0;'>
+<div style="float: left; margin:0 5px 5px 0;">
     <?php
-        $formHelper->inputFormStart('/install/site-info');
+        $formHelper->inputFormStart('/install/venue-info');
         $formHelper->inputHidden('install', '7');
 
         foreach($installData as $attribute => $value) {
@@ -121,4 +121,4 @@
         $formHelper->inputFormEnd();
     ?>
 </div>
-<div style='clear: left'></div>
+<div style="clear: left"></div>

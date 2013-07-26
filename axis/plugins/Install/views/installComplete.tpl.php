@@ -10,19 +10,19 @@
 
 <div>
     <?php
-        $formHelper->inputFormStart(BASEDIR);
-        
+        $formHelper->inputFormStart('/');
+
         /*
         $formHelper->inputHidden("install", "10");
-        
+
         for ($i = 0; $i < count($installData); $i++) {
             foreach($installData[$i] as $attribute => $value) {
                 $formHelper->inputHidden($attribute, $value);
             }
         }
         //*/
-        
-        $formHelper->inputSubmit("", "Enter Site", array("class" => "button"));
+
+        $formHelper->inputSubmit('', 'Enter Site', array('class' => 'button'));
         $formHelper->inputFormEnd();
     ?>
 </div>
