@@ -1,6 +1,19 @@
-* Place the contents of 'public_html' into your web server's 'Document Root' folder (commonly named 'public_html' or 'htdocs')
-* Place the 'axis' and 'zones' folders on level up from your web server's 'Document Root' folder (commonly named 'public_html' or 'htdocs')
-* Place the contents of 'public_html' into your web server's 'Document Root' folder (commonly named 'public_html' or 'htdocs')
-* Use your web browser and go to your domain (i.e. http://www.yourdomain.com, localhost)
-* Install AllianceCMS by following the instructions and hints provided by AllianceCMS's installer
-* Check out the AllianceCMS Wiki for terminology explanations
+To install AllianceCMS in your root domain (www.mysite.com)
+
+1. Upload Folders and Files
+    * Place the contents of 'public_html' into your web server's 'Document Root' folder (commonly named 'public_html' or 'htdocs')
+    * Place the 'axis' and 'zones' folders on level up from your web server's 'Document Root' folder
+2. Use your web browser and navigate to your domain (i.e. http://www.yourdomain.com)
+3. Install AllianceCMS by following the instructions and hints provided by AllianceCMS's installer
+4. Check out the AllianceCMS Wiki for terminology explanations
+
+To install AllianceCMS on a subdomain domain (docs.mysite.com)
+
+1. Upload Folders and Files
+    * Place the contents of 'public_html' into your 'subdomain' folder (i.e. /public_html/docs)
+    * Place the 'axis' and 'zones' folders on level up from your web server's 'Document Root' folder (SECURITY RISK: Never place these files where you can access them from a web client!)
+2. Open '/subdomain/index.php' and follow the instructions there (you may have to adjust depending on folder structure)
+3. Open '/axis/configs/system.php' and change the value of 'define('PUBLIC_HTML', BASE_DIR . 'public_html' . DS);' so it points to your subdomain folder
+4. Use your web browser and navigate to your subdomain (i.e. http://docs.yourdomain.com)
+5. Install AllianceCMS by following the instructions and hints provided by AllianceCMS's installer
+6. Check out the AllianceCMS Wiki for terminology explanations
