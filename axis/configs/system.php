@@ -44,6 +44,7 @@ $thisPath = $currentDir . $currentFile;
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $pathArray = explode('/', $path);
 array_shift($pathArray);
+$pathVenue = $pathArray[0];
 array_shift($pathArray);
 
 $thisQueryString = '';
@@ -121,10 +122,24 @@ define('THEMES', PUBLIC_HTML . 'themes' . DS);
 define('TEMPLATES', THEMES . 'templates' . DS);
 
 /**
+ *
  * Database connections file location
+ *     Dynamically load dbConnections.php, dependant on which domain/subdomain we're on
  */
 
-define('DBCONNFILE', ZONES . 'default' . DS . 'dbConnections.php');
+// If this is localhost or main domain (mysite.com)
+if ((count(explode('.', $_SERVER['SERVER_NAME']))) < 3) {
+    if (file_exists(ZONES . $_SERVER['SERVER_NAME'] .  DS . 'dbConnections.php')) {
+            $dbConnFile = ZONES . $_SERVER['SERVER_NAME'] .  DS . 'dbConnections.php';
+        } else {
+            $dbConnFile = ZONES . 'default' . DS . 'dbConnections.php';
+        }
+} else {
+    // This is a subdomain, do not use '/default/dbConnections.php'
+    $dbConnFile = ZONES . $_SERVER['SERVER_NAME'] .  DS . 'dbConnections.php';
+}
+
+define('DBCONNFILE', $dbConnFile);
 
 /**
  * Unset variables that are no longer needed

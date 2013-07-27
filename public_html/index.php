@@ -7,6 +7,7 @@
  * If AllianceCMS is installed on a subdomain, comment out the following line
  */
 
+$subDomainFolder = null;
 require_once (dirname(__dir__) . ('/axis/hub.php'));
 
 /**
