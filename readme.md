@@ -23,6 +23,7 @@ We are proud to announce the arrival of AllianceCMS, a Social Content Management
 
 ##What Is AllianceCMS?
 
+**AllianceCMS is:**
 * Flexible
 * Secure
 * Easy To Use
@@ -30,7 +31,7 @@ We are proud to announce the arrival of AllianceCMS, a Social Content Management
 * Easy To Create Custom Look And Layout
 * PHP 5.4+ Compatible
 * Web Standards Compliant
-* Open Source Licensing (Apache License, Version 2.0)
+* Open Source (Apache License, Version 2.0)
 
 ##Join The AllianceCMS Community!
 

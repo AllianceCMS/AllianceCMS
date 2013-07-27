@@ -1,4 +1,6 @@
 .settings
 .buildpath
 .project
-venues/default/dbConnections.php
+public_html/phpinfo.php
+zones/default/dbConnections*
+Doxygen_Docs/*
