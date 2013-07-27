@@ -7,9 +7,9 @@ if (!defined('DS')) {
 
 // Setup base url
 if (isset($_SERVER['HTTPS'])) {
-    $baseUrl = "https://" . $_SERVER['SERVER_NAME'];
+    $baseUrl = 'https://' . $_SERVER['SERVER_NAME'];
 } else {
-    $baseUrl = "http://" . $_SERVER['SERVER_NAME'];
+    $baseUrl = 'http://' . $_SERVER['SERVER_NAME'];
 }
 
 // Assign base directory path
@@ -40,27 +40,32 @@ foreach ($pathArray as $val) {
 
 //*
 // File system constants
-define("THIS_FILE", $currentFile);
-define("THIS_DIR", $currentDir);
-define("BASE_DIR", $baseDir);
+define('THIS_FILE', $currentFile);
+define('THIS_DIR', $currentDir);
+define('BASE_DIR', $baseDir);
 
 // URL system constants
-define("BASE_URL", $baseUrl);
-define("THIS_QUERY_STRING", $thisQueryString); // Used in nav.tpl.php
+define('BASE_URL', $baseUrl);
+define('THIS_QUERY_STRING', $thisQueryString); // Used in nav.tpl.php
 
 // AllianceCMS folder locations
-define("AXIS", BASE_DIR . 'axis' . DS);
-define("ZONES", BASE_DIR . 'zones' . DS);
-define("PUBLIC_HTML", BASE_DIR . 'public_html' . DS);
+define('AXIS', BASE_DIR . 'axis' . DS);
+define('ZONES', BASE_DIR . 'zones' . DS);
+
+// Comment this out if your site is located in a subdomain
+define('PUBLIC_HTML', BASE_DIR . 'public_html' . DS);
+
+// Uncomment this if your site is located in a subdomain (replace 'subdomain' with the folder name of your subdomain)
+//define('PUBLIC_HTML', BASE_DIR . 'public_html' . DS . 'subdomain' . DS);
 
 // System folder locations
-define("CONFIGS", AXIS . 'configs' . DS);
-define("INCLUDES", AXIS . 'includes' . DS);
-define("TESTS", AXIS . 'tests' . DS);
+define('CONFIGS', AXIS . 'configs' . DS);
+define('INCLUDES', AXIS . 'includes' . DS);
+define('TESTS', AXIS . 'tests' . DS);
 
 // Package locations
-define("PACKAGES", AXIS . 'packages' . DS);
-define("PACKAGE_ACMS_CORE", PACKAGES . 'Acms.Core' . DS . 'src' . DS . 'Acms' . DS . 'Core' . DS);
+define('PACKAGES', AXIS . 'packages' . DS);
+define('PACKAGE_ACMS_CORE', PACKAGES . 'Acms.Core' . DS . 'src' . DS . 'Acms' . DS . 'Core' . DS);
 
 // Axis plugin/theme folder locations
 define('PLUGINS_AXIS', AXIS . 'plugins' . DS);
@@ -73,7 +78,7 @@ define('THEMES', PUBLIC_HTML . 'themes' . DS);
 define('TEMPLATES', THEMES . 'templates' . DS);
 
 // Database connections file location
-define("DBCONNFILE", ZONES . 'default' . DS . 'dbConnections.php');
+define('DBCONNFILE', ZONES . 'default' . DS . 'dbConnections.php');
 
 // Unset variables that are no longer needed (we should not be using these in plugins/themes)
 unset($baseUrl);

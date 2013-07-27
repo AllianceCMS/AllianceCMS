@@ -70,5 +70,5 @@ if ($dispatch) {
     }
 
     // Render active theme template (which in turn loads all other templates assigned to it)
-    echo $tpl->fetch($theme_path . "/theme.tpl.php");
+    echo $tpl->fetch(PUBLIC_HTML . $theme_path . "/theme.tpl.php");
 }
