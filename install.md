@@ -13,7 +13,6 @@ To install AllianceCMS on a subdomain domain (docs.mysite.com)
     * Place the contents of 'public_html' into your 'subdomain' folder (i.e. /public_html/docs)
     * Place the 'axis' and 'zones' folders on level up from your web server's 'Document Root' folder (SECURITY RISK: Never place these files where you can access them from a web client!)
 2. Open '/subdomain/index.php' and follow the instructions there (you may have to adjust depending on folder structure)
-3. Open '/axis/configs/system.php' and change the value of 'define('PUBLIC_HTML', BASE_DIR . 'public_html' . DS);' so it points to your subdomain folder
 4. Use your web browser and navigate to your subdomain (i.e. http://docs.yourdomain.com)
 5. Install AllianceCMS by following the instructions and hints provided by AllianceCMS's installer
 6. Check out the AllianceCMS Wiki for terminology explanations
