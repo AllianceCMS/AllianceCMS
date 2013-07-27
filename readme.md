@@ -23,6 +23,7 @@ We are proud to announce the arrival of AllianceCMS, a Social Content Management
 
 ##What Is AllianceCMS?
 
+AllianceCMS is:
 * Flexible
 * Secure
 * Easy To Use

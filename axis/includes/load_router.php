@@ -83,8 +83,19 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
     unset($pathArray);
 
     // If there is no venue in the path, send user to main venue
-    if ($pathVenue === 'install') {
+    if ((strtolower($pathVenue) === strtolower('Install'))) {
+        if (file_exists(DBCONNFILE)) {
 
+            // Send user to main venue
+
+            $sql->dbSelect('venues', 'name', 'id = :id', ['id' => intval(1)]);
+
+            // If there is a main venue, redirect to the main venue
+            if($list = $sql->dbFetch()) {
+                header("Location: /" . $list[0]['name']);
+                exit;
+            }
+        }
     } elseif ($path === '/') {
 
         // Send user to main venue
