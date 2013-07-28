@@ -13,7 +13,7 @@ echo '<br />Begin Processing Axis Plugins<br />';
 $finderAxis = new Finder();
 $finderAxis
     ->files()
-    ->name('main.php')
+    ->name('routes.php')
     ->in(PLUGINS_AXIS);
 
 foreach ($finderAxis as $file) {
