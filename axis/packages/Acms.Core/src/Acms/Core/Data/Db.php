@@ -39,7 +39,7 @@ class Db
         $this->initClassVars();
 
         if (is_file(DBCONNFILE)) {
-            if ($this->getDbInfo()) {
+            if ($this->setDbInfo()) {
                 if ($this->dbConnect()) {
                     return true;
                 } else {
@@ -53,7 +53,7 @@ class Db
         }
     }
 
-    private function getDbInfo()
+    private function setDbInfo()
     {
         if (is_file(DBCONNFILE)) {
 
@@ -342,53 +342,6 @@ class Db
     }
 
     /**
-     * =dbManageTables
-     *
-     * Create/Alter tables.
-     *
-     * @param array $queries
-     *
-     * @todo:: Finish converting to Aura.Sql
-     */
-
-    /*
-     * public function dbManageTables($queries) { for ($i = 0; $i < count($queries); $i++) { mysql_query($queries[$i], $this->getDbConnection()); } }
-     */
-
-    /**
-     * =dbExecuteQueries
-     *
-     * Execute SQL Queries stored in an array. Must include the table prefix
-     * using the 'DB_PREFIX' constant.
-     *
-     * @param array $queries
-     *
-     * @todo:: Finish converting to Aura.Sql
-     */
-    /*
-    public function dbExecuteQueries($queries)
-    {
-        for ($i = 0; $i < count($queries); $i ++) {
-            $this->setDbRecordSet($this->connection->Execute($queries[$i]));
-        }
-    }
-    //*/
-
-    /**
-     * =dbClose
-     *
-     * Closes the identified link (usually unnecessary).
-     *
-     * @todo:: Finish converting to Aura.Sql
-     */
-    /*
-    public function dbClose()
-    {
-        mysql_close($this->getDbConnection);
-    }
-    //*/
-
-    /**
 	 * Select data from the database
 	 *
 	 * Example selecting data from the database:
@@ -434,6 +387,114 @@ class Db
     }
 
     /**
+     * Fetching Data Sets
+     * ******************************************************************************
+     */
+
+    /**
+     * Fetches result set.
+     *
+     * @param string $fetchType
+     *     Type of fetch you would like to perform:
+     *         1. **all**: Returns a sequential array of all rows. The rows themselves are associative arrays where the keys are the column names.
+     *         2. **assoc**: Returns an associative array of all rows where the key is the first column.
+     *         3. **col**: Returns a sequential array of all values in the first column.
+     *         4. **one**: Returns the first row as an associative array where the keys are the column names.
+     *         5. **pairs**: Returns an associative array where each key is the first column and each value is the second column.
+     *         6. **value**: Returns the value of the first row in the first column.
+     *
+     * @return Returns result set depending on $fetchType, false if no matching $fetchType
+     */
+
+    public function dbFetch($fetchType = 'all')
+    {
+
+        switch ($fetchType) {
+            case 'all':
+                return $this->connection->fetchAll($this->getQueryText(), $this->getBindValues());
+            case 'assoc':
+                return $this->connection->fetchAssoc($this->getQueryText(), $this->getBindValues());
+            case 'col':
+                return $this->connection->fetchCol($this->getQueryText(), $this->getBindValues());
+            case 'one':
+                return $this->connection->fetchOne($this->getQueryText(), $this->getBindValues());
+            case 'pairs':
+                return $this->connection->fetchPairs($this->getQueryText(), $this->getBindValues());
+            case 'value':
+                return $this->connection->fetchValue($this->getQueryText(), $this->getBindValues());
+            default:
+                return false;
+        }
+        // echo "\$this->getDbRecordSet() = ".$this->getDbRecordSet()."<br /><br />";
+        //return $this->getDbRecordSet();
+    }
+
+    public function dbInsert($tableName, $tableColumns, $tablePrefix = '')
+    {
+        if (!empty($tablePrefix)) {
+            if ($this->getDbPrefix() == null) {
+                $this->setDbPrefix($tablePrefix);
+            }
+        }
+
+        $prefixedTableName = $this->getDbPrefix() . $tableName;
+
+        $result = $this->connection->insert($prefixedTableName, $tableColumns);
+
+        // Save this for PostgreSQL implementation
+        //$id = $connection->lastInsertId($table, 'id');
+
+        return $result;
+    }
+
+    /**
+     * =dbManageTables
+     *
+     * Create/Alter tables.
+     *
+     * @param array $queries
+     *
+     * @todo:: Finish converting to Aura.Sql
+     */
+
+    /*
+     * public function dbManageTables($queries) { for ($i = 0; $i < count($queries); $i++) { mysql_query($queries[$i], $this->getDbConnection()); } }
+    */
+
+    /**
+     * =dbExecuteQueries
+     *
+     * Execute SQL Queries stored in an array. Must include the table prefix
+     * using the 'DB_PREFIX' constant.
+     *
+     * @param array $queries
+     *
+     * @todo:: Finish converting to Aura.Sql
+     */
+    /*
+     public function dbExecuteQueries($queries)
+     {
+    for ($i = 0; $i < count($queries); $i ++) {
+    $this->setDbRecordSet($this->connection->Execute($queries[$i]));
+    }
+    }
+    //*/
+
+    /**
+     * =dbClose
+     *
+     * Closes the identified link (usually unnecessary).
+     *
+     * @todo:: Finish converting to Aura.Sql
+     */
+    /*
+     public function dbClose()
+     {
+    mysql_close($this->getDbConnection);
+    }
+    //*/
+
+    /**
      * =dbQuery
      *
      * Sends query to database. Remember to put the semicolon outside the doublequoted
@@ -454,24 +515,6 @@ class Db
      *
      * @todo:: Finish converting to Aura.Sql
      */
-
-    public function dbInsert($tableName, $tableColumns, $tablePrefix = '')
-    {
-        if (!empty($tablePrefix)) {
-            if ($this->getDbPrefix() == null) {
-                $this->setDbPrefix($tablePrefix);
-            }
-        }
-
-        $prefixedTableName = $this->getDbPrefix() . $tableName;
-
-        $result = $this->connection->insert($prefixedTableName, $tableColumns);
-
-        // Save this for PostgreSQL implementation
-        //$id = $connection->lastInsertId($table, 'id');
-
-        return $result;
-    }
 
     /**
      * =dbUpdate
@@ -575,48 +618,6 @@ class Db
     public function dbDropTable()
     {}
     //*/
-
-    /**
-     * Fetching Data Sets
-     * ******************************************************************************
-     */
-
-    /**
-     * Fetches result set.
-     *
-	 * @param string $fetchType
-	 *     Type of fetch you would like to perform:
-	 *         1. **all**: Returns a sequential array of all rows. The rows themselves are associative arrays where the keys are the column names.
-	 *         2. **assoc**: Returns an associative array of all rows where the key is the first column.
-	 *         3. **col**: Returns a sequential array of all values in the first column.
-	 *         4. **one**: Returns the first row as an associative array where the keys are the column names.
-	 *         5. **pairs**: Returns an associative array where each key is the first column and each value is the second column.
-	 *         6. **value**: Returns the value of the first row in the first column.
-	 *
-     * @return Returns result set depending on $fetchType, false if no matching $fetchType
-     */
-    public function dbFetch($fetchType = 'all')
-    {
-
-        switch ($fetchType) {
-            case 'all':
-                return $this->connection->fetchAll($this->getQueryText(), $this->getBindValues());
-            case 'assoc':
-                return $this->connection->fetchAssoc($this->getQueryText(), $this->getBindValues());
-            case 'col':
-                return $this->connection->fetchCol($this->getQueryText(), $this->getBindValues());
-            case 'one':
-                return $this->connection->fetchOne($this->getQueryText(), $this->getBindValues());
-            case 'pairs':
-                return $this->connection->fetchPairs($this->getQueryText(), $this->getBindValues());
-            case 'value':
-                return $this->connection->fetchValue($this->getQueryText(), $this->getBindValues());
-            default:
-                return false;
-        }
-        // echo "\$this->getDbRecordSet() = ".$this->getDbRecordSet()."<br /><br />";
-        //return $this->getDbRecordSet();
-    }
 
     /**
      * =dbFetchRow
