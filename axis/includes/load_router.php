@@ -38,10 +38,6 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
 
         $plugin_path_array = explode('/', $row['folder_path']);
 
-        echo '<br />$plugin_path_array["1"] is: ' . $plugin_path_array['1'] . '<br />';
-        echo '<br />$_SERVER["SERVER_NAME"] is: ' . $_SERVER['SERVER_NAME'] . '<br />';
-        //exit;
-
         if ($plugin_path_array['0'] == 'axis') {
             $plugin_path = PLUGINS_AXIS;
             $loadPlugin = 1;
@@ -57,8 +53,6 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
         }
 
         $plugin_folder_name = $row['folder_name'];
-
-        echo '<br />$loadPlugin is: ' . $loadPlugin . '<br />';
 
         // Get routes for active plugins and add plugin namespace to autoloader
         if ($loadPlugin) {
