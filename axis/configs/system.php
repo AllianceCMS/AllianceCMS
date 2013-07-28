@@ -109,10 +109,28 @@ define('PACKAGE_ACMS_CORE', PACKAGES . 'Acms.Core' . DS . 'src' . DS . 'Acms' . 
 define('PLUGINS_AXIS', AXIS . 'plugins' . DS);
 
 /**
- * Domain/Subdomain plugin/theme folder locations
+ * Domain/Subdomain plugin folder locations
  */
 
-define('PLUGINS_ZONES', ZONES . 'plugins' . DS);
+/**
+ *
+ * Database connections file location
+ *     Dynamically load dbConnections.php, dependant on which domain/subdomain we're on
+ */
+
+// If this is localhost or main domain (mysite.com)
+if ((count(explode('.', $_SERVER['SERVER_NAME']))) < 3) {
+    if (file_exists(ZONES . $_SERVER['SERVER_NAME'])) {
+        $pluginZones = ZONES . $_SERVER['SERVER_NAME'] . DS . 'plugins';
+    } else {
+        $pluginZones = ZONES . 'default' . DS . 'plugins';
+    }
+} else {
+    // This is a subdomain, do not use '/default/dbConnections.php'
+    $pluginZones = ZONES . $_SERVER['SERVER_NAME'] . DS . 'plugins';
+}
+
+define('PLUGINS_ZONES', $pluginZones);
 
 /**
  * Theme/Template folder locations

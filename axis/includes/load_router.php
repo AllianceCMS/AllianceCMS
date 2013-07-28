@@ -27,16 +27,46 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
 
     foreach ($result as $row) {
 
-        $plugin_folder_path = $row['folder_path'];
-        $plugin_folder_name = $row['folder_name'];
+        /**
+         * Dynamically load plugins based on 'folder_path' ('plugins' db table field)
+         *
+         * The plugin folder must reside in '/axis/plugins' or '/zones/plugins/some-directory'
+         *     (i.e.  '/zones/plugins/provider', '/zones/plugins/custom')
+         */
 
-        // Get routes for active plugins and add plugin namespace to autoloader
-        if (file_exists(BASE_DIR . $plugin_folder_path . $plugin_folder_name . DS . 'routes.php')) {
-            include_once(BASE_DIR . $plugin_folder_path . $plugin_folder_name . DS . 'routes.php');
-            $acmsLoader->add($plugin_folder_name . '\\', BASE_DIR . $plugin_folder_path);
+        $loadPlugin = null;
+
+        $plugin_path_array = explode('/', $row['folder_path']);
+
+        echo '<br />$plugin_path_array["1"] is: ' . $plugin_path_array['1'] . '<br />';
+        echo '<br />$_SERVER["SERVER_NAME"] is: ' . $_SERVER['SERVER_NAME'] . '<br />';
+        //exit;
+
+        if ($plugin_path_array['0'] == 'axis') {
+            $plugin_path = PLUGINS_AXIS;
+            $loadPlugin = 1;
+        } elseif ($plugin_path_array['0'] == 'zones') {
+            if ($plugin_path_array['1'] == 'all') {
+                $plugin_path = PLUGINS_ZONES . $plugin_path_array['2'] . DS;
+                $loadPlugin = 1;
+            } elseif ($plugin_path_array['1'] == $_SERVER['SERVER_NAME']) {
+                $plugin_path = PLUGINS_ZONES . $plugin_path_array['2'] . DS;
+                $loadPlugin = 1;
+            }
+            //$plugin_path = PLUGINS_ZONES . $plugin_path_array['2'] . DS;
         }
 
+        $plugin_folder_name = $row['folder_name'];
 
+        echo '<br />$loadPlugin is: ' . $loadPlugin . '<br />';
+
+        // Get routes for active plugins and add plugin namespace to autoloader
+        if ($loadPlugin) {
+            if (file_exists($plugin_path . DS . $plugin_folder_name . DS . 'routes.php')) {
+                include_once($plugin_path . DS . $plugin_folder_name . DS . 'routes.php');
+                $acmsLoader->add($plugin_folder_name . '\\', $plugin_path);
+            }
+        }
     }
 
     // TODO: The next two 'if' statements need to be a class method
