@@ -3,7 +3,7 @@
  * Create directory separator for file system paths
  */
 
-if ((!defined('PHP_VERSION_ID')) || (version_compare('5.4.0', PHP_VERSION_ID) < 0)):
+if (phpversion() < '5.4.0'):
 ?>
     <h1>AllianceCMS: Error</h1>
     <h2>
