@@ -30,8 +30,8 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
         /**
          * Dynamically load plugins based on 'folder_path' ('plugins' db table field)
          *
-         * The plugin folder must reside in '/axis/plugins' or '/zones/plugins/some-directory'
-         *     (i.e.  '/zones/plugins/provider', '/zones/plugins/custom')
+         * The plugin folder must reside in '/axis/plugins' or '/zones/some-zone/plugins/some-directory'
+         *     (i.e.  '/zones/all/plugins/provider', '/zones/subdomain.mysite.com/plugins/custom')
          */
 
         $loadPlugin = null;
@@ -40,7 +40,7 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
         $plugin_folder_name = null;
 
         $plugin_path_array = explode('/', $row['folder_path']);
-        
+
         if ($plugin_path_array['0'] == 'axis') {
             $plugin_path = PLUGINS_AXIS;
             $loadPlugin = 1;
@@ -53,7 +53,7 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
                 $loadPlugin = 1;
             }
         }
-        
+
         $plugin_folder_name = $row['folder_name'];
 
         // Get routes for active plugins and add plugin namespace to autoloader
