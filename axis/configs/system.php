@@ -3,6 +3,29 @@
  * Create directory separator for file system paths
  */
 
+if ((!defined('PHP_VERSION_ID')) || (version_compare('5.4.0', PHP_VERSION_ID) < 0)):
+?>
+    <h1>AllianceCMS: Error</h1>
+    <h2>
+        <span style="color: red;">There are one or more errors that will prevent you from installing and using AllianceCMS</span>
+    </h2>
+
+    <p>
+        <dialog></dialog>
+    </p>
+    <p>
+        Current PHP version: <strong><?php echo phpversion(); ?></strong>
+    </p>
+    <p>
+        Required PHP version: <strong>5.4+<strong>
+    </p>
+    <p>
+        Please talk to your system administrator about upgrading your PHP server software before continuing...
+    </p>
+<?php
+    exit;
+endif;
+
 if (!defined('DS')) {
     define('DS', strtoupper(substr(PHP_OS, 0, 3) == 'WIN') ? '\\' : '/');
 }
@@ -118,8 +141,10 @@ define('PLUGINS_AXIS', AXIS . 'plugins' . DS);
  *     Dynamically load dbConnections.php, dependant on which domain/subdomain we're on
  */
 
-// If this is localhost or main domain (mysite.com)
-if ((count(explode('.', $_SERVER['SERVER_NAME']))) < 3) {
+$serverPathArray = explode('.', $_SERVER['SERVER_NAME']);
+
+// If this is localhost or main domain (localhost, mysite.com, www.mysite.com)
+if (((count($serverPathArray)) < 3) || ($serverPathArray[0] == 'www')) {
     if (file_exists(ZONES . $_SERVER['SERVER_NAME'])) {
         $pluginZones = ZONES . $_SERVER['SERVER_NAME'] . DS . 'plugins';
     } else {

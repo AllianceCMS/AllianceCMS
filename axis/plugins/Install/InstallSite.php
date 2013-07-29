@@ -29,6 +29,36 @@ class InstallSite
     // Installation Welcome Page action
     public function installWelcome($routeValues)
     {
+        $missingZone = null;
+
+        $serverPathArray = explode('.', $_SERVER['SERVER_NAME']);
+
+        if (((count($serverPathArray)) < 3) || ($serverPathArray[0] == 'www')) {
+            if (file_exists(ZONES . $_SERVER['SERVER_NAME'])) {
+                $pluginZones = ZONES . $_SERVER['SERVER_NAME'] . DS . 'plugins';
+            } else {
+                $pluginZones = ZONES . 'default' . DS . 'plugins';
+            }
+        } else {
+            // This is a subdomain, check for zone folder
+            if (!file_exists(ZONES . $_SERVER['SERVER_NAME'])) {
+                $missingZone = 1;
+            }
+        }
+
+        if (isset($missingZone)) {
+
+            $this->startTemplate();
+            $this->createBody('welcomeWarnings.tpl.php');
+
+            $this->body->set('missingZone', $missingZone);
+
+            $this->createMenu('1');
+            $this->renderTemplate();
+
+            exit;
+        }
+
         // Installation Welcome Screen
 
         // Setup theme template (only Install plugin should have to do this, once installed axis will take care of this)

@@ -22,12 +22,18 @@
 </dl>
 
 <p>
-    We Will Now Walk You Through The Installation Process
+    <strong><span style="color: red;">There are one or more errors that will prevent you from installing AllianceCMS</span></strong>
 </p>
 
-<?php $formHelper->inputFormStart('/install/language'); ?>
+<?php if (isset($missingZone)): ?>
     <p>
-        <?php $formHelper->inputHidden('install', '1'); ?>
-        <?php $formHelper->inputSubmit('submit', 'Start Installation', array('class' => 'button')); ?>
+        <strong>Error: There is no Zone folder for this subdomain</strong>
+
     </p>
-<?php $formHelper->inputFormEnd(); ?>
+    <p>
+        Please navigate to the '<strong>zones</strong>' folder and make a copy of the '<strong>default</strong>' folder and name it: <strong><?php echo $_SERVER['SERVER_NAME']; ?></strong>
+    </p>
+    <p>
+        The final path should be:  <strong>/zones/<?php echo $_SERVER['SERVER_NAME']; ?></strong>
+    </p>
+<?php endif; ?>
