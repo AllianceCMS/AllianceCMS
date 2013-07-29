@@ -4,4 +4,4 @@
 public_html/phpinfo.php
 zones/default/dbConnections*
 Doxygen_Docs/*
-/nbproject/private/
+nbproject/*

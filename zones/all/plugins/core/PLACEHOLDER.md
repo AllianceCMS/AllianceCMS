@@ -1,1 +1,0 @@
-This file exists because this folder is temporarily empty, yet I want this folder to be included in my git repo.

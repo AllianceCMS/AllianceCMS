@@ -35,32 +35,31 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
          */
 
         $loadPlugin = null;
+        $plugin_path_array = null;
+        $plugin_path = null;
+        $plugin_folder_name = null;
 
         $plugin_path_array = explode('/', $row['folder_path']);
-
+        
         if ($plugin_path_array['0'] == 'axis') {
             $plugin_path = PLUGINS_AXIS;
             $loadPlugin = 1;
         } elseif ($plugin_path_array['0'] == 'zones') {
             if ($plugin_path_array['1'] == 'all') {
-                $plugin_path = PLUGINS_ZONES . $plugin_path_array['2'] . DS;
+                $plugin_path = ZONES . $plugin_path_array['1'] . DS . $plugin_path_array['2'] . DS . $plugin_path_array['3'] . DS;
                 $loadPlugin = 1;
             } elseif ($plugin_path_array['1'] == $_SERVER['SERVER_NAME']) {
-                $plugin_path = PLUGINS_ZONES . $plugin_path_array['2'] . DS;
+                $plugin_path = ZONES . $_SERVER['SERVER_NAME'] . DS . $plugin_path_array['2'] . DS . $plugin_path_array['3'] . DS;
                 $loadPlugin = 1;
             }
-            //$plugin_path = PLUGINS_ZONES . $plugin_path_array['2'] . DS;
         }
         
-        echo '<br />$plugin_path . DS . $plugin_folder_name is: ' . $plugin_path . DS . $plugin_folder_name . '<br />';
-        echo '<br />$loadPlugin is: ' . $loadPlugin . '<br />';
-
         $plugin_folder_name = $row['folder_name'];
 
         // Get routes for active plugins and add plugin namespace to autoloader
         if ($loadPlugin) {
-            if (file_exists($plugin_path . DS . $plugin_folder_name . DS . 'routes.php')) {
-                include_once($plugin_path . DS . $plugin_folder_name . DS . 'routes.php');
+            if (file_exists($plugin_path . $plugin_folder_name . DS . 'routes.php')) {
+                include_once($plugin_path . $plugin_folder_name . DS . 'routes.php');
                 $acmsLoader->add($plugin_folder_name . '\\', $plugin_path);
             }
         }
