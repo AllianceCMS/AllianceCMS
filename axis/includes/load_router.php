@@ -51,6 +51,9 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
             }
             //$plugin_path = PLUGINS_ZONES . $plugin_path_array['2'] . DS;
         }
+        
+        echo '<br />$plugin_path . DS . $plugin_folder_name is: ' . $plugin_path . DS . $plugin_folder_name . '<br />';
+        echo '<br />$loadPlugin is: ' . $loadPlugin . '<br />';
 
         $plugin_folder_name = $row['folder_name'];
 
