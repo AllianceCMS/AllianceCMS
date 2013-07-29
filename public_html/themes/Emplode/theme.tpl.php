@@ -10,7 +10,7 @@
     	<meta name="author" content="<?php /* echo $site_author; */ ?>" />
         <meta name="description" content="<?php echo $venue_description; ?>"/>
     	<meta name="keywords" content="" />
-    	<meta name="robots" content="all"></head>
+    	<meta name="robots" content="all">
 
     	<!-- START Custom Headers -->
     	<?php /* if (!empty($customHeaders)) echo $customHeaders; */ ?>
