@@ -10,8 +10,8 @@
         $firstIteration = 1;
     }
 
-    if (empty($dbHostName)) {
-        $dbHostName = '';
+    if (empty($dbHost)) {
+        $dbHost = '';
     }
 
     if (empty($dbUserName)) {
@@ -28,7 +28,7 @@
 ?>
 
 <?php if (isset($dbInfoError)): ?>
-    <?php if ($dbHostName == ''): ?>
+    <?php if ($dbHost == ''): ?>
         <p>
             <span style="color: red;">Error: Please Enter A Host Name</span>
         </p>
@@ -61,7 +61,7 @@
                 <span style="color: red;">*</span> <strong>Host Name:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('dbHostName', ((isset($installData['dbHostName'])) ? $installData['dbHostName'] : $dbHostName)); ?>
+                <?php $formHelper->inputText('dbHost', ((isset($installData['dbHost'])) ? $installData['dbHost'] : $dbHost)); ?>
             </td>
         </tr>
         <tr>

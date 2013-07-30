@@ -60,10 +60,10 @@ if (isset($_POST['dbAdapter'])) {
     $dbAdapter = '';
 }
 
-if (isset($_POST['dbHostName'])) {
-    $dbHostName = $_POST['dbHostName'];
+if (isset($_POST['dbHost'])) {
+    $dbHost = $_POST['dbHost'];
 } else {
-    $dbHostName = '';
+    $dbHost = '';
 }
 
 if (isset($_POST['dbDatabase'])) {
@@ -94,7 +94,7 @@ if ($dbCreateDatabase == 1) {
     // Create database connection
     $sql->dbConnect(
         $dbAdapter,
-        $dbHostName,
+        $dbHost,
         '',
         $dbUserName,
         $dbPassword
@@ -113,7 +113,7 @@ if ($dbCreateDatabase == 1) {
     // Create database connection
     $sql->dbConnect(
         $dbAdapter,
-        $dbHostName,
+        $dbHost,
         $dbDatabase,
         $dbUserName,
         $dbPassword
@@ -123,7 +123,7 @@ if ($dbCreateDatabase == 1) {
 // Create connection that includes the database name since we've already created the database, or the user created a database before installation
 $sql->dbConnect(
     $dbAdapter,
-    $dbHostName,
+    $dbHost,
     $dbDatabase,
     $dbUserName,
     $dbPassword

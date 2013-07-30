@@ -2,14 +2,14 @@
 
 use Acms\Core\Data\Db;
 
-// If the database config file (/venues/default/dbConnections.php) exists create database object
+// If the database config file (/venues/default/dbConnection.php) exists create database object
 if (file_exists(DBCONNFILE)) {
 
     $sql = new Db;
 
 } else {
 
-    // If the database config file (/venues/default/dbConnections.php) does not exist send user to installation page
+    // If the database config file (/venues/default/dbConnection.php) does not exist send user to installation page
 
     // Match Routes
     // TODO: The following five lines of active code needs to be a class method

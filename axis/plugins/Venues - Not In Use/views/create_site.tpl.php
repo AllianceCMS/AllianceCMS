@@ -2,30 +2,30 @@
 
     // NEED TO FINISH WORKING ON "EXISTING SITE NAME" AND "REQUIRED FIELDS" ERROR MESSAGES
     // NEED TO FINISH CODE IN THE ACTION AND VIEW
-    
+
     /*
-    if (empty($dbHostName)) {
-        $dbHostName = "";
+    if (empty($dbHost)) {
+        $dbHost = "";
     }
-    
+
     if (empty($dbUserName)) {
         $dbUserName = "";
     }
-    
+
     if (empty($dbDatabase)) {
         $dbDatabase = "";
     }
-    
+
     if (empty($dbDatabasePrefix)) {
         $dbDatabasePrefix = "";
     }
     */
-    
+
 ?>
 
 <!--
 <?php if (!isset($firstIteration)): ?>
-    <?php if ($dbHostName == ""): ?>
+    <?php if ($dbHost == ""): ?>
         <p>
             <span style="color: red;">Error: Please Enter A Host Name</span>
         </p>
@@ -75,7 +75,7 @@
             </tr>
         </table>
     </p>
-    
+
     <p>
         <?php echo $formHelper->inputSubmit("create_site_submit", "Create Site"); ?>
     </p>

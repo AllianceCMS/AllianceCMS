@@ -18,7 +18,7 @@
             <strong>Host Name:</strong>
         </td>
         <td>
-            <?php echo (isset($dbHostName)) ? $dbHostName : ''; ?>
+            <?php echo (isset($dbHost)) ? $dbHost : ''; ?>
         </td>
     </tr>
     <tr>

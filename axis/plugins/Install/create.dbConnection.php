@@ -5,8 +5,8 @@
  *
  */
 
-$dbAdapter       = $_POST['dbAdapter'];
-$dbHostName       = $_POST['dbHostName'];
+$dbAdapter        = $_POST['dbAdapter'];
+$dbHost           = $_POST['dbHost'];
 $dbUserName       = $_POST['dbUserName'];
 $dbPassword       = $_POST['dbPassword'];
 $dbDatabase       = $_POST['dbDatabase'];
@@ -36,7 +36,7 @@ $data =	 "<?php
  */
 
 define('DB_ADAPTER',    '".$_POST['dbAdapter']."');
-define('DB_HOST',       '".$_POST['dbHostName']."');
+define('DB_HOST',       '".$_POST['dbHost']."');
 define('DB_USER',       '".$_POST['dbUserName']."');
 define('DB_PASSWORD',   '".$_POST['dbPassword']."');
 define('DB_NAME',       '".$_POST['dbDatabase']."');

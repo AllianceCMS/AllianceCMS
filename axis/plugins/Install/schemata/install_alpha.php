@@ -902,7 +902,7 @@ $schema['0.01']['insert']['table'] = [
             ],
             [
                 'id' => '',
-                'label' => 'Ciao Dude',
+                'label' => 'Ciao People',
                 'url' => '/hello/later',
                 'comment' => '',
                 'parent' => '',

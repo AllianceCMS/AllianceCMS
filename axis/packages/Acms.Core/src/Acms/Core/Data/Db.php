@@ -19,14 +19,15 @@ namespace Acms\Core\Data;
  *
  * The routines here define the methods and properties needed to handle database connectivity and functionality.
  *
- * We use Aura.Sql for minor database abstraction. The available databases are: MySQL, PostgreSQL, SQLite3 and Microsoft SQL Server
+ * We use Aura.Sql for minor database abstraction. The available databases (at this time) are: MySQL
  */
+
 class Db
 {
 
     /**
-     * 1. Sets all class properties to null
-     * 2. Checks if dbConnections.php exists
+     * 1. Initialize all class properties to null
+     * 2. Checks if dbConnection.php exists
      * 3. Sets up class properies related to database connection
      * 4. Creates database connection using a lazy-connect method
      *
@@ -34,6 +35,7 @@ class Db
      *     of any sort. This means you can create the connection object, and if you never issue a query, it will never connect
      *     to the database."
      */
+
     public function __construct()
     {
         $this->initClassVars();
@@ -53,6 +55,12 @@ class Db
         }
     }
 
+    /**
+     * Uses dbConnection.php to Initialize database connection properties
+     *
+     * @return boolean
+     */
+
     private function setDbInfo()
     {
         if (is_file(DBCONNFILE)) {
@@ -60,7 +68,7 @@ class Db
             require_once(DBCONNFILE);
 
             $this->setDbAdapter(DB_ADAPTER);
-            $this->setDbHostName(DB_HOST);
+            $this->setDbHost(DB_HOST);
             $this->setDbUser(DB_USER);
             $this->setDbPassword(DB_PASSWORD);
             $this->setDbName(DB_NAME);
@@ -74,173 +82,19 @@ class Db
     }
 
     /**
-     * Connects to database server and selects database.
+     * Creates a new database
+     *     (Should not be used in plugin/theme development)
      *
-     * Db::__construct will do this for you if 'dbConnections.php' exists.
+     * @param string $dbName
+     *     Name of the database you want to create
+     * @param string $dbCharset
+     *     Default database charset
+     * @param string $dbCollation
+     *     Default database collation
      *
-     * Example: Manually creating 'lazy-connect' connection (should use axis $sql Db object most times):
-     * @code
-     * $sql = new Acms\Core\Data\Db;
-     * $sql->dbConnect(
-     *     $dbAdapter,
-     *     $dbHostName,
-     *     $dbDatabase,
-     *     $dbUserName,
-     *     $dbPassword
-     * );
-     * @endcode
-     *
-     * Db::__construct should be the only one using this method.
-     *
-     * @param string $dbAdapter
-     *     Database adapter name: i.e. MySQL = mysql, PostgreSQL = pgsql, SQLite3 = sqlite, Microsoft SQL Server = sqlsrv
-     * @param string $dbHostName
-     *     IP or hostname of the database server
-     * @param string $dbDbName
-     *     Database name
-     * @param string $dbUser
-     *     Database Username
-     * @param string $dbPassword
-     *     Database Password
-     *
-     * @return object
+     * @return boolean
      */
 
-    public function dbConnect($dbAdapter = null, $dbHostName = null, $dbDbName = null, $dbUser = null, $dbPassword = null)
-    {
-
-        if ($this->getDbAdapter() == null) {
-            $dbAdapter = "mysql";
-        } else {
-            $dbAdapter = $this->getDbAdapter();
-        }
-
-        if ($dbHostName == null) {
-            $dbHostName = $this->getDbHostName();
-        }
-
-        if ($dbDbName == null) {
-            $dbDbName = $this->getDbName();
-        }
-
-        if ($dbUser == null) {
-            $dbUser = $this->getDbUser();
-        }
-
-        if ($dbPassword == null) {
-            $dbPassword = $this->getDbPassword();
-        }
-
-        $connection_factory = new \Aura\Sql\ConnectionFactory();
-        $this->connection = $connection_factory->newInstance(
-
-            // adapter name
-            $dbAdapter,
-
-            // DSN elements for PDO; this can also be
-            // an array of key-value pairs
-            'host='.$dbHostName.';dbname='.$dbDbName,
-
-            // username for the connection
-            $dbUser,
-
-            // password for the connection
-            $dbPassword
-        );
-    }
-
-    /**
-     * Actively create database connection.
-     *
-     * A good way to test database connectivity.
-     *
-     * Example:
-     * @code
-     * $sql = new Db;
-     * $sql->dbConnect(); // Needed to create active connection. Creates lazy-load connection. Will only create active connection once a query is executed.
-     *
-     * try {
-     *     $sql->dbActiveConnect();
-     *     // Active connection success
-     * }
-     * catch (PDOException $e) {
-     *     // Active connection failed
-     *     // Handle exception
-     * }
-     *
-     * // Continue script...
-     *
-     * @endcode
-     *
-     * @return true|exception Returns true if database connection is successful, PDOException if database connection fails.
-     */
-
-    public function dbActiveConnect()
-    {
-        $this->connection->connect();
-    }
-
-    /**
-     * Tests for valid database connection.
-     *
-     * A good way to test database credentials.
-     *
-     * Example:
-     * @code
-     * $sql->dbConnect(); // Needed to create active connection. Creates lazy-load connection. Will only create active connection once a query is executed.
-     *
-     * try {
-     *     $sql->dbValidConnection();
-     *     // Active connection success
-     *     $validConnection = 1;
-     * }
-     * catch (PDOException $e) {
-     *     // Active connection failed
-     *     $validConnection = '';
-     * }
-     *
-     * // Continue script...
-     *
-     * @endcode
-     *
-     * @return true|exception Returns true if database connection is successful, PDOException if database connection fails.
-     */
-
-    public function dbValidConnection()
-    {
-        $pdo = null;
-        try {
-            $pdo = $this->connection->getPdo();
-            return true;
-        } catch (\PDOException $e) {
-            // Continue on failure
-            return false;
-        }
-    }
-
-    /**
-     * =dbSelectDb
-     *
-     * Selects database for queries.
-     *
-     * @todo:: Finish converting to Aura.Sql
-     */
-    /*
-    public function dbSelectDb($dbName = "")
-    {
-        if ($dbName != "") {
-            $this->setDbName($dbName);
-        }
-
-        mysql_select_db($this->getDbName(), $this->getDbConnection());
-    }
-    //*/
-
-    /**
-     * Create database.
-     *
-     * @todo:: Finish converting to Aura.Sql
-     */
     public function dbCreateDatabase($dbName = '', $dbCharset = 'utf8', $dbCollation = 'utf8_general_ci')
     {
         if ($dbName != '') {
@@ -260,15 +114,52 @@ class Db
         } else {
             return false;
         }
-
-
     }
 
     /**
-     * =dbCreateTable
+     * Creates a new database table
+     *     (Should not be used in plugin/theme development)
      *
-     * @todo:: Finish documenting
+     * @param string $tableName
+     *     Name of the table you want to create
+     * @param string $tableSchema
+     *     A table schema array (See example below)
+     * @param string $tablePrefix
+     *     The prefix you would like to place in front of every table (If omitted Axis will add this for you)
+     *         * Needs to match value of your dbConnection.php DB_PREFIX
+     *
+     * @return boolean True if the table was created successfully, false if table creation fails
+     *
+     * Example: $tableSchema
+     * @code
+     * $tableSchema['0.01']['create']['table']['my_table'] = [
+     *     [
+     *         'name' => 'id',
+     *         'type' => 'int(11)',
+     *         'not_null' => '1',
+     *         'signed' => '0',
+     *         'autoincrement' => '1',
+     *         'default' => '',
+     *         'primary_key' => '1',
+     *         'unique_keys' => [],
+     *     ],
+     * ],
+     * $tableSchema['0.01']['create']['table']['my_table'] = [
+     *     [
+     *         'name' => 'field_02',
+     *         'type' => 'string',
+     *         'not_null' => '1',
+     *         'signed' => '0',
+     *         'autoincrement' => '',
+     *         'default' => 'Hello',
+     *         'primary_key' => '',
+     *         'unique_keys' => [],
+     *     ],
+     * ],
+     * @endcode
+     *
      */
+
     public function dbCreateTable($tableName, $tableSchema, $tablePrefix = '')
     {
         if (!empty($tablePrefix)) {
@@ -334,6 +225,7 @@ class Db
             $dbStmt = $this->connection->query($queryString);
             // Binding values adds surrounding quotes to bound values in $queryString, which causes CREATE DATABASE to fail
             //$dbStmt = $this->connection->query($queryString, $bindValues);
+            return true;
         }
         catch (\PDOException $e)
         {
@@ -343,12 +235,6 @@ class Db
 
     /**
 	 * Select data from the database
-	 *
-	 * Example selecting data from the database:
-	 * @code
-	 * $sql->dbSelect('links', 'label, url', 'active = :active', ['active' => intval(2)], 'ORDER BY link_order');
-	 * $result = $sql->dbFetch();
-	 * @endcode
 	 *
 	 * @param string $queryTableName
 	 *     Name of the table you want to query
@@ -360,6 +246,12 @@ class Db
 	 *     Values to bind to WHERE clause: i.e. ['id' = intval(3), 'active' = intval(2)]
 	 * @param string $queryAdditionalClauses
 	 *     Add additional clauses to query: i.e. 'ORDER BY link_order'
+	 *
+	 * Example selecting data from the database:
+	 * @code
+	 * $sql->dbSelect('links', 'label, url', 'id > :id AND active = :active', ['id' => inval(5), 'active' => intval(2)], 'ORDER BY link_order');
+	 * $result = $sql->dbFetch();
+	 * @endcode
 	 *
 	 * @todo: Re-evaluate using Aura.SQL Query Objects
 	 */
@@ -387,21 +279,16 @@ class Db
     }
 
     /**
-     * Fetching Data Sets
-     * ******************************************************************************
-     */
-
-    /**
      * Fetches result set.
      *
      * @param string $fetchType
      *     Type of fetch you would like to perform:
-     *         1. **all**: Returns a sequential array of all rows. The rows themselves are associative arrays where the keys are the column names.
-     *         2. **assoc**: Returns an associative array of all rows where the key is the first column.
-     *         3. **col**: Returns a sequential array of all values in the first column.
-     *         4. **one**: Returns the first row as an associative array where the keys are the column names.
-     *         5. **pairs**: Returns an associative array where each key is the first column and each value is the second column.
-     *         6. **value**: Returns the value of the first row in the first column.
+     *         1. **all**: Returns a sequential array of all rows. The rows themselves are associative arrays where the keys are the column names
+     *         2. **assoc**: Returns an associative array of all rows where the key is the first column
+     *         3. **col**: Returns a sequential array of all values in the first column
+     *         4. **one**: Returns the first row as an associative array where the keys are the column names
+     *         5. **pairs**: Returns an associative array where each key is the first column and each value is the second column
+     *         6. **value**: Returns the value of the first row in the first column
      *
      * @return Returns result set depending on $fetchType, false if no matching $fetchType
      */
@@ -425,9 +312,27 @@ class Db
             default:
                 return false;
         }
-        // echo "\$this->getDbRecordSet() = ".$this->getDbRecordSet()."<br /><br />";
-        //return $this->getDbRecordSet();
     }
+
+    /**
+     *
+     * @param string $tableName
+     *     Name of the table you want to insert into (Without the table prefix! Axis will add this for you)
+     * @param array $tableColumns
+     *     An array of 'column' => 'value' pairs (See example below)
+     * @param string $tablePrefix
+     *     The table prefix you want to use (Axis will add this for you)
+     *
+     * @return mixed Returns the last ID inserted on the connection
+     *
+     * Example: $tableColumns
+     * @code
+     * $tableColumns = [
+     *     'first_name' => 'John',
+     *     'last_name' => 'Doe',
+     * ];
+     * @endcode
+     */
 
     public function dbInsert($tableName, $tableColumns, $tablePrefix = '')
     {
@@ -447,335 +352,180 @@ class Db
         return $result;
     }
 
-    /**
-     * =dbManageTables
-     *
-     * Create/Alter tables.
-     *
-     * @param array $queries
-     *
-     * @todo:: Finish converting to Aura.Sql
+    /*
+     * Database connection methods
      */
 
-    /*
-     * public function dbManageTables($queries) { for ($i = 0; $i < count($queries); $i++) { mysql_query($queries[$i], $this->getDbConnection()); } }
-    */
-
     /**
-     * =dbExecuteQueries
+     * Connects to database server and selects database.
      *
-     * Execute SQL Queries stored in an array. Must include the table prefix
-     * using the 'DB_PREFIX' constant.
+     * Db::__construct will do this for you if 'dbConnection.php' exists.
      *
-     * @param array $queries
+     * Db::__construct should be the only one using this method.
      *
-     * @todo:: Finish converting to Aura.Sql
+     * @param string $dbAdapter
+     *     Database adapter name: i.e. MySQL = mysql
+     * @param string $dbHost
+     *     IP or hostname of the database server
+     * @param string $dbDbName
+     *     Database name
+     * @param string $dbUser
+     *     Database Username
+     * @param string $dbPassword
+     *     Database Password
+     *
+     * @return object
+     *
+     * Example: Manually creating 'lazy-connect' connection (Should not have to instantiate a new Db object. Use Axis $sql Db object, which is already available to you):
+     * @code
+     * $sql = new Acms\Core\Data\Db;
+     * $sql->dbConnect(
+     *     $dbAdapter,
+     *     $dbHost,
+     *     $dbDatabase,
+     *     $dbUserName,
+     *     $dbPassword
+     * );
+     * @endcode
      */
-    /*
-     public function dbExecuteQueries($queries)
-     {
-    for ($i = 0; $i < count($queries); $i ++) {
-    $this->setDbRecordSet($this->connection->Execute($queries[$i]));
-    }
-    }
-    //*/
 
-    /**
-     * =dbClose
-     *
-     * Closes the identified link (usually unnecessary).
-     *
-     * @todo:: Finish converting to Aura.Sql
-     */
-    /*
-     public function dbClose()
-     {
-    mysql_close($this->getDbConnection);
-    }
-    //*/
-
-    /**
-     * =dbQuery
-     *
-     * Sends query to database. Remember to put the semicolon outside the doublequoted
-     * query string.
-     *
-     * @todo:: Finish converting to Aura.Sql
-     */
-    /*
-    public function dbQuery($query)
+    public function dbConnect($dbAdapter = null, $dbHost = null, $dbDbName = null, $dbUser = null, $dbPassword = null)
     {
-        $this->setDbRecordSet($this->connection->Execute($query));
-        // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
-    }
-    //*/
 
-    /**
-     * =dbInsert
-     *
-     * @todo:: Finish converting to Aura.Sql
-     */
-
-    /**
-     * =dbUpdate
-     *
-     * @todo:: Finish converting to Aura.Sql
-     */
-    /*
-    public function dbUpdate($queryTableName, $queryInput, $queryWhereClause = null)
-    {
-        $queryInputColumns = array_keys($queryInput);
-        $queryInputValues = array_values($queryInput);
-
-        $query = "UPDATE " . $this->getDbPrefix() . $queryTableName . " " . "SET ";
-
-        for ($i = 0; $i < count($queryInputColumns); $i ++) {
-            $query .= $queryInputColumns[$i] . "='" . $queryInputValues[$i] . "', ";
+        if ($this->getDbAdapter() == null) {
+            $dbAdapter = "mysql";
+        } else {
+            $dbAdapter = $this->getDbAdapter();
         }
 
-        $query = substr($query, 0, - 2);
-
-        if (isset($queryWhereClause)) {
-            $query .= " WHERE " . $queryWhereClause;
+        if ($dbHost == null) {
+            $dbHost = $this->getDbHost();
         }
 
-        $this->setDbRecordSet($this->connection->Execute($query));
-        // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
-    }
-    //*/
-
-    /**
-     * =dbDelete
-     *
-     * @todo:: Finish converting to Aura.Sql
-     */
-    /*
-    public function dbDelete($queryTableName, $queryWhereClause)
-    {
-        $queryWhereClause = strtolower($queryWhereClause);
-
-        $query = "DELETE FROM " . $this->getDbPrefix() . $queryTableName;
-
-        if ($queryWhereClause != "all") {
-            $query .= " WHERE " . $queryWhereClause;
+        if ($dbDbName == null) {
+            $dbDbName = $this->getDbName();
         }
 
-        $this->setDbRecordSet($this->connection->Execute($query));
-        // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
-    }
-    //*/
-
-    /**
-     * =dbAlterTable
-     *
-     * @todo:: Finish converting to Aura.Sql
-     */
-    /*
-    public function dbAlterTable($queryTableName, $queryFunction, $queryInput)
-    {
-        $queryFunction = strtoupper($queryFunction);
-
-        if (is_array($queryInput)) {
-            $queryInputColumns = array_keys($queryInput);
-            $queryInputValues = array_values($queryInput);
+        if ($dbUser == null) {
+            $dbUser = $this->getDbUser();
         }
 
-
-        //$query = "ALTER TABLE table RENAME AS new_table"; $query = "ALTER TABLE new_table ADD COLUMN col3 VARCHAR(50)"; $query = "ALTER TABLE new_table DROP COLUMN col2"; //
-
-
-        switch ($queryFunction) {
-            case "RENAME":
-                $query = "ALTER TABLE " . $this->getDbPrefix() . $queryTableName . " " . "RENAME AS " . $queryInput;
-                break;
-            case "ADD COLUMN":
-                $query = "ALTER TABLE " . $this->getDbPrefix() . $queryTableName . " ";
-                for ($i = 0; $i < count($queryInputColumns); $i ++) {
-                    $query .= "ADD COLUMN " . $queryInputColumns[$i] . " " . $queryInputValues[$i] . ", ";
-                }
-                $query = substr($query, 0, - 2);
-                break;
-            case "DROP COLUMN":
-                $query = "ALTER TABLE " . $this->getDbPrefix() . $queryTableName . " ";
-                for ($i = 0; $i < count($queryInputColumns); $i ++) {
-                    $query .= "DROP COLUMN " . $queryInputValues[$i] . ", ";
-                }
-                $query = substr($query, 0, - 2);
-                break;
+        if ($dbPassword == null) {
+            $dbPassword = $this->getDbPassword();
         }
 
-        $this->setDbRecordSet($this->connection->Execute($query));
-        // $this->setDbResult(mysql_query($query, $this->getDbConnection()));
+        $connection_factory = new \Aura\Sql\ConnectionFactory();
+        $this->connection = $connection_factory->newInstance(
+
+            // adapter name
+            $dbAdapter,
+
+            // DSN elements for PDO; this can also be
+            // an array of key-value pairs
+            'host='.$dbHost.';dbname='.$dbDbName,
+
+            // username for the connection
+            $dbUser,
+
+            // password for the connection
+            $dbPassword
+        );
     }
-    //*/
 
     /**
-     * =dbDropTable
+     * Actively create database connection.
      *
-     * @todo:: Finish converting to Aura.Sql
+     * A good way to test database connectivity.
+     *
+     * @return true | exception Returns true if database connection is successful, PDOException if database connection fails.
+     *
+     * Example:
+     * @code
+     * $sql = new Acms\Core\Data\Db;
+     * $sql->dbConnect(); // Needed to create active connection. Creates lazy-load connection. Will only create active connection once a query is executed.
+     *
+     * try {
+     *     $sql->dbActiveConnect();
+     *     // Active connection success
+     * }
+     * catch (PDOException $e) {
+     *     // Active connection failed
+     *     // Handle exception
+     * }
+     *
+     * // Continue script...
+     *
+     * @endcode
      */
-    /*
-    public function dbDropTable()
-    {}
-    //*/
 
-    /**
-     * =dbFetchRow
-     *
-     * Fetches result set as an enumerated array.
-     *
-     * @todo:: Finish converting to Aura.Sql
-     */
-    /*
-    public function dbFetchRow()
+    public function dbActiveConnect()
     {
-        $this->setDbRow(mysql_fetch_row($this->getDbResult()));
-        return $this->getDbRow();
+        $this->connection->connect();
     }
-    //*/
 
     /**
-     * =dbFetchObject
+     * Tests for valid database connection.
      *
-     * Fetches result set as an object. See mysql_fetch_array for result types.
+     * A good way to test database credentials.
      *
-     * @todo:: Finish converting to Aura.Sql
+     * @return true | exception Returns true if database connection is successful, PDOException if database connection fails.
+     *
+     * Example:
+     * @code
+     * $sql->dbConnect(); // Needed to create active connection. Creates lazy-load connection. Will only create active connection once a query is executed.
+     *
+     * try {
+     *     $sql->dbValidConnection();
+     *     // Active connection success
+     *     $validConnection = 1;
+     * }
+     * catch (PDOException $e) {
+     *     // Active connection failed
+     *     $validConnection = '';
+     * }
+     *
+     * // Continue script...
+     *
+     * @endcode
      */
-    /*
-    public function dbFetchObject()
+
+    public function dbValidConnection()
     {
-        $this->setDbObject(mysql_fetch_object($this->getDbResult()));
-        return $this->getDbObject();
+        $pdo = null;
+        try {
+            $pdo = $this->connection->getPdo();
+            return true;
+        } catch (\PDOException $e) {
+            // Continue on failure
+            return false;
+        }
     }
-    //*/
-
-    /**
-     * =dbFetchArray
-     *
-     * Fetches result set as associative array. Result type can be MYSQL_ASSOC,
-     * MYSQL_NUM, or MYSQL_BOTH (default).
-     *
-     * @todo:: Finish converting to Aura.Sql
-     */
-    /*
-    public function dbFetchArray()
-    {
-
-        //this->setDbArray(mysql_fetch_array($this->getDbResult())); return $this->getDbArray();
-    }
-    //*/
-
-    /**
-     * =dbFetchResult
-     *
-     * Returns single-field result. Field identifier can be field offset (0), field
-     * name (FirstName) or table-dot name (myfield.mytable).
-     *
-     * @todo:: Finish converting to Aura.Sql
-     */
-    /*
-    public function dbFetchResult($queryRowIdentifier = 0, $queryField = 0)
-    {
-        $this->setDbQueryResult(mysql_result($this->getDbResult(), $queryRowIdentifier, $queryField));
-    }
-    //*/
-
-    /**
-     * Info about Queries
-     * ******************************************************************************
-     */
-
-    /**
-     * =dbInfo
-     *
-     * @todo:: Finish converting to Aura.Sql
-     */
-    /*
-    public function dbInfo()
-    {
-        return mysql_info($this->getDbConnection());
-    }
-    //*/
-
-    /**
-     * Database pointer functions
-     * ******************************************************************************
-     */
-
-    /**
-     * =dbDataSeek
-     *
-     * Designate the row number desired
-     *
-     * @todo:: Finish converting to Aura.Sql
-     */
-    /*
-    public function dbDataSeek($queryRowIdentifier)
-    {
-        $this->setDbRowIdentifier(mysql_data_seek($this->getDbResult(), $queryRowIdentifier));
-    }
-    //*/
 
     /*
      * /** Database Attributes ******************************************************************************
      */
+
     private $dbAdapter;
-
-    private $dbHostName;
-
+    private $dbHost;
     private $dbUser;
-
     private $dbPassword;
-
     private $dbName;
-
     private $dbPrefix;
-
     private $dbPersistent;
-
     private $dbActive;
-
     private $connection;
-
-    private $connObject;
-
     private $queryText;
-
     private $bindValues;
-
     private $result;
 
-    private $recordSet;
-
-    private $queryRow;
-
-    private $queryObject;
-
-    private $queryArray;
-
-    private $queryResult;
-
-    private $queryRowIdentifier;
-
-    private $baseUrl;
-
-    private $baseDir;
-
-    private $handlersDir;
-
-    private $includesDir;
-
-    private $pluginsDir;
-
-    private $themesDir;
-
     /**
-     * This method initializes all class variables to null
+     * Initialize all class variables to null
      */
+
     private function initClassVars()
     {
         $this->dbAdapter = null;
-        $this->dbHostName = null;
+        $this->dbHost = null;
         $this->dbUser = null;
         $this->dbPassword = null;
         $this->dbName = null;
@@ -783,27 +533,12 @@ class Db
         $this->dbPersistent = null;
         $this->dbActive = null;
         $this->connection = null;
-        $this->connObject = null;
         $this->queryText = null;
         $this->bindValues = null;
         $this->result = null;
-
-        $this->recordSet = null;
-        $this->queryRow = null;
-        $this->queryObject = null;
-        $this->queryArray = null;
-        $this->queryResult = null;
-        $this->queryRowIdentifier = null;
-
-        $this->baseUrl = null;
-        $this->baseDir = null;
-        $this->handlersDir = null;
-        $this->includesDir = null;
-        $this->pluginsDir = null;
-        $this->themesDir = null;
     }
 
-    /**
+    /*
      * Setters and Getters
      * ******************************************************************************
      */
@@ -826,19 +561,19 @@ class Db
     }
 
     /**
-     * =setDbHostName
+     * =setDbHost
      */
-    public function setDbHostName($dbHostName)
+    public function setDbHost($dbHost)
     {
-        $this->dbHostName = $dbHostName;
+        $this->dbHost = $dbHost;
     }
 
     /**
-     * =getDbHostName
+     * =getDbHost
      */
-    public function getDbHostName()
+    public function getDbHost()
     {
-        return $this->dbHostName;
+        return $this->dbHost;
     }
 
     /**
@@ -906,22 +641,6 @@ class Db
     }
 
     /**
-     * =setDbPersistent
-     */
-    public function setDbPersistent($dbPersistent)
-    {
-        $this->dbPersistent = $dbPersistent;
-    }
-
-    /**
-     * =getDbPersistent
-     */
-    public function getDbPersistent()
-    {
-        return $this->dbPersistent;
-    }
-
-    /**
      * =setDbActive
      */
     public function setDbActive($dbActive)
@@ -960,28 +679,6 @@ class Db
     }
 
     /**
-     * =setDbConnObject
-     *
-     * @todo:: Finish converting to Aura.Sql
-     */
-    public function setDbConnObject($dbAdapter = null)
-    {
-        if ($dbAdapter == null) {
-            $dbAdapter = $this->getDbAdapter();
-        }
-
-        $this->connObject = NewADOConnection($dbAdapter);
-    }
-
-    /**
-     * =getDbConnObject
-     */
-    public function getDbConnObject()
-    {
-        return $this->connObject;
-    }
-
-    /**
      * Set $this->queryText for use in fetch methods
      */
     public function setQueryText($queryText)
@@ -1016,6 +713,7 @@ class Db
     /**
      * =setDbResult
      *
+     * @todo: Do I implement this, or get rid of it?
      */
     public function setDbResult($dbResult)
     {
@@ -1024,349 +722,13 @@ class Db
 
     /**
      * =getDbResult
+     *
+     * @todo: Do I implement this, or get rid of it?
      */
     public function getDbResult()
     {
         return $this->result;
     }
-
-    /**
-     * =setRecordSet
-     */
-    public function setDbRecordSet($dbRecordSet)
-    {
-        $this->recordSet = $dbRecordSet;
-    }
-
-    /**
-     * =getRecordSet
-     */
-    public function getDbRecordSet()
-    {
-        return $this->recordSet;
-    }
-
-    /**
-     * =setDbRow
-     */
-    public function setDbRow($dbRow)
-    {
-        $this->queryRow = $dbRow;
-    }
-
-    /**
-     * =getDbRow
-     */
-    public function getDbRow()
-    {
-        return $this->queryRow;
-    }
-
-    /**
-     * =setDbObject
-     */
-    public function setDbObject($dbObject)
-    {
-        $this->queryObject = $dbObject;
-    }
-
-    /**
-     * =getDbObject
-     */
-    public function getDbObject()
-    {
-        return $this->queryObject;
-    }
-
-    /**
-     * =setDbArray
-     */
-    public function setDbArray($dbArray)
-    {
-        $this->queryArray = $dbArray;
-    }
-
-    /**
-     * =getDbArray
-     */
-    public function getDbArray()
-    {
-        return $this->queryArray;
-    }
-
-    /**
-     * =setDbQueryResult
-     */
-    public function setDbQueryResult($dbQueryResult)
-    {
-        $this->queryResult = $dbQueryResult;
-    }
-
-    /**
-     * =getDbQueryResult
-     */
-    public function getDbQueryResult()
-    {
-        return $this->queryResult;
-    }
-
-    /**
-     * =setDbRowIdentifier
-     */
-    public function setDbRowIdentifier($dbRowIdentifier)
-    {
-        $this->queryRowIdentifier = $dbRowIdentifier;
-    }
-
-    /**
-     * =getDbRowIdentifier
-     */
-    public function getDbRowIdentifier()
-    {
-        return $this->queryRowIdentifier;
-    }
-
-    /**
-     * Methods: Undeveloped
-     *
-     * ******************************************************************************
-     */
-
-    /**
-     * Database connection methods
-     * ******************************************************************************
-     */
-
-    /**
-     * =dbPConnect
-     *
-     * Opens persistent connection to database. All arguments are optional. Be
-     * careful, mysql_close and script termination will not close the connection.
-     */
-    /*
-    public function dbPConnect()
-    {}
-    //*/
-
-    /**
-     * =dbChangeUser
-     *
-     * Changes MySQL user on an open link.
-     */
-    /*
-    public function dbChangeUser()
-    {}
-    //*/
-
-    /**
-     * Info about Queries
-     * ******************************************************************************
-     */
-
-    /**
-     * =dbAffectedRows
-     *
-     * Use after a nonzero INSERT, UPDATE, or DELETE query to check number of rows
-     * changed.
-     */
-    /*
-    public function dbAffectedRows()
-    {}
-    //*/
-
-    /**
-     * =dbNumFields
-     *
-     * Returns number of fields in a result set.
-     */
-    /*
-    public function dbNumFields()
-    {}
-    //*/
-
-    /**
-     * =dbNumRows
-     *
-     * Returns number of rows in a result set.
-     */
-    /*
-    public function dbNumRows()
-    {}
-    //*/
-
-    /**
-     * =dbFetchField
-     *
-     * Returns information about a field as an object.
-     */
-    /*
-    public function dbFetchField()
-    {}
-    //*/
-
-    /**
-     * =dbFieldSeek
-     *
-     * Moves result pointer to specified field offset. Used with mysql_fetch_field.
-     */
-    /*
-    public function dbFieldSeek()
-    {}
-    //*/
-
-    /**
-     * =dbFetchLengths
-     *
-     * Returns length of each field in a result set.
-     */
-    /*
-    public function dbFetchLengths()
-    {}
-    //*/
-
-    /**
-     * =dbFieldName
-     *
-     * Returns name of enumerated field.
-     */
-    /*
-    public function dbFieldName()
-    {}
-    //*/
-
-    /**
-     * =dbFieldTable
-     *
-     * Returns name of specified fields table.
-     */
-    /*
-    public function dbFieldTable()
-    {}
-    //*/
-
-    /**
-     * =dbFieldType
-     *
-     * Returns type of offset field (for example, TINYINT, BLOB, VARCHAR).
-     */
-    /*
-    public function dbFieldType()
-    {}
-    //*/
-
-    /**
-     * =dbFieldFlags
-     *
-     * Returns flags associated with enumerated field (for example, NOT null,
-     * AUTO_INCREMENT, BINARY).
-     */
-    /*
-    public function dbFieldFlags()
-    {}
-    //*/
-
-    /**
-     * =dbFieldLen
-     *
-     * Returns length of enumerated field.
-     */
-    /*
-    public function dbFieldLen()
-    {}
-    //*/
-
-    /**
-     * =dbFreeResult
-     *
-     * Frees memory used by result set (usually unnecessary).
-     */
-    /*
-    public function dbFreeResult()
-    {}
-    //*/
-
-    /**
-     * =dbInsertId
-     *
-     * Returns AUTO_INCREMENTED ID of INSERT; or false if insert failed or last query
-     * was not an insert.
-     */
-
-    /*
-    public function dbInsertId()
-    {}
-    //*/
-
-    /**
-     * =dbListFields
-     *
-     * Returns result ID for use in mysql_field functions, without performing an
-     * actual query.
-     */
-    /*
-    public function dbListFields()
-    {}
-    //*/
-
-    /**
-     * =dbListDbs
-     *
-     * Returns result pointer of databases on mysqld. Used with mysql_tablename.
-     */
-    /*
-    public function dbListDbs()
-    {}
-    //*/
-
-    /**
-     * =dbListTables
-     *
-     * Returns result pointer of tables in database. Used with mysql_tablename.
-     */
-    /*
-    public function dbListTables()
-    {}
-    //*/
-
-    /**
-     * =dbTableName
-     *
-     * Used with any of the mysql_list functions to return the value referenced by
-     * a result pointer.
-     */
-    /*
-    public function dbTableName()
-    {}
-    //*/
-
-    /**
-     * Error Methods
-     * ******************************************************************************
-     */
-
-    /**
-     * =dbErrNo
-     *
-     * Returns ID of error.
-     */
-    /*
-    public function dbErrNo()
-    {
-        return $this->connection->ErrorNo();
-    }
-    //*/
-
-    /**
-     * =dbError
-     *
-     * Returns text error message.
-     */
-    /*
-    public function dbErrorMsg()
-    {
-        return $this->connection->ErrorMsg();
-    }
-    //*/
 }
 
 /** @} */ // End group database */

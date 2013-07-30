@@ -138,7 +138,7 @@ define('PLUGINS_AXIS', AXIS . 'plugins' . DS);
 /**
  *
  * Database connections file location
- *     Dynamically load dbConnections.php, dependant on which domain/subdomain we're on
+ *     Dynamically load dbConnection.php, dependant on which domain/subdomain we're on
  */
 
 $serverPathArray = explode('.', $_SERVER['SERVER_NAME']);
@@ -151,7 +151,7 @@ if (((count($serverPathArray)) < 3) || ($serverPathArray[0] == 'www')) {
         $pluginZones = ZONES . 'default' . DS . 'plugins';
     }
 } else {
-    // This is a subdomain, do not use '/default/dbConnections.php'
+    // This is a subdomain, do not use '/default/dbConnection.php'
     $pluginZones = ZONES . $_SERVER['SERVER_NAME'] . DS . 'plugins';
 }
 
@@ -167,19 +167,19 @@ define('TEMPLATES', THEMES . 'templates' . DS);
 /**
  *
  * Database connections file location
- *     Dynamically load dbConnections.php, dependant on which domain/subdomain we're on
+ *     Dynamically load dbConnection.php, dependant on which domain/subdomain we're on
  */
 
 // If this is localhost or main domain (mysite.com)
 if ((count(explode('.', $_SERVER['SERVER_NAME']))) < 3) {
-    if (file_exists(ZONES . $_SERVER['SERVER_NAME'] .  DS . 'dbConnections.php')) {
-            $dbConnFile = ZONES . $_SERVER['SERVER_NAME'] .  DS . 'dbConnections.php';
+    if (file_exists(ZONES . $_SERVER['SERVER_NAME'] .  DS . 'dbConnection.php')) {
+            $dbConnFile = ZONES . $_SERVER['SERVER_NAME'] .  DS . 'dbConnection.php';
         } else {
-            $dbConnFile = ZONES . 'default' . DS . 'dbConnections.php';
+            $dbConnFile = ZONES . 'default' . DS . 'dbConnection.php';
         }
 } else {
-    // This is a subdomain, do not use '/default/dbConnections.php'
-    $dbConnFile = ZONES . $_SERVER['SERVER_NAME'] .  DS . 'dbConnections.php';
+    // This is a subdomain, do not use '/default/dbConnection.php'
+    $dbConnFile = ZONES . $_SERVER['SERVER_NAME'] .  DS . 'dbConnection.php';
 }
 
 define('DBCONNFILE', $dbConnFile);

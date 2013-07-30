@@ -134,7 +134,7 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
             exit;
         } else {
             // No main venue (should never happen if site has been installed)
-            // This means the db was corrupted, since we'll never reach this if there is a dbConnections.php)
+            // This means the db was corrupted, since we'll never reach this if there is a dbConnection.php)
             // Give some kind of error
             exit;
         }

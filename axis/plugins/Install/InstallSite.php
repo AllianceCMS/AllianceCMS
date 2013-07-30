@@ -128,7 +128,7 @@ class InstallSite
 
         // If no errors have been sent (this is first run or you clicked 'back' on 'confirm_db_info' page), initialize default field data
         if (!isset($errors)) {
-            $installData['dbHostName']       = 'localhost';
+            $installData['dbHost']       = 'localhost';
             $installData['dbUserName']       = 'root';
             $installData['dbDatabasePrefix'] = 'a_';
             $installData['dbFirstIteration'] = '1';
@@ -184,7 +184,7 @@ class InstallSite
 
         // Check for required fields from db_info pages
         //     (password is not required as some local installations may not require one)
-        if (($_POST['dbHostName'] == '') ||
+        if (($_POST['dbHost'] == '') ||
         ($_POST['dbUserName'] == '') ||
         ($_POST['dbDatabase'] == '')) {
 
@@ -255,10 +255,10 @@ class InstallSite
             $dbAdapter = '';
         }
 
-        if (isset($_POST['dbHostName'])) {
-            $dbHostName = $_POST['dbHostName'];
+        if (isset($_POST['dbHost'])) {
+            $dbHost = $_POST['dbHost'];
         } else {
-            $dbHostName = '';
+            $dbHost = '';
         }
 
         if (isset($_POST['dbDatabase'])) {
@@ -288,7 +288,7 @@ class InstallSite
         if (isset($_POST['dbCreateDatabase']) && ($_POST['dbCreateDatabase'] == '1')) {
             $sql->dbConnect(
                 $dbAdapter,
-                $dbHostName,
+                $dbHost,
                 '',
                 $dbUserName,
                 $dbPassword
@@ -296,7 +296,7 @@ class InstallSite
         } else {
             $sql->dbConnect(
                 $dbAdapter,
-                $dbHostName,
+                $dbHost,
                 $dbDatabase,
                 $dbUserName,
                 $dbPassword
