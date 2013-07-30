@@ -1018,21 +1018,6 @@ $schema['0.01']['insert']['table'] = [
                 'created' => $currentMySqlTimestamp,
                 'modified' => $currentMySqlTimestamp,
             ],
-            [
-                'id' => '',
-                'name' => 'ZeroFour',
-                'version' => '0.01',
-                'folder_path' => 'themes/',
-                'folder_name' => 'ZeroFour',
-                'description' => 'This theme is an AllianceCMS port of the ZeroFour website template from HTML5 UP!',
-                'artist' => 'Jesse Burns',
-                'artist_email' => 'jesse.burns@alliancecms.com',
-                'artist_site' => 'http://www.alliancecms.com',
-                'selectable' => '',
-                'active' => 2,
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp,
-            ],
         ],
         'users' => [
             [
