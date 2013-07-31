@@ -141,7 +141,7 @@ class Db
      *         'autoincrement' => '1',
      *         'default' => '',
      *         'primary_key' => '1',
-     *         'unique_keys' => [],
+     *         'unique_keys' => '',
      *     ],
      * ],
      * $tableSchema['0.01']['create']['table']['my_table'] = [
