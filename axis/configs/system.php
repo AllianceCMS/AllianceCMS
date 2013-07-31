@@ -171,12 +171,12 @@ define('TEMPLATES', THEMES . 'templates' . DS);
  */
 
 // If this is localhost or main domain (mysite.com)
-if ((count(explode('.', $_SERVER['SERVER_NAME']))) < 3) {
+if (((count(explode('.', $_SERVER['SERVER_NAME']))) < 3) || ($serverPathArray[0] == 'www')) {
     if (file_exists(ZONES . $_SERVER['SERVER_NAME'] .  DS . 'dbConnection.php')) {
-            $dbConnFile = ZONES . $_SERVER['SERVER_NAME'] .  DS . 'dbConnection.php';
-        } else {
-            $dbConnFile = ZONES . 'default' . DS . 'dbConnection.php';
-        }
+        $dbConnFile = ZONES . $_SERVER['SERVER_NAME'] .  DS . 'dbConnection.php';
+    } else {
+        $dbConnFile = ZONES . 'default' . DS . 'dbConnection.php';
+    }
 } else {
     // This is a subdomain, do not use '/default/dbConnection.php'
     $dbConnFile = ZONES . $_SERVER['SERVER_NAME'] .  DS . 'dbConnection.php';
