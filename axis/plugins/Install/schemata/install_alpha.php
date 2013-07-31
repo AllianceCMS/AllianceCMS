@@ -19,7 +19,7 @@ $schema['0.01']['create']['table']['languages'] = [
         'autoincrement' => '1',
         'default' => '',
         'primary_key' => '1',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'name',
@@ -29,7 +29,7 @@ $schema['0.01']['create']['table']['languages'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '1',
     ],
     [
         'name' => 'folder_name',
@@ -39,7 +39,7 @@ $schema['0.01']['create']['table']['languages'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'created',
@@ -49,7 +49,7 @@ $schema['0.01']['create']['table']['languages'] = [
         'autoincrement' => '0',
         'default' => "'0000-00-00 00:00:00'",
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'modified',
@@ -59,7 +59,7 @@ $schema['0.01']['create']['table']['languages'] = [
         'autoincrement' => '0',
         'default' => 'CURRENT_TIMESTAMP',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
 ];
 
@@ -72,7 +72,7 @@ $schema['0.01']['create']['table']['links'] = [
         'autoincrement' => '1',
         'default' => '',
         'primary_key' => '1',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'label',
@@ -82,7 +82,7 @@ $schema['0.01']['create']['table']['links'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'url',
@@ -92,7 +92,7 @@ $schema['0.01']['create']['table']['links'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'comment',
@@ -102,7 +102,7 @@ $schema['0.01']['create']['table']['links'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'parent',
@@ -112,7 +112,7 @@ $schema['0.01']['create']['table']['links'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'location',
@@ -122,7 +122,7 @@ $schema['0.01']['create']['table']['links'] = [
         'autoincrement' => '0',
         'default' => '1',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'user_classes',
@@ -132,7 +132,7 @@ $schema['0.01']['create']['table']['links'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'link_order',
@@ -142,7 +142,7 @@ $schema['0.01']['create']['table']['links'] = [
         'autoincrement' => '0',
         'default' => '1',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'active',
@@ -152,7 +152,7 @@ $schema['0.01']['create']['table']['links'] = [
         'autoincrement' => '0',
         'default' => '1',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'created',
@@ -162,7 +162,7 @@ $schema['0.01']['create']['table']['links'] = [
         'autoincrement' => '0',
         'default' => "'0000-00-00 00:00:00'",
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'modified',
@@ -172,7 +172,7 @@ $schema['0.01']['create']['table']['links'] = [
         'autoincrement' => '0',
         'default' => 'CURRENT_TIMESTAMP',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
 ];
 
@@ -185,7 +185,7 @@ $schema['0.01']['create']['table']['plugins'] = [
         'autoincrement' => '1',
         'default' => '',
         'primary_key' => '1',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'name',
@@ -195,7 +195,7 @@ $schema['0.01']['create']['table']['plugins'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '1',
     ],
     [
         'name' => 'version',
@@ -205,7 +205,7 @@ $schema['0.01']['create']['table']['plugins'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'folder_path',
@@ -215,7 +215,7 @@ $schema['0.01']['create']['table']['plugins'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'folder_name',
@@ -225,7 +225,7 @@ $schema['0.01']['create']['table']['plugins'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'description',
@@ -235,7 +235,7 @@ $schema['0.01']['create']['table']['plugins'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'developer',
@@ -245,7 +245,7 @@ $schema['0.01']['create']['table']['plugins'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'developer_email',
@@ -255,7 +255,7 @@ $schema['0.01']['create']['table']['plugins'] = [
         'autoincrement' => '0',
         'default' => '0',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'developer_site',
@@ -265,7 +265,7 @@ $schema['0.01']['create']['table']['plugins'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'user_classes',
@@ -275,7 +275,7 @@ $schema['0.01']['create']['table']['plugins'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'active',
@@ -285,7 +285,7 @@ $schema['0.01']['create']['table']['plugins'] = [
         'autoincrement' => '0',
         'default' => '2',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'created',
@@ -295,7 +295,7 @@ $schema['0.01']['create']['table']['plugins'] = [
         'autoincrement' => '0',
         'default' => "'0000-00-00 00:00:00'",
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'modified',
@@ -305,7 +305,7 @@ $schema['0.01']['create']['table']['plugins'] = [
         'autoincrement' => '0',
         'default' => 'CURRENT_TIMESTAMP',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
 ];
 
@@ -318,7 +318,7 @@ $schema['0.01']['create']['table']['schemas'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'schema_version',
@@ -328,7 +328,7 @@ $schema['0.01']['create']['table']['schemas'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '1',
     ],
     [
         'name' => 'created',
@@ -338,7 +338,7 @@ $schema['0.01']['create']['table']['schemas'] = [
         'autoincrement' => '0',
         'default' => "'0000-00-00 00:00:00'",
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'modified',
@@ -348,7 +348,7 @@ $schema['0.01']['create']['table']['schemas'] = [
         'autoincrement' => '0',
         'default' => 'CURRENT_TIMESTAMP',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
 ];
 
@@ -361,7 +361,7 @@ $schema['0.01']['create']['table']['themes'] = [
         'autoincrement' => '1',
         'default' => '',
         'primary_key' => '1',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'name',
@@ -371,7 +371,7 @@ $schema['0.01']['create']['table']['themes'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '1',
     ],
     [
         'name' => 'version',
@@ -381,7 +381,7 @@ $schema['0.01']['create']['table']['themes'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'folder_path',
@@ -391,7 +391,7 @@ $schema['0.01']['create']['table']['themes'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'folder_name',
@@ -401,7 +401,7 @@ $schema['0.01']['create']['table']['themes'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'description',
@@ -411,7 +411,7 @@ $schema['0.01']['create']['table']['themes'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'artist',
@@ -421,7 +421,7 @@ $schema['0.01']['create']['table']['themes'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'artist_email',
@@ -431,7 +431,7 @@ $schema['0.01']['create']['table']['themes'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'artist_site',
@@ -441,7 +441,7 @@ $schema['0.01']['create']['table']['themes'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'selectable',
@@ -451,7 +451,7 @@ $schema['0.01']['create']['table']['themes'] = [
         'autoincrement' => '0',
         'default' => '2',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'active',
@@ -461,7 +461,7 @@ $schema['0.01']['create']['table']['themes'] = [
         'autoincrement' => '0',
         'default' => '1',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'created',
@@ -471,7 +471,7 @@ $schema['0.01']['create']['table']['themes'] = [
         'autoincrement' => '0',
         'default' => "'0000-00-00 00:00:00'",
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'modified',
@@ -481,7 +481,7 @@ $schema['0.01']['create']['table']['themes'] = [
         'autoincrement' => '0',
         'default' => 'CURRENT_TIMESTAMP',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
 ];
 
@@ -494,7 +494,7 @@ $schema['0.01']['create']['table']['users'] = [
         'autoincrement' => '1',
         'default' => '',
         'primary_key' => '1',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'login_name',
@@ -504,7 +504,7 @@ $schema['0.01']['create']['table']['users'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '1',
     ],
     [
         'name' => 'display_name',
@@ -514,7 +514,7 @@ $schema['0.01']['create']['table']['users'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'real_name',
@@ -524,7 +524,7 @@ $schema['0.01']['create']['table']['users'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'password',
@@ -534,7 +534,7 @@ $schema['0.01']['create']['table']['users'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'email_address',
@@ -544,7 +544,7 @@ $schema['0.01']['create']['table']['users'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '1',
     ],
     [
         'name' => 'hide_email_address',
@@ -554,7 +554,7 @@ $schema['0.01']['create']['table']['users'] = [
         'autoincrement' => '0',
         'default' => '2',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'timezone_offset',
@@ -564,7 +564,7 @@ $schema['0.01']['create']['table']['users'] = [
         'autoincrement' => '0',
         'default' => "'0'",
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'location',
@@ -574,7 +574,7 @@ $schema['0.01']['create']['table']['users'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'website',
@@ -584,7 +584,7 @@ $schema['0.01']['create']['table']['users'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'avatar',
@@ -594,7 +594,7 @@ $schema['0.01']['create']['table']['users'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'bio',
@@ -604,7 +604,7 @@ $schema['0.01']['create']['table']['users'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'signature',
@@ -614,7 +614,7 @@ $schema['0.01']['create']['table']['users'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'preferred_theme',
@@ -624,7 +624,7 @@ $schema['0.01']['create']['table']['users'] = [
         'autoincrement' => '0',
         'default' => '1',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'user_classes',
@@ -634,7 +634,7 @@ $schema['0.01']['create']['table']['users'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'last_ip',
@@ -644,7 +644,7 @@ $schema['0.01']['create']['table']['users'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'last_login_time',
@@ -654,7 +654,7 @@ $schema['0.01']['create']['table']['users'] = [
         'autoincrement' => '0',
         'default' => "'0000-00-00 00:00:00'",
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'registration_ip',
@@ -664,7 +664,7 @@ $schema['0.01']['create']['table']['users'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'created',
@@ -674,7 +674,7 @@ $schema['0.01']['create']['table']['users'] = [
         'autoincrement' => '0',
         'default' => "'0000-00-00 00:00:00'",
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'modified',
@@ -684,7 +684,7 @@ $schema['0.01']['create']['table']['users'] = [
         'autoincrement' => '0',
         'default' => 'CURRENT_TIMESTAMP',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
 ];
 
@@ -697,7 +697,7 @@ $schema['0.01']['create']['table']['venues'] = [
         'autoincrement' => '1',
         'default' => '',
         'primary_key' => '1',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'name',
@@ -707,7 +707,7 @@ $schema['0.01']['create']['table']['venues'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '1',
     ],
     [
         'name' => 'title',
@@ -717,7 +717,7 @@ $schema['0.01']['create']['table']['venues'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'tagline',
@@ -727,7 +727,7 @@ $schema['0.01']['create']['table']['venues'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'description',
@@ -737,7 +737,7 @@ $schema['0.01']['create']['table']['venues'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'keywords',
@@ -747,7 +747,7 @@ $schema['0.01']['create']['table']['venues'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'venue_email',
@@ -757,7 +757,7 @@ $schema['0.01']['create']['table']['venues'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '1',
     ],
     [
         'name' => 'venue_email_name',
@@ -767,7 +767,7 @@ $schema['0.01']['create']['table']['venues'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'venue_admin',
@@ -777,7 +777,7 @@ $schema['0.01']['create']['table']['venues'] = [
         'autoincrement' => '0',
         'default' => '1',
         'primary_key' => '',
-        'unique_key' => '1',
+        'unique_key' => '',
     ],
     [
         'name' => 'active_theme',
@@ -787,7 +787,7 @@ $schema['0.01']['create']['table']['venues'] = [
         'autoincrement' => '0',
         'default' => '1',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'default_plugin',
@@ -797,7 +797,7 @@ $schema['0.01']['create']['table']['venues'] = [
         'autoincrement' => '0',
         'default' => '1',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'maintenance_flag',
@@ -807,7 +807,7 @@ $schema['0.01']['create']['table']['venues'] = [
         'autoincrement' => '0',
         'default' => '1',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'maintenance_flag_text',
@@ -817,7 +817,7 @@ $schema['0.01']['create']['table']['venues'] = [
         'autoincrement' => '0',
         'default' => '',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'language',
@@ -827,7 +827,7 @@ $schema['0.01']['create']['table']['venues'] = [
         'autoincrement' => '0',
         'default' => '1',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'active',
@@ -837,7 +837,7 @@ $schema['0.01']['create']['table']['venues'] = [
         'autoincrement' => '0',
         'default' => '2',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'created',
@@ -847,7 +847,7 @@ $schema['0.01']['create']['table']['venues'] = [
         'autoincrement' => '0',
         'default' => "'0000-00-00 00:00:00'",
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
     [
         'name' => 'modified',
@@ -857,7 +857,7 @@ $schema['0.01']['create']['table']['venues'] = [
         'autoincrement' => '0',
         'default' => 'CURRENT_TIMESTAMP',
         'primary_key' => '',
-        'unique_keys' => [],
+        'unique_key' => '',
     ],
 ];
 

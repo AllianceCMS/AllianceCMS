@@ -10,24 +10,22 @@
 $dbInsertDatabase       = $_POST['dbDatabase'];
 
 $adminInsertLoginName   = $_POST['adminLoginName'];
-$adminInsertDisplayName = $_POST['adminDisplayName'];
-$adminInsertRealName    = $_POST['adminRealName'];
-//$adminInsertPassword    = md5($_POST['adminPassword']);
+$adminInsertDisplayName = isset($_POST['adminDisplayName']) ? $_POST['adminDisplayName'] : '';
+$adminInsertRealName    = isset($_POST['adminRealName']) ? $_POST['adminRealName'] : '';
 $adminInsertPassword    = crypt($_POST['adminPassword']);
-//$adminInsertPassword    = crypt($_POST['adminPassword'], '$2y$22$alliancecmssocialcmsya$');
 $adminInsertEmail       = $_POST['adminEmail'];
 $adminInsertHideEmail   = intval($_POST['adminHideEmail']);
-$adminInsertLocation    = $_POST['adminLocation'];
-$adminInsertWebsite     = $_POST['adminWebsite'];
-$adminInsertAvatar      = $_POST['adminAvatar'];
-$adminInsertBio         = $_POST['adminBio'];
-$adminInsertSignature   = $_POST['adminSignature'];
+$adminInsertLocation    = isset($_POST['adminLocation']) ? $_POST['adminLocation'] : '';
+$adminInsertWebsite     = isset($_POST['adminWebsite']) ? $_POST['adminWebsite'] : '';
+$adminInsertAvatar      = isset($_POST['adminAvatar']) ? $_POST['adminAvatar'] : '';
+$adminInsertBio         = isset($_POST['adminBio']) ? $_POST['adminBio'] : '';
+$adminInsertSignature   = isset($_POST['adminSignature']) ? $_POST['adminSignature'] : '';
 
 $venueInsertName          = preg_replace('/\s+/', '', $_POST['venueName']);
-$venueInsertTitle         = $_POST['venueTitle'];
-$venueInsertTagline       = $_POST['venueTagline'];
-$venueInsertDescription   = $_POST['venueDescription'];
-$venueInsertKeywords      = $_POST['venueKeywords'];
+$venueInsertTitle         = isset($_POST['venueTitle']) ? $_POST['venueTitle'] : '';
+$venueInsertTagline       = isset($_POST['venueTagline']) ? $_POST['venueTagline'] : '';
+$venueInsertDescription   = isset($_POST['venueDescription']) ? $_POST['venueDescription'] : '';
+$venueInsertKeywords      = isset($_POST['venueKeywords']) ? $_POST['venueKeywords'] : '';
 $venueInsertEmail         = $_POST['venueEmail'];
 $venueInsertEmailName     = $_POST['venueEmailName'];
 

@@ -449,7 +449,7 @@ class InstallSite
                 $errors .= '/adminPasswordMatchError.' . intval(1);
             }
 
-            // If email addresses doesn't match send error
+            // If email addresses don't match send error
             // TODO: Use javascript for this functionality
             if ((($_POST['adminEmail'] != '') && ($_POST['adminConfirmEmail'] != ''))
                  &&
@@ -497,21 +497,65 @@ class InstallSite
     {
         // Prompt For Venue Info
 
-        foreach($_POST as $key => $value) {
-            if ((!($key == 'install')) && (!($key == 'installData')) && (!($key == 'submit'))) {
-                $installData[$key] = $value;
+
+        // If confirm_database_info found empty required fields, then process errors sent back to this action
+        if (isset($routeValues['errors'])) {
+            // Break down 'errors' route value into error array
+            foreach ($routeValues['errors'] as $value) {
+                $errorsArray[] = explode('.', $value);
+            }
+
+            // Setup associative array so we can parse it and send it to the template via Template::set
+            if (isset($errorsArray)) {
+                foreach ($errorsArray as $valueArray) {
+                    // Convert |_| back to periods, and convert |-| back to / (if not, URLs will break routing)
+                    $errors[$valueArray[0]] = str_replace('|_|', '.', str_replace('|-|', '/', $valueArray[1]));
+                }
+            }
+        }
+
+        // If no errors have been sent (this is first run or you clicked 'back' on 'confirm_admin_info' page), initialize default field data
+        if (!isset($errors)) {
+            $installData['venueFirstIteration'] = '1';
+
+            // Setup any installation data that's in $_POST
+            foreach($_POST as $key => $value) {
+                if ((!($key == 'install')) && (!($key == 'installData')) && (!($key == 'submit'))) {
+                    $installData[$key] = $value;
+                }
+            }
+        } else {
+            // Setup any installation data that's in $errors (since we don't have $_POST)
+            foreach($errors as $key => $value) {
+                if ((!($key == 'install')) && (!($key == 'installData')) && (!($key == 'submit'))) {
+                    $installData[$key] = $value;
+                }
             }
         }
 
         $this->startTemplate();
         $this->createBody('venueInfo.tpl.php');
 
-        // Send $installData to template
-        $this->body->set('installData', $installData);
+        // Send $installData to plugin template if it exists
+        if (isset($installData)) {
+            $this->body->set('installData', $installData);
+        }
 
-        foreach($_POST as $attribute => $value) {
-            if ((!($attribute == 'install')) && (!($attribute == 'installData')) && (!($attribute == 'submit'))) {
-                $this->body->set($attribute, $value);
+        // If there are any errors (sent from 'confirm_admin_info' page), set template vars from 'errors' route value
+        if (isset($errors)) {
+            foreach($errors as $attribute => $value) {
+                if ((!($attribute == 'install')) && (!($attribute == 'installData')) && (!($attribute == 'submit'))) {
+                    if (($value != '')) {
+                        $this->body->set($attribute, $value);
+                    }
+                }
+            }
+        } else {
+            // Set template vars from $_POST
+            foreach($_POST as $attribute => $value) {
+                if ((!($attribute == 'install')) && (!($attribute == 'installData')) && (!($attribute == 'submit'))) {
+                    $this->body->set($attribute, $value);
+                }
             }
         }
 
@@ -526,6 +570,7 @@ class InstallSite
     {
         // Confirm Venue Info
 
+        /*
         // Setup any installation data that's in $_POST
         foreach($_POST as $key => $value) {
             if ((!($key == 'install')) && (!($key == 'installData')) && (!($key == 'submit'))) {
@@ -549,6 +594,71 @@ class InstallSite
         $this->createMenu('7');
         $this->renderTemplate();
 
+        exit;
+        //*/
+
+
+        // Check for required fields from venue_info pages
+        //     (password is not required as some local installations may not require one)
+        if ((($_POST['venueName'] == '') ||
+            ($_POST['venueEmail'] == '') ||
+            ($_POST['venueConfirmEmail'] == ''))
+            ||
+            ($_POST['venueEmail'] != $_POST['venueConfirmEmail'])) {
+
+            // If there are missing required fields, first set 'venueInfoError' to 1, then setup route info to send required field data to venue_info page
+            //     (the template will check for missing values and display error message appropriately)
+            $errors = '/venueInfoError.' . intval(1);
+
+            foreach($_POST as $attribute => $value) {
+                if ((!($attribute == 'install')) && (!($attribute == 'installData')) && (!($attribute == 'submit'))) {
+                    if (!($value == '')) {
+                        // Convert periods to |_|, and convert / to |-| (if not, URLs will break routing)
+                        $errors .= '/' . $attribute . '.' . str_replace('.', '|_|', str_replace('/', '|-|', $value));
+                    }
+                }
+            }
+
+            // If email addresses don't match send error
+            // TODO: Use javascript for this functionality
+            if ((($_POST['venueEmail'] != '') && ($_POST['venueConfirmEmail'] != ''))
+            &&
+            ($_POST['venueEmail']  != $_POST['venueConfirmEmail'])) {
+                $errors .= '/venueEmailMatchError.' . intval(1);
+            }
+
+            // Return user to venue_info page, along with errors
+            header('Location: /install/venue-info'.$errors);
+            exit;
+        } else {
+
+            // There are no missing required fields or form input errors
+
+            // Setup any installation data that's in $_POST
+            foreach($_POST as $key => $value) {
+                if ((!($key == 'install')) && (!($key == 'installData')) && (!($key == 'submit'))) {
+                    $installData[$key] = $value;
+                }
+            }
+
+            $this->startTemplate();
+            $this->createBody('venueConfirm.tpl.php');
+
+            // Send $installData to template
+            $this->body->set('installData', $installData);
+
+            // Set template vars from $_POST
+            foreach($_POST as $attribute => $value) {
+                if ((!($attribute == 'install')) && (!($attribute == 'installData')) && (!($attribute == 'submit'))) {
+                    if ($value != '') {
+                        $this->body->set($attribute, $value);
+                    }
+                }
+            }
+
+            $this->createMenu('5');
+            $this->renderTemplate();
+        }
         exit;
     }
 

@@ -153,7 +153,7 @@ class Db
      *         'autoincrement' => '',
      *         'default' => 'Hello',
      *         'primary_key' => '',
-     *         'unique_keys' => [],
+     *         'unique_key' => '',
      *     ],
      * ],
      * @endcode
@@ -194,37 +194,36 @@ class Db
                 $primary_key = $key['name'];
             }
 
-            /*
-            if (!$key['unique_key'] == '1') {
-                $unique_keys = $key['unique_keys'];
+            if ($key['unique_key'] == '1') {
+                $unique_keys[] = $key['name'];
             }
-            //*/
 
             $queryString .= ",";
 
         }
 
+        $queryString = substr($queryString, 0, -1);
+
         if (!empty($primary_key)) {
-            $queryString .= " PRIMARY KEY (`" . $primary_key . "`)";
+            $queryString .= ", PRIMARY KEY (" . $primary_key . ")";
         }
 
         if (!empty($unique_keys)) {
-            // Create UNIQUE KEYs
-            //$queryString .= " PRIMARY KEY (`" . $primary_key . "`)";
-        }
+            // Create UNIQUE KEY
+            $queryString .= ", UNIQUE KEY (";
 
-        // TODO: Add condition for UNIQUE KEYs when I implement them
-        if (empty($primary_key)) {
-            // Remove trailing comma if there is no primary/unique key
+            foreach ($unique_keys as $unique_key) {
+                $queryString .= $unique_key . ',';
+            }
+
             $queryString = substr($queryString, 0, -1);
+            $queryString .= ")";
         }
 
         $queryString .= ");";
 
         try {
             $dbStmt = $this->connection->query($queryString);
-            // Binding values adds surrounding quotes to bound values in $queryString, which causes CREATE DATABASE to fail
-            //$dbStmt = $this->connection->query($queryString, $bindValues);
             return true;
         }
         catch (\PDOException $e)

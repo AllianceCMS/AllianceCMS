@@ -114,7 +114,7 @@ $pluginRoutes['Install']['Confirm Admin Info'] = [
 // Create route for Installation: Prompt For Venue Info page
 $pluginRoutes['Install']['Prompt For Venue Info'] = [
     'name' => 'install_venue_info', // Required: Route name
-    'path' => '/install/venue-info', // Required: Route path
+    'path' => '/install/venue-info/{:errors*}', // Required: Route path
     'type' => 'front', // Required: admin, front, back
     'specs' => [
         'values' => [
