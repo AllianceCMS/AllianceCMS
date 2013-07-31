@@ -3,5 +3,3 @@
 # Except this file
 !.gitignore
 !index.php
-!all
-!default

@@ -1,7 +1,10 @@
 .settings
 .buildpath
 .project
-public_html/phpinfo.php
-zones/default/dbConnections*
+*phpinfo.php
+*dbConnection*
+*bak*
 Doxygen_Docs/*
 nbproject/*
+zones/*.*.com
+zones/*localhost*

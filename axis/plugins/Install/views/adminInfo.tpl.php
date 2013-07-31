@@ -151,7 +151,7 @@
         </tr>
         <tr>
             <td>
-                <strong>Website:</strong>
+                <strong>Personal Website:</strong>
             </td>
             <td>
                 <?php $formHelper->inputText('adminWebsite', (isset($adminWebsite)) ? $adminWebsite : ''); ?>
