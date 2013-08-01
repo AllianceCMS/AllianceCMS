@@ -44,6 +44,11 @@ if ($dispatch) {
 
     $page = new $controller;
 
+    $basePath = BASE_URL . '/' . $auraRoute->values['venue'];
+
+    $system['routeInfo'] = $auraRoute;
+    $system['basePath'] = $basePath;
+
     // Create/set 'Main Nav Links' vars and template
     $sql->dbSelect('links',
         'label, url',
@@ -61,7 +66,8 @@ if ($dispatch) {
     $tpl->set("nav1", $nav1);
 
     // Assign the controller to the body of the base/theme template
-    $body = $page->$action($auraRoute->values);
+    //$body = $page->$action($auraRoute, $basePath);
+    $body = $page->$action($system);
     $tpl->set("body",	$body);
 
     // If the function 'customHeaders' exists then include custom header into the themes 'header' tags

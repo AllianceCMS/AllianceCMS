@@ -9,7 +9,7 @@ class Template {
     /**
      * Constructor
      *
-     * @param $file string the file name you want to load
+     * @param string $file The file name you want to load
      */
     public function __construct($file = null) {
         $this->file = $file;
@@ -18,7 +18,7 @@ class Template {
     /**
      * Check if array is associative or sequential
      *
-     * @param $file string the file name you want to load
+     * @param array $array The array you want to check
      */
     public function isAssoc($array = null) {
         if (is_array($array)) {

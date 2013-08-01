@@ -27,7 +27,7 @@ class InstallSite
     private $menu;
 
     // Installation Welcome Page action
-    public function installWelcome($routeValues)
+    public function installWelcome($system)
     {
         $missingZone = null;
 
@@ -49,7 +49,7 @@ class InstallSite
         if (isset($missingZone)) {
 
             $this->startTemplate();
-            $this->createBody('welcomeWarnings.tpl.php');
+            $this->createBody('welcomeWarnings.tpl.php', $system['basePath']);
 
             $this->body->set('missingZone', $missingZone);
 
@@ -65,7 +65,7 @@ class InstallSite
         $this->startTemplate();
 
         // Setup body of plugin template
-        $this->createBody('welcome.tpl.php');
+        $this->createBody('welcome.tpl.php', $system['basePath']);
 
         // Create menu template
         $this->createMenu('0');
@@ -78,12 +78,12 @@ class InstallSite
     }
 
     // Installation: Language Page action
-    public function installLanguage($routeValues)
+    public function installLanguage($system)
     {
         // Select Language
 
         $this->startTemplate();
-        $this->createBody('language.tpl.php');
+        $this->createBody('language.tpl.php', $system['basePath']);
 
         // Setup any installation data that's in $_POST
         foreach ($_POST as $key => $value) {
@@ -106,14 +106,14 @@ class InstallSite
     }
 
     // Installation: Database Info action
-    public function installDbInfo($routeValues)
+    public function installDbInfo($system)
     {
         // Prompt For DB Info
 
         // If confirm_database_info found empty required fields, then process errors sent back to this action
-        if (isset($routeValues['errors'])) {
+        if (isset($system['routeInfo']->values['errors'])) {
             // Break down 'errors' route value into error array
-            foreach ($routeValues['errors'] as $value) {
+            foreach ($system['routeInfo']->values['errors'] as $value) {
                 $errorsArray[] = explode('.', $value);
             }
 
@@ -153,7 +153,7 @@ class InstallSite
         }
 
         $this->startTemplate();
-        $this->createBody('dbInfo.tpl.php');
+        $this->createBody('dbInfo.tpl.php', $system['basePath']);
 
         // Send $installData to plugin template if it exists
         if (isset($installData)) {
@@ -178,7 +178,7 @@ class InstallSite
     }
 
     // Installation: Confirm Database Info action
-    public function installConfirmDbInfo($routeValues)
+    public function installConfirmDbInfo($system)
     {
         // Confirm DB Info
 
@@ -218,7 +218,7 @@ class InstallSite
             }
 
             $this->startTemplate();
-            $this->createBody('dbConfirm.tpl.php');
+            $this->createBody('dbConfirm.tpl.php', $system['basePath']);
 
             // Send $installData to template
             $this->body->set('installData', $installData);
@@ -239,7 +239,7 @@ class InstallSite
     }
 
     // Installation: Test Connection Info action
-    public function installTestDbConnection($routeValues)
+    public function installTestDbConnection($system)
     {
         // Test/Confirm DB Connection
 
@@ -286,6 +286,8 @@ class InstallSite
         }
 
         if (isset($_POST['dbCreateDatabase']) && ($_POST['dbCreateDatabase'] == '1')) {
+            $dbCreateDatabase = 1;
+
             $sql->dbConnect(
                 $dbAdapter,
                 $dbHost,
@@ -294,6 +296,8 @@ class InstallSite
                 $dbPassword
             );
         } else {
+            $dbCreateDatabase = '';
+
             $sql->dbConnect(
                 $dbAdapter,
                 $dbHost,
@@ -319,12 +323,13 @@ class InstallSite
         }
 
         $this->startTemplate();
-        $this->createBody('dbTestConfirm.tpl.php');
+        $this->createBody('dbTestConfirm.tpl.php', $system['basePath']);
 
         // Send $installData to template
         $this->body->set('installData',     $installData);
         // Send $validConnection to template
         $this->body->set('validConnection', $validConnection);
+        $this->body->set('dbCreateDatabase', $dbCreateDatabase);
 
         // Set template vars from $_POST
         foreach($_POST as $attribute => $value) {
@@ -340,14 +345,14 @@ class InstallSite
     }
 
     // Installation: Admin Info action
-    public function installAdminInfo($routeValues)
+    public function installAdminInfo($system)
     {
         // Prompt For Admin Info
 
         // If confirm_database_info found empty required fields, then process errors sent back to this action
-        if (isset($routeValues['errors'])) {
+        if (isset($system['routeInfo']->values['errors'])) {
             // Break down 'errors' route value into error array
-            foreach ($routeValues['errors'] as $value) {
+            foreach ($system['routeInfo']->values['errors'] as $value) {
                 $errorsArray[] = explode('.', $value);
             }
 
@@ -380,7 +385,7 @@ class InstallSite
         }
 
         $this->startTemplate();
-        $this->createBody('adminInfo.tpl.php');
+        $this->createBody('adminInfo.tpl.php', $system['basePath']);
 
         // Send $installData to plugin template if it exists
         if (isset($installData)) {
@@ -412,11 +417,11 @@ class InstallSite
     }
 
     // Installation: Confirm Admin Info action
-    public function installConfirmAdminInfo($routeValues)
+    public function installConfirmAdminInfo($system)
     {
         // Confirm Admin Info
 
-        // Check for required fields from db_info pages
+        // Check for required fields from admin_info pages
         //     (password is not required as some local installations may not require one)
         if ((($_POST['adminLoginName']       == '') ||
              ($_POST['adminPassword']        == '') ||
@@ -472,7 +477,7 @@ class InstallSite
             }
 
             $this->startTemplate();
-            $this->createBody('adminConfirm.tpl.php');
+            $this->createBody('adminConfirm.tpl.php', $system['basePath']);
 
             // Send $installData to template
             $this->body->set('installData', $installData);
@@ -493,15 +498,15 @@ class InstallSite
     }
 
     // Installation: Venue Info action
-    public function installVenueInfo($routeValues)
+    public function installVenueInfo($system)
     {
         // Prompt For Venue Info
 
 
         // If confirm_database_info found empty required fields, then process errors sent back to this action
-        if (isset($routeValues['errors'])) {
+        if (isset($system['routeInfo']->values['errors'])) {
             // Break down 'errors' route value into error array
-            foreach ($routeValues['errors'] as $value) {
+            foreach ($system['routeInfo']->values['errors'] as $value) {
                 $errorsArray[] = explode('.', $value);
             }
 
@@ -534,7 +539,7 @@ class InstallSite
         }
 
         $this->startTemplate();
-        $this->createBody('venueInfo.tpl.php');
+        $this->createBody('venueInfo.tpl.php', $system['basePath']);
 
         // Send $installData to plugin template if it exists
         if (isset($installData)) {
@@ -566,7 +571,7 @@ class InstallSite
     }
 
     // Installation: Confirm Venue Info action
-    public function installConfirmVenueInfo($routeValues)
+    public function installConfirmVenueInfo($system)
     {
         // Confirm Venue Info
 
@@ -579,7 +584,7 @@ class InstallSite
         }
 
         $this->startTemplate();
-        $this->createBody('venueConfirm.tpl.php');
+        $this->createBody('venueConfirm.tpl.php', $system['basePath']);
 
         // Send $installData to template
         $this->body->set('installData', $installData);
@@ -642,7 +647,7 @@ class InstallSite
             }
 
             $this->startTemplate();
-            $this->createBody('venueConfirm.tpl.php');
+            $this->createBody('venueConfirm.tpl.php', $system['basePath']);
 
             // Send $installData to template
             $this->body->set('installData', $installData);
@@ -663,7 +668,7 @@ class InstallSite
     }
 
     // Installation: Confirm Installation action
-    public function installConfirmInstallation($routeValues)
+    public function installConfirmInstallation($system)
     {
         // ok To Install?
 
@@ -675,7 +680,7 @@ class InstallSite
         }
 
         $this->startTemplate();
-        $this->createBody('venueConfirmInstall.tpl.php');
+        $this->createBody('venueConfirmInstall.tpl.php', $system['basePath']);
 
         // Send $installData to template
         $this->body->set('installData', $installData);
@@ -694,7 +699,7 @@ class InstallSite
     }
 
     // Installation: Complete Installation action
-    public function installInstallationComplete($routeValues)
+    public function installInstallationComplete($system)
     {
         // Complete Installation
 
@@ -711,7 +716,7 @@ class InstallSite
         // Installation Complete Page
 
         $this->startTemplate();
-        $this->createBody('installComplete.tpl.php');
+        $this->createBody('installComplete.tpl.php', $system['basePath']);
 
         $this->createMenu('9');
         $this->renderTemplate();
@@ -729,10 +734,10 @@ class InstallSite
 
     }
 
-    private function createBody($view)
+    private function createBody($view, $basePath)
     {
         // Create FormHelper object for use in templates
-        $formHelper = new FormHelper();
+        $formHelper = new FormHelper($basePath);
 
         // Setup body of plugin template
         $this->body = new Template(dirname(__FILE__) . DS . 'views' . DS . $view);

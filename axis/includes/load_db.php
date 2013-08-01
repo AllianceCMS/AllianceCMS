@@ -2,17 +2,17 @@
 
 use Acms\Core\Data\Db;
 
-// If the database config file (/venues/default/dbConnection.php) exists create database object
+// If the database config file (dbConnection.php) exists create database object
 if (file_exists(DBCONNFILE)) {
 
     $sql = new Db;
 
 } else {
 
-    // If the database config file (/venues/default/dbConnection.php) does not exist send user to installation page
+    // If the database config file (dbConnection.php) does not exist send user to installation page
 
     // Match Routes
-    // TODO: The following five lines of active code needs to be a class method
+    // @todo: The following five lines of active code needs to be a class method
     $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $pathArray = explode('/', $path);
     array_shift($pathArray);
@@ -57,13 +57,15 @@ if (file_exists(DBCONNFILE)) {
         }
 
         if (isset($adminRoutes)) {
-
             // attach admin routes
             $installRoutes->attach('/admin', $adminRoutes);
-
         }
 
         $auraRoute = $installRoutes->match($path, $_SERVER);
+        $basePath = BASE_URL;
+
+        $system['routeInfo'] = $auraRoute;
+        $system['basePath'] = $basePath;
 
 
         // Does the route indicate a controller?
@@ -80,13 +82,9 @@ if (file_exists(DBCONNFILE)) {
 
         $page = new $controller;
 
-        // Dynamically call Install plugins controller/action
-        $page->$action($auraRoute->values);
+        // Dynamically call Install plugin controller/action
+        $page->$action($system);
 
-
-        //$controller = $auraRoute->values['controller'];
-
-        //$controller($auraRoute->values);
         exit;
     }
 }

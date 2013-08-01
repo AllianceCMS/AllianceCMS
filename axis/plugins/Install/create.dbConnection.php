@@ -44,7 +44,13 @@ define('DB_PREFIX', 	'".$_POST['dbDatabasePrefix']."');
 define('DB_ACTIVE', 	'1');
 ";
 
-file_put_contents(DBCONNFILE, $data);
+if (file_exists(ZONES . $_SERVER['SERVER_NAME'])) {
+    $dbConnFile = ZONES . $_SERVER['SERVER_NAME'] . DS . 'dbConnection.php';
+} else {
+    $dbConnFile = DBCONNFILE;
+}
+
+file_put_contents($dbConnFile, $data);
 
 $currentOS = strtoupper(substr(PHP_OS, 0, 3));
 

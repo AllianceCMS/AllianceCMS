@@ -29,7 +29,7 @@ $venueInsertKeywords      = isset($_POST['venueKeywords']) ? $_POST['venueKeywor
 $venueInsertEmail         = $_POST['venueEmail'];
 $venueInsertEmailName     = $_POST['venueEmailName'];
 
-$languageInsert           = $_POST['language'];
+$languageInsert           = isset($_POST['language']) ? $_POST['language'] : '';
 
 // Initialize $dbCreateDatabase
 $dbCreateDatabase = '';
