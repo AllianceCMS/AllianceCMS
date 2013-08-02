@@ -554,6 +554,25 @@ class FormHelper
         $this->errorRequiredTrue = false;
         $this->errorRequired = '';
 
+    if (!empty($_POST)) {
+            foreach ($requiredFields as $requiredField) {
+                if ($_POST[$requiredField] == '') {
+                    $this->errorRequiredTrue = true;
+                    //$this->errorRequired .= '/RequiredError.' . intval(1);
+                }
+            }
+        }
+
+        if (!empty($_GET)) {
+            foreach ($requiredFields as $requiredField) {
+                if ($_GET[$requiredField] == '') {
+                    $this->errorRequiredTrue = true;
+                    //$this->errorRequired .= '/RequiredError.' . intval(1);
+                }
+            }
+        }
+
+        /*
         if (!empty($_POST)) {
             foreach ($requiredFields as $requiredField) {
                 if ($_POST[$requiredField] == '') {
@@ -562,12 +581,9 @@ class FormHelper
             }
 
             if ($this->errorRequiredTrue) {
-                foreach($requiredFields as $requiredField) {
-
-                    if ($_POST[$requiredField] != '') {
-                        // Convert periods to |_|, and convert / to |-| (if not, URLs will break routing)
-                        $this->errorRequired .= '/' . $requiredField . '.' . str_replace('.', '|_|', str_replace('/', '|-|', $_POST[$requiredField]));
-                    }
+                foreach($_POST as $key => $value) {
+                    // Convert periods to |_|, and convert / to |-| (if not, URLs will break routing)
+                    $this->errorRequired .= '/' . $key . '.' . str_replace('.', '|_|', str_replace('/', '|-|', $value));
                 }
             }
         }
@@ -589,6 +605,7 @@ class FormHelper
                 }
             }
         }
+        //*/
     }
 
     /**
@@ -679,20 +696,28 @@ class FormHelper
 
     public function getErrors($route)
     {
-        if ($this->errorRequiredTrue) {
+        $this->processedErrors = null;
+
+        if (isset($this->errorRequiredTrue)) {
             $this->processedErrors .= $this->errorRequired;
         }
 
-        if ($this->errorMatchesTrue) {
+        if (isset($this->errorMatchesTrue)) {
             $this->processedErrors .= $this->errorMatches;
         }
 
-        if ($this->errorRegexTrue) {
+        if (isset($this->errorRegexTrue)) {
             $this->processedErrors .= $this->errorRegex;
         }
 
-        if (isset($this->processedErrors)) {
-            header('Location: ' . $this->basePath . $route . $this->processedErrors);
+        if (!empty($this->processedErrors)) {
+
+            foreach($_POST as $key => $value) {
+                // Convert periods to |_|, and convert / to |-| (if not, URLs will break routing)
+                $this->processedErrors .= '/' . $key . '.' . str_replace('.', '|_|', str_replace('/', '|-|', $value));
+            }
+
+            header('Location: ' . $this->basePath . $route . '/formErrors.' . intval(1) . $this->processedErrors);
             exit;
         }
 

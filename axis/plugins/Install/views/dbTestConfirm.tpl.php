@@ -17,7 +17,7 @@
             $formHelper->inputFormStart('/install/database-info');
             $formHelper->inputHidden('install', '2');
 
-            foreach($installData as $attribute => $value) {
+            foreach($formData as $attribute => $value) {
                 $formHelper->inputHidden($attribute, $value);
             }
 
@@ -36,7 +36,7 @@
     <p>
         <span style="color: red;">
             (Hint: Verify that you're database credentials are correct)<br />
-            (Hint: Make sure that the specified Database exists)
+            (Hint: Verify that the specified Database exists)
         </span>
     </p>
 
@@ -51,7 +51,7 @@
             $formHelper->inputFormStart('/install/database-info');
             $formHelper->inputHidden('install', '2');
 
-            foreach($installData as $attribute => $value) {
+            foreach($formData as $attribute => $value) {
                 $formHelper->inputHidden($attribute, $value);
             }
 
@@ -77,7 +77,7 @@
             $formHelper->inputFormStart('/install/admin-info');
             $formHelper->inputHidden('install', '5');
 
-            foreach($installData as $attribute => $value) {
+            foreach($formData as $attribute => $value) {
                 $formHelper->inputHidden($attribute, $value);
             }
 

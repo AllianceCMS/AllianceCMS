@@ -6,7 +6,7 @@
 
 <?php
 
-    if (isset($installData['dbFirstIteration'])) {
+    if (isset($formData['firstIteration'])) {
         $firstIteration = 1;
     }
 
@@ -27,7 +27,7 @@
     }
 ?>
 
-<?php if (isset($dbInfoError)): ?>
+<?php if (isset($formErrors)): ?>
     <?php if ($dbHost == ''): ?>
         <p>
             <span style="color: red;">Error: Please Enter A Host Name</span>
@@ -61,7 +61,7 @@
                 <span style="color: red;">*</span> <strong>Host Name:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('dbHost', ((isset($installData['dbHost'])) ? $installData['dbHost'] : $dbHost)); ?>
+                <?php $formHelper->inputText('dbHost', ((isset($formData['dbHost'])) ? $formData['dbHost'] : $dbHost)); ?>
             </td>
         </tr>
         <tr>
@@ -69,8 +69,8 @@
                 <span style="color: red;">*</span> <strong>Database:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('dbDatabase', (isset($installData['dbDatabase'])) ? $installData['dbDatabase'] : $dbDatabase); ?>
-                <?php $formHelper->inputCheckBox('dbCreateDatabase', '1', '', ((isset($installData['dbCreateDatabase'])) && ($installData['dbCreateDatabase'] == '1') ? '1' : NULL)); ?>
+                <?php $formHelper->inputText('dbDatabase', (isset($formData['dbDatabase'])) ? $formData['dbDatabase'] : $dbDatabase); ?>
+                <?php $formHelper->inputCheckBox('dbCreateDatabase', '1', '', ((isset($formData['dbCreateDatabase'])) && ($formData['dbCreateDatabase'] == '1') ? '1' : NULL)); ?>
                 Create?
             </td>
         </tr>
@@ -79,7 +79,7 @@
                 <span style="color: red;">*</span> <strong>User Name:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('dbUserName', ((isset($installData['dbUserName'])) ? $installData['dbUserName'] : $dbUserName)); ?>
+                <?php $formHelper->inputText('dbUserName', ((isset($formData['dbUserName'])) ? $formData['dbUserName'] : $dbUserName)); ?>
             </td>
         </tr>
         <tr>
@@ -95,7 +95,7 @@
                 <strong>Database Prefix:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('dbDatabasePrefix', ((isset($installData['dbDatabasePrefix'])) ? $installData['dbDatabasePrefix'] : $dbDatabasePrefix)); ?>
+                <?php $formHelper->inputText('dbDatabasePrefix', ((isset($formData['dbDatabasePrefix'])) ? $formData['dbDatabasePrefix'] : $dbDatabasePrefix)); ?>
             </td>
         </tr>
     </table>
@@ -103,7 +103,7 @@
     <?php
         $formHelper->inputHidden('install', '3');
 
-        foreach($installData as $attribute => $value) {
+        foreach($formData as $attribute => $value) {
             if (((string)(strpos($attribute, 'db')) !== ((string)0)) || ($attribute == 'language')) {
                 $formHelper->inputHidden($attribute, $value);
             }

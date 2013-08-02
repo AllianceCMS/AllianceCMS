@@ -5,7 +5,7 @@
 <div class="content_separator"></div>
 
 <?php
-    if (isset($installData['adminFirstIteration'])) {
+    if (isset($formData['firstIteration'])) {
         $firstIteration = 1;
     }
 
@@ -34,17 +34,7 @@
     }
 ?>
 
-<?php if (!isset($firstIteration)): ?>
-    <?php if (isset($adminPasswordMatchError) && $adminPasswordMatchError == 1): ?>
-        <p>
-            <span style="color: red;">Error: Passwords Do Not Match</span>
-        </p>
-    <?php endif; ?>
-    <?php if (isset($adminEmailMatchError) && $adminEmailMatchError == 1): ?>
-        <p>
-            <span style='color: red;'>Error: Email Addresses Do Not Match</span>
-        </p>
-    <?php endif; ?>
+<?php if (isset($formErrors)): ?>
     <?php if ($adminLoginName == ''): ?>
         <p>
             <span style="color: red;">Error: Please Enter A Login Name</span>
@@ -68,6 +58,21 @@
     <?php if ($adminConfirmEmail == ''): ?>
         <p>
             <span style="color: red;">Error: Please Confirm Your Email Address</span>
+        </p>
+    <?php endif; ?>
+    <?php if (isset($adminPasswordMatchError) && $adminPasswordMatchError == 1): ?>
+        <p>
+            <span style="color: red;">Error: Passwords Do Not Match</span>
+        </p>
+    <?php endif; ?>
+    <?php if (isset($adminEmailMatchError) && $adminEmailMatchError == 1): ?>
+        <p>
+            <span style='color: red;'>Error: Email Addresses Do Not Match</span>
+        </p>
+    <?php endif; ?>
+    <?php if (isset($adminEmailMatchError) && $adminEmailMatchError == 1): ?>
+        <p>
+            <span style='color: red;'>Error: Please Enter A Valid Email Address</span>
         </p>
     <?php endif; ?>
 <?php endif; ?>
@@ -186,7 +191,7 @@
     <?php
         $formHelper->inputHidden('install', '6');
 
-        foreach($installData as $attribute => $value) {
+        foreach($formData as $attribute => $value) {
             if (((string)(strpos($attribute, 'admin')) !== ((string)0)) || ($attribute == 'language')) {
                 $formHelper->inputHidden($attribute, $value);
             }

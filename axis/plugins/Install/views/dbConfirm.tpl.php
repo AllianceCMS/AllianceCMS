@@ -68,7 +68,7 @@
         $formHelper->inputFormStart('/install/database-info');
         $formHelper->inputHidden('install', '2');
 
-        foreach($installData as $attribute => $value) {
+        foreach($formData as $attribute => $value) {
             $formHelper->inputHidden($attribute, $value);
         }
 
@@ -82,7 +82,7 @@
         $formHelper->inputFormStart('/install/test-database-connection');
         $formHelper->inputHidden('install', '4');
 
-        foreach($installData as $attribute => $value) {
+        foreach($formData as $attribute => $value) {
             $formHelper->inputHidden($attribute, $value);
         }
 
