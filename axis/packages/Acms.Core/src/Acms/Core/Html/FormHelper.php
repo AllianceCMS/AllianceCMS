@@ -14,6 +14,8 @@
  *
  */
 
+namespace Acms\Core\Html;
+
 /**
  * Class FormHelper
  *
@@ -25,12 +27,6 @@
  * Improve Security by Validating Input and Escape Output on the fly
  */
 
-namespace Acms\Core\Html;
-
-/**
- *
- *
- */
 class FormHelper
 {
     /**
@@ -556,42 +552,15 @@ class FormHelper
         $this->errorRequiredTrue = false;
         $this->errorRequired = '';
 
-        /*
-        echo '<br /><pre>$_POST: ';
-        echo print_r($_POST);
-        echo '</pre><br />';
-        //exit;
-
-        echo '<br /><pre>$_GET: ';
-        echo print_r($_GET);
-        echo '</pre><br />';
-        //exit;
-
-        echo '<br /><pre>$requiredFields: ';
-        echo print_r($requiredFields);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
         if (!empty($_POST)) {
             foreach ($requiredFields as $requiredField) {
-                /*
-                echo '<br />$requiredField is: ' . $requiredField  . '<br />';
-                echo '<br />$_POST[\''.$requiredField.'\'] is: ' . $_POST[$requiredField]  . '<br />';
-                //*/
-
                 if ($_POST[$requiredField] == '') {
                     $this->errorRequiredTrue = true;
                 }
             }
 
             if ($this->errorRequiredTrue) {
-                //$this->errorRequired .= '/infoError.' . intval(1);
                 foreach($requiredFields as $requiredField) {
-                    /*
-                    echo '<br />$requiredField is: ' . $requiredField  . '<br />';
-                    echo '<br />$_POST[\''.$requiredField.'\'] is: ' . $_POST[$requiredField]  . '<br />';
-                    //*/
 
                     if ($_POST[$requiredField] != '') {
                         // Convert periods to |_|, and convert / to |-| (if not, URLs will break routing)
@@ -618,11 +587,6 @@ class FormHelper
                 }
             }
         }
-
-        /*
-        echo '<br />$this->errorRequiredTrue is: ' . $this->errorRequiredTrue . '<br />';
-        echo '<br />$this->errorRequired is: ' . $this->errorRequired . '<br />';
-        //*/
     }
 
     /**
@@ -639,23 +603,13 @@ class FormHelper
         $this->errorMatchesTrue = false;
         $this->errorMatches = '';
 
-        /*
-        echo '<br /><pre>$$matchingFields: ';
-        echo print_r($matchingFields);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
         if (!empty($_POST)) {
             foreach ($matchingFields as $key => $value) {
-                /*
-                echo '<br />$key is: ' . $key . '<br />';
-                echo '<br />$value is: ' . $value . '<br />';
-                //*/
+
                 if (($_POST[$key] != '') && ($_POST[$value] != '')) {
                     if ($_POST[$key] != $_POST[$value]) {
                         $this->errorMatchesTrue = true;
-                        $this->errorMatches .= '/' . $key . '.' . $value;
+                        $this->errorMatches .= '/' . $key . 'MatchError.' . intval(1);
                     }
                 }
             }
@@ -663,23 +617,15 @@ class FormHelper
 
         if (!empty($_GET)) {
             foreach ($matchingFields as $key => $value) {
-                /*
-                echo '<br />$key is: ' . $key . '<br />';
-                echo '<br />$value is: ' . $value . '<br />';
-                //*/
+
                 if (($_GET[$key] != '') && ($_GET[$value] != '')) {
                     if ($_GET[$key] != $_GET[$value]) {
                         $this->errorMatchesTrue = true;
-                        $this->errorMatches .= '/' . $key . '.' . $value;
+                        $this->errorMatches .= '/' . $key . 'MatchError.' . intval(1);
                     }
                 }
             }
         }
-
-        /*
-        echo '<br />$this->errorMatchesTrue is: ' . $this->errorMatchesTrue . '<br />';
-        echo '<br />$this->errorMatches is: ' . $this->errorMatches . '<br />';
-        //*/
     }
 
     /**
@@ -693,25 +639,15 @@ class FormHelper
 
     public function checkRegex($validateFields)
     {
-        /*
-        echo '<br /><pre>$validateFields: ';
-        echo print_r($validateFields);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
         $this->errorRegexTrue = null;
         $this->errorRegex = '';
 
         if (!empty($_POST)) {
             foreach ($validateFields as $field => $regex) {
-                /*
-                echo '<br />$field is: ' . $field . '<br />';
-                echo '<br />$regex is: ' . $regex . '<br />';
-                //*/
+
                 if (!preg_match($regex, $_POST[$field])) {
                     $this->errorRegexTrue = 1;
-                    $this->errorRegex .= '/' . $field . '.' . intval(1);
+                    $this->errorRegex .= '/' . $field . 'RegexError.' . intval(1);
                 }
             }
         }
@@ -735,55 +671,55 @@ class FormHelper
      * @return boolean | redirect False if all defined checks pass, redirects to $route if otherwise
      */
 
-    public function findErrors($route)
+    public function getErrors($route)
     {
         if ($this->errorRequiredTrue) {
-            /*
-            echo '<br />$this->errorRequired is: ' . $this->errorRequired . '<br />';
-            //*/
-            $this->processedErrors .= '/errorRequired.' . intval(1) . $this->errorRequired;
-            /*
-            echo '<br />$this->processedErrors is: ' . $this->processedErrors . '<br />';
-            //*/
+            $this->processedErrors .= $this->errorRequired;
         }
 
         if ($this->errorMatchesTrue) {
-            /*
-            echo '<br />$this->errorMatches is: ' . $this->errorMatches . '<br />';
-            //*/
-            $this->processedErrors .= '/errorMatches.' . intval(1) . $this->errorMatches;
-            /*
-            echo '<br />$this->processedErrors is: ' . $this->processedErrors . '<br />';
-            //*/
+            $this->processedErrors .= $this->errorMatches;
         }
 
         if ($this->errorRegexTrue) {
-            /*
-            echo '<br />$this->errorRegex is: ' . $this->errorRegex . '<br />';
-            //*/
-            $this->processedErrors .= '/errorRegex.' . intval(1) . $this->errorRegex;
-            /*
-            echo '<br />$this->processedErrors is: ' . $this->processedErrors . '<br />';
-            //*/
+            $this->processedErrors .= $this->errorRegex;
         }
 
-        /*
-        echo '<br /><strong>Final</strong>: $this->processedErrors is: ' . $this->processedErrors . '<br />';
-        //*/
-
         if (isset($this->processedErrors)) {
-            //*
             header('Location: ' . $this->basePath . $route . $this->processedErrors);
             exit;
-            //*/
         }
 
         return false;
     }
 
-    public function displayErrors()
+    public function processErrors($formErrors)
     {
-        echo '<br />You Have Errors<br />';
+        // Break down 'errors' route value into error array
+        foreach ($formErrors as $value) {
+            $errorsArray[] = explode('.', $value);
+        }
+
+        // Setup associative array so we can parse it and send it to the template via Template::set()
+        if (isset($errorsArray)) {
+            foreach ($errorsArray as $valueArray) {
+                // Convert |_| back to periods, and convert |-| back to / (if not, URLs will break routing)
+                $errors[$valueArray[0]] = str_replace('|_|', '.', str_replace('|-|', '/', $valueArray[1]));
+            }
+
+            // Setup any form data that's in $errors (since we don't have $_POST)
+            foreach($errors as $key => $value) {
+                $formData[$key] = $value;
+            }
+
+        }
+
+        if (isset($formData)) {
+            return $formData;
+        } else {
+            return false;
+        }
+
     }
 
     /*
@@ -800,9 +736,9 @@ class FormHelper
      */
 
     /*
-    public function processErrors($errors)
+    public function displayErrors()
     {
-        return true;
+        echo '<br />You Have Errors<br />';
     }
     //*/
 

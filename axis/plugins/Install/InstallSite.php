@@ -13,11 +13,12 @@ use Acms\Core\Html\FormHelper;
  *         *** COMPLETE *** setup menu
  *         *** COMPLETE *** instantiate FormHelper
  *         process errors
- *     - Validate 'Venue Name' (make sure there are no numbers/symbols
- *     - Filter/Validate all $_POST data
+ *     - Validate 'Venue Name' (make sure there are no numbers/symbols)
+ *     - Filter/Validate all $_POST/$_GET data
  *     - Parse $schema array and check for/throw error before sending them to Db::someMethod
  *     - Validate form data using javascript (matching passwords, valid 'Venue Name', etc...)
- *     - Forms: Add links to help info for individual form fields (Venue Name will discribe what a venue name is, how it works, and valid examples)
+ *     - Forms: Add links/tooltips to "help info" for individual form fields (Venue Name will discribe what a venue name is, how it works, and valid examples)
+ *     - Change naming scheme of variables (from camelCase to use_underscores). Need to change it in actions and views
  */
 
 class InstallSite

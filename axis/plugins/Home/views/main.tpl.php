@@ -23,16 +23,20 @@
 
 <h2>What Is AllianceCMS?</h2>
 
-<ul>
-    <li>Flexible</li>
-    <li>Secure</li>
-    <li>Easy To Use</li>
-    <li>Easy To Develop With</li>
-    <li>Easy To Create Custom Look And Layout</li>
-    <li>PHP 5.4+ Compatible</li>
-    <li>Web Standards Compliant</li>
-    <li>Open Source (BSD 2-Clause License)</li>
-</ul>
+<p>
+    <strong>AllianceCMS is...</strong>
+
+    <ul>
+        <li>Flexible</li>
+        <li>Secure</li>
+        <li>Easy To Use</li>
+        <li>Easy To Develop With</li>
+        <li>PHP 5.4+ Compatible</li>
+        <li>Web Standards Compliant</li>
+        <li>Open Source (Apache License, Version 2.0)</li>
+    </ul>
+
+</p>
 
 <h2>Join The AllianceCMS Community!</h2>
 
