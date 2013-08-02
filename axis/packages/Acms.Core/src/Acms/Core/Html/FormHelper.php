@@ -486,6 +486,7 @@ class FormHelper
      * @param array   $attributes array($attribute => $value);
      * @param integer $size
      * @param integer $disabled
+     *
      * @return string
      */
 
@@ -544,6 +545,7 @@ class FormHelper
      * Used in the controller the form is passed to
      *
      * @param array $requiredFields  An indexed array of required field names
+     *
      * @return boolean
      */
 
@@ -594,8 +596,9 @@ class FormHelper
      *
      * Used in the controller the form is passed to
      *
-     * @param array $fields
-     * @return boolean
+     * @param array $matchingFields
+     *
+     * @return null
      */
 
     public function checkMatches($matchingFields)
@@ -633,8 +636,9 @@ class FormHelper
      *
      * Used in the controller the form is passed to
      *
-     * @param array $fields
-     * @return boolean
+     * @param array $validateFields
+     *
+     * @return null
      */
 
     public function checkRegex($validateFields)
@@ -667,6 +671,8 @@ class FormHelper
      * Process all defined checks
      *
      * Used in the controller the form is passed to
+     *
+     * @param string $route
      *
      * @return boolean | redirect False if all defined checks pass, redirects to $route if otherwise
      */

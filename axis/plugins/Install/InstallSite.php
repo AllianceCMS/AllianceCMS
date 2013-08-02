@@ -350,7 +350,7 @@ class InstallSite
     {
         // Prompt For Admin Info
 
-        // If confirm_database_info found empty required fields, then process errors sent back to this action
+        // If confirm_admin_info found empty required fields, then process errors sent back to this action
         if (isset($system['routeInfo']->values['errors'])) {
             // Break down 'errors' route value into error array
             foreach ($system['routeInfo']->values['errors'] as $value) {
