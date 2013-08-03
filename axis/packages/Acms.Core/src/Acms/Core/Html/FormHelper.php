@@ -38,6 +38,7 @@ class FormHelper
      *
      * @param string $basePath
      */
+
     public function __construct($basePath)
     {
         $this->basePath = $basePath;
@@ -554,106 +555,23 @@ class FormHelper
         $this->errorRequiredTrue = null;
         $this->errorRequired = '';
 
-        /*
-        echo '<br /><pre>$_POST: ';
-        echo print_r($_POST);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
-        /*
-        echo '<br /><pre>$requiredFields: ';
-        echo print_r($requiredFields);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
         if (!empty($_POST)) {
             foreach ($requiredFields as $requiredField) {
 
-                /*
-                echo '<br />$requiredField is: ' . $requiredField . '<br />';
-                echo '<br />$_POST[$requiredField] is: ' . $_POST[$requiredField] . '<br />';
-                //*/
-
-                /*
-                echo '<br />$requiredField is: ' . $_POST[$requiredField] . '<br />';
-                echo '<br />$this->errorRequiredTrue 11 is: ' . $this->errorRequiredTrue . '<br />';
-                //*/
-
                 if ($_POST[$requiredField] == '') {
                     $this->errorRequiredTrue = true;
-                    //$this->errorRequired .= '/RequiredError.' . intval(1);
-                }
-
-                /*
-                echo '<br />$this->errorRequiredTrue 12 is: ' . $this->errorRequiredTrue . '<br />';
-                //*/
-            }
-        }
-
-        /*
-        echo '<br />$this->errorRequiredTrue is: ' . $this->errorRequiredTrue . '<br />';
-        exit;
-        //*/
-
-        if (!empty($_GET)) {
-            foreach ($requiredFields as $requiredField) {
-
-                /*
-                echo '<br />$requiredField is: ' . $_POST[$requiredField] . '<br />';
-                echo '<br />$this->errorRequiredTrue 11 is: ' . $this->errorRequiredTrue . '<br />';
-                //*/
-
-                if ($_GET[$requiredField] == '') {
-                    $this->errorRequiredTrue = true;
-                    //$this->errorRequired .= '/RequiredError.' . intval(1);
-                }
-            }
-                /*
-                echo '<br />$this->errorRequiredTrue 12 is: ' . $this->errorRequiredTrue . '<br />';
-                //*/
-        }
-
-        /*
-        echo '<br />$this->errorRequiredTrue is: ' . $this->errorRequiredTrue . '<br />';
-        //exit;
-        //*/
-
-        /*
-        if (!empty($_POST)) {
-            foreach ($requiredFields as $requiredField) {
-                if ($_POST[$requiredField] == '') {
-                    $this->errorRequiredTrue = true;
-                }
-            }
-
-            if ($this->errorRequiredTrue) {
-                foreach($_POST as $key => $value) {
-                    // Convert periods to |_|, and convert / to |-| (if not, URLs will break routing)
-                    $this->errorRequired .= '/' . $key . '.' . str_replace('.', '|_|', str_replace('/', '|-|', $value));
                 }
             }
         }
 
         if (!empty($_GET)) {
             foreach ($requiredFields as $requiredField) {
+
                 if ($_GET[$requiredField] == '') {
                     $this->errorRequiredTrue = true;
                 }
             }
-
-            if ($this->errorRequiredTrue) {
-                $this->errorRequired = '/infoError.' . intval(1);
-                foreach($requiredFields as $requiredField) {
-                    if ($_GET[$requiredField] != '') {
-                        // Convert periods to |_|, and convert / to |-| (if not, URLs will break routing)
-                        $this->errorRequired .= '/' . $requiredField . '.' . str_replace('.', '|_|', str_replace('/', '|-|', $_GET[$requiredField]));
-                    }
-                }
-            }
         }
-        //*/
     }
 
     /**
@@ -727,6 +645,7 @@ class FormHelper
      *
      * @return string
      */
+
     public function isValidEmail()
     {
         return '/^[^0-9][A-z0-9_]+([.][A-z0-9_]+)*[@][A-z0-9_]+([.][A-z0-9_]+)*[.][A-z]{2,4}$/';
@@ -742,50 +661,27 @@ class FormHelper
      * @return boolean | redirect False if all defined checks pass, redirects to $route if otherwise
      */
 
-    public function getErrors($route)
+    public function sendErrors($route)
     {
         $formErrorTrue = false;
-
         $this->processedErrors = null;
-
-        //echo '<br />$formErrorTrue 1 is: ' . $formErrorTrue . '<br />';
 
         if (isset($this->errorRequiredTrue)) {
             $this->processedErrors .= $this->errorRequired;
-            //echo '<br />$this->errorRequiredTrue is: ' . $this->errorRequiredTrue . '<br />';
             $formErrorTrue = 1;
         }
-
-        //echo '<br />$formErrorTrue 2 is: ' . $formErrorTrue . '<br />';
 
         if (isset($this->errorMatchesTrue)) {
             $this->processedErrors .= $this->errorMatches;
-            //echo '<br />$this->errorMatchesTrue is: ' . $this->errorMatchesTrue . '<br />';
             $formErrorTrue = 1;
         }
-
-        //echo '<br />$formErrorTrue 3 is: ' . $formErrorTrue . '<br />';
 
         if (isset($this->errorRegexTrue)) {
             $this->processedErrors .= $this->errorRegex;
-            //echo '<br />$this->errorRegexTrue is: ' . $this->errorRegexTrue . '<br />';
             $formErrorTrue = 1;
         }
 
-        /*
-        echo '<br />$this->processedErrors is: ' . $this->processedErrors . '<br />';
-        echo '<br />$formErrorTrue 4 is: ' . $formErrorTrue . '<br />';
-        exit;
-        //*/
-
         if (!empty($formErrorTrue)) {
-
-            /*
-            echo '<br /><pre>$_POST: ';
-            echo print_r($_POST);
-            echo '</pre><br />';
-            //exit;
-            //*/
 
             foreach($_POST as $key => $value) {
                 // Convert periods to |_|, and convert / to |-| (if not, URLs will break routing)
@@ -814,6 +710,19 @@ class FormHelper
         return false;
     }
 
+    /**
+     * Process errors sent from the controller.
+     *
+     * Creates error messages and then processes existing values for form input values (this way the form
+     * is populated with values that were previously entered, rather than requiring the user to fill
+     * out the entire form again)
+     *
+     * Used in the controller the form is created
+     *
+     * @param unknown $errors
+     * @return mixed
+     */
+
     public function processErrors($formErrors)
     {
         // Break down 'errors' route value into error array
@@ -840,29 +749,7 @@ class FormHelper
         } else {
             return false;
         }
-
     }
-
-    /*
-     * Process errors sent from the controller.
-     *
-     * Creates error messages and processes existing values for form input values (this way the form
-     * is populated with values that were previously entered, rather than requiring the user to fill
-     * out the entire form again)
-     *
-     * To be used in a Template containing the form we are processing
-     *
-     * @param unknown $errors
-     * @return mixed
-     */
-
-    /*
-    public function displayErrors()
-    {
-        echo '<br />You Have Errors<br />';
-    }
-    //*/
-
 }
 
 /** @} */ // End group FormHelper */

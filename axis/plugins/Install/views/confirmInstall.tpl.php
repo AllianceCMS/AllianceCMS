@@ -13,7 +13,7 @@
         $formHelper->inputFormStart('/install/installation-complete');
         $formHelper->inputHidden('install', '10');
 
-        foreach($installData as $attribute => $value) {
+        foreach($formData as $attribute => $value) {
             $formHelper->inputHidden($attribute, $value);
         }
 

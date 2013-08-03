@@ -13,6 +13,14 @@
         $adminLoginName = '';
     }
 
+    if (empty($adminDisplayName)) {
+        $adminDisplayName = '';
+    }
+
+    if (empty($adminRealName)) {
+        $adminRealName = '';
+    }
+
     if (empty($adminPassword)) {
         $adminPassword = '';
     }
@@ -30,7 +38,23 @@
     }
 
     if (empty($adminHideEmail)) {
-        $adminHideEmail = '';
+        $adminHideEmail = 1;
+    }
+
+    if (empty($adminLocation)) {
+        $adminLocation = '';
+    }
+
+    if (empty($adminWebsite)) {
+        $adminWebsite = '';
+    }
+
+    if (empty($adminAvatar)) {
+        $adminAvatar = '';
+    }
+
+    if (empty($adminLocation)) {
+        $adminLocation = '';
     }
 ?>
 
@@ -140,9 +164,9 @@
                 <strong>Hide Email Address:</strong>
             </td>
             <td>
-                <?php $formHelper->inputRadio('adminHideEmail', '1', '', (($formData['adminHideEmail'] != 2) ? '1' : NULL)); ?>
+                <?php $formHelper->inputRadio('adminHideEmail', '1', '', (($adminHideEmail != 2) ? '1' : NULL)); ?>
                 Yes
-                <?php $formHelper->inputRadio('adminHideEmail', '2', '', ((isset($formData['adminHideEmail'])) && (($formData['adminHideEmail'] == 2)) ? '1' : NULL)); ?>
+                <?php $formHelper->inputRadio('adminHideEmail', '2', '', ((isset($adminHideEmail)) && (($adminHideEmail == 2)) ? '1' : NULL)); ?>
                 No
             </td>
         </tr>

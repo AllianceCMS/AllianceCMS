@@ -99,7 +99,7 @@
         $formHelper->inputFormStart('/install/venue-info');
         $formHelper->inputHidden('install', '7');
 
-        foreach($installData as $attribute => $value) {
+        foreach($formData as $attribute => $value) {
             $formHelper->inputHidden($attribute, $value);
         }
 
@@ -113,7 +113,7 @@
         $formHelper->inputFormStart('/install/confirm-installation');
         $formHelper->inputHidden('install', '9');
 
-        foreach($installData as $attribute => $value) {
+        foreach($formData as $attribute => $value) {
             $formHelper->inputHidden($attribute, $value);
         }
 

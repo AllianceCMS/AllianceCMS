@@ -50,8 +50,8 @@ include(dirname(__FILE__) . DS . 'schemata' . DS . 'install_alpha.php');
 // Create database object
 $sql = new \Acms\Core\Data\Db;
 // Setup db connection variables
-// Started this because there was an error if the password was null,
-// then decided we might as well do this for all $_POST database elements)
+//     Started this because there was an error if the password was null,
+//     then decided we might as well do this for all $_POST database elements)
 if (isset($_POST['dbAdapter'])) {
     $dbAdapter = $_POST['dbAdapter'];
 } else {

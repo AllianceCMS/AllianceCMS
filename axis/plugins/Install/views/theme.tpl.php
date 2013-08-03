@@ -44,18 +44,9 @@
                         	<div id="sidebar_content">
 
                         		<?php
-                                    //echo var_dump($menu);
-                                    /*
-                                    echo "<pre>";
-                                        print_r($menu);
-                                    echo "</pre>";
-                                    //*/
-                                    //*
                                     for ($i = 0; $i < count($menu); $i++) {
                                         echo $menu[$i];
                                     }
-                                    //*/
-                                    //echo $menu;
                                 ?>
 
                         	</div>

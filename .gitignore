@@ -5,6 +5,7 @@
 *dbConnection*
 *bak*
 *draft*
+*blacklist*
 Doxygen_Docs/*
 nbproject/*
 zones/*.*.com

@@ -5,8 +5,7 @@
 <div class="content_separator"></div>
 
 <?php
-
-    if (isset($installData['venueFirstIteration'])) {
+    if (isset($formData['firstIteration'])) {
         $firstIteration = 1;
     }
 
@@ -43,12 +42,7 @@
     }
 ?>
 
-<?php if (!isset($firstIteration)): ?>
-    <?php if (isset($venueEmailMatchError) && $venueEmailMatchError == 1): ?>
-        <p>
-            <span style='color: red;'>Error: Email Addresses Do Not Match</span>
-        </p>
-    <?php endif; ?>
+<?php if (isset($formErrors)): ?>
     <?php if ($venueName == ''): ?>
         <p>
             <span style="color: red;">Error: Please Enter A Venue Name</span>
@@ -64,6 +58,16 @@
             <span style="color: red;">Error: Please Confirm Your Email Address</span>
         </p>
     <?php endif; ?>
+    <?php if (isset($venueEmailMatchError) && $venueEmailMatchError == 1): ?>
+        <p>
+            <span style='color: red;'>Error: Email Addresses Do Not Match</span>
+        </p>
+    <?php endif; ?>
+    <?php if (isset($venueEmailRegexError) && $venueEmailRegexError == 1): ?>
+        <p>
+            <span style='color: red;'>Error: Please Enter A Valid Email Address</span>
+        </p>
+    <?php endif; ?>
 <?php endif; ?>
 
 <?php $formHelper->inputFormStart('/install/confirm-venue-info'); ?>
@@ -71,11 +75,12 @@
         <tr>
             <td>
                 <span style="color: red;">*</span> <strong>Venue Name:</strong><br />
-                Must not contain spaces, numbers or symbols<br />
+                Must not contain numbers or symbols<br />
+                (Spaces will be converted into dashes)<br />
                 (i.e. AllianceCMS, MyVenueName)
             </td>
             <td>
-                <?php $formHelper->inputText('venueName', $venueName); ?>
+                <?php $formHelper->inputText('venueName', (isset($formData['venueName'])) ? $formData['venueName'] : $venueName); ?>
             </td>
         </tr>
         <tr>
@@ -83,7 +88,7 @@
                 <strong>Title:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('venueTitle', $venueTitle); ?>
+                <?php $formHelper->inputText('venueTitle', (isset($formData['venueTitle'])) ? $formData['venueTitle'] : $venueTitle); ?>
             </td>
         </tr>
         <tr>
@@ -91,7 +96,7 @@
                 <strong>Tagline:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('venueTagline', $venueTagline); ?>
+                <?php $formHelper->inputText('venueTagline', (isset($formData['venueTagline'])) ? $formData['venueTagline'] : $venueTagline); ?>
             </td>
         </tr>
         <tr>
@@ -100,7 +105,7 @@
                 Email Address That Users Will Receive Emails From (admin@yoursite.com)
             </td>
             <td>
-                <?php $formHelper->inputText('venueEmail', $venueEmail); ?>
+                <?php $formHelper->inputText('venueEmail', (isset($formData['venueEmail'])) ? $formData['venueEmail'] : $venueEmail); ?>
             </td>
         </tr>
         <tr>
@@ -109,7 +114,7 @@
                 Email Address That Users Will Receive Emails From (admin@yoursite.com)
             </td>
             <td>
-                <?php $formHelper->inputText('venueConfirmEmail', $venueConfirmEmail); ?>
+                <?php $formHelper->inputText('venueConfirmEmail', (isset($formData['venueConfirmEmail'])) ? $formData['venueConfirmEmail'] : $venueConfirmEmail); ?>
             </td>
         </tr>
         <tr>
@@ -118,7 +123,7 @@
                 Title Of Email Address That Users Will Receive Emails From (Venue Admin)
             </td>
             <td>
-                <?php $formHelper->inputText('venueEmailName', $venueEmailName); ?>
+                <?php $formHelper->inputText('venueEmailName', (isset($formData['venueEmailName'])) ? $formData['venueEmailName'] : $venueEmailName); ?>
             </td>
         </tr>
         <tr>
@@ -126,7 +131,7 @@
                 <strong>Description:</strong>
             </td>
             <td>
-                <?php $formHelper->inputTextArea('venueDescription', $venueDescription, '', 7, 25); ?>
+                <?php $formHelper->inputTextArea('venueDescription', (isset($formData['venueDescription'])) ? $formData['venueDescription'] : $venueDescription, '', 7, 25); ?>
             </td>
         </tr>
         <tr>
@@ -134,7 +139,7 @@
                 <strong>Keywords:</strong>
             </td>
             <td>
-                <?php $formHelper->inputTextArea('venueKeywords', $venueKeywords, '', 7, 25); ?>
+                <?php $formHelper->inputTextArea('venueKeywords', (isset($formData['venueKeywords'])) ? $formData['venueKeywords'] : $venueKeywords, '', 7, 25); ?>
             </td>
         </tr>
     </table>
@@ -142,8 +147,8 @@
     <?php
         $formHelper->inputHidden('install', '8');
 
-        foreach($installData as $attribute => $value) {
-            if (((string)(strpos($attribute, 'venue')) !== ((string)0)) || ($attribute == 'language')) {
+        foreach($formData as $attribute => $value) {
+            if (((string)(strpos($attribute, 'venue')) !== ((string)0))) {
                 $formHelper->inputHidden($attribute, $value);
             }
         }
