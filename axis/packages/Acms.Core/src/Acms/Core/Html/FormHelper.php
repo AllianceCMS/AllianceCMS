@@ -551,26 +551,74 @@ class FormHelper
 
     public function checkRequired($requiredFields)
     {
-        $this->errorRequiredTrue = false;
+        $this->errorRequiredTrue = null;
         $this->errorRequired = '';
 
-    if (!empty($_POST)) {
+        /*
+        echo '<br /><pre>$_POST: ';
+        echo print_r($_POST);
+        echo '</pre><br />';
+        //exit;
+        //*/
+
+        /*
+        echo '<br /><pre>$requiredFields: ';
+        echo print_r($requiredFields);
+        echo '</pre><br />';
+        //exit;
+        //*/
+
+        if (!empty($_POST)) {
             foreach ($requiredFields as $requiredField) {
+
+                /*
+                echo '<br />$requiredField is: ' . $requiredField . '<br />';
+                echo '<br />$_POST[$requiredField] is: ' . $_POST[$requiredField] . '<br />';
+                //*/
+
+                /*
+                echo '<br />$requiredField is: ' . $_POST[$requiredField] . '<br />';
+                echo '<br />$this->errorRequiredTrue 11 is: ' . $this->errorRequiredTrue . '<br />';
+                //*/
+
                 if ($_POST[$requiredField] == '') {
                     $this->errorRequiredTrue = true;
                     //$this->errorRequired .= '/RequiredError.' . intval(1);
                 }
+
+                /*
+                echo '<br />$this->errorRequiredTrue 12 is: ' . $this->errorRequiredTrue . '<br />';
+                //*/
             }
         }
 
+        /*
+        echo '<br />$this->errorRequiredTrue is: ' . $this->errorRequiredTrue . '<br />';
+        exit;
+        //*/
+
         if (!empty($_GET)) {
             foreach ($requiredFields as $requiredField) {
+
+                /*
+                echo '<br />$requiredField is: ' . $_POST[$requiredField] . '<br />';
+                echo '<br />$this->errorRequiredTrue 11 is: ' . $this->errorRequiredTrue . '<br />';
+                //*/
+
                 if ($_GET[$requiredField] == '') {
                     $this->errorRequiredTrue = true;
                     //$this->errorRequired .= '/RequiredError.' . intval(1);
                 }
             }
+                /*
+                echo '<br />$this->errorRequiredTrue 12 is: ' . $this->errorRequiredTrue . '<br />';
+                //*/
         }
+
+        /*
+        echo '<br />$this->errorRequiredTrue is: ' . $this->errorRequiredTrue . '<br />';
+        //exit;
+        //*/
 
         /*
         if (!empty($_POST)) {
@@ -620,7 +668,7 @@ class FormHelper
 
     public function checkMatches($matchingFields)
     {
-        $this->errorMatchesTrue = false;
+        $this->errorMatchesTrue = null;
         $this->errorMatches = '';
 
         if (!empty($_POST)) {
@@ -696,21 +744,48 @@ class FormHelper
 
     public function getErrors($route)
     {
+        $formErrorTrue = false;
+
         $this->processedErrors = null;
+
+        //echo '<br />$formErrorTrue 1 is: ' . $formErrorTrue . '<br />';
 
         if (isset($this->errorRequiredTrue)) {
             $this->processedErrors .= $this->errorRequired;
+            //echo '<br />$this->errorRequiredTrue is: ' . $this->errorRequiredTrue . '<br />';
+            $formErrorTrue = 1;
         }
+
+        //echo '<br />$formErrorTrue 2 is: ' . $formErrorTrue . '<br />';
 
         if (isset($this->errorMatchesTrue)) {
             $this->processedErrors .= $this->errorMatches;
+            //echo '<br />$this->errorMatchesTrue is: ' . $this->errorMatchesTrue . '<br />';
+            $formErrorTrue = 1;
         }
+
+        //echo '<br />$formErrorTrue 3 is: ' . $formErrorTrue . '<br />';
 
         if (isset($this->errorRegexTrue)) {
             $this->processedErrors .= $this->errorRegex;
+            //echo '<br />$this->errorRegexTrue is: ' . $this->errorRegexTrue . '<br />';
+            $formErrorTrue = 1;
         }
 
-        if (!empty($this->processedErrors)) {
+        /*
+        echo '<br />$this->processedErrors is: ' . $this->processedErrors . '<br />';
+        echo '<br />$formErrorTrue 4 is: ' . $formErrorTrue . '<br />';
+        exit;
+        //*/
+
+        if (!empty($formErrorTrue)) {
+
+            /*
+            echo '<br /><pre>$_POST: ';
+            echo print_r($_POST);
+            echo '</pre><br />';
+            //exit;
+            //*/
 
             foreach($_POST as $key => $value) {
                 // Convert periods to |_|, and convert / to |-| (if not, URLs will break routing)
@@ -719,6 +794,21 @@ class FormHelper
 
             header('Location: ' . $this->basePath . $route . '/formErrors.' . intval(1) . $this->processedErrors);
             exit;
+        } else {
+
+            if (isset($_POST['formErrors'])) {
+                unset($_POST['formErrors']);
+            }
+
+            foreach ($_POST as $key => $value) {
+                if (strpos($key, 'MatchError') !== false) {
+                    unset($_POST[$key]);
+                }
+
+                if (strpos($key, 'RegexError') !== false) {
+                    unset($_POST[$key]);
+                }
+            }
         }
 
         return false;

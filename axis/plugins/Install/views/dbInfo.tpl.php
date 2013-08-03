@@ -87,7 +87,7 @@
                 <strong>Password:</strong>
             </td>
             <td>
-                <?php $formHelper->inputPassword('dbPassword', (isset($dbPassword)) ? $dbPassword : ''); ?>
+                <?php $formHelper->inputPassword('dbPassword', ''); ?>
             </td>
         </tr>
         <tr>
@@ -104,7 +104,7 @@
         $formHelper->inputHidden('install', '3');
 
         foreach($formData as $attribute => $value) {
-            if (((string)(strpos($attribute, 'db')) !== ((string)0)) || ($attribute == 'language')) {
+            if (((string)(strpos($attribute, 'db')) !== ((string)0))) {
                 $formHelper->inputHidden($attribute, $value);
             }
         }

@@ -84,7 +84,7 @@
                 <span style="color: red;">*</span> <strong>Login Name:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('adminLoginName', (isset($adminLoginName)) ? $adminLoginName : ''); ?>
+                <?php $formHelper->inputText('adminLoginName', (isset($formData['adminLoginName'])) ? $formData['adminLoginName'] : $adminLoginName); ?>
             </td>
         </tr>
         <tr>
@@ -92,7 +92,7 @@
                 <strong>Display Name:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('adminDisplayName', (isset($adminDisplayName)) ? $adminDisplayName : ''); ?>
+                <?php $formHelper->inputText('adminDisplayName', (isset($formData['adminDisplayName'])) ? $formData['adminDisplayName'] : $adminDisplayName); ?>
             </td>
         </tr>
         <tr>
@@ -100,7 +100,7 @@
                 <strong>Real Name:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('adminRealName', (isset($adminRealName)) ? $adminRealName : ''); ?>
+                <?php $formHelper->inputText('adminRealName', (isset($formData['adminRealName'])) ? $formData['adminRealName'] : $adminRealName); ?>
             </td>
         </tr>
         <tr>
@@ -108,7 +108,7 @@
                 <span style="color: red;">*</span> <strong>Password:</strong>
             </td>
             <td>
-                <?php $formHelper->inputPassword('adminPassword', (isset($adminPassword)) ? $adminPassword : ''); ?>
+                <?php $formHelper->inputPassword('adminPassword', ''); ?>
             </td>
         </tr>
         <tr>
@@ -116,7 +116,7 @@
                 <span style="color: red;">*</span> <strong>Confirm Password:</strong>
             </td>
             <td>
-                <?php $formHelper->inputPassword('adminConfirmPassword', (isset($adminConfirmPassword)) ? $adminConfirmPassword : ''); ?>
+                <?php $formHelper->inputPassword('adminConfirmPassword', ''); ?>
             </td>
         </tr>
         <tr>
@@ -124,7 +124,7 @@
                 <span style="color: red;">*</span> <strong>Email Address:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('adminEmail', (isset($adminEmail)) ? $adminEmail : ''); ?>
+                <?php $formHelper->inputText('adminEmail', (isset($formData['adminEmail'])) ? $formData['adminEmail'] : $adminEmail); ?>
             </td>
         </tr>
         <tr>
@@ -132,7 +132,7 @@
                 <span style="color: red;">*</span> <strong>Confirm Email Address:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('adminConfirmEmail', (isset($adminConfirmEmail)) ? $adminConfirmEmail : ''); ?>
+                <?php $formHelper->inputText('adminConfirmEmail', (isset($formData['adminConfirmEmail'])) ? $formData['adminConfirmEmail'] : $adminConfirmEmail); ?>
             </td>
         </tr>
         <tr>
@@ -140,9 +140,9 @@
                 <strong>Hide Email Address:</strong>
             </td>
             <td>
-                <?php $formHelper->inputRadio('adminHideEmail', '1', '', ($adminHideEmail != 2) ? '1' : NULL); ?>
+                <?php $formHelper->inputRadio('adminHideEmail', '1', '', (($formData['adminHideEmail'] != 2) ? '1' : NULL)); ?>
                 Yes
-                <?php $formHelper->inputRadio('adminHideEmail', '2', '', ((isset($adminHideEmail)) && (($adminHideEmail == 2)) ? '1' : NULL)); ?>
+                <?php $formHelper->inputRadio('adminHideEmail', '2', '', ((isset($formData['adminHideEmail'])) && (($formData['adminHideEmail'] == 2)) ? '1' : NULL)); ?>
                 No
             </td>
         </tr>
@@ -151,7 +151,7 @@
                 <strong>Location:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('adminLocation', (isset($adminLocation)) ? $adminLocation : ''); ?>
+                <?php $formHelper->inputText('adminLocation', (isset($formData['adminLocation'])) ? $formData['adminLocation'] : $adminLocation); ?>
             </td>
         </tr>
         <tr>
@@ -159,7 +159,7 @@
                 <strong>Personal Website:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('adminWebsite', (isset($adminWebsite)) ? $adminWebsite : ''); ?>
+                <?php $formHelper->inputText('adminWebsite', (isset($formData['adminWebsite'])) ? $formData['adminWebsite'] : $adminWebsite); ?>
             </td>
         </tr>
         <tr>
@@ -167,7 +167,7 @@
                 <strong>Bio:</strong>
             </td>
             <td>
-                <?php $formHelper->inputTextArea('adminBio', (isset($adminBio)) ? $adminBio : '', '', 7, 25); ?>
+                <?php $formHelper->inputTextArea('adminBio', (isset($formData['adminBio'])) ? $formData['adminBio'] : '', '', 7, 25); ?>
             </td>
         </tr>
         <tr>
@@ -175,7 +175,7 @@
                 <strong>Avatar:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('adminAvatar', (isset($adminAvatar)) ? $adminAvatar : ''); ?>
+                <?php $formHelper->inputText('adminAvatar', (isset($formData['adminAvatar'])) ? $formData['adminAvatar'] : $adminAvatar); ?>
             </td>
         </tr>
         <tr>
@@ -183,7 +183,7 @@
                 <strong>Signature:</strong>
             </td>
             <td>
-                <?php $formHelper->inputTextArea('adminSignature', (isset($adminSignature)) ? $adminSignature : '', '', 7, 25); ?>
+                <?php $formHelper->inputTextArea('adminSignature', (isset($formData['adminSignature'])) ? $formData['adminSignature'] : '', '', 7, 25); ?>
             </td>
         </tr>
     </table>
@@ -192,7 +192,7 @@
         $formHelper->inputHidden('install', '6');
 
         foreach($formData as $attribute => $value) {
-            if (((string)(strpos($attribute, 'admin')) !== ((string)0)) || ($attribute == 'language')) {
+            if (((string)(strpos($attribute, 'admin')) !== ((string)0))) {
                 $formHelper->inputHidden($attribute, $value);
             }
         }

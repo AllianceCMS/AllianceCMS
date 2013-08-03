@@ -13,6 +13,9 @@ use Acms\Core\Html\FormHelper;
  *         *** COMPLETE *** setup menu
  *         *** COMPLETE *** instantiate FormHelper
  *         process errors
+ *     - go over every input field and validate correctly
+ *         - dbName, adminLogin, etc...
+ *         - contains spaces/numbers/symbols?
  *     - Validate 'Venue Name'
  *         - make sure there are no symbols other than dashes (spaces will be converted to dashes)
  *         - can not begin with a number
@@ -99,6 +102,13 @@ class InstallSite
     {
         // Select Language
 
+        //*
+        echo '<br /><pre>$_POST: ';
+        echo print_r($_POST);
+        echo '</pre><br />';
+        //exit;
+        //*/
+
         // Create FormHelper object for use in templates
         $formHelper = new FormHelper($system['basePath']);
 
@@ -133,6 +143,13 @@ class InstallSite
     {
         // Prompt For DB Info
 
+        //*
+        echo '<br /><pre>$_POST: ';
+        echo print_r($_POST);
+        echo '</pre><br />';
+        //exit;
+        //*/
+
         // Create FormHelper object for use in templates
         $formHelper = new FormHelper($system['basePath']);
 
@@ -158,13 +175,20 @@ class InstallSite
 
             // Setup any form data that is in $_POST
             foreach($_POST as $key => $value) {
-                if ((!($key == 'install')) && (!($key == 'formData')) && (!($key == 'submit'))) {
+                if ((!($key == 'install')) && (!($key == 'formData')) && (!($key == 'submit')) && (!($key == 'formErrors'))) {
                     if (($value != '')) {
                         $formData[$key] = $value;
                     }
                 }
             }
         }
+
+        //*
+        echo '<br /><pre>$formData: ';
+        echo print_r($formData);
+        echo '</pre><br />';
+        //exit;
+        //*/
 
         // Send $formData to plugin template if it exists
         if (isset($formData)) {
@@ -185,30 +209,56 @@ class InstallSite
     {
         // Confirm DB Info
 
+        //*
+        echo '<br /><pre>$_POST: ';
+        echo print_r($_POST);
+        echo '</pre><br />';
+        //exit;
+        //*/
+
         // Create FormHelper object for use in templates
         $formHelper = new FormHelper($system['basePath']);
 
         // Check for missing required fields
         $requiredFields = [
-        'dbHost',
-        'dbUserName',
-        'dbDatabase',
+            'dbHost',
+            'dbUserName',
+            'dbDatabase',
         ];
 
         $formHelper->checkRequired($requiredFields);
 
         $formHelper->getErrors('/install/database-info');
 
+        //*
+        echo '<br /><pre>$_POST: ';
+        echo print_r($_POST);
+        echo '</pre><br />';
+        //exit;
+        //*/
+
         // There are no missing required fields
 
-        // Setup any form data that's in $_POST
+        // Setup any form data that's in $_POST (exclude any data that's not pertinent to the installation)
         foreach($_POST as $key => $value) {
-            if ((!($key == 'install')) && (!($key == 'formData')) && (!($key == 'submit'))) {
+            if ((!($key == 'install'))
+                && (!($key == 'formData'))
+                && (!($key == 'submit'))
+                && (!($key == 'firstIteration')))
+                {
+
                 if (($value != '')) {
                     $formData[$key] = $value;
                 }
             }
         }
+
+        //*
+        echo '<br /><pre>$formData: ';
+        echo print_r($formData);
+        echo '</pre><br />';
+        //exit;
+        //*/
 
         $this->startTemplate();
         $this->createBody('dbConfirm.tpl.php');
@@ -238,6 +288,13 @@ class InstallSite
     public function installTestDbConnection($system)
     {
         // Test/Confirm DB Connection
+
+        //*
+        echo '<br /><pre>$_POST: ';
+        echo print_r($_POST);
+        echo '</pre><br />';
+        //exit;
+        //*/
 
         // Create database object for testing purposes
         $sql = new \Acms\Core\Data\Db;
@@ -387,6 +444,13 @@ class InstallSite
             }
         }
 
+        //*
+        echo '<br /><pre>$formData: ';
+        echo print_r($formData);
+        echo '</pre><br />';
+        //exit;
+        //*/
+
         // Send $formData to plugin template if it exists
         if (isset($formData)) {
             $this->body->set('formData', $formData);
@@ -440,14 +504,32 @@ class InstallSite
 
         $formHelper->getErrors('/install/admin-info');
 
+        //*
+        echo '<br /><pre>$_POST: ';
+        echo print_r($_POST);
+        echo '</pre><br />';
+        //exit;
+        //*/
+
         // There are no form input errors
 
         // Setup any form data that's in $_POST
         foreach($_POST as $key => $value) {
-        	if ((!($key == 'install')) && (!($key == 'formData')) && (!($key == 'submit'))) {
+        	if ((!($key == 'install'))
+        	   && (!($key == 'formData'))
+        	   && (!($key == 'submit'))
+               && (!($key == 'firstIteration')))
+        	{
         	    $formData[$key] = $value;
             }
         }
+
+        //*
+        echo '<br /><pre>$formData: ';
+        echo print_r($formData);
+        echo '</pre><br />';
+        //exit;
+        //*/
 
         $this->startTemplate();
         $this->createBody('adminConfirm.tpl.php');
@@ -478,9 +560,14 @@ class InstallSite
     {
         // Prompt For Venue Info
 
-        // Create FormHelper object for use in templates
-        $formHelper = new FormHelper($system['basePath']);
+        //*
+        echo '<br /><pre>$_POST: ';
+        echo print_r($_POST);
+        echo '</pre><br />';
+        //exit;
+        //*/
 
+        /*
         // If confirm_database_info found empty required fields, then process errors sent back to this action
         if (isset($system['routeInfo']->values['errors'])) {
             // Break down 'errors' route value into error array
@@ -515,6 +602,43 @@ class InstallSite
                 }
             }
         }
+        //*/
+
+
+        // Create FormHelper object for use in templates
+        $formHelper = new FormHelper($system['basePath']);
+
+        $this->startTemplate();
+        $this->createBody('adminInfo.tpl.php');
+
+        // If installConfirmAdminInfo found empty required fields, then process errors sent back to this action
+        if (!empty($system['routeInfo']->values['errors'])) {
+
+            $formData = $formHelper->processErrors($system['routeInfo']->values['errors']);
+
+            if (!empty($formData)) {
+                foreach($formData as $attribute => $value) {
+                    $this->body->set($attribute, $value);
+                }
+            }
+        } else {
+            $formData['firstIteration'] = '1';
+
+            // Setup any form data that is in $_POST
+            foreach($_POST as $key => $value) {
+                if ((!($key == 'install')) && (!($key == 'formData')) && (!($key == 'submit'))) {
+                    if (($value != '')) {
+                        $formData[$key] = $value;
+                    }
+                }
+            }
+        }
+
+        // Send $formData to plugin template if it exists
+        if (isset($formData)) {
+            $this->body->set('formData', $formData);
+        };
+
 
         $this->startTemplate();
         $this->createBody('venueInfo.tpl.php');
@@ -522,6 +646,7 @@ class InstallSite
         // Send formHelper to template
         $this->body->set('formHelper', $formHelper);
 
+        /*
         // Send $installData to plugin template if it exists
         if (isset($installData)) {
             $this->body->set('installData', $installData);
@@ -544,6 +669,7 @@ class InstallSite
                 }
             }
         }
+        //*/
 
         $this->createMenu('6');
         $this->renderTemplate();
