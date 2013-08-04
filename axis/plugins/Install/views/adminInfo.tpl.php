@@ -164,9 +164,9 @@
                 <strong>Hide Email Address:</strong>
             </td>
             <td>
-                <?php $formHelper->inputRadio('adminHideEmail', '1', '', (($adminHideEmail != 2) ? '1' : NULL)); ?>
+                <?php $formHelper->inputRadio('adminHideEmail', '1', '', ((((isset($formData['adminHideEmail'])) ? $formData['adminHideEmail'] : $adminHideEmail) != 2) ? '1' : NULL)); ?>
                 Yes
-                <?php $formHelper->inputRadio('adminHideEmail', '2', '', ((isset($adminHideEmail)) && (($adminHideEmail == 2)) ? '1' : NULL)); ?>
+                <?php $formHelper->inputRadio('adminHideEmail', '2', '', ((((isset($formData['adminHideEmail'])) ? $formData['adminHideEmail'] : $adminHideEmail) == 2) ? '1' : NULL)); ?>
                 No
             </td>
         </tr>

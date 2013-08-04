@@ -27,13 +27,19 @@
 
 <?php if (isset($missingZone)): ?>
     <p>
-        <strong>Error: There is no Zone folder for this subdomain</strong>
+        <strong>Error:</strong><br />
+        There is no Zone folder for this subdomain
 
     </p>
     <p>
+        <strong>Solution:</strong><br />
         Please navigate to the '<strong>zones</strong>' folder and make a copy of the '<strong>default</strong>' folder and name it: <strong><?php echo $_SERVER['SERVER_NAME']; ?></strong>
     </p>
     <p>
         The final path should be:  <strong>/zones/<?php echo $_SERVER['SERVER_NAME']; ?></strong>
+    </p>
+    <p>
+        <strong>Start Installation:</strong><br />
+        Please refresh the page to install AllianceCMS.
     </p>
 <?php endif; ?>
