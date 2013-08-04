@@ -1,7 +1,12 @@
-AllianceCMS
-===========
+**IMPORTANT!!!** The AllianceCMS installer is now functional, feel free to play with the system, try to break it, and submit bug reports!
 
-We are proud to announce the arrival of AllianceCMS, a Social Content Management System.
+**IMPORTANT!!!** Be sure to read Install.md, as the core system is located outside of the web server Document Root!
+
+(The installer will be updated periodically as we move towards an official Alpha release, so check back often for updates!)
+
+#AllianceCMS
+
+AllianceCMS, a Social Content Management System.
 
 >##al·li·ance
 >
@@ -21,17 +26,24 @@ We are proud to announce the arrival of AllianceCMS, a Social Content Management
 >
 >**4**: a treaty of alliance
 
+##Where is AllianceCMS?
+
+**Website:** [http://www.alliancecms.com](http://www.alliancecms.com)  
+**Wiki:** [https://github.com/jbWebWare/AllianceCMS/wiki](https://github.com/jbWebWare/AllianceCMS/wiki)  
+**API:** [http://api.alliancecms.com](http://api.alliancecms.com)
+
 ##What Is AllianceCMS?
 
 **AllianceCMS is...**
+
 * Flexible
 * Secure
 * Easy To Use
 * Easy To Develop With
-* Easy To Create Custom Look And Layout
 * PHP 5.4+ Compatible
 * Web Standards Compliant
 * Open Source (Apache License, Version 2.0)
+* Designed from the ground up to help you create quality, modern Social Networks.
 
 ##Join The AllianceCMS Community!
 
@@ -39,8 +51,16 @@ AllianceCMS is still under development, with new features added frequently. If y
 
 Here are some areas that could use a contribution:
 
-* Graphic Design/CSS/Theme Creation
+* Graphic Design/Theme Creation
 * Plugin Development
 * Data Management
 * Documentation
 * Translation
+
+##Development Notes
+
+### Code Doc Blocks
+
+We have been working on documenting the AllianceCMS code as we go (we do have to feel confident that a piece of code is close to completion before documenting). As part of documenting the code, we have been working on keeping an updated list of @todo task tags, so any modern IDE should be able to give you a list of what tasks are out there.
+
+The existing API documentation ([http://api.alliancecms.com](http://api.alliancecms.com)) and the task tags should give you a good idea of what the system looks like now, and what it's going to look like in the near future.
