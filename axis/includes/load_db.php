@@ -31,7 +31,7 @@ if (file_exists(DBCONNFILE)) {
 
         $installRoutes = require PACKAGES . 'Aura.Router/scripts/instance.php';
 
-        // TODO: The next two 'if' statements need to be a class method
+        // @todo: The next two 'if' statements should be a class method
         if (isset($pluginRoutes)) {
             foreach ($pluginRoutes as $plugin => $pluginPage) {
 

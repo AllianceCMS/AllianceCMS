@@ -4,6 +4,12 @@
  * Form Helper.
  */
 
+/*
+ * @todo: Multiple Items
+ * - Finish documenting class
+ * - Find a way for devs to add errors before calling FormHelper::sendErrors()
+ */
+
 /**
  *
  * @defgroup FormHelper FormHelper Functionality
@@ -17,24 +23,23 @@
 namespace Acms\Core\Html;
 
 /**
- * Class FormHelper
- *
  * This Class is used to process forms.
  *
  * Functions of this Class:
- * Create and Setup HTML Forms
- * Create and Setup Common Form Input Fields
- * Improve Security by Validating Input and Escape Output on the fly
+ *
+ *     * Create and Setup Forms
+ *     * Create and Setup Common Form Input Fields
+ *     * Validate form input and send form data back to the form's controller if there are any errors
  */
 
 class FormHelper
 {
     /**
-     * Add current base URL
+     * Adds base URL, for use in page redirects: i.e. form actions, header('Location: ...');
      *
      * Includes server name and current venue.
      *
-     * Needed to attach base url and venue name to form action (so devs don't have to do this manually.
+     * Needed to attach base url and venue name to form action (so devs don't have to do this manually)
      *
      * @param string $basePath
      */
@@ -719,7 +724,7 @@ class FormHelper
      *
      * Used in the controller the form is created
      *
-     * @param unknown $errors
+     * @param unknown $formErrors
      * @return mixed
      */
 

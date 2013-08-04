@@ -100,7 +100,7 @@ class Db
         if ($dbName != '') {
             $this->setDbName($dbName);
 
-            // TODO: Maybe we should escape values at some point, but binding values adds surrounding quotes to bound values in $queryString, which causes CREATE DATABASE to fail
+            // @todo: Maybe we should escape values at some point, but binding values adds surrounding quotes to bound values in $queryString, which causes CREATE DATABASE to fail
 
             $queryString = 'CREATE DATABASE IF NOT EXISTS ' . $dbName . ' CHARACTER SET ' . $dbCharset . ' COLLATE ' . $dbCollation . ';';
 

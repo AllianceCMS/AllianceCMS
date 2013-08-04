@@ -1,9 +1,0 @@
-<?php
-
-    if (isset($_GET['site_does_not_exist'])) {
-
-        require_once("../header.php");
-
-        require_once("../footer.php");
-
-    }

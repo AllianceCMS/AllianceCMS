@@ -5,25 +5,21 @@ use Acms\Core\Templates\Template;
 use Acms\Core\Html\FormHelper;
 
 /**
- * Things to fix:
- *     - *** COMPLETE *** Instead of sending css/image paths to theme.tpl.php, send $theme_folder and change calls in templates
- *     - Put any repeated code into functions/methods:
- *         *** COMPLETE *** template creation
- *         *** COMPLETE *** template rendering
- *         *** COMPLETE *** setup menu
- *         *** COMPLETE *** instantiate FormHelper
- *         *** COMPLETE *** process errors
+ * @todo: Multiple Items
  *     - Filter/Validate all $_POST/$_GET data
+ *         - Validate 'Venue Name'
+ *             - use blacklist to prevent using reserved words
+ *             - make sure there are no symbols other than dashes (spaces will be converted to dashes)
+ *             - can not begin with a number
  *         - go over every input field and validate correctly
  *             - dbName, adminLogin, etc...
  *             - contains spaces/numbers/symbols?
- *         - Validate 'Venue Name'
- *             - make sure there are no symbols other than dashes (spaces will be converted to dashes)
- *             - can not begin with a number
- *             - use blacklist to prevent using reserved words
+ *         - Validate form data using javascript (matching passwords, valid 'Venue Name', etc...)
+ *
  *     - Parse $schema array and check for/throw error before sending them to Db::someMethod
- *     - Validate form data using javascript (matching passwords, valid 'Venue Name', etc...)
+ *
  *     - Forms: Add links/tooltips to "help info" for individual form fields (Venue Name will discribe what a venue name is, how it works, and valid examples)
+ *
  *     - Change naming scheme of variables (from camelCase to use_underscores). Need to change it in actions and views
  */
 

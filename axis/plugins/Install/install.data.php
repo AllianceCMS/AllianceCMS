@@ -1,6 +1,6 @@
 <?php
 /**
- * TODO: Test for ways to create database
+ * @todo: Test for ways to create database
  *     Problem: Having trouble connecting if the database doesn't exist, as the Db::__construct autoloads that info once DBCONNFILE is created
  *     Solution: Create DBCONNFILE at end of installation
  */

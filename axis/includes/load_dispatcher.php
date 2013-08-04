@@ -16,7 +16,7 @@ if ($dispatch) {
 
         //*
         // No route object was returned
-        // TODO: Need to change this to redirect to custom 404
+        // @todo: Need to change this to redirect to custom 404
         echo "<br />No application route was found for that URI path.<br />";
         exit();
         //*/
@@ -28,7 +28,7 @@ if ($dispatch) {
         $controller = $auraRoute->values['namespace'] . '\\' . $auraRoute->values['controller'];
     } else {
         // Use a default controller
-        // TODO: ??? Implement this ???
+        // @todo: ??? Implement this ???
         //$controller = 'index';
     }
 
@@ -38,7 +38,7 @@ if ($dispatch) {
         $action = $auraRoute->values['action'];
     } else {
         // Use a default action
-        // TODO: ??? Implement this ???
+        // @todo: ??? Implement this ???
         //$action = 'action';
     }
 
