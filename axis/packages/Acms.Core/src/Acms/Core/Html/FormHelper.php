@@ -619,6 +619,17 @@ class FormHelper
         }
     }
 
+    public function alterRegex($alterFields)
+    {
+        foreach ($alterFields as $field) {
+
+            if (isset($_POST[$field[0]])) {
+                $_POST[$field[0]] = preg_replace($field[1], $field[2], $_POST[$field[0]] );
+            }
+        }
+        return true;
+    }
+
     /**
      * Check if a specific form field's input matches a specified regular expression (preg_match())
      *
@@ -637,6 +648,7 @@ class FormHelper
         if (!empty($_POST)) {
             foreach ($validateFields as $field => $regex) {
 
+                //if (!preg_match($regex, $_POST[$field])) {
                 if (!preg_match($regex, $_POST[$field])) {
                     $this->errorRegexTrue = 1;
                     $this->errorRegex .= '/' . $field . 'RegexError.' . intval(1);
@@ -690,7 +702,7 @@ class FormHelper
 
             foreach($_POST as $key => $value) {
                 // Convert periods to |_|, and convert / to |-| (if not, URLs will break routing)
-                $this->processedErrors .= '/' . $key . '.' . str_replace('.', '|_|', str_replace('/', '|-|', $value));
+                $this->processedErrors .= '/' . $key . '.' . str_replace('#', '||', str_replace('.', '|_|', str_replace('/', '|-|', $value)));
             }
 
             header('Location: ' . $this->basePath . $route . '/formErrors.' . intval(1) . $this->processedErrors);
@@ -739,14 +751,13 @@ class FormHelper
         if (isset($errorsArray)) {
             foreach ($errorsArray as $valueArray) {
                 // Convert |_| back to periods, and convert |-| back to / (if not, URLs will break routing)
-                $errors[$valueArray[0]] = str_replace('|_|', '.', str_replace('|-|', '/', $valueArray[1]));
+                $errors[$valueArray[0]] = str_replace('||', '#', str_replace('|_|', '.', str_replace('|-|', '/', $valueArray[1])));
             }
 
             // Setup any form data that's in $errors (since we don't have $_POST)
             foreach($errors as $key => $value) {
                 $formData[$key] = $value;
             }
-
         }
 
         if (isset($formData)) {

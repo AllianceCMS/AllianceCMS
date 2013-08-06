@@ -18,7 +18,7 @@ use Acms\Core\Html\FormHelper;
  *
  *     - Parse $schema array and check for/throw error before sending them to Db::someMethod
  *
- *     - Forms: Add links/tooltips to "help info" for individual form fields (Venue Name will discribe what a venue name is, how it works, and valid examples)
+ *     - Forms: Add links/tooltips to "help info" for individual form fields (Venue Name will describe what a venue name is, how it's used, and valid examples)
  *
  *     - Change naming scheme of variables (from camelCase to use_underscores). Need to change it in actions and views
  */
@@ -535,7 +535,14 @@ class InstallSite
             'venueEmail' => 'venueConfirmEmail',
         ];
 
+        $alterFields = [
+            ['venueName', '/^\s+|\s+$/', ''],
+        ];
+
+        $formHelper->alterRegex($alterFields);
+
         $validateFields = [
+            'venueName' => '/^[A-z]+[A-z0-9\s-]+[A-z0-9]$/',
             'venueEmail' => $formHelper->isValidEmail(),
         ];
 
@@ -545,6 +552,11 @@ class InstallSite
 
         $formHelper->sendErrors('/install/venue-info');
 
+        $alterFields = [
+            ['venueName', '/\s+/', '-'],
+        ];
+
+        $formHelper->alterRegex($alterFields);
 
         // There are no missing required fields or form input errors
 

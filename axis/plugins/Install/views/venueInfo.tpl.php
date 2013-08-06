@@ -5,6 +5,7 @@
 <div class="content_separator"></div>
 
 <?php
+
     if (isset($formData['firstIteration'])) {
         $firstIteration = 1;
     }
@@ -46,6 +47,11 @@
     <?php if ($venueName == ''): ?>
         <p>
             <span style="color: red;">Error: Please Enter A Venue Name</span>
+        </p>
+    <?php endif; ?>
+    <?php if (isset($venueNameRegexError) && $venueNameRegexError == 1): ?>
+        <p>
+            <span style="color: red;">Error: Please Enter A Valid Venue Name</span>
         </p>
     <?php endif; ?>
     <?php if ($venueEmail == ''): ?>
