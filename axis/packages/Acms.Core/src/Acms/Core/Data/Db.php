@@ -351,6 +351,61 @@ class Db
         return $result;
     }
 
+    /**
+     * Update Table Rows
+     *
+     * @param string $tableName
+     * @param array $tableColumns
+     * @param string $condition
+     * @param array $bind
+     * @param string $tablePrefix
+     *
+     * @return integer Number of rows affected
+     *
+     * @todo: Document with examples
+     */
+
+    public function dbUpdate($tableName, $tableColumns, $conditions, $bind, $tablePrefix = '') {
+        if (!empty($tablePrefix)) {
+            if ($this->getDbPrefix() == null) {
+                $this->setDbPrefix($tablePrefix);
+            }
+        }
+
+        $prefixedTableName = $this->getDbPrefix() . $tableName;
+
+        $result = $this->connection->update($prefixedTableName, $tableColumns, $conditions, $bind);
+
+        return $result;
+    }
+
+    /**
+     * Delete Table Rows
+     *
+     * @param string $tableName
+     * @param string $condition
+     * @param array $bind
+     * @param string $tablePrefix
+     *
+     * @return integer Number of rows affected
+     *
+     * @todo: Document with examples
+     */
+
+    public function dbDelete($tableName, $conditions, $bind, $tablePrefix = '') {
+        if (!empty($tablePrefix)) {
+            if ($this->getDbPrefix() == null) {
+                $this->setDbPrefix($tablePrefix);
+            }
+        }
+
+        $prefixedTableName = $this->getDbPrefix() . $tableName;
+
+        $result = $this->connection->delete($prefixedTableName, $conditions, $bind);
+
+        return $result;
+    }
+
     /*
      * Database connection methods
      */

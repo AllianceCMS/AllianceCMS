@@ -48,6 +48,7 @@ if ($dispatch) {
 
     $system['routeInfo'] = $auraRoute;
     $system['basePath'] = $basePath;
+    $system['sql'] = $sql;
 
     // Create/set 'Main Nav Links' vars and template
     $sql->dbSelect('links',
