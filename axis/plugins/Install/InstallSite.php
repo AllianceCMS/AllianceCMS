@@ -30,7 +30,7 @@ class InstallSite
     private $menu;
 
     // Installation Welcome Page action
-    public function installWelcome($system)
+    public function installWelcome($axis)
     {
         $missingZone = null;
 
@@ -52,7 +52,7 @@ class InstallSite
         if (isset($missingZone)) {
 
             // Create FormHelper object for use in templates
-            $formHelper = new FormHelper($system['basePath']);
+            $formHelper = new FormHelper($axis->basePath);
 
             $this->startTemplate();
             $this->createBody('welcomeWarnings.tpl.php');
@@ -72,7 +72,7 @@ class InstallSite
         // Installation Welcome Screen
 
         // Create FormHelper object for use in templates
-        $formHelper = new FormHelper($system['basePath']);
+        $formHelper = new FormHelper($axis->basePath);
 
         // Setup theme template (only Install plugin should have to do this, once installed axis will take care of this)
         $this->startTemplate();
@@ -94,12 +94,12 @@ class InstallSite
     }
 
     // Installation: Language Page action
-    public function installLanguage($system)
+    public function installLanguage($axis)
     {
         // Select Language
 
         // Create FormHelper object for use in templates
-        $formHelper = new FormHelper($system['basePath']);
+        $formHelper = new FormHelper($axis->basePath);
 
         $this->startTemplate();
         $this->createBody('language.tpl.php');
@@ -128,20 +128,20 @@ class InstallSite
     }
 
     // Installation: Database Info action
-    public function installDbInfo($system)
+    public function installDbInfo($axis)
     {
         // Prompt For DB Info
 
         // Create FormHelper object for use in templates
-        $formHelper = new FormHelper($system['basePath']);
+        $formHelper = new FormHelper($axis->basePath);
 
         $this->startTemplate();
         $this->createBody('dbInfo.tpl.php');
 
         // If installConfirmDbInfo found empty required fields, then process errors sent back to this action
-        if (!empty($system['routeInfo']->values['errors'])) {
+        if (!empty($axis->routeInfo->values['errors'])) {
 
-            $formData = $formHelper->processErrors($system['routeInfo']->values['errors']);
+            $formData = $formHelper->processErrors($axis->routeInfo->values['errors']);
 
             if (!empty($formData)) {
                 foreach($formData as $attribute => $value) {
@@ -180,12 +180,12 @@ class InstallSite
     }
 
     // Installation: Confirm Database Info action
-    public function installConfirmDbInfo($system)
+    public function installConfirmDbInfo($axis)
     {
         // Confirm DB Info
 
         // Create FormHelper object for use in templates
-        $formHelper = new FormHelper($system['basePath']);
+        $formHelper = new FormHelper($axis->basePath);
 
         // Check for missing required fields
         $requiredFields = [
@@ -239,7 +239,7 @@ class InstallSite
     }
 
     // Installation: Test Connection Info action
-    public function installTestDbConnection($system)
+    public function installTestDbConnection($axis)
     {
         // Test/Confirm DB Connection
 
@@ -323,7 +323,7 @@ class InstallSite
         }
 
         // Create FormHelper object for use in templates
-        $formHelper = new FormHelper($system['basePath']);
+        $formHelper = new FormHelper($axis->basePath);
 
         $this->startTemplate();
         $this->createBody('dbTestConfirm.tpl.php');
@@ -352,20 +352,20 @@ class InstallSite
     }
 
     // Installation: Admin Info action
-    public function installAdminInfo($system)
+    public function installAdminInfo($axis)
     {
         // Prompt For Admin Info
 
         // Create FormHelper object for use in templates
-        $formHelper = new FormHelper($system['basePath']);
+        $formHelper = new FormHelper($axis->basePath);
 
         $this->startTemplate();
         $this->createBody('adminInfo.tpl.php');
 
         // If installConfirmAdminInfo found empty required fields, then process errors sent back to this action
-        if (!empty($system['routeInfo']->values['errors'])) {
+        if (!empty($axis->routeInfo->values['errors'])) {
 
-            $formData = $formHelper->processErrors($system['routeInfo']->values['errors']);
+            $formData = $formHelper->processErrors($axis->routeInfo->values['errors']);
 
             if (!empty($formData)) {
                 foreach($formData as $attribute => $value) {
@@ -400,12 +400,12 @@ class InstallSite
     }
 
     // Installation: Confirm Admin Info action
-    public function installConfirmAdminInfo($system)
+    public function installConfirmAdminInfo($axis)
     {
         // Confirm Admin Info
 
         // Create FormHelper object for use in templates
-        $formHelper = new FormHelper($system['basePath']);
+        $formHelper = new FormHelper($axis->basePath);
 
         // Check for missing required fields
         $requiredFields = [
@@ -469,20 +469,20 @@ class InstallSite
     }
 
     // Installation: Venue Info action
-    public function installVenueInfo($system)
+    public function installVenueInfo($axis)
     {
         // Prompt For Venue Info
 
         // Create FormHelper object for use in templates
-        $formHelper = new FormHelper($system['basePath']);
+        $formHelper = new FormHelper($axis->basePath);
 
         $this->startTemplate();
         $this->createBody('venueInfo.tpl.php');
 
         // If installConfirmVenueInfo found empty required fields, then process errors sent back to this action
-        if (!empty($system['routeInfo']->values['errors'])) {
+        if (!empty($axis->routeInfo->values['errors'])) {
 
-            $formData = $formHelper->processErrors($system['routeInfo']->values['errors']);
+            $formData = $formHelper->processErrors($axis->routeInfo->values['errors']);
 
             if (!empty($formData)) {
                 foreach($formData as $attribute => $value) {
@@ -517,12 +517,12 @@ class InstallSite
     }
 
     // Installation: Confirm Venue Info action
-    public function installConfirmVenueInfo($system)
+    public function installConfirmVenueInfo($axis)
     {
         // Confirm Venue Info
 
         // Create FormHelper object for use in templates
-        $formHelper = new FormHelper($system['basePath']);
+        $formHelper = new FormHelper($axis->basePath);
 
         // Check for missing required fields
         $requiredFields = [
@@ -596,12 +596,12 @@ class InstallSite
     }
 
     // Installation: Confirm Installation action
-    public function installConfirmInstallation($system)
+    public function installConfirmInstallation($axis)
     {
         // ok To Install?
 
         // Create FormHelper object for use in templates
-        $formHelper = new FormHelper($system['basePath']);
+        $formHelper = new FormHelper($axis->basePath);
 
         // Setup any installation data that's in $_POST
         foreach($_POST as $key => $value) {
@@ -633,7 +633,7 @@ class InstallSite
     }
 
     // Installation: Complete Installation action
-    public function installInstallationComplete($system)
+    public function installInstallationComplete($axis)
     {
         // Complete Installation
 
@@ -650,7 +650,7 @@ class InstallSite
         // Installation Complete Page
 
         // Create FormHelper object for use in templates
-        $formHelper = new FormHelper($system['basePath']);
+        $formHelper = new FormHelper($axis->basePath);
 
         $this->startTemplate();
         $this->createBody('installComplete.tpl.php');

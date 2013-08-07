@@ -5,7 +5,7 @@ use Acms\Core\Templates\Template;
 
 class DisplayPage
 {
-    function homeFrontPage($system) {
+    function homeFrontPage($axis) {
 
         $body = new Template(dirname(__FILE__) . DS . 'views/main.tpl.php');
 

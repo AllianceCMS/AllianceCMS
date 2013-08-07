@@ -232,6 +232,11 @@ class Db
         }
     }
 
+    public function dbAlterTable()
+    {
+        return true;
+    }
+
     /**
 	 * Select data from the database
 	 *

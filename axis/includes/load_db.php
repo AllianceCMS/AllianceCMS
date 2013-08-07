@@ -64,8 +64,9 @@ if (file_exists(DBCONNFILE)) {
         $auraRoute = $installRoutes->match($path, $_SERVER);
         $basePath = BASE_URL;
 
-        $system['routeInfo'] = $auraRoute;
-        $system['basePath'] = $basePath;
+        $axis = new stdClass;
+        $axis->routeInfo = $auraRoute;
+        $axis->basePath = $basePath;
 
 
         // Does the route indicate a controller?
@@ -83,7 +84,7 @@ if (file_exists(DBCONNFILE)) {
         $page = new $controller;
 
         // Dynamically call Install plugin controller/action
-        $page->$action($system);
+        $page->$action($axis);
 
         exit;
     }
