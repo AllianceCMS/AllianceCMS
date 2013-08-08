@@ -3,5 +3,5 @@
 # Except this file
 !.gitignore
 !index.php
-!templates
+!templates*
 !Emplode
