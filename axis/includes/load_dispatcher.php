@@ -68,27 +68,29 @@ if ($dispatch) {
      * Process Blocks
      */
 
+    $finished_blocks = new Acms\Core\Templates\Template();
+
     $process_blocks = new Acms\Core\Templates\Blocks();
     $active_blocks = $process_blocks->getBlocks($axis, $block_routes);
 
-    $finished_blocks = new Acms\Core\Templates\Template();
+    if(!empty($active_blocks)) {
+        foreach ($active_blocks as $key => $blocks) {
 
-    foreach ($active_blocks as $key => $blocks) {
+            foreach ($blocks as $block_area => $block) {
 
-        foreach ($blocks as $block_area => $block) {
+                $block_area_label = 'block_area_' . $block_area;
 
-            $block_area_label = 'block_area_' . $block_area;
+                $build_block = new Acms\Core\Templates\Template(TEMPLATES . 'block.tpl.php');
+                $build_block->set('block_title', $block['title']);
+                $build_block->set('block_content', $block['content']);
 
-            $build_block = new Acms\Core\Templates\Template(TEMPLATES . 'block.tpl.php');
-            $build_block->set('block_title', $block['title']);
-            $build_block->set('block_content', $block['content']);
+                // $block_area_(area) = ...
+                ${$block_area_label}[] = $build_block;
+            }
 
-            // $block_area_(area) = ...
-            ${$block_area_label}[] = $build_block;
+            // Send blocks to main template (the active theme.tpl.php)
+            $tpl->set('blocks_area_' . $block_area, $$block_area_label);
         }
-
-        // Send blocks to main template (the active theme.tpl.php)
-        $tpl->set('blocks_area_' . $block_area, $$block_area_label);
     }
 
     /**
