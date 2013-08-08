@@ -10,6 +10,109 @@ $schema['0.01']['create']['database'] = [
     'collation' => 'utf8_general_ci',
 ];
 
+$schema['0.01']['create']['table']['blocks'] = [
+    [
+        'name' => 'id',
+        'type' => 'int(11)',
+        'not_null' => '1',
+        'signed' => '0',
+        'autoincrement' => '1',
+        'default' => '',
+        'primary_key' => '1',
+        'unique_key' => '',
+    ],
+    [
+        'name' => 'name',
+        'type' => 'varchar(100)',
+        'not_null' => '1',
+        'signed' => '0',
+        'autoincrement' => '0',
+        'default' => '',
+        'primary_key' => '',
+        'unique_key' => '1',
+    ],
+    [
+        'name' => 'venue_id',
+        'type' => 'int(11)',
+        'not_null' => '1',
+        'signed' => '0',
+        'autoincrement' => '0',
+        'default' => '',
+        'primary_key' => '',
+        'unique_key' => '',
+    ],
+    [
+        'name' => 'plugin_id',
+        'type' => 'int(11)',
+        'not_null' => '1',
+        'signed' => '0',
+        'autoincrement' => '0',
+        'default' => '',
+        'primary_key' => '',
+        'unique_key' => '',
+    ],
+    [
+        'name' => 'description',
+        'type' => 'text',
+        'not_null' => '',
+        'signed' => '0',
+        'autoincrement' => '0',
+        'default' => '',
+        'primary_key' => '',
+        'unique_key' => '',
+    ],
+    [
+        'name' => 'block_area',
+        'type' => 'int(11)',
+        'not_null' => '1',
+        'signed' => '0',
+        'autoincrement' => '0',
+        'default' => '1',
+        'primary_key' => '',
+        'unique_key' => '',
+    ],
+    [
+        'name' => 'block_order',
+        'type' => 'int(11)',
+        'not_null' => '1',
+        'signed' => '0',
+        'autoincrement' => '0',
+        'default' => '1',
+        'primary_key' => '',
+        'unique_key' => '',
+    ],
+    [
+        'name' => 'active',
+        'type' => 'int(11)',
+        'not_null' => '1',
+        'signed' => '0',
+        'autoincrement' => '0',
+        'default' => '1',
+        'primary_key' => '',
+        'unique_key' => '',
+    ],
+    [
+        'name' => 'created',
+        'type' => 'timestamp',
+        'not_null' => '1',
+        'signed' => '0',
+        'autoincrement' => '0',
+        'default' => "'0000-00-00 00:00:00'",
+        'primary_key' => '',
+        'unique_key' => '',
+    ],
+    [
+        'name' => 'modified',
+        'type' => 'timestamp',
+        'not_null' => '1',
+        'signed' => '0',
+        'autoincrement' => '0',
+        'default' => 'CURRENT_TIMESTAMP',
+        'primary_key' => '',
+        'unique_key' => '',
+    ],
+];
+
 $schema['0.01']['create']['table']['languages'] = [
     [
         'name' => 'id',
@@ -864,13 +967,37 @@ $schema['0.01']['create']['table']['venues'] = [
 
 $schema['0.01']['insert']['table'] = [
     [
+        'blocks' => [
+            [
+                'name' => 'welcome_block',
+                'venue_id' => '1',
+                'plugin_id' => '1',
+                'description' => 'This is a block that welcomes new AllianceCMS users.',
+                'block_area' => '1',
+                'block_order' => '1',
+                'active' => '2',
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp
+            ],
+            [
+                'name' => 'contact_us',
+                'venue_id' => '1',
+                'plugin_id' => '1',
+                'description' => 'AllianceCMS contact information.',
+                'block_area' => '1',
+                'block_order' => '2',
+                'active' => '2',
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
+        ],
         'languages' => [
             [
                 'id' => '',
                 'name' => 'English',
                 'folder_name' => 'english',
-                'created' => '',
-                'modified' => ''
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
             ],
         ],
         'links' => [

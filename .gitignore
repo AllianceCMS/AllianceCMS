@@ -8,6 +8,7 @@
 *blacklist*
 *Not In Use*
 *Propel*
+*Component*
 Doxygen_Docs/*
 nbproject/*
 zones/*.*.com

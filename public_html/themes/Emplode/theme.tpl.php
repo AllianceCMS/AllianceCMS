@@ -32,7 +32,6 @@
 
         		<div id="site_title">
         			<h1>
-                        <!-- <a href="">Alliance<span>CMS</span></a> -->
                         <a href="<?php echo $base_url; ?>"><?php echo $venue_title; ?></a>
                     </h1>
         			<p><?php echo $venue_tagline; ?></p>
@@ -69,17 +68,23 @@
 
         				<div class="right" id="sidebar">
 
-        					<div id="sidebar_content">
+        				    <div id="sidebar_content">
 
-        						<?php /* for ($i=0; $i < count($menu1); $i++): */ ?>
+        				        <?php if (isset($blocks_area_1)): ?>
+                                	<?php foreach ($blocks_area_1 as $area_1): ?>
 
-        							<div class="box">
+                                        <?php echo $area_1; ?>
 
-        							    <?php /* echo $menu1[$i]; */ ?>
+                                	<?php endforeach; ?>
+                            	<?php endif; ?>
 
-									</div>
+                            	<?php if (isset($blocks_area_2)): ?>
+                                	<?php foreach ($blocks_area_2 as $area_2): ?>
 
-                            	<?php /* endfor; */ ?>
+                                        <?php echo $area_2; ?>
+
+                                	<?php endforeach; ?>
+                            	<?php endif; ?>
 
         					</div>
 

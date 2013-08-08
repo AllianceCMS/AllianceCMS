@@ -56,24 +56,6 @@ $sql->dbSelect('themes',
 $fields = $sql->dbFetch('one');
 $theme_path = $fields['folder_path'] . $fields['folder_name'];
 
-/*
-// Setup Blocks
-$setupMenu = new Menus("1");
-$menu1 = $setupMenu->getMenus();
-
-$setupMenu = new Menus("2");
-$menu2 = $setupMenu->getMenus();
-
-$setupMenu = new Menus("3");
-$menu3 = $setupMenu->getMenus();
-
-$setupMenu = new Menus("4");
-$menu4 = $setupMenu->getMenus();
-
-$setupMenu = new Menus("5");
-$menu5 = $setupMenu->getMenus();
-//*/
-
 // Create base/theme template
 $tpl = new Template();
 $tpl->set('base_url', BASE_URL);
@@ -82,10 +64,3 @@ $tpl->set("venue_title", VENUE_TITLE);
 //$tpl->set("venue_author", SITE_ADMIN_NAME);
 $tpl->set("venue_description", VENUE_DESCRIPTION);
 $tpl->set("venue_tagline", VENUE_TAGLINE);
-/*
-$tpl->set("menu1", $menu1);
-$tpl->set("menu2", $menu2);
-$tpl->set("menu3", $menu3);
-$tpl->set("menu4", $menu4);
-$tpl->set("menu5", $menu5);
-//*/

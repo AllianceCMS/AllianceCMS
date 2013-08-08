@@ -438,22 +438,22 @@ img.right {margin: 0 0 15px 12px;}
 
 
 /* 
-   Box
+   Block
 ------------------------------------------------------------------- */
 
-.box {margin-bottom: 1.5em;}
-.box_title {
+.block {margin-bottom: 1.5em;}
+.block_title {
 	background: url('images/grain_dark.gif');
 	color: #665;
 	font-weight: bold;
 	padding: 5px 8px;
 }
-.box_content {padding: 8px 0 8px;}
-.box li {
+.block_content {padding: 8px 0 8px;}
+.block li {
 	border-top: 1px solid #DDC;
 	padding: 4px 6px;
 }
-.box li:first-child {border-top: none;}
+.block li:first-child {border-top: none;}
 
 
 /* 

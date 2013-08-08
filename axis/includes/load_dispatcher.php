@@ -5,21 +5,13 @@ if ($dispatch) {
     // Match route to Aura.Routes route map
     $auraRoute = $mapRoutes->match($path, $_SERVER);
 
-    /*
-    echo '<br /><pre>$auraRoute: ';
-    echo print_r($auraRoute);
-    echo '</pre><br />';
-    //*/
-
     // If there is no match then we need to send user to custom '404'
     if (! $auraRoute) {
 
-        //*
         // No route object was returned
         // @todo: Need to change this to redirect to custom 404
         echo "<br />No application route was found for that URI path.<br />";
         exit();
-        //*/
     }
 
     // Does the route indicate a controller?
@@ -47,9 +39,14 @@ if ($dispatch) {
     $basePath = BASE_URL . '/' . $auraRoute->values['venue'];
 
     $axis = new stdClass;
-    $axis->routeInfo = $auraRoute;
+    $axis->acmsLoader = $acmsLoader;
     $axis->basePath = $basePath;
+    $axis->routeInfo = $auraRoute;
     $axis->sql = $sql;
+
+    /**
+     * Process Navigation Links
+     */
 
     // Create/set 'Main Nav Links' vars and template
     $sql->dbSelect('links',
@@ -67,8 +64,38 @@ if ($dispatch) {
     // Send navbar to main template (the active theme.tpl.php)
     $tpl->set("nav1", $nav1);
 
+    /**
+     * Process Blocks
+     */
+
+    $process_blocks = new Acms\Core\Templates\Blocks();
+    $active_blocks = $process_blocks->getBlocks($axis, $block_routes);
+
+    $finished_blocks = new Acms\Core\Templates\Template();
+
+    foreach ($active_blocks as $key => $blocks) {
+
+        foreach ($blocks as $block_area => $block) {
+
+            $block_area_label = 'block_area_' . $block_area;
+
+            $build_block = new Acms\Core\Templates\Template(TEMPLATES . 'block.tpl.php');
+            $build_block->set('block_title', $block['title']);
+            $build_block->set('block_content', $block['content']);
+
+            // $block_area_(area) = ...
+            ${$block_area_label}[] = $build_block;
+        }
+
+        // Send blocks to main template (the active theme.tpl.php)
+        $tpl->set('blocks_area_' . $block_area, $$block_area_label);
+    }
+
+    /**
+     * Process plugin output
+     */
+
     // Assign the controller to the body of the base/theme template
-    //$body = $page->$action($auraRoute, $basePath);
     $body = $page->$action($axis);
     $tpl->set("body",	$body);
 

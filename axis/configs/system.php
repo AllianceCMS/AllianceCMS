@@ -11,13 +11,10 @@ if (phpversion() < '5.4.0'):
     </h2>
 
     <p>
-        <dialog></dialog>
-    </p>
-    <p>
         Current PHP version: <strong><?php echo phpversion(); ?></strong>
     </p>
     <p>
-        Required PHP version: <strong>5.4+<strong>
+        Required PHP version: <strong>5.4+</strong>
     </p>
     <p>
         Please talk to your system administrator about upgrading your PHP server software before continuing...
@@ -131,7 +128,7 @@ define('PACKAGE_ACMS_CORE', PACKAGES . 'Acms.Core' . DS . 'src' . DS . 'Acms' . 
 
 define('PLUGINS_AXIS', AXIS . 'plugins' . DS);
 
-/**
+/*
  * Domain/Subdomain plugin folder locations
  */
 

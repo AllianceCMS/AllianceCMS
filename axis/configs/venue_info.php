@@ -1,6 +1,6 @@
 <?php
 
-// Setup Core Site Constants
+// Setup Main Venue Constants
 
 $sql->dbSelect('venues',
     'name, title, tagline, description, active_theme, venue_admin, default_plugin, maintenance_flag',
@@ -19,7 +19,7 @@ define("MAIN_VENUE_MAINTENANCE_FLAG", $fields['maintenance_flag']);
 
 unset($fields);
 
-// Setup Sub Site Constants
+// Setup Sub Venue Constants
 
 $sql->dbSelect('venues',
     'name, title, tagline, description, active_theme, venue_admin, default_plugin, maintenance_flag',

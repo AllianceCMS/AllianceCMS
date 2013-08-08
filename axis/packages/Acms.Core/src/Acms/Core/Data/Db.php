@@ -268,11 +268,9 @@ class Db
             $queryText .= ' WHERE ' . $queryWhereClause;
         }
 
-        //*
         if (isset($queryAdditionalClauses)) {
             $queryText .= ' ' . $queryAdditionalClauses;
         }
-        //*/
 
         if (isset($queryBindValues)) {
             $bindValues = $queryBindValues;

@@ -82,11 +82,25 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
                     ];
 
                     foreach ($route['specs'] as $key => $value) {
-
                         if ($value) {
                             $adminRoutes['routes'][$route['name']][$key] = $value;
                         }
                     }
+                } else if ($route['type'] === 'back') {
+                    // Get route namespace, controller and action
+                    // @todo: Need to implement this
+                    $backRoutes[$route['name']] = [
+                        'namespace' => $route['specs']['values']['namespace'],
+                        'controller' => $route['specs']['values']['controller'],
+                        'action' => $route['specs']['values']['action'],
+                    ];
+                } else if ($route['type'] === 'block') {
+                    $block_routes[] = [
+                        'name' => $route['name'],
+                        'namespace' => $route['specs']['values']['namespace'],
+                        'controller' => $route['specs']['values']['controller'],
+                        'action' => $route['specs']['values']['action'],
+                    ];
                 }
             }
         }
