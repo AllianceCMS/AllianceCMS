@@ -3,10 +3,10 @@
 if ($dispatch) {
 
     // Match route to Aura.Routes route map
-    $auraRoute = $mapRoutes->match($path, $_SERVER);
+    $axisRoute = $mapRoutes->match($path, $_SERVER);
 
     // If there is no match then we need to send user to custom '404'
-    if (! $auraRoute) {
+    if (! $axisRoute) {
 
         // No route object was returned
         // @todo: Need to change this to redirect to custom 404
@@ -15,9 +15,9 @@ if ($dispatch) {
     }
 
     // Does the route indicate a controller?
-    if (isset($auraRoute->values['controller'])) {
+    if (isset($axisRoute->values['controller'])) {
         // Take the controller class directly from the route
-        $controller = $auraRoute->values['namespace'] . '\\' . $auraRoute->values['controller'];
+        $controller = $axisRoute->values['namespace'] . '\\' . $axisRoute->values['controller'];
     } else {
         // Use a default controller
         // @todo: ??? Implement this ???
@@ -25,9 +25,9 @@ if ($dispatch) {
     }
 
     // Does the route indicate an action?
-    if (isset($auraRoute->values['action'])) {
+    if (isset($axisRoute->values['action'])) {
         // Take the controller action directly from the route
-        $action = $auraRoute->values['action'];
+        $action = $axisRoute->values['action'];
     } else {
         // Use a default action
         // @todo: ??? Implement this ???
@@ -36,12 +36,14 @@ if ($dispatch) {
 
     $page = new $controller;
 
-    $basePath = BASE_URL . '/' . $auraRoute->values['venue'];
+    $basePath = BASE_URL . '/' . $axisRoute->values['venue'];
 
     $axis = new stdClass;
     $axis->acmsLoader = $acmsLoader;
     $axis->basePath = $basePath;
-    $axis->routeInfo = $auraRoute;
+    $axis->routeInfo = $axisRoute;
+    $axis->sessionAxis = $sessionAxis;
+    $axis->segmentUser = $segmentUser;
     $axis->sql = $sql;
 
     /**
@@ -58,7 +60,7 @@ if ($dispatch) {
 
     // Create navbar template
     $nav1 = new Acms\Core\Templates\Template(TEMPLATES . 'nav.tpl.php');
-    $nav1->set('currentVenue', $auraRoute->values['venue']);
+    $nav1->set('currentVenue', $axisRoute->values['venue']);
     $nav1->set('links', $links);
 
     // Send navbar to main template (the active theme.tpl.php)
@@ -98,8 +100,14 @@ if ($dispatch) {
      */
 
     // Assign the controller to the body of the base/theme template
-    $body = $page->$action($axis);
-    $tpl->set("body",	$body);
+
+    if ($page->$action($axis) !== false) {
+        $content = $page->$action($axis);
+    } else {
+        $content = '';
+    }
+
+    $tpl->set("content", $content);
 
     // If the function 'customHeaders' exists then include custom header into the themes 'header' tags
     if (function_exists('customHeaders')) {

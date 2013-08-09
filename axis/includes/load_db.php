@@ -61,24 +61,24 @@ if (file_exists(DBCONNFILE)) {
             $installRoutes->attach('/admin', $adminRoutes);
         }
 
-        $auraRoute = $installRoutes->match($path, $_SERVER);
+        $axisRoute = $installRoutes->match($path, $_SERVER);
         $basePath = BASE_URL;
 
         $axis = new stdClass;
-        $axis->routeInfo = $auraRoute;
+        $axis->routeInfo = $axisRoute;
         $axis->basePath = $basePath;
 
 
         // Does the route indicate a controller?
-        if (isset($auraRoute->values['controller'])) {
+        if (isset($axisRoute->values['controller'])) {
             // Take the controller class directly from the route
-            $controller = $auraRoute->values['namespace'] . '\\' . $auraRoute->values['controller'];
+            $controller = $axisRoute->values['namespace'] . '\\' . $axisRoute->values['controller'];
         }
 
         // Does the route indicate an action?
-        if (isset($auraRoute->values['action'])) {
+        if (isset($axisRoute->values['action'])) {
             // Take the controller action directly from the route
-            $action = $auraRoute->values['action'];
+            $action = $axisRoute->values['action'];
         }
 
         $page = new $controller;

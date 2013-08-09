@@ -34,7 +34,7 @@
                         <div class="left" id="main">
                             <div id="main_content">
 
-        				        <?php echo $body; ?>
+        				        <?php echo $content; ?>
 
                             </div>
                         </div>

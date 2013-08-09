@@ -36,16 +36,55 @@ namespace Acms\Core\Html;
 
 class HtmlHelper
 {
+    /**
+     * Adds base URL, for use in page redirects: i.e. href="", src="" header('Location: ...');
+     *
+     * Includes server name and current venue.
+     *
+     * Needed to attach base url and venue name to html href/src (so devs don't have to do this manually)
+     *
+     * @param string $basePath
+     */
 
-    public function htmlLink($address, $caption="", $target="") {
+    public function __construct($basePath)
+    {
+        $this->basePath = $basePath;
+    }
 
-        $completeTag = "<a href=\"{$address}\"";
+    public function htmlLink($address, $caption='', $target='') {
 
-        if (!empty($target)) {
-            $completeTag .=" target=\"{$target}\"";
+        // Starts with http|https|www or ends with .{somezone}
+
+        // '/^[^0-9][A-z0-9_]+([.][A-z0-9_]+)*[@][A-z0-9_]+([.][A-z0-9_]+)*[.][A-z]{2,4}$/'
+
+        $has_protocal = preg_match('/^[http|https]/', $address);
+        $is_external_address = preg_match('/[.][A-z]{2,4}/', $address);
+
+        /*
+        echo '<br />$address is: ' . $address . '<br />';
+        //*/
+
+        /*
+        echo '<br />$is_external_address is: ' . $is_external_address . '<br />';
+        //*/
+
+        //exit;
+
+        if (!empty($is_external_address)) {
+            if ($has_protocal) {
+                $completeTag = '<a href="' . $address . '"';
+            } else {
+                $completeTag = '<a href="http://' . $address . '"';
+            }
+        } else {
+            $completeTag = '<a href="' . $this->basePath . $address . '"';
         }
 
-        $completeTag .= ">";
+        if (!empty($target)) {
+            $completeTag .=' target="' . $target . '"';
+        }
+
+        $completeTag .= '>';
 
         if (!empty($caption)) {
             $completeTag .= $caption;
@@ -53,7 +92,7 @@ class HtmlHelper
             $completeTag .= $address;
         }
 
-        $completeTag .= "</a>";
+        $completeTag .= '</a>';
 
         echo $completeTag;
 

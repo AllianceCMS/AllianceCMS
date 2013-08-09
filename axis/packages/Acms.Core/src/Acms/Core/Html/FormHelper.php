@@ -698,6 +698,11 @@ class FormHelper
             $formErrorTrue = 1;
         }
 
+        if (isset($this->addErrorTrue)) {
+            $this->processedErrors .= $this->addError;
+            $formErrorTrue = 1;
+        }
+
         if (!empty($formErrorTrue)) {
 
             foreach($_POST as $key => $value) {
@@ -722,6 +727,19 @@ class FormHelper
                     unset($_POST[$key]);
                 }
             }
+        }
+
+        return false;
+    }
+
+    public function addError($error = '')
+    {
+        if (!empty($error)) {
+
+            $this->addErrorTrue = true;
+            $this->addError .= '/' . $error . '.' . intval(1);
+
+            return true;
         }
 
         return false;

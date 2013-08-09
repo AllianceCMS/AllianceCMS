@@ -20,7 +20,10 @@ class Blocks
                         $namespaced_controller = $block_route['namespace']. '\\' . $block_route['controller'];
                         $block_controller = new $namespaced_controller;
                         $block_action = $block_route['action'];
-                        $blocks[][$value['block_area']] = $block_controller->$block_action();
+
+                        if ($block_controller->$block_action($axis) !== false) {
+                            $blocks[][$value['block_area']] = $block_controller->$block_action($axis);
+                        }
                     }
                 }
             }

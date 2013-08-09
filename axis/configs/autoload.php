@@ -1,5 +1,4 @@
 <?php
-
 // Set Paths for AuraPHP's Autoloader
 $acmsLoader = require PACKAGES . 'Aura.Autoload' . DS . 'scripts' . DS . 'instance.php';
 $acmsLoader->register();
@@ -7,7 +6,6 @@ $acmsLoader->register();
 $acmsLoader->setPaths([
     'Acms\Core\\' => PACKAGES . 'Acms.Core' . DS . 'src' . DS,
     'Aura\Router\\' => PACKAGES . 'Aura.Router' . DS . 'src' . DS,
-    'Aura\Session\\' => PACKAGES . 'Aura.Session' . DS . 'src' . DS,
     'Aura\Sql\\' => PACKAGES . 'Aura.Sql' . DS . 'src' . DS,
-//    'Symfony\\' => PACKAGES . 'Symfony' . DS . 'src' . DS,
+    'Zend\\' => PACKAGES . 'Zend' . DS . 'src' . DS,
 ]);

@@ -60,7 +60,7 @@
         					<div id="main_content">
 
                                 <br />
-                                <?php echo $body; ?>
+                                <?php echo $content; ?>
                                 <br />
 
                             </div>

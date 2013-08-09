@@ -7,25 +7,25 @@ class SayStuff
 {
     public function sayHi($axis)
     {
-        $body = new Template(dirname(__FILE__) . DS . 'views/greetings.tpl.php');
-        $body->set('name', $axis->routeInfo->values['name'][0]);
+        $content = new Template(dirname(__FILE__) . DS . 'views/greetings.tpl.php');
+        $content->set('name', $axis->routeInfo->values['name'][0]);
 
-        return $body;
+        return $content;
     }
 
     public function sayBye($axis)
     {
-        $body = new Template(dirname(__FILE__) . DS . 'views/tata.tpl.php');
-        $body->set('name', $axis->routeInfo->values['name'][0]);
+        $content = new Template(dirname(__FILE__) . DS . 'views/tata.tpl.php');
+        $content->set('name', $axis->routeInfo->values['name'][0]);
 
-        return $body;
+        return $content;
     }
 
     public function yoAdmin($axis)
     {
-        $body = new Template(dirname(__FILE__) . DS . 'views/admin.tpl.php');
-        $body->set('greeting', 'Hello Ciao Admin');
+        $content = new Template(dirname(__FILE__) . DS . 'views/admin.tpl.php');
+        $content->set('greeting', 'Hello Ciao Admin');
 
-        return $body;
+        return $content;
     }
 }

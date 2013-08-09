@@ -21,12 +21,14 @@ use Acms\Core\Html\FormHelper;
  *     - Forms: Add links/tooltips to "help info" for individual form fields (Venue Name will describe what a venue name is, how it's used, and valid examples)
  *
  *     - Change naming scheme of variables (from camelCase to use_underscores). Need to change it in actions and views
+ *
+ *     - Views: Convert all '<div class="content_separator"></div>' to '<hr>'
  */
 
 class InstallSite
 {
     private $tpl;
-    private $body;
+    private $content;
     private $menu;
 
     // Installation Welcome Page action
@@ -58,10 +60,10 @@ class InstallSite
             $this->createBody('welcomeWarnings.tpl.php');
 
             // Send formHelper to template
-            $this->body->set('formHelper', $formHelper);
+            $this->content->set('formHelper', $formHelper);
 
             // Send error to template
-            $this->body->set('missingZone', $missingZone);
+            $this->content->set('missingZone', $missingZone);
 
             $this->createMenu('1');
             $this->renderTemplate();
@@ -77,16 +79,16 @@ class InstallSite
         // Setup theme template (only Install plugin should have to do this, once installed axis will take care of this)
         $this->startTemplate();
 
-        // Setup body of plugin template
+        // Setup content for plugin template
         $this->createBody('welcome.tpl.php');
 
         // Send formHelper to template
-        $this->body->set('formHelper', $formHelper);
+        $this->content->set('formHelper', $formHelper);
 
         // Create menu template
         $this->createMenu('0');
 
-        // Pass body and menu template to theme template (only Install plugin should have to do this, once installed axis will take care of this)
+        // Pass content and menu template to theme template (only Install plugin should have to do this, once installed axis will take care of this)
         // Render theme template (only Install plugin should have to do this, once installed axis will take care of this)
         $this->renderTemplate();
 
@@ -105,7 +107,7 @@ class InstallSite
         $this->createBody('language.tpl.php');
 
         // Send formHelper to template
-        $this->body->set('formHelper', $formHelper);
+        $this->content->set('formHelper', $formHelper);
 
         // Setup any form data that's in $_POST
         foreach ($_POST as $key => $value) {
@@ -118,7 +120,7 @@ class InstallSite
 
         // Send $formData to plugin template if it exists
         if (! empty($formData)) {
-            $this->body->set('formData', $formData);
+            $this->content->set('formData', $formData);
         }
 
         $this->createMenu('1');
@@ -145,7 +147,7 @@ class InstallSite
 
             if (!empty($formData)) {
                 foreach($formData as $attribute => $value) {
-                    $this->body->set($attribute, $value);
+                    $this->content->set($attribute, $value);
                 }
             }
         } else {
@@ -167,11 +169,11 @@ class InstallSite
 
         // Send $formData to plugin template if it exists
         if (isset($formData)) {
-            $this->body->set('formData', $formData);
+            $this->content->set('formData', $formData);
         };
 
         // Send formHelper to template
-        $this->body->set('formHelper', $formHelper);
+        $this->content->set('formHelper', $formHelper);
 
         $this->createMenu('2');
         $this->renderTemplate();
@@ -218,16 +220,16 @@ class InstallSite
         $this->createBody('dbConfirm.tpl.php');
 
         // Send formHelper to template
-        $this->body->set('formHelper', $formHelper);
+        $this->content->set('formHelper', $formHelper);
 
         // Send $formData to template
-        $this->body->set('formData', $formData);
+        $this->content->set('formData', $formData);
 
         // Set template vars from $_POST
         foreach($_POST as $attribute => $value) {
             if ((!($attribute == 'install')) && (!($attribute == 'formData')) && (!($attribute == 'submit'))) {
                 if ($value != '') {
-                    $this->body->set($attribute, $value);
+                    $this->content->set($attribute, $value);
                 }
             }
         }
@@ -329,19 +331,19 @@ class InstallSite
         $this->createBody('dbTestConfirm.tpl.php');
 
         // Send formHelper to template
-        $this->body->set('formHelper', $formHelper);
+        $this->content->set('formHelper', $formHelper);
 
         // Send $formData to template
-        $this->body->set('formData',     $formData);
+        $this->content->set('formData',     $formData);
 
         // Send $validConnection to template
-        $this->body->set('validConnection', $validConnection);
-        $this->body->set('dbCreateDatabase', $dbCreateDatabase);
+        $this->content->set('validConnection', $validConnection);
+        $this->content->set('dbCreateDatabase', $dbCreateDatabase);
 
         // Set template vars from $_POST
         foreach($_POST as $attribute => $value) {
             if ((!($attribute == 'install')) && (!($attribute == 'formData')) && (!($attribute == 'submit'))) {
-                $this->body->set($attribute, $value);
+                $this->content->set($attribute, $value);
             }
         }
 
@@ -369,7 +371,7 @@ class InstallSite
 
             if (!empty($formData)) {
                 foreach($formData as $attribute => $value) {
-                    $this->body->set($attribute, $value);
+                    $this->content->set($attribute, $value);
                 }
             }
         } else {
@@ -387,11 +389,11 @@ class InstallSite
 
         // Send $formData to plugin template if it exists
         if (isset($formData)) {
-            $this->body->set('formData', $formData);
+            $this->content->set('formData', $formData);
         };
 
         // Send formHelper to template
-        $this->body->set('formHelper', $formHelper);
+        $this->content->set('formHelper', $formHelper);
 
         $this->createMenu('4');
         $this->renderTemplate();
@@ -448,16 +450,16 @@ class InstallSite
         $this->createBody('adminConfirm.tpl.php');
 
         // Send formHelper to template
-        $this->body->set('formHelper', $formHelper);
+        $this->content->set('formHelper', $formHelper);
 
         // Send $formData to template
-        $this->body->set('formData', $formData);
+        $this->content->set('formData', $formData);
 
         // Set template vars from $_POST
         foreach($_POST as $attribute => $value) {
             if ((!($attribute == 'install')) && (!($attribute == 'formData')) && (!($attribute == 'submit'))) {
                 if ($value != '') {
-                    $this->body->set($attribute, $value);
+                    $this->content->set($attribute, $value);
                 }
             }
         }
@@ -486,7 +488,7 @@ class InstallSite
 
             if (!empty($formData)) {
                 foreach($formData as $attribute => $value) {
-                    $this->body->set($attribute, $value);
+                    $this->content->set($attribute, $value);
                 }
             }
         } else {
@@ -504,11 +506,11 @@ class InstallSite
 
         // Send $formData to plugin template if it exists
         if (isset($formData)) {
-            $this->body->set('formData', $formData);
+            $this->content->set('formData', $formData);
         };
 
         // Send formHelper to template
-        $this->body->set('formHelper', $formHelper);
+        $this->content->set('formHelper', $formHelper);
 
         $this->createMenu('6');
         $this->renderTemplate();
@@ -575,16 +577,16 @@ class InstallSite
         $this->createBody('venueConfirm.tpl.php');
 
         // Send formHelper to template
-        $this->body->set('formHelper', $formHelper);
+        $this->content->set('formHelper', $formHelper);
 
         // Send $formData to template
-        $this->body->set('formData', $formData);
+        $this->content->set('formData', $formData);
 
         // Set template vars from $_POST
         foreach($_POST as $attribute => $value) {
             if ((!($attribute == 'install')) && (!($attribute == 'formData')) && (!($attribute == 'submit'))) {
                 if ($value != '') {
-                    $this->body->set($attribute, $value);
+                    $this->content->set($attribute, $value);
                 }
             }
         }
@@ -614,15 +616,15 @@ class InstallSite
         $this->createBody('confirmInstall.tpl.php');
 
         // Send formHelper to template
-        $this->body->set('formHelper', $formHelper);
+        $this->content->set('formHelper', $formHelper);
 
         // Send $formData to template
-        $this->body->set('formData', $formData);
+        $this->content->set('formData', $formData);
 
         // Set template vars from $_POST
         foreach($_POST as $attribute => $value) {
             if ((!($attribute == 'install')) && (!($attribute == 'formData')) && (!($attribute == 'submit'))) {
-                $this->body->set($attribute, $value);
+                $this->content->set($attribute, $value);
             }
         }
 
@@ -656,7 +658,7 @@ class InstallSite
         $this->createBody('installComplete.tpl.php');
 
         // Send formHelper to template
-        $this->body->set('formHelper', $formHelper);
+        $this->content->set('formHelper', $formHelper);
 
         $this->createMenu('9');
         $this->renderTemplate();
@@ -676,9 +678,9 @@ class InstallSite
 
     private function createBody($view)
     {
-        // Setup body of plugin template
-        $this->body = new Template(dirname(__FILE__) . DS . 'views' . DS . $view);
-        $this->body->set('theme_folder', BASE_URL . '/' . 'themes/Emplode/');
+        // Setup content for plugin template
+        $this->content = new Template(dirname(__FILE__) . DS . 'views' . DS . $view);
+        $this->content->set('theme_folder', BASE_URL . '/' . 'themes/Emplode/');
 
     }
 
@@ -693,8 +695,8 @@ class InstallSite
 
     private function renderTemplate()
     {
-        // Pass body and menu template to theme template (only Install plugin should have to do this, once installed axis will take care of this)
-        $this->tpl->set('body', $this->body);
+        // Pass content and menu template to theme template (only Install plugin should have to do this, once installed axis will take care of this)
+        $this->tpl->set('content', $this->content);
         $this->tpl->set('menu', $this->menu);
 
         // Render theme template (only Install plugin should have to do this, once installed axis will take care of this)

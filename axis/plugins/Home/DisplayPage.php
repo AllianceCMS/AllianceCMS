@@ -7,9 +7,9 @@ class DisplayPage
 {
     function homeFrontPage($axis) {
 
-        $body = new Template(dirname(__FILE__) . DS . 'views/main.tpl.php');
+        $content = new Template(dirname(__FILE__) . DS . 'views/main.tpl.php');
 
-        return $body;
+        return $content;
 
     }
 }

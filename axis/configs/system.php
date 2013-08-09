@@ -1,7 +1,4 @@
 <?php
-/**
- * Create directory separator for file system paths
- */
 
 if (phpversion() < '5.4.0'):
 ?>
@@ -22,6 +19,10 @@ if (phpversion() < '5.4.0'):
 <?php
     exit;
 endif;
+
+/**
+ * Create directory separator for file system paths
+ */
 
 if (!defined('DS')) {
     define('DS', strtoupper(substr(PHP_OS, 0, 3) == 'WIN') ? '\\' : '/');
@@ -121,6 +122,7 @@ define('TESTS', AXIS . 'tests' . DS);
 
 define('PACKAGES', AXIS . 'packages' . DS);
 define('PACKAGE_ACMS_CORE', PACKAGES . 'Acms.Core' . DS . 'src' . DS . 'Acms' . DS . 'Core' . DS);
+define('PACKAGE_AURA_SESSION', PACKAGES . 'Aura.Session' . DS);
 
 /**
  * Axis plugin/theme folder locations

@@ -142,18 +142,18 @@ Now we are going to instantiate a Template object and assign data to a view temp
         {
             public function sayHi($values)
             {
-                $body = new Template(dirname(__FILE__) . DS . 'views/greetings.tpl.php');
-                $body->set('name', 'World');
+                $content = new Template(dirname(__FILE__) . DS . 'views/greetings.tpl.php');
+                $content->set('name', 'World');
 
-                return $body;
+                return $content;
             }
         }
 
 * We've added the 'use' statement so we can use the Template class
 * When we instantiate the Template object we are going to tell it which view template we want to load
-* The Template object is named $body
-* We send data to the view template using $body->set('varName', 'varValue'). Notice that we are sending the variable 'name' with the value 'World'. Now your view template will have access to the variable $name, and it's value will be 'World'.
-* Then we need to return $body to Axis so it can be rendered in your website's active theme.
+* The Template object is named $content
+* We send data to the view template using $content->set('varName', 'varValue'). Notice that we are sending the variable 'name' with the value 'World'. Now your view template will have access to the variable $name, and it's value will be 'World'.
+* Then we need to return $content to Axis so it can be rendered in your website's active theme.
 
 Let's create the view template now:
 
