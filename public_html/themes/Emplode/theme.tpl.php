@@ -24,7 +24,7 @@
 
                 <div id="toplinks">
         			<div id="toplinks_inner">
-        				<a href="https://twitter.com/jbWebWare">Twitter</a> | <a href="https://www.facebook.com/alliancecms">Facebook</a> | <a href="irc://chat.freenode.net/alliancecms">IRC</a>
+        				<a href="https://twitter.com/AllianceCMS">Twitter</a> | <a href="https://www.facebook.com/alliancecms">Facebook</a> | <a href="irc://chat.freenode.net/alliancecms">IRC</a>
         			</div>
         		</div>
 
