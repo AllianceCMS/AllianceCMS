@@ -1109,7 +1109,7 @@ $schema['0.01']['insert']['table'] = [
             ],
             [
                 'id' => '',
-                'name' => 'UserManager',
+                'name' => 'User Manager',
                 'version' => '0.01',
                 'folder_path' => 'axis/plugins/',
                 'folder_name' => 'UserManager',

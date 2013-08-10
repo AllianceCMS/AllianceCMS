@@ -359,7 +359,7 @@ class Db
      *
      * @param string $tableName
      * @param array $tableColumns
-     * @param string $condition
+     * @param string $conditions
      * @param array $bind
      * @param string $tablePrefix
      *
@@ -386,7 +386,7 @@ class Db
      * Delete Table Rows
      *
      * @param string $tableName
-     * @param string $condition
+     * @param string $conditions
      * @param array $bind
      * @param string $tablePrefix
      *
