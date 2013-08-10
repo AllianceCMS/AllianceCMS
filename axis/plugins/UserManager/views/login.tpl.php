@@ -23,19 +23,13 @@
 
 <?php if (isset($formErrors)): ?>
     <?php if ($login_name == ''): ?>
-        <p>
-            <span style="color: red;">Error: Please Enter A Login Name</span>
-        </p>
-    <?php endif; ?>
-    <?php if (($invalid_login_name == '1') || ($invalid_password == '1')): ?>
-        <p>
-            <span style="color: red;">Login Failed: Incorrect Login/Password Combination</span>
-        </p>
+            <div class="error">Error: Please Enter A Login Name</div>
     <?php endif; ?>
     <?php if ($password == ''): ?>
-        <p>
-            <span style="color: red;">Error: Please Enter A Password</span>
-        </p>
+            <div class="error">Error: Please Enter A Password</div>
+    <?php endif; ?>
+    <?php if (($invalid_login_name == '1') || ($invalid_password == '1')): ?>
+            <div class="error">Login Failed: Incorrect Login/Password Combination</div>
     <?php endif; ?>
 <?php endif; ?>
 

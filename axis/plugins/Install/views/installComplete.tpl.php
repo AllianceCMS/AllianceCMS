@@ -2,7 +2,7 @@
     <strong>Installation Complete!!!</strong>
 </p>
 
-<div class="content_separator"></div>
+<hr>
 
 <p>
     Thank you for using AllianceCMS!!!

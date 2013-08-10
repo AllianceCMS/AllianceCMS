@@ -21,8 +21,6 @@ use Acms\Core\Html\FormHelper;
  *     - Forms: Add links/tooltips to "help info" for individual form fields (Venue Name will describe what a venue name is, how it's used, and valid examples)
  *
  *     - Change naming scheme of variables (from camelCase to use_underscores). Need to change it in actions and views
- *
- *     - Views: Convert all '<div class="content_separator"></div>' to '<hr>'
  */
 
 class InstallSite

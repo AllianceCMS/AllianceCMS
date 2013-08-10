@@ -2,7 +2,7 @@
     <strong>Please Choose A Language</strong>
 </p>
 
-<div class="content_separator"></div>
+<hr>
 
 <?php $formHelper->inputFormStart('/install/database-info'); ?>
 

@@ -2,7 +2,7 @@
     <strong>You Are Now Ready To Install Your New Website!!!</strong>
 </p>
 
-<div class="content_separator"></div>
+<hr>
 
 <p>
     Click the button below to complete the installation of your new website.

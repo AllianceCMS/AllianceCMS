@@ -1,8 +1,8 @@
-<div class="box">
+<div class="block">
 
-	<div class="box_title">Installation Process</div>
+	<div class="block_title">Installation Process</div>
 
-	<div class="box_content">
+	<div class="block_content">
 		<ul>
             <li>
                 Step One: Start Installation

@@ -2,7 +2,7 @@
     <strong>Please Enter The Main Administrators Information</strong>
 </p>
 
-<div class="content_separator"></div>
+<hr>
 
 <?php
     if (isset($formData['firstIteration'])) {
@@ -59,46 +59,48 @@
 ?>
 
 <?php if (isset($formErrors)): ?>
+    <div class="error">
     <?php if ($adminLoginName == ''): ?>
         <p>
-            <span style="color: red;">Error: Please Enter A Login Name</span>
+            Error: Please Enter A Login Name
         </p>
     <?php endif; ?>
     <?php if ($adminPassword == ''): ?>
         <p>
-            <span style="color: red;">Error: Please Enter A Password</span>
+            Error: Please Enter A Password
         </p>
     <?php endif; ?>
     <?php if ($adminConfirmPassword == ''): ?>
         <p>
-            <span style="color: red;">Error: Please Confirm Your Password</span>
+            Error: Please Confirm Your Password
         </p>
     <?php endif; ?>
     <?php if ($adminEmail == ''): ?>
         <p>
-            <span style="color: red;">Error: Please Enter An Email Address</span>
+            Error: Please Enter An Email Address
         </p>
     <?php endif; ?>
     <?php if ($adminConfirmEmail == ''): ?>
         <p>
-            <span style="color: red;">Error: Please Confirm Your Email Address</span>
+            Error: Please Confirm Your Email Address
         </p>
     <?php endif; ?>
     <?php if (isset($adminPasswordMatchError) && $adminPasswordMatchError == 1): ?>
         <p>
-            <span style="color: red;">Error: Passwords Do Not Match</span>
+            Error: Passwords Do Not Match
         </p>
     <?php endif; ?>
     <?php if (isset($adminEmailMatchError) && $adminEmailMatchError == 1): ?>
         <p>
-            <span style='color: red;'>Error: Email Addresses Do Not Match</span>
+            Error: Email Addresses Do Not Match
         </p>
     <?php endif; ?>
     <?php if (isset($adminEmailMatchError) && $adminEmailMatchError == 1): ?>
         <p>
-            <span style='color: red;'>Error: Please Enter A Valid Email Address</span>
+            Error: Please Enter A Valid Email Address
         </p>
     <?php endif; ?>
+    </div>
 <?php endif; ?>
 
 <?php $formHelper->inputFormStart('/install/confirm-admin-info'); ?>

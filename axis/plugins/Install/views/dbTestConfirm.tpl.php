@@ -1,17 +1,13 @@
 <?php if ((!$validConnection) && $dbCreateDatabase): ?>
 
-    <p>
-            <span style="color: red;">
-                <strong>Error: Can Not Connect To The Database Server!!!</strong>
-            </span>
-    </p>
+    <div class="error">Error: Can Not Connect To The Database Server!!!</div>
 
-    <div class="content_separator"></div>
-
-    <p>
+    <div class="notice">
         Please Review The Database Connection Information You Entered And Try Again
-    </p>
+    </div>
 
+    <hr>
+    
     <div style="float: left; margin:0 5px 5px 0;">
         <?php
             $formHelper->inputFormStart('/install/database-info');
@@ -28,24 +24,20 @@
 
 <?php elseif ((!$validConnection) && (!$dbCreateDatabase)): ?>
 
-    <p>
-        <span style="color: red;">
-            <strong>Error: Can Not Connect To The Database!!!</strong>
-        </span>
-    </p>
-    <p>
-        <span style="color: red;">
-            (Hint: Verify that you're database credentials are correct)<br />
-            (Hint: Verify that the specified Database exists)
-        </span>
-    </p>
+    <div class="error">Error: Can Not Connect To The Database!!!</div>
+    
+    <div class="notice">
+        <p>
+            Hint: Verify that you're database credentials are correct<br />
+            Hint: Verify that the specified Database exists
+        </p>
+        <p>
+            Please Review The Database Connection Information You Entered And Try Again
+        </p>
+    </div>
 
-    <div class="content_separator"></div>
-
-    <p>
-        Please Review The Database Connection Information You Entered And Try Again
-    </p>
-
+    <hr>
+    
     <div style="float: left; margin:0 5px 5px 0;">
         <?php
             $formHelper->inputFormStart('/install/database-info');
@@ -62,11 +54,9 @@
 
 <?php else: ?>
 
-    <p>
-        <strong>Database Connection Successful!!!</strong>
-    </p>
+    <div class="success">Database Connection Successful!!!</div>
 
-    <div class="content_separator"></div>
+    <hr>
 
     <p>
         Please Continue With The Installation Process

@@ -3,14 +3,10 @@
     <head>
         <meta charset="utf-8">
     	<title><?php echo $venue_title; ?></title>
-
-    	<link rel="stylesheet" media="screen" href="<?php echo $theme_folder; ?>/css/style.css" />
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    	<meta name="author" content="<?php /* echo $site_author; */ ?>" />
-        <meta name="description" content="<?php echo $venue_description; ?>"/>
+    	<meta name="description" content="<?php echo $venue_description; ?>"/>
     	<meta name="keywords" content="" />
-    	<meta name="robots" content="all">
+    	<meta name="author" content="AllianceCMS" />
+    	<link rel="stylesheet" type="text/css" href="<?php echo $theme_folder; ?>/css/style.css" media="screen" />
 
     	<!-- START Custom Headers -->
     	<?php /* if (!empty($customHeaders)) echo $customHeaders; */ ?>
@@ -22,18 +18,15 @@
         <div id="header">
         	<div class="center_wrapper">
 
-                <div id="toplinks">
+        		<div id="toplinks">
         			<div id="toplinks_inner">
         				<a href="https://twitter.com/AllianceCMS">Twitter</a> | <a href="https://www.facebook.com/alliancecms">Facebook</a> | <a href="irc://chat.freenode.net/alliancecms">IRC</a>
         			</div>
         		</div>
-
         		<div class="clearer">&nbsp;</div>
 
         		<div id="site_title">
-        			<h1>
-                        <a href="<?php echo $base_url; ?>"><?php echo $venue_title; ?></a>
-                    </h1>
+        			<h1><a href="<?php echo $base_url; ?>"><?php echo $venue_title; ?></a></h1>
         			<p><?php echo $venue_tagline; ?></p>
         		</div>
 
@@ -50,59 +43,53 @@
         	</div>
         </div>
 
-        <div id="layout_body">
+        <div id="main_wrapper_outer">
+        	<div id="main_wrapper_inner">
+        		<div class="center_wrapper">
 
-        	<div id="main_wrapper_outer">
-        		<div id="main_wrapper_inner">
-        			<div class="center_wrapper">
+        			<div class="left" id="main">
+        				<div id="main_content">
 
-        				<div class="left" id="main">
-        					<div id="main_content">
-
-                                <br />
-                                <?php echo $content; ?>
-                                <br />
-
-                            </div>
-        				</div>
-
-        				<div class="right" id="sidebar">
-
-        				    <div id="sidebar_content">
-
-        				        <?php if (isset($blocks_area_1)): ?>
-                                	<?php foreach ($blocks_area_1 as $area_1): ?>
-
-                                        <?php echo $area_1; ?>
-
-                                	<?php endforeach; ?>
-                            	<?php endif; ?>
-
-                            	<?php if (isset($blocks_area_2)): ?>
-                                	<?php foreach ($blocks_area_2 as $area_2): ?>
-
-                                        <?php echo $area_2; ?>
-
-                                	<?php endforeach; ?>
-                            	<?php endif; ?>
-
-        					</div>
+        					<?php echo $content; ?>
 
         				</div>
+        			</div>
 
-        				<div class="clearer">&nbsp;</div>
+        			<div class="right" id="sidebar">
+
+        				<div id="sidebar_content">
+
+        					<?php if (isset($blocks_area_1)): ?>
+                            	<?php foreach ($blocks_area_1 as $area_1): ?>
+
+                                    <?php echo $area_1; ?>
+
+                            	<?php endforeach; ?>
+                        	<?php endif; ?>
+
+                        	<?php if (isset($blocks_area_2)): ?>
+                            	<?php foreach ($blocks_area_2 as $area_2): ?>
+
+                                    <?php echo $area_2; ?>
+
+                            	<?php endforeach; ?>
+                        	<?php endif; ?>
+
+        				</div>
 
         			</div>
+
+        			<div class="clearer">&nbsp;</div>
+
         		</div>
         	</div>
-
         </div>
 
-
+        <!--
         <div id="dashboard">
         	<div id="dashboard_content">
         		<div class="center_wrapper">
-                    <!--
+
         			<div class="col3 left">
         				<div class="col3_content">
 
@@ -149,11 +136,11 @@
         			</div>
 
         			<div class="clearer">&nbsp;</div>
-                    -->
+
         		</div>
         	</div>
         </div>
-
+        -->
 
         <div id="footer">
         	<div class="center_wrapper">

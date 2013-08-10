@@ -2,7 +2,7 @@
     <strong>Please Enter Your Database Connection Information</strong>
 </p>
 
-<div class="content_separator"></div>
+<hr>
 
 <?php
 
@@ -28,21 +28,23 @@
 ?>
 
 <?php if (isset($formErrors)): ?>
+    <div class="error">
     <?php if ($dbHost == ''): ?>
         <p>
-            <span style="color: red;">Error: Please Enter A Host Name</span>
+            Error: Please Enter A Host Name
         </p>
     <?php endif; ?>
     <?php if ($dbUserName == ''): ?>
         <p>
-            <span style="color: red;">Error: Please Enter A User Name</span>
+            Error: Please Enter A User Name
         </p>
     <?php endif; ?>
     <?php if ($dbDatabase == ''): ?>
         <p>
-            <span style="color: red;">Error: Please Enter A Database Name</span>
+            Error: Please Enter A Database Name
         </p>
     <?php endif; ?>
+    </div>
 <?php endif; ?>
 
 <?php $formHelper->inputFormStart('/install/confirm-database-info'); ?>

@@ -2,7 +2,7 @@
     <strong>Please Enter Main Venue Information</strong>
 </p>
 
-<div class="content_separator"></div>
+<hr>
 
 <?php
 
@@ -44,36 +44,38 @@
 ?>
 
 <?php if (isset($formErrors)): ?>
+    <div class="error">
     <?php if ($venueName == ''): ?>
         <p>
-            <span style="color: red;">Error: Please Enter A Venue Name</span>
+            Error: Please Enter A Venue Name
         </p>
     <?php endif; ?>
     <?php if (isset($venueNameRegexError) && $venueNameRegexError == 1): ?>
         <p>
-            <span style="color: red;">Error: Please Enter A Valid Venue Name</span>
+            Error: Please Enter A Valid Venue Name
         </p>
     <?php endif; ?>
     <?php if ($venueEmail == ''): ?>
         <p>
-            <span style="color: red;">Error: Please Enter An Email Address</span>
+            Error: Please Enter An Email Address
         </p>
     <?php endif; ?>
     <?php if ($venueConfirmEmail == ''): ?>
         <p>
-            <span style="color: red;">Error: Please Confirm Your Email Address</span>
+            Error: Please Confirm Your Email Address
         </p>
     <?php endif; ?>
     <?php if (isset($venueEmailMatchError) && $venueEmailMatchError == 1): ?>
         <p>
-            <span style='color: red;'>Error: Email Addresses Do Not Match</span>
+            Error: Email Addresses Do Not Match
         </p>
     <?php endif; ?>
     <?php if (isset($venueEmailRegexError) && $venueEmailRegexError == 1): ?>
         <p>
-            <span style='color: red;'>Error: Please Enter A Valid Email Address</span>
+            Error: Please Enter A Valid Email Address
         </p>
     <?php endif; ?>
+    </div>
 <?php endif; ?>
 
 <?php $formHelper->inputFormStart('/install/confirm-venue-info'); ?>

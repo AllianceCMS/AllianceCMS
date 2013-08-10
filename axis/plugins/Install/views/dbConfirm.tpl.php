@@ -2,7 +2,7 @@
     <strong>Please Confirm That This Database Information Is Correct</strong>
 </p>
 
-<div class="content_separator"></div>
+<hr>
 
 <table class="data_table">
     <tr>

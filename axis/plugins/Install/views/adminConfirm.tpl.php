@@ -43,7 +43,7 @@
     <strong>Please Confirm The Main Administrators Information</strong>
 </p>
 
-<div class="content_separator"></div>
+<hr>
 
 <table class="data_table">
     <tr>

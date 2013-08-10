@@ -33,7 +33,7 @@
     <strong>Please Confirm Main Venue Information, Then Install Venue</strong>
 </p>
 
-<div class="content_separator"></div>
+<hr>
 
 <table class="data_table">
     <tr>
