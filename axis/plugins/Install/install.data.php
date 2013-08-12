@@ -10,16 +10,10 @@
 $dbInsertDatabase       = $_POST['dbDatabase'];
 
 $adminInsertLoginName   = $_POST['adminLoginName'];
-$adminInsertDisplayName = isset($_POST['adminDisplayName']) ? $_POST['adminDisplayName'] : '';
-$adminInsertRealName    = isset($_POST['adminRealName']) ? $_POST['adminRealName'] : '';
+$adminInsertDisplayName = $_POST['adminLoginName'];
 $adminInsertPassword    = crypt($_POST['adminPassword']);
 $adminInsertEmail       = $_POST['adminEmail'];
 $adminInsertHideEmail   = intval($_POST['adminHideEmail']);
-$adminInsertLocation    = isset($_POST['adminLocation']) ? $_POST['adminLocation'] : '';
-$adminInsertWebsite     = isset($_POST['adminWebsite']) ? $_POST['adminWebsite'] : '';
-$adminInsertAvatar      = isset($_POST['adminAvatar']) ? $_POST['adminAvatar'] : '';
-$adminInsertBio         = isset($_POST['adminBio']) ? $_POST['adminBio'] : '';
-$adminInsertSignature   = isset($_POST['adminSignature']) ? $_POST['adminSignature'] : '';
 
 $venueInsertName          = preg_replace('/\s+/', '', $_POST['venueName']);
 $venueInsertTitle         = isset($_POST['venueTitle']) ? $_POST['venueTitle'] : '';
@@ -101,11 +95,13 @@ if ($dbCreateDatabase == 1) {
 	// Create Database
     foreach ($schema as $version) {
 
-        $sql->dbCreateDatabase(
-            $version['create']['database']['name'],
-            $version['create']['database']['charset'],
-            $version['create']['database']['collation']
-        );
+        if (isset($version['create']['database'])) {
+            $sql->dbCreateDatabase(
+                $version['create']['database']['name'],
+                $version['create']['database']['charset'],
+                $version['create']['database']['collation']
+            );
+        }
     }
 } else {
     // Create database connection
@@ -130,20 +126,36 @@ $sql->dbConnect(
 // Perform table creation/alteration/inserts/updates/deletes
 foreach ($schema as $version) {
     // Create Tables
-    foreach ($version['create']['table'] as $tableName => $index) {
-        $sql->dbCreateTable($tableName, $index, $dbPrefix);
+    if (isset($version['create']['table'])){
+        foreach ($version['create']['table'] as $tableName => $index) {
+            $sql->dbCreateTable($tableName, $index, $dbPrefix);
+        }
     }
 
     // Insert Data Into Database
-    foreach ($version['insert']['table'] as $loopTables) {
-
-        foreach ($loopTables as $tableName => $loopFields) {
-            foreach ($loopFields as $columns) {
-                $sql->dbInsert($tableName, $columns, $dbPrefix);
+    if (isset($version['insert']['table'])) {
+        foreach ($version['insert']['table'] as $loopTables) {
+    
+            foreach ($loopTables as $tableName => $loopFields) {
+                foreach ($loopFields as $columns) {
+                    $sql->dbInsert($tableName, $columns, $dbPrefix);
+                }
+            }
+        }
+    }
+    
+    // Alter Database Tables
+    if (isset($version['alter']['table'])) {
+        foreach ($version['alter']['table'] as $loopTables) {
+    
+            foreach ($loopTables as $tableName => $statement) {
+                $sql->dbAlterTable($tableName, $statement);
             }
         }
     }
 }
+
+//exit;
 
 // Update database schema version
 

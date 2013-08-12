@@ -3,40 +3,12 @@
         $adminLoginName = '';
     }
 
-    if (empty($adminDisplayName)) {
-        $adminDisplayName = '';
-    }
-
-    if (empty($adminRealName)) {
-        $adminRealName = '';
-    }
-
     if (empty($adminEmail)) {
         $adminEmail = '';
     }
 
     if (empty($adminHideEmail)) {
         $adminHideEmail = '';
-    }
-
-    if (empty($adminLocation)) {
-        $adminLocation = '';
-    }
-
-    if (empty($adminWebsite)) {
-        $adminWebsite = '';
-    }
-
-    if (empty($adminBio)) {
-        $adminBio = '';
-    }
-
-    if (empty($adminAvatar)) {
-        $adminAvatar = '';
-    }
-
-    if (empty($adminSignature)) {
-        $adminSignature = '';
     }
 ?>
 <p>
@@ -56,22 +28,6 @@
     </tr>
     <tr>
         <td>
-            <strong>Display Name:</strong>
-        </td>
-        <td>
-            <?php echo $adminDisplayName; ?>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <strong>Real Name:</strong>
-        </td>
-        <td>
-            <?php echo $adminRealName; ?>
-        </td>
-    </tr>
-    <tr>
-        <td>
             <strong>Email Address:</strong>
         </td>
         <td>
@@ -84,46 +40,6 @@
         </td>
         <td>
             <?php echo (($adminHideEmail == 1) ? 'Yes' : 'No'); ?>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <strong>Location:</strong>
-        </td>
-        <td>
-            <?php echo $adminLocation; ?>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <strong>Personal Website:</strong>
-        </td>
-        <td>
-            <?php echo $adminWebsite; ?>
-        </td>
-    </tr>
-    <tr>
-        <td style="vertical-align: top;">
-            <strong>Bio:</strong>
-        </td>
-        <td>
-            <?php $formHelper->inputTextArea('adminBio', $adminBio, '', 7, 25, '', 1); ?>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <strong>Avatar:</strong>
-        </td>
-        <td>
-            <?php echo $adminAvatar; ?>
-        </td>
-    </tr>
-    <tr>
-        <td style="vertical-align: top;">
-            <strong>Signature:</strong>
-        </td>
-        <td>
-            <?php $formHelper->inputTextArea('adminSignature', $adminSignature, '', 7, 25, '', 1); ?>
         </td>
     </tr>
 </table>

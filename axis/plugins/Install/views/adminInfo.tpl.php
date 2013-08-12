@@ -1,5 +1,5 @@
 <p>
-    <strong>Please Enter The Main Administrators Information</strong>
+    <strong>Please Enter The Main Administrator's Information</strong>
 </p>
 
 <hr>
@@ -39,22 +39,6 @@
 
     if (empty($adminHideEmail)) {
         $adminHideEmail = 1;
-    }
-
-    if (empty($adminLocation)) {
-        $adminLocation = '';
-    }
-
-    if (empty($adminWebsite)) {
-        $adminWebsite = '';
-    }
-
-    if (empty($adminAvatar)) {
-        $adminAvatar = '';
-    }
-
-    if (empty($adminLocation)) {
-        $adminLocation = '';
     }
 ?>
 
@@ -115,22 +99,6 @@
         </tr>
         <tr>
             <td>
-                <strong>Display Name:</strong>
-            </td>
-            <td>
-                <?php $formHelper->inputText('adminDisplayName', (isset($formData['adminDisplayName'])) ? $formData['adminDisplayName'] : $adminDisplayName); ?>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <strong>Real Name:</strong>
-            </td>
-            <td>
-                <?php $formHelper->inputText('adminRealName', (isset($formData['adminRealName'])) ? $formData['adminRealName'] : $adminRealName); ?>
-            </td>
-        </tr>
-        <tr>
-            <td>
                 <span style="color: red;">*</span> <strong>Password:</strong>
             </td>
             <td>
@@ -151,21 +119,7 @@
             </td>
             <td>
                 <?php $formHelper->inputText('adminEmail', (isset($formData['adminEmail'])) ? $formData['adminEmail'] : $adminEmail); ?>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span style="color: red;">*</span> <strong>Confirm Email Address:</strong>
-            </td>
-            <td>
-                <?php $formHelper->inputText('adminConfirmEmail', (isset($formData['adminConfirmEmail'])) ? $formData['adminConfirmEmail'] : $adminConfirmEmail); ?>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <strong>Hide Email Address:</strong>
-            </td>
-            <td>
+                <strong>Hide:</strong> 
                 <?php $formHelper->inputRadio('adminHideEmail', '1', '', ((((isset($formData['adminHideEmail'])) ? $formData['adminHideEmail'] : $adminHideEmail) != 2) ? '1' : NULL)); ?>
                 Yes
                 <?php $formHelper->inputRadio('adminHideEmail', '2', '', ((((isset($formData['adminHideEmail'])) ? $formData['adminHideEmail'] : $adminHideEmail) == 2) ? '1' : NULL)); ?>
@@ -174,42 +128,10 @@
         </tr>
         <tr>
             <td>
-                <strong>Location:</strong>
+                <span style="color: red;">*</span> <strong>Confirm Email Address:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('adminLocation', (isset($formData['adminLocation'])) ? $formData['adminLocation'] : $adminLocation); ?>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <strong>Personal Website:</strong>
-            </td>
-            <td>
-                <?php $formHelper->inputText('adminWebsite', (isset($formData['adminWebsite'])) ? $formData['adminWebsite'] : $adminWebsite); ?>
-            </td>
-        </tr>
-        <tr>
-            <td style="vertical-align: top;">
-                <strong>Bio:</strong>
-            </td>
-            <td>
-                <?php $formHelper->inputTextArea('adminBio', (isset($formData['adminBio'])) ? $formData['adminBio'] : '', '', 7, 25); ?>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <strong>Avatar:</strong>
-            </td>
-            <td>
-                <?php $formHelper->inputText('adminAvatar', (isset($formData['adminAvatar'])) ? $formData['adminAvatar'] : $adminAvatar); ?>
-            </td>
-        </tr>
-        <tr>
-            <td style="vertical-align: top;">
-                <strong>Signature:</strong>
-            </td>
-            <td>
-                <?php $formHelper->inputTextArea('adminSignature', (isset($formData['adminSignature'])) ? $formData['adminSignature'] : '', '', 7, 25); ?>
+                <?php $formHelper->inputText('adminConfirmEmail', (isset($formData['adminConfirmEmail'])) ? $formData['adminConfirmEmail'] : $adminConfirmEmail); ?>
             </td>
         </tr>
     </table>
