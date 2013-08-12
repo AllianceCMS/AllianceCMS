@@ -1135,28 +1135,6 @@ $schema['0.01']['create']['table']['venues'] = [
     ],
 ];
 
-/*
-// @todo: ???Need to implement (This is just for Updates after initial installation)???
-$schema['0.01']['alter']['table'] = [
-    [
-        'blocks' => 'ADD FOREIGN KEY (venue_id) REFERENCES venues(id)',
-        'blocks' => 'ADD FOREIGN KEY (plugin_id) REFERENCES plugins(id)',
-        'links' => 'ADD FOREIGN KEY (link_parent) REFERENCES links(id)',
-        'plugins' => 'ADD FOREIGN KEY (version, folder_name) REFERENCES schemas(id, system_name)',
-        'role_perm' => 'ADD FOREIGN KEY (role_id) REFERENCES roles(id)',
-        'role_perm' => 'ADD FOREIGN KEY (perm_id) REFERENCES permissions(id)',
-        'themes' => 'ADD FOREIGN KEY (version, folder_name) REFERENCES schemas(id, system_name)',
-        'user_role' => 'ADD FOREIGN KEY (user_id) REFERENCES users(id)',
-        'user_role' => 'ADD FOREIGN KEY (role_id) REFERENCES roles(id)',
-        'venues' => 'ADD FOREIGN KEY (venue_admin) REFERENCES users(id)',
-        'venues' => 'ADD FOREIGN KEY (active_theme) REFERENCES themes(id)',
-        'venues' => 'ADD FOREIGN KEY (default_plugin) REFERENCES plugins(id)',
-        'venues' => 'ADD FOREIGN KEY (language) REFERENCES languages(id)',
-    ]
-];
-//*/
-
-//*
 $schema['0.01']['insert']['table'] = [
     [
         'blocks' => [
@@ -1277,6 +1255,43 @@ $schema['0.01']['insert']['table'] = [
                 'modified' => $currentMySqlTimestamp,
             ],
         ],
+        'permissions' => [
+            [
+                'id' => '',
+                'name' => 'main_admin',
+                'description' => 'Can View All Admin Content',
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
+            [
+                'id' => '',
+                'name' => 'venue_admin',
+                'description' => 'Can View Their Own Venue\'s Admin Content',
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
+            [
+                'id' => '',
+                'name' => 'view_ciao',
+                'description' => 'User Can View Ciao Content',
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
+            [
+                'id' => '',
+                'name' => 'edit_ciao',
+                'description' => 'User Can Edit Ciao Content',
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
+            [
+                'id' => '',
+                'name' => 'delete_ciao',
+                'description' => 'User Can Delete Ciao Content',
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
+        ],
         'plugins' => [
             [
                 'id' => '',
@@ -1321,6 +1336,67 @@ $schema['0.01']['insert']['table'] = [
                 'modified' => $currentMySqlTimestamp,
             ],
         ],
+        'roles' => [
+            [
+                'id' => '',
+                'name' => 'Main Admin',
+                'description' => 'Has default access to all permissions site wide.',
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
+            [
+                'id' => '',
+                'name' => 'Venue Admin',
+                'description' => 'Can administrate a venue.',
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
+            [
+                'id' => '',
+                'name' => 'Venue Forum Moderator',
+                'description' => 'Can moderate the venue\'s forums.',
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
+            [
+                'id' => '',
+                'name' => 'Venue Member',
+                'description' => 'Can view content specific to Venue Members.',
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
+            [
+                'id' => '',
+                'name' => 'Registered Member',
+                'description' => 'A member that has registered a user account.',
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
+            [
+                'id' => '',
+                'name' => 'Guest',
+                'description' => 'A member that has NOT registered a user account.',
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
+        ],
+        'role_perm' => [
+            [
+                'role_id' => '6',
+                'perm_id' => '3',
+                'created' => $currentMySqlTimestamp,
+            ],
+            [
+                'role_id' => '5',
+                'perm_id' => '4',
+                'created' => $currentMySqlTimestamp,
+            ],
+            [
+                'role_id' => '1',
+                'perm_id' => '5',
+                'created' => $currentMySqlTimestamp,
+            ],
+        ],
         'themes' => [
             [
                 'id' => '',
@@ -1353,14 +1429,21 @@ $schema['0.01']['insert']['table'] = [
                 'modified' => $currentMySqlTimestamp,
             ],
         ],
+        'user_role' => [
+            [
+                'user_id' => '1',
+                'role_id' => '1',
+                'created' => $currentMySqlTimestamp,
+            ],
+        ],
         'venues' => [
             [
                 'id' => '',
                 'name' => $venueInsertName,
                 'title' => $venueInsertTitle,
                 'tagline' => $venueInsertTagline,
-                'description' => $venueInsertDescription,
-                'keywords' => $venueInsertKeywords,
+                'description' => '',
+                'keywords' => '',
                 'venue_admin' => 1,
                 'venue_email' => $venueInsertEmail,
                 'venue_email_name' => $venueInsertEmailName,
@@ -1376,4 +1459,3 @@ $schema['0.01']['insert']['table'] = [
         ],
     ],
 ];
-//*/

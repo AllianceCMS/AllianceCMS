@@ -34,13 +34,6 @@
         $venueEmailName = '';
     }
 
-    if (empty($venueDescription)) {
-        $venueDescription = '';
-    }
-
-    if (empty($venueKeywords)) {
-        $venueKeywords = '';
-    }
 ?>
 
 <?php if (isset($formErrors)): ?>
@@ -132,22 +125,6 @@
             </td>
             <td>
                 <?php $formHelper->inputText('venueEmailName', (isset($formData['venueEmailName'])) ? $formData['venueEmailName'] : $venueEmailName); ?>
-            </td>
-        </tr>
-        <tr>
-            <td style="vertical-align: top;">
-                <strong>Description:</strong>
-            </td>
-            <td>
-                <?php $formHelper->inputTextArea('venueDescription', (isset($formData['venueDescription'])) ? $formData['venueDescription'] : $venueDescription, '', 7, 25); ?>
-            </td>
-        </tr>
-        <tr>
-            <td style="vertical-align: top;">
-                <strong>Keywords:</strong>
-            </td>
-            <td>
-                <?php $formHelper->inputTextArea('venueKeywords', (isset($formData['venueKeywords'])) ? $formData['venueKeywords'] : $venueKeywords, '', 7, 25); ?>
             </td>
         </tr>
     </table>

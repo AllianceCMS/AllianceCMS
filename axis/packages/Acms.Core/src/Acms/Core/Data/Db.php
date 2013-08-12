@@ -170,22 +170,8 @@ class Db
 
         $queryString = "CREATE TABLE IF NOT EXISTS " . $this->getDbPrefix() . $tableName." (";
 
-        /*
-        echo '<br /><pre>$tableSchema: ';
-        echo print_r($tableSchema);
-        echo '</pre><br />';
-        //exit;
-        //*/
-        
         foreach ($tableSchema as $key) {
             
-            /*
-            echo '<br /><pre>$key: ';
-            echo print_r($key);
-            echo '</pre><br />';
-            //exit;
-            //*/
-
             $queryString .= " `" . $key['name'] . "` " . $key['type'];
 
             if ($key['unsigned'] == '1') {
@@ -205,7 +191,7 @@ class Db
             }
 
             if ($key['index_key'] == '1') {
-                $index_key = $key['name'];
+                $index_keys[] = $key['name'];
             }
 
             if ($key['unique_key'] == '1') {
@@ -227,8 +213,12 @@ class Db
 
         $queryString = substr($queryString, 0, -1);
 
-        if (!empty($index_key)) {
-            $queryString .= ", INDEX (" . $index_key . ")";
+        if (!empty($index_keys)) {
+            // Create INDEX
+        
+            foreach ($index_keys as $index_key) {
+                $queryString .= ", INDEX (" . $index_key . ")";
+            }
         }
 
         if (!empty($unique_keys)) {
@@ -253,11 +243,6 @@ class Db
         
         $queryString .= ");";
         
-        /*
-        echo '<br />$queryString is: ' . $queryString . '<br />';
-        //exit;
-        //*/
-
         try {
             $dbStmt = $this->connection->query($queryString);
             return true;
@@ -266,13 +251,6 @@ class Db
         {
             return false;
         }
-        
-        /*
-        echo '<br /><pre>$dbStmt: ';
-        echo var_dump($dbStmt);
-        echo '</pre><br />';
-        //exit;
-        //*/
     }
 
     public function dbAlterTable($table_name, $statement)
@@ -285,32 +263,14 @@ class Db
 
         $queryString = "ALTER TABLE " . $this->getDbPrefix() . $table_name . " " . $statement;
         
-        /*
-        echo '<br />$queryString is: ' . $queryString . '<br />';
-        //exit;
-        //*/
-        
         try {
             $dbStmt = $this->connection->query($queryString);
             return true;
         }
         catch (\PDOException $e)
         {
-            /*
-            echo '<br /><pre>$e: ';
-            echo var_dump($e);
-            echo '</pre><br />';
-            //exit;
-            //*/
             return false;
         }
-        
-        /*
-        echo '<br /><pre>$dbStmt: ';
-        echo var_dump($dbStmt);
-        echo '</pre><br />';
-        //exit;
-        //*/
     }
 
     /**

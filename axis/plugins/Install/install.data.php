@@ -18,8 +18,6 @@ $adminInsertHideEmail   = intval($_POST['adminHideEmail']);
 $venueInsertName          = preg_replace('/\s+/', '', $_POST['venueName']);
 $venueInsertTitle         = isset($_POST['venueTitle']) ? $_POST['venueTitle'] : '';
 $venueInsertTagline       = isset($_POST['venueTagline']) ? $_POST['venueTagline'] : '';
-$venueInsertDescription   = isset($_POST['venueDescription']) ? $_POST['venueDescription'] : '';
-$venueInsertKeywords      = isset($_POST['venueKeywords']) ? $_POST['venueKeywords'] : '';
 $venueInsertEmail         = $_POST['venueEmail'];
 $venueInsertEmailName     = $_POST['venueEmailName'];
 
@@ -154,8 +152,6 @@ foreach ($schema as $version) {
         }
     }
 }
-
-//exit;
 
 // Update database schema version
 

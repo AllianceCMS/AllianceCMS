@@ -20,13 +20,6 @@
         $venueEmailName = '';
     }
 
-    if (empty($venueDescription)) {
-        $venueDescription = '';
-    }
-
-    if (empty($venueKeywords)) {
-        $venueKeywords = '';
-    }
 ?>
 
 <p>
@@ -74,22 +67,6 @@
         </td>
         <td>
             <?php echo $venueEmailName; ?>
-        </td>
-    </tr>
-    <tr>
-        <td style="vertical-align: top;">
-            <strong>Description:</strong>
-        </td>
-        <td>
-            <?php $formHelper->inputTextArea('venueDescription', $venueDescription, '', 7, 25, '', 1); ?>
-        </td>
-    </tr>
-    <tr>
-        <td style="vertical-align: top;">
-            <strong>Keywords:</strong>
-        </td>
-        <td>
-            <?php $formHelper->inputTextArea('venueKeywords', $venueKeywords, '', 7, 25, '', 1); ?>
         </td>
     </tr>
 </table>
