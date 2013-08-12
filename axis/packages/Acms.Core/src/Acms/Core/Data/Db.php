@@ -134,28 +134,52 @@ class Db
      * @code
      * $tableSchema['0.01']['create']['table']['my_table'] = [
      *     [
-     *         'name' => 'id',
-     *         'type' => 'int(11)',
-     *         'not_null' => '1',
-     *         'signed' => '0',
-     *         'autoincrement' => '1',
-     *         'default' => '',
-     *         'primary_key' => '1',
-     *         'unique_keys' => '',
+     *         'column' => [
+     *             'name' => 'id',
+     *             'type' => 'int(11)',
+     *             'not_null' => '1',
+     *             'signed' => '0',
+     *             'autoincrement' => '1',
+     *             'default' => '',
+     *             'primary_key' => '1',
+     *             'unique_keys' => '',
+     *         ],
      *     ],
-     * ],
-     * $tableSchema['0.01']['create']['table']['my_table'] = [
      *     [
-     *         'name' => 'field_02',
-     *         'type' => 'string',
-     *         'not_null' => '1',
-     *         'signed' => '0',
-     *         'autoincrement' => '',
-     *         'default' => 'Hello',
-     *         'primary_key' => '',
-     *         'unique_key' => '',
+     *         'keys' => [
+     *             'PRIMARY KEY (id)',
+     *         ],
      *     ],
-     * ],
+     * ];
+     * 
+     * $tableSchema['0.01']['create']['table']['another_table'] = [
+     *     [
+     *         'column' => [
+     *             'name' => 'id',
+     *             'type' => 'int(11)',
+     *             'not_null' => '1',
+     *             'unsigned' => '1',
+     *             'autoincrement' => '1',
+     *             'default' => '',
+     *         ],
+     *     ],
+     *     [
+     *         'column' => [
+     *             'name' => 'name',
+     *             'type' => 'varchar(50)',
+     *             'not_null' => '1',
+     *             'unsigned' => '',
+     *             'autoincrement' => '',
+     *             'default' => '',
+     *         ],
+     *     ],
+     *     [
+     *         'keys' => [
+     *             'PRIMARY KEY (id)',
+     *             'UNIQUE KEY (name)',
+     *         ],
+     *     ],
+     * ];
      * @endcode
      *
      */
@@ -171,78 +195,43 @@ class Db
         $queryString = "CREATE TABLE IF NOT EXISTS " . $this->getDbPrefix() . $tableName." (";
 
         foreach ($tableSchema as $key) {
+            foreach ($key as $schema_key => $schema_value) {
+                
+                if ((string) $schema_key === (string) 'column') {
             
-            $queryString .= " `" . $key['name'] . "` " . $key['type'];
-
-            if ($key['unsigned'] == '1') {
-                $queryString .= " UNSIGNED";
+                    $queryString .= " `" . $schema_value['name'] . "` " . $schema_value['type'];
+        
+                    if ($schema_value['unsigned'] == '1') {
+                        $queryString .= " UNSIGNED";
+                    }
+                    
+                    if ($schema_value['not_null'] == '1') {
+                        $queryString .= " NOT NULL";
+                    }
+        
+                    if ($schema_value['autoincrement'] == '1') {
+                        $queryString .= " AUTO_INCREMENT";
+                    }
+        
+                    if (!empty($schema_value['default'])) {
+                        $queryString .= " DEFAULT " . $schema_value['default'];
+                    }
+        
+                    $queryString .= ",";
+                    
+                } elseif ((string) $schema_key === (string) 'keys') {
+                    
+                    foreach ($schema_value as $db_key) {
+                        $queryString .= ' ' . $db_key . ',';
+                    }
+                }
             }
-            
-            if ($key['not_null'] == '1') {
-                $queryString .= " NOT NULL";
-            }
-
-            if ($key['autoincrement'] == '1') {
-                $queryString .= " AUTO_INCREMENT";
-            }
-
-            if (!empty($key['default'])) {
-                $queryString .= " DEFAULT " . $key['default'];
-            }
-
-            if ($key['index_key'] == '1') {
-                $index_keys[] = $key['name'];
-            }
-
-            if ($key['unique_key'] == '1') {
-                $unique_keys[] = $key['name'];
-            }
-            
-            if ($key['primary_key'] == '1') {
-                $primary_key = $key['name'];
-            }
-
-            if (!empty($key['foreign_key'])) {
-                $foreign_key = $key['name'];
-                $reference_key = $key['foreign_key'];
-            }
-            
-            $queryString .= ",";
-
         }
-
+        
         $queryString = substr($queryString, 0, -1);
-
-        if (!empty($index_keys)) {
-            // Create INDEX
-        
-            foreach ($index_keys as $index_key) {
-                $queryString .= ", INDEX (" . $index_key . ")";
-            }
-        }
-
-        if (!empty($unique_keys)) {
-            // Create UNIQUE KEY
-            $queryString .= ", UNIQUE KEY (";
-        
-            foreach ($unique_keys as $unique_key) {
-                $queryString .= $unique_key . ',';
-            }
-        
-            $queryString = substr($queryString, 0, -1);
-            $queryString .= ")";
-        }
-        
-        if (!empty($primary_key)) {
-            $queryString .= ", PRIMARY KEY (" . $primary_key . ")";
-        }
-
-        if (!empty($foreign_key)) {
-            $queryString .= ", FOREIGN KEY (" . $foreign_key . ") REFERENCES (" . $reference_key . ")";
-        }
         
         $queryString .= ");";
-        
+
         try {
             $dbStmt = $this->connection->query($queryString);
             return true;
