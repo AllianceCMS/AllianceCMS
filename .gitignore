@@ -10,6 +10,9 @@
 *Propel*
 *Component*
 *svn*
+*git*
+*phpdoc-*
+*phpdoc_output*
 Doxygen_Docs/*
 nbproject/*
 zones/*.*.com

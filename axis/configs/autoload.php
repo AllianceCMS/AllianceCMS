@@ -7,5 +7,5 @@ $acmsLoader->setPaths([
     'Acms\Core\\' => PACKAGES . 'Acms.Core' . DS . 'src' . DS,
     'Aura\Router\\' => PACKAGES . 'Aura.Router' . DS . 'src' . DS,
     'Aura\Sql\\' => PACKAGES . 'Aura.Sql' . DS . 'src' . DS,
-    'Zend\\' => PACKAGES . 'Zend' . DS . 'src' . DS,
+    'PhpRbac\\' => PACKAGES . 'PhpRbac' . DS . 'src' . DS,
 ]);

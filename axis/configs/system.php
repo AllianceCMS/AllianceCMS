@@ -169,6 +169,11 @@ define('TEMPLATES', THEMES . 'templates' . DS);
  *     Dynamically load dbConnection.php, dependant on which domain/subdomain we're on
  */
 
+//*
+echo '<br />$_SERVER["SERVER_NAME"] is: ' . $_SERVER['SERVER_NAME'] . '<br />';
+exit;
+//*/
+
 // If this is localhost or main domain (mysite.com)
 if (((count(explode('.', $_SERVER['SERVER_NAME']))) < 3) || ($serverPathArray[0] == 'www')) {
     if (file_exists(ZONES . $_SERVER['SERVER_NAME'] .  DS . 'dbConnection.php')) {
