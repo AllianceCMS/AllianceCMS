@@ -165,19 +165,20 @@ define('TEMPLATES', THEMES . 'templates' . DS);
 
 /**
  *
- * Database connections file location
+ * Database connection file location
  *     Dynamically load dbConnection.php, dependant on which domain/subdomain we're on
  */
 
-//*
-echo '<br />$_SERVER["SERVER_NAME"] is: ' . $_SERVER['SERVER_NAME'] . '<br />';
-exit;
-//*/
-
-// If this is localhost or main domain (mysite.com)
+// If this is localhost or main domain (localhost/mysite.com/www.mysite.com)
 if (((count(explode('.', $_SERVER['SERVER_NAME']))) < 3) || ($serverPathArray[0] == 'www')) {
-    if (file_exists(ZONES . $_SERVER['SERVER_NAME'] .  DS . 'dbConnection.php')) {
-        $dbConnFile = ZONES . $_SERVER['SERVER_NAME'] .  DS . 'dbConnection.php';
+    
+    $server_name = $_SERVER['SERVER_NAME'];
+    
+    if ($serverPathArray[0] == 'www')
+        $server_name = substr((string) $server_name, 4);
+    
+    if (file_exists(ZONES . $server_name .  DS . 'dbConnection.php')) {
+        $dbConnFile = ZONES . $server_name .  DS . 'dbConnection.php';
     } else {
         $dbConnFile = ZONES . 'default' . DS . 'dbConnection.php';
     }
