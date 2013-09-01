@@ -53,8 +53,8 @@ if ($dispatch) {
     // Create/set 'Main Nav Links' vars and template
     $sql->dbSelect('links',
         'label, url',
-        'location = :location AND active = :active',
-        ['location' => intval(1), 'active' => intval(2)],
+        'link_area = :link_area AND active = :active',
+        ['link_area' => intval(1), 'active' => intval(2)],
         'ORDER BY link_order');
     $links = $sql->dbFetch();
 

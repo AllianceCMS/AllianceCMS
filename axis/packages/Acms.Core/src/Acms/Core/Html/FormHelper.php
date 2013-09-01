@@ -169,7 +169,7 @@ class FormHelper
      * @return string
      */
 
-    public function inputPassword($name = '', $value = '', $attributes = '', $maxlength = '', $readonly = '', $disabled = '') {
+    public function inputPassword($name = '', $value = '', $attributes = '', $maxlength = '128', $readonly = '', $disabled = '') {
         $completeTag = '<input type="password" name="' . $name . '" value="' . $value . '" ';
 
         if ($attributes != '') {

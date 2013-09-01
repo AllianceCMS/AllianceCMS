@@ -11,7 +11,7 @@ label
 url
 comment
 parent
-location
+link_area
 user_classes
 order
 active

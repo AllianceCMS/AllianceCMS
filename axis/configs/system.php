@@ -172,13 +172,13 @@ define('TEMPLATES', THEMES . 'templates' . DS);
 // If this is localhost or main domain (localhost/mysite.com/www.mysite.com)
 if (((count(explode('.', $_SERVER['SERVER_NAME']))) < 3) || ($serverPathArray[0] == 'www')) {
     
-    $server_name = $_SERVER['SERVER_NAME'];
+    $serverName = $_SERVER['SERVER_NAME'];
     
     if ($serverPathArray[0] == 'www')
-        $server_name = substr((string) $server_name, 4);
+        $serverName = substr((string) $serverName, 4);
     
-    if (file_exists(ZONES . $server_name .  DS . 'dbConnection.php')) {
-        $dbConnFile = ZONES . $server_name .  DS . 'dbConnection.php';
+    if (file_exists(ZONES . $serverName .  DS . 'dbConnection.php')) {
+        $dbConnFile = ZONES . $serverName .  DS . 'dbConnection.php';
     } else {
         $dbConnFile = ZONES . 'default' . DS . 'dbConnection.php';
     }

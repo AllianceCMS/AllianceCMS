@@ -803,7 +803,7 @@ $schema['0.01']['create']['table']['users'] = [
     [
         'column' => [
             'name' => 'password',
-            'type' => 'varchar(125)',
+            'type' => 'varchar(128)',
             'not_null' => '1',
             'unsigned' => '',
             'autoincrement' => '',

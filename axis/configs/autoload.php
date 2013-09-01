@@ -8,4 +8,5 @@ $acmsLoader->setPaths([
     'Aura\Router\\' => PACKAGES . 'Aura.Router' . DS . 'src' . DS,
     'Aura\Sql\\' => PACKAGES . 'Aura.Sql' . DS . 'src' . DS,
     'PhpRbac\\' => PACKAGES . 'PhpRbac' . DS . 'src' . DS,
+    'Respect\Validation\\' => PACKAGES . 'Respect.Validation' . DS . 'library' . DS,
 ]);
