@@ -14,6 +14,19 @@ if ($dispatch) {
         exit();
     }
 
+    // Is this Route an Admin route? If so, restrict access
+    if ('' !== $axisRoute->path_prefix) {
+
+        $pathArray = explode('/', $axisRoute->path_prefix);
+        array_shift($pathArray);
+        $isAdmin = $pathArray[1];
+        unset($pathArray);
+
+        if ('admin' === $isAdmin) {
+            $rbac->enforce(1, $currentUser->getId());
+        }
+    }
+
     // Does the route indicate a controller?
     if (isset($axisRoute->values['controller'])) {
         // Take the controller class directly from the route

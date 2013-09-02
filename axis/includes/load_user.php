@@ -9,6 +9,8 @@ $sessionAxis->start();
 $segmentUser = $sessionAxis->newSegment('User');
 
 $currentUser = new CurrentUser($sessionAxis);
+
+$rbac = new \PhpRbac\Rbac();
 //*/
 
 

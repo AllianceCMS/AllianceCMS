@@ -50,7 +50,7 @@ class CurrentUser
             return $this->id;
         }
 
-        return false;
+        return 0;
     }
 
     public function isLoggedIn()

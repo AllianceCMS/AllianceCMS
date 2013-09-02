@@ -1,7 +1,7 @@
 <?php
 $pluginRoutes['Ciao']['Page Name 01'] = [
     'name' => 'tell_hi', // Required: Route name
-    'path' => '/hello/hey/{:name*}', // Required: Route path
+    'path' => '/ciao/hey/{:name*}', // Required: Route path
     'type' => 'front', // Required: admin, front, back
     'perms' => ['view_ciao'], // Optional
     'specs' => [
@@ -16,7 +16,7 @@ $pluginRoutes['Ciao']['Page Name 01'] = [
 
 $pluginRoutes['Ciao']['Page Name 02'] = [
     'name' => 'tell_bye', // Required: Route name
-    'path' => '/hello/later/{:name*}', // Required: Route path
+    'path' => '/ciao/later/{:name*}', // Required: Route path
     'type' => 'front', // Required: admin, front, back
     'perms' => ['view_ciao', 'edit_ciao'], // Optional
     'specs' => [
@@ -31,7 +31,7 @@ $pluginRoutes['Ciao']['Page Name 02'] = [
 
 $pluginRoutes['Ciao']['Page Name 03'] = [
     'name' => 'hello', // Required: Route name
-    'path' => '/hello/{:name*}', // Required: Route path
+    'path' => '/ciao', // Required: Route path
     'type' => 'admin', // Required: admin, front, back
     'specs' => [
         'values' => [
