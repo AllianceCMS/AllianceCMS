@@ -44,6 +44,7 @@ if ($dispatch) {
     $axis->routeInfo = $axisRoute;
     $axis->sessionAxis = $sessionAxis;
     $axis->segmentUser = $segmentUser;
+    $axis->currentUser = $currentUser;
     $axis->sql = $sql;
 
     /**

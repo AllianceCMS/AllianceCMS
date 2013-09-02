@@ -151,7 +151,7 @@ class Db
      *         ],
      *     ],
      * ];
-     * 
+     *
      * $tableSchema['0.01']['create']['table']['another_table'] = [
      *     [
      *         'column' => [
@@ -196,40 +196,40 @@ class Db
 
         foreach ($tableSchema as $key) {
             foreach ($key as $schema_key => $schema_value) {
-                
+
                 if ((string) $schema_key === (string) 'column') {
-            
+
                     $queryString .= " `" . $schema_value['name'] . "` " . $schema_value['type'];
-        
+
                     if ($schema_value['unsigned'] == '1') {
                         $queryString .= " UNSIGNED";
                     }
-                    
+
                     if ($schema_value['not_null'] == '1') {
                         $queryString .= " NOT NULL";
                     }
-        
+
                     if ($schema_value['autoincrement'] == '1') {
                         $queryString .= " AUTO_INCREMENT";
                     }
-        
+
                     if (!empty($schema_value['default'])) {
                         $queryString .= " DEFAULT " . $schema_value['default'];
                     }
-        
+
                     $queryString .= ",";
-                    
+
                 } elseif ((string) $schema_key === (string) 'keys') {
-                    
+
                     foreach ($schema_value as $db_key) {
                         $queryString .= ' ' . $db_key . ',';
                     }
                 }
             }
         }
-        
+
         $queryString = substr($queryString, 0, -1);
-        
+
         $queryString .= ");";
 
         try {
@@ -251,7 +251,7 @@ class Db
         }
 
         $queryString = "ALTER TABLE " . $this->getDbPrefix() . $table_name . " " . $statement;
-        
+
         try {
             $dbStmt = $this->connection->query($queryString);
             return true;
@@ -358,6 +358,8 @@ class Db
      *     'first_name' => 'John',
      *     'last_name' => 'Doe',
      * ];
+     *
+     * $sql->dbInsert('users', $tableColumns);
      * @endcode
      */
 
@@ -420,7 +422,7 @@ class Db
      * @todo: Document with examples
      */
 
-    public function dbDelete($tableName, $conditions, $bind, $tablePrefix = '') {
+    public function dbDelete($tableName, $conditions = null, $bind = array(), $tablePrefix = '') {
         if (!empty($tablePrefix)) {
             if ($this->getDbPrefix() == null) {
                 $this->setDbPrefix($tablePrefix);

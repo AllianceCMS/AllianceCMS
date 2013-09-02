@@ -133,7 +133,7 @@ foreach ($schema as $version) {
     // Insert Data Into Database
     if (isset($version['insert']['table'])) {
         foreach ($version['insert']['table'] as $loopTables) {
-    
+
             foreach ($loopTables as $tableName => $loopFields) {
                 foreach ($loopFields as $columns) {
                     $sql->dbInsert($tableName, $columns, $dbPrefix);
@@ -141,11 +141,11 @@ foreach ($schema as $version) {
             }
         }
     }
-    
+
     // Alter Database Tables
     if (isset($version['alter']['table'])) {
         foreach ($version['alter']['table'] as $loopTables) {
-    
+
             foreach ($loopTables as $tableName => $statement) {
                 $sql->dbAlterTable($tableName, $statement);
             }

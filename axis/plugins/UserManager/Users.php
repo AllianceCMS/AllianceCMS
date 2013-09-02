@@ -1,6 +1,7 @@
 <?php
 namespace UserManager;
 
+use Aura\Core\Entities\CurrentUser;
 use Acms\Core\Templates\Template;
 use Acms\Core\Html\FormHelper;
 use Acms\Core\Html\HtmlHelper;
@@ -33,10 +34,9 @@ class Users
             $block_content = new Template(dirname(__FILE__) . DS . 'views/login_block.tpl.php');
             $block_content->set('html_helper', $html_helper);
             $block_content->set('form_helper', $form_helper);
-            $block_content->set('uid', $axis->segmentUser->uid);
-            $block_content->set('logged_in', ((isset($axis->segmentUser->logged_in) && ($axis->segmentUser->logged_in == '1')) ? intval(1) : ''));
+            $block_content->set('logged_in', (($axis->currentUser->isLoggedIn()) ? intval(1) : ''));
 
-            $block['title'] = ((isset($axis->segmentUser->logged_in) && ($axis->segmentUser->logged_in == '1')) ? 'Welcome ' . $axis->segmentUser->display_name . '!' : 'Sign In');
+            $block['title'] = (($axis->currentUser->isLoggedIn()) ? 'Welcome ' . $axis->currentUser->displayName() . '!' : 'Sign In');
             $block['content'] = $block_content;
 
             return $block;
@@ -99,9 +99,29 @@ class Users
 
             if ((crypt($passwordAttempt, $passwordStored)) == $passwordStored)
             {
+                // Setup Session
                 $axis->segmentUser->uid = $result['id'];
                 $axis->segmentUser->display_name = $result['display_name'];
                 $axis->segmentUser->logged_in = '1';
+
+                // Store Session in Database
+                $axis->sql->dbSelect('users',
+                    'id, display_name, password',
+                    'login_name = :login_name',
+                    [
+                    'login_name' => $_POST['login_name'],
+                    ]
+                );
+
+                $tableColumns = [
+                    'user_id' => $result['id'],
+                    'session_id' => $axis->sessionAxis->getId(),
+                    'hostname' => $_SERVER['REMOTE_ADDR'],
+                    'persistent' => 1,
+                    'created' => date("Y-m-d H:i:s", time()),
+                ];
+
+                $axis->sql->dbInsert('sessions', $tableColumns);
 
                 header('Location: ' . $axis->basePath);
                 exit;
@@ -131,10 +151,11 @@ class Users
         return $content;
     }
 
-
     public function logoutAttempt($axis)
     {
         $axis->sessionAxis->start();
+
+        $axis->sql->dbDelete('sessions', 'session_id = :session_id', ['session_id' => $axis->sessionAxis->getId()]);
 
         $axis->sessionAxis->destroy();
 

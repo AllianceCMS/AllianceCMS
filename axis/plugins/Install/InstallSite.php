@@ -647,6 +647,8 @@ class InstallSite
             require_once('create.dbConnection.php');
         }
 
+        $this->loginAdmin($_POST['adminLoginName'], $_POST['adminPassword']);
+
         // Installation Complete Page
 
         // Create FormHelper object for use in templates
@@ -662,6 +664,72 @@ class InstallSite
         $this->renderTemplate();
 
         exit;
+    }
+
+    private function loginAdmin($loginName, $password)
+    {
+        $sql = new \Acms\Core\Data\Db;
+
+        // Setup db connection variables
+        // Started this because there was an error if the password was null,
+        // then decided we might as well do this for all $_POST elements)
+        if (isset($_POST['dbAdapter'])) {
+            $dbAdapter = $_POST['dbAdapter'];
+        } else {
+            $dbAdapter = '';
+        }
+
+        if (isset($_POST['dbHost'])) {
+            $dbHost = $_POST['dbHost'];
+        } else {
+            $dbHost = '';
+        }
+
+        if (isset($_POST['dbDatabase'])) {
+            $dbDatabase = $_POST['dbDatabase'];
+        } else {
+            $dbDatabase = '';
+        }
+
+        if (isset($_POST['dbUserName'])) {
+            $dbUserName = $_POST['dbUserName'];
+        } else {
+            $dbUserName = '';
+        }
+
+        if (isset($_POST['dbPassword'])) {
+            $dbPassword = $_POST['dbPassword'];
+        } else {
+            $dbPassword = '';
+        }
+
+        if (isset($_POST['dbDatabasePrefix'])) {
+            $dbPrefix = $_POST['dbDatabasePrefix'];
+        } else {
+            $dbPrefix = '';
+        }
+
+        $sql->dbConnect(
+            $dbAdapter,
+            $dbHost,
+            $dbDatabase,
+            $dbUserName,
+            $dbPassword
+        );
+
+        // Setup Session
+        $sessionAxis = include PACKAGE_AURA_SESSION . 'scripts/instance.php';
+        $sessionAxis->start();
+
+        $tableColumns = [
+            'user_id' => 1,
+            'session_id' => $sessionAxis->getId(),
+            'hostname' => $_SERVER['REMOTE_ADDR'],
+            'persistent' => 1,
+            'created' => date("Y-m-d H:i:s", time()),
+        ];
+
+        $sql->dbInsert('sessions', $tableColumns, $dbPrefix);
     }
 
     private function startTemplate()

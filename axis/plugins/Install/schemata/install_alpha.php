@@ -638,6 +638,65 @@ $schema['0.01']['create']['table']['schemas'] = [
     ],
 ];
 
+$schema['0.01']['create']['table']['sessions'] = [
+    [
+        'column' => [
+            'name' => 'user_id',
+            'type' => 'int(11)',
+            'not_null' => '1',
+            'unsigned' => '1',
+            'autoincrement' => '',
+            'default' => '',
+        ],
+    ],
+    [
+        'column' => [
+            'name' => 'session_id',
+            'type' => 'varchar(40)',
+            'not_null' => '',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => '',
+        ],
+    ],
+    [
+        'column' => [
+            'name' => 'hostname',
+            'type' => 'varchar(39)',
+            'not_null' => '',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => '',
+        ],
+    ],
+    [
+        'column' => [
+            'name' => 'persistent',
+            'type' => 'int(11)',
+            'not_null' => '1',
+            'unsigned' => '1',
+            'autoincrement' => '',
+            'default' => '',
+        ],
+    ],
+    [
+        'column' => [
+            'name' => 'created',
+            'type' => 'timestamp',
+            'not_null' => '',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => 'CURRENT_TIMESTAMP',
+        ],
+    ],
+    [
+        'keys' => [
+            'UNIQUE KEY (user_id)',
+            'INDEX (session_id)',
+        ],
+    ],
+];
+
 $schema['0.01']['create']['table']['themes'] = [
     [
         'column' => [

@@ -20,7 +20,9 @@
         <?php $html_helper->htmlLink('/user/register', 'Register'); ?>
     </p>
 <?php else: ?>
+    <?php $form_helper->inputFormStart('/user/logout'); ?>
     <p>
-        <?php $html_helper->htmlLink('/user/logout', 'Logout'); ?>
+    	<?php $form_helper->inputSubmit('submit', 'Logout'); ?>
     </p>
+    <?php $form_helper->inputFormEnd(); ?>
 <?php endif; ?>
