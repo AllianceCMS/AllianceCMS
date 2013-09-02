@@ -46,7 +46,11 @@ class CurrentUser
 
     public function getId()
     {
-        return $this->id;
+        if (!empty($this->id)) {
+            return $this->id;
+        }
+
+        return false;
     }
 
     public function isLoggedIn()

@@ -1300,45 +1300,15 @@ $schema['0.01']['insert']['table'] = [
                 'modified' => $currentMySqlTimestamp,
             ],
         ],
-        /*
         'permissions' => [
             [
-                'id' => '',
-                'name' => 'main_admin',
-                'description' => 'Can View All Admin Content',
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp,
-            ],
-            [
-                'id' => '',
-                'name' => 'venue_admin',
-                'description' => 'Can View Their Own Venue\'s Admin Content',
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp,
-            ],
-            [
-                'id' => '',
-                'name' => 'view_ciao',
-                'description' => 'User Can View Ciao Content',
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp,
-            ],
-            [
-                'id' => '',
-                'name' => 'edit_ciao',
-                'description' => 'User Can Edit Ciao Content',
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp,
-            ],
-            [
-                'id' => '',
-                'name' => 'delete_ciao',
-                'description' => 'User Can Delete Ciao Content',
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp,
+                'ID' => '',
+                'Lft' => '0',
+                'Rght' => '1',
+                'Title' => 'root',
+                'Description' => 'root',
             ],
         ],
-        //*/
         'plugins' => [
             [
                 'id' => '',
@@ -1383,69 +1353,22 @@ $schema['0.01']['insert']['table'] = [
                 'modified' => $currentMySqlTimestamp,
             ],
         ],
-        /*
         'roles' => [
             [
-                'id' => '',
-                'name' => 'Main Admin',
-                'description' => 'Has default access to all permissions site wide.',
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp,
-            ],
-            [
-                'id' => '',
-                'name' => 'Venue Admin',
-                'description' => 'Can administrate a venue.',
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp,
-            ],
-            [
-                'id' => '',
-                'name' => 'Venue Forum Moderator',
-                'description' => 'Can moderate the venue\'s forums.',
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp,
-            ],
-            [
-                'id' => '',
-                'name' => 'Venue Member',
-                'description' => 'Can view content specific to Venue Members.',
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp,
-            ],
-            [
-                'id' => '',
-                'name' => 'Registered Member',
-                'description' => 'A member that has registered a user account.',
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp,
-            ],
-            [
-                'id' => '',
-                'name' => 'Guest',
-                'description' => 'A member that has NOT registered a user account.',
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp,
+                'ID' => '',
+                'Lft' => '0',
+                'Rght' => '1',
+                'Title' => 'root',
+                'Description' => 'root',
             ],
         ],
-        'role_perm' => [
+        'rolepermissions' => [
             [
-                'role_id' => '6',
-                'perm_id' => '3',
-                'created' => $currentMySqlTimestamp,
-            ],
-            [
-                'role_id' => '5',
-                'perm_id' => '4',
-                'created' => $currentMySqlTimestamp,
-            ],
-            [
-                'role_id' => '1',
-                'perm_id' => '5',
-                'created' => $currentMySqlTimestamp,
+                'RoleID' => '1',
+                'PermissionID' => '1',
+                'AssignmentDate' => time(),
             ],
         ],
-        //*/
         'themes' => [
             [
                 'id' => '',
@@ -1478,15 +1401,13 @@ $schema['0.01']['insert']['table'] = [
                 'modified' => $currentMySqlTimestamp,
             ],
         ],
-        /*
-        'user_role' => [
+        'userroles' => [
             [
-                'user_id' => '1',
-                'role_id' => '1',
-                'created' => $currentMySqlTimestamp,
+                'UserID' => '1',
+                'RoleID' => '1',
+                'AssignmentDate' => time(),
             ],
         ],
-        //*/
         'venues' => [
             [
                 'id' => '',

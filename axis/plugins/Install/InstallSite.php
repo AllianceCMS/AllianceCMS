@@ -647,6 +647,7 @@ class InstallSite
             require_once('create.dbConnection.php');
         }
 
+        // Login Admin
         $this->loginAdmin($_POST['adminLoginName'], $_POST['adminPassword']);
 
         // Installation Complete Page
