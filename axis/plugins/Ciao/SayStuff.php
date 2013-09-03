@@ -20,12 +20,4 @@ class SayStuff
 
         return $content;
     }
-
-    public function yoAdmin($axis)
-    {
-        $content = new Template(dirname(__FILE__) . DS . 'views/admin.tpl.php');
-        $content->set('greeting', 'Hello Ciao Admin');
-
-        return $content;
-    }
 }

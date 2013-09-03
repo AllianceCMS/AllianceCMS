@@ -9,7 +9,7 @@ $pluginRoutes['Ciao']['Page Name 01'] = [
             'namespace' => 'Ciao',
             'controller' => 'SayStuff',
             'action' => 'sayHi',
-            'name' => 'User'
+            'name' => 'User',
         ] // Required: namespace/controller/action
     ]
 ];
@@ -24,21 +24,34 @@ $pluginRoutes['Ciao']['Page Name 02'] = [
             'namespace' => 'Ciao',
             'controller' => 'SayStuff',
             'action' => 'sayBye',
-            'name' => 'User'
+            'name' => 'User',
         ] // Required: namespace/controller/action
     ]
 ];
 
 $pluginRoutes['Ciao']['Page Name 03'] = [
     'name' => 'hello', // Required: Route name
-    'path' => '/ciao', // Required: Route path
+    'path' => '/ciao/{:name*}', // Required: Route path
     'type' => 'admin', // Required: admin, front, back
     'specs' => [
         'values' => [
             'namespace' => 'Ciao',
-            'controller' => 'SayStuff',
-            'action' => 'yoAdmin',
-            'name' => 'Admin'
+            'controller' => 'AdminPages',
+            'action' => 'adminCiao',
+            'name' => 'Wonderful AllianceCMS User',
+        ] // Required: namespace/controller/action
+    ]
+];
+
+$pluginRoutes['Ciao']['Stats'] = [
+    'name' => 'ciao_stats', // Required: Route name
+    'path' => '/ciao/stats/{:wildcard*}', // Required: Route path
+    'type' => 'admin', // Required: admin, front, back
+    'specs' => [
+        'values' => [
+            'namespace' => 'Ciao',
+            'controller' => 'AdminPages',
+            'action' => 'ciaoStats',
         ] // Required: namespace/controller/action
     ]
 ];

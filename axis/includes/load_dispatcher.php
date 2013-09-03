@@ -1,4 +1,5 @@
 <?php
+use Acms\Core\Templates\Template;
 
 if ($dispatch) {
 
@@ -12,19 +13,6 @@ if ($dispatch) {
         // @todo: Need to change this to redirect to custom 404
         echo "<br />No application route was found for that URI path.<br />";
         exit();
-    }
-
-    // Is this Route an Admin route? If so, restrict access
-    if ('' !== $axisRoute->path_prefix) {
-
-        $pathArray = explode('/', $axisRoute->path_prefix);
-        array_shift($pathArray);
-        $isAdmin = $pathArray[1];
-        unset($pathArray);
-
-        if ('admin' === $isAdmin) {
-            $rbac->enforce(1, $currentUser->getId());
-        }
     }
 
     // Does the route indicate a controller?
@@ -60,52 +48,153 @@ if ($dispatch) {
     $axis->currentUser = $currentUser;
     $axis->sql = $sql;
 
-    /**
-     * Process Navigation Links
-     */
+    // Create Admin/theme template
+    $tpl = new Template();
+    $tpl->set('base_url', BASE_URL);
+    $tpl->set('venue_name', VENUE_NAME);
+    $tpl->set('venue_title', VENUE_TITLE);
+    $tpl->set('venue_description', VENUE_DESCRIPTION);
+    $tpl->set('venue_tagline', VENUE_TAGLINE);
 
-    // Create/set 'Main Nav Links' vars and template
-    $sql->dbSelect('links',
-        'label, url',
-        'link_area = :link_area AND active = :active',
-        ['link_area' => intval(1), 'active' => intval(2)],
-        'ORDER BY link_order');
-    $links = $sql->dbFetch();
+    // Is this Route an Admin route? If so, restrict access
+    if ('' !== $axisRoute->path_prefix) {
 
-    // Create navbar template
-    $nav1 = new Acms\Core\Templates\Template(TEMPLATES . 'nav.tpl.php');
-    $nav1->set('currentVenue', $axisRoute->values['venue']);
-    $nav1->set('links', $links);
+        $pathArray = explode('/', $axisRoute->path_prefix);
+        array_shift($pathArray);
+        $isAdmin = $pathArray[1];
+        unset($pathArray);
 
-    // Send navbar to main template (the active theme.tpl.php)
-    $tpl->set("nav1", $nav1);
+        if ('admin' === $isAdmin) {
+            $rbac->enforce(1, $currentUser->getId());
 
-    /**
-     * Process Blocks
-     */
+            // Create Admin/theme template vars
+            $tpl->set('theme_folder', BASE_URL . '/themes/Delta');
 
-    $finished_blocks = new Acms\Core\Templates\Template();
+            $load_theme = THEMES . 'Delta' . DS . 'admin.tpl.php';
 
-    $process_blocks = new Acms\Core\Templates\Blocks();
-    $active_blocks = $process_blocks->getBlocks($axis, $block_routes);
-
-    if(!empty($active_blocks)) {
-        foreach ($active_blocks as $key => $blocks) {
-
-            foreach ($blocks as $block_area => $block) {
-
-                $block_area_label = 'block_area_' . $block_area;
-
-                $build_block = new Acms\Core\Templates\Template(TEMPLATES . 'block.tpl.php');
-                $build_block->set('block_title', $block['title']);
-                $build_block->set('block_content', $block['content']);
-
-                // $block_area_(area) = ...
-                ${$block_area_label}[] = $build_block;
+            // Does the route indicate a namespace?
+            if (isset($axisRoute->values['namespace'])) {
+                // Take the controller class directly from the route
+                $namespace = $axisRoute->values['namespace'] . '\\';
+            } else {
+                // Use a default controller
+                // @todo: ??? Implement this ???
+                //$controller = 'index';
             }
 
-            // Send blocks to main template (the active theme.tpl.php)
-            $tpl->set('blocks_area_' . $block_area, $$block_area_label);
+            $adminController = $namespace . 'AdminPages';
+
+            $adminObject = new $adminController;
+
+            /**
+             * Process Admin Navigation
+             */
+
+            $currentlyLoadedUrl =  BASE_URL . $axisRoute->matches[0];
+
+            $adminNavArray = $adminObject->getTemplateNav($axis);
+
+            $adminNav = new Acms\Core\Templates\Template();
+
+            $finished_blocks = new Acms\Core\Templates\Template();
+
+            $process_blocks = new Acms\Core\Templates\Blocks();
+            $active_blocks = $process_blocks->getBlocks($axis, $block_routes);
+
+            if(!empty($adminNavArray)) {
+                foreach ($adminNavArray as $pluginFolder => $value) {
+
+                    $value['link'] = $basePath . '/admin' . $value['link'];
+
+                    $buildNav = new Acms\Core\Templates\Template(THEMES . 'Delta' . DS . 'nav.tpl.php');
+                    $buildNav->set('pluginFolder', $pluginFolder);
+
+                    if(!empty($value['submenu'])) {
+                        $count = null;
+                        foreach ($value['submenu'] as $subTitle => $subLink) {
+                            $newSubLinks[$subTitle] = $basePath . '/admin' . $subLink;
+                            if ($currentlyLoadedUrl === $newSubLinks[$subTitle]) {
+                                $value['activeSublink'] = $currentlyLoadedUrl;
+                            }
+
+                            ++$count;
+                        }
+                        $value['submenu'] = $newSubLinks;
+                        $buildNav->set('numberOfItems', $count);
+                    }
+
+                    $active = '';
+                    if ($pluginFolder === $axisRoute->values['namespace']) {
+                        $active = 'active';
+                    }
+
+                    $buildNav->set('active', $active);
+                    $buildNav->set('adminNavigation', $value);
+
+                    $buildNavArray[] = $buildNav;
+                }
+
+                $tpl->set('adminNavLinks', $buildNavArray);
+            }
+
+            $adminVars = $adminObject->getTemplateVars($axis);
+            $adminBlocks = $adminObject->getTemplateBlocks($axis);
+
+        }
+    } else {
+
+        // Create base/theme template vars
+        $tpl->set('theme_folder', BASE_URL . '/' . $theme_path);
+
+        $load_theme = PUBLIC_HTML . $theme_path . '/theme.tpl.php';
+
+        /**
+         * Process Navigation Links
+         */
+
+        // Create/set 'Main Nav Links' vars and template
+        $sql->dbSelect('links',
+            'label, url',
+            'link_area = :link_area AND active = :active',
+            ['link_area' => intval(1), 'active' => intval(2)],
+            'ORDER BY link_order');
+        $links = $sql->dbFetch();
+
+        // Create navbar template
+        $nav1 = new Acms\Core\Templates\Template(TEMPLATES . 'nav.tpl.php');
+        $nav1->set('currentVenue', $axisRoute->values['venue']);
+        $nav1->set('links', $links);
+
+        // Send navbar to main template (the active theme.tpl.php)
+        $tpl->set("nav1", $nav1);
+
+        /**
+         * Process Blocks
+        */
+
+        $finished_blocks = new Acms\Core\Templates\Template();
+
+        $process_blocks = new Acms\Core\Templates\Blocks();
+        $active_blocks = $process_blocks->getBlocks($axis, $block_routes);
+
+        if(!empty($active_blocks)) {
+            foreach ($active_blocks as $key => $blocks) {
+
+                foreach ($blocks as $block_area => $block) {
+
+                    $block_area_label = 'block_area_' . $block_area;
+
+                    $build_block = new Acms\Core\Templates\Template(TEMPLATES . 'block.tpl.php');
+                    $build_block->set('block_title', $block['title']);
+                    $build_block->set('block_content', $block['content']);
+
+                    // $block_area_(area) = ...
+                    ${$block_area_label}[] = $build_block;
+                }
+
+                // Send blocks to main template (the active theme.tpl.php)
+                $tpl->set('blocks_area_' . $block_area, $$block_area_label);
+            }
         }
     }
 
@@ -129,5 +218,5 @@ if ($dispatch) {
     }
 
     // Render active theme template (which in turn loads all other templates assigned to it)
-    echo $tpl->fetch(PUBLIC_HTML . $theme_path . "/theme.tpl.php");
+    echo $tpl->fetch($load_theme);
 }

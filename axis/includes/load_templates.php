@@ -55,12 +55,3 @@ $sql->dbSelect('themes',
     ['id' => intval(VENUE_THEME)]);
 $fields = $sql->dbFetch('one');
 $theme_path = $fields['folder_path'] . $fields['folder_name'];
-
-// Create base/theme template
-$tpl = new Template();
-$tpl->set('base_url', BASE_URL);
-$tpl->set('theme_folder', BASE_URL . '/' . $theme_path);
-$tpl->set("venue_title", VENUE_TITLE);
-//$tpl->set("venue_author", SITE_ADMIN_NAME);
-$tpl->set("venue_description", VENUE_DESCRIPTION);
-$tpl->set("venue_tagline", VENUE_TAGLINE);
