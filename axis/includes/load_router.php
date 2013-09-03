@@ -76,6 +76,7 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
                     // If plugin route is a front end route then add route to routing map
                     $mapRoutes->add($route['name'], '/{:venue}' . $route['path'], $route['specs']);
                 } else if ($route['type'] === 'admin') {
+
                     // Create array so we can attach admin routes to routing map
                     $adminRoutes['routes'][$route['name']] = [
                         'path' => $route['path'],
@@ -120,6 +121,11 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
     $pathArray = explode('/', $path);
     array_shift($pathArray);
     $pathVenue = $pathArray[0];
+
+    $redirectAdminDashboard = false;
+    if (('admin' === $pathArray[1]) && (!isset($pathArray[2])))
+        $redirectAdminDashboard = true;
+
     unset($pathArray);
 
     // If there is no venue in the path, send user to main venue
@@ -152,6 +158,26 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
             // Give some kind of error
             exit;
         }
+    } elseif ($path === '/admin') {
+
+        // Send user to admin dashboard
+        $sql->dbSelect('venues', 'name', 'id = :id', ['id' => intval(1)]);
+
+        // If there is a main venue, redirect to the main venue admin dashboard
+        if($list = $sql->dbFetch()) {
+            header('Location: /' . $list[0]['name'] . '/admin/dashboard');
+            exit;
+        } else {
+            // No main venue (should never happen if site has been installed)
+            // This means the db was corrupted, since we'll never reach this if there is a dbConnection.php)
+            // Give some kind of error
+            exit;
+        }
+    } elseif ($redirectAdminDashboard) {
+
+        // Send user to admin dashboard
+        header('Location: ' . BASE_URL . $path . '/dashboard');
+        exit;
     }
 
     // If there is a venue parameter in the path, try to load the venue

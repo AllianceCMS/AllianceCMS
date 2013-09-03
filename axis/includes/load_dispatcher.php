@@ -96,11 +96,6 @@ if ($dispatch) {
 
             $adminNav = new Acms\Core\Templates\Template();
 
-            $finished_blocks = new Acms\Core\Templates\Template();
-
-            $process_blocks = new Acms\Core\Templates\Blocks();
-            $active_blocks = $process_blocks->getBlocks($axis, $block_routes);
-
             if(!empty($adminNavArray)) {
                 foreach ($adminNavArray as $pluginFolder => $value) {
 

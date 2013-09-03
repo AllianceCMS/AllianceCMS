@@ -32,7 +32,7 @@ class AdminPages extends AbstractAdmin
     {
         //parent::adminNavigation();
         $adminNav['title'] = 'Dashboard';
-        $adminNav['link'] = '';
+        $adminNav['link'] = '/dashboard';
 
         return $adminNav;
     }

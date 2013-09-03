@@ -1300,7 +1300,7 @@ $schema['0.01']['insert']['table'] = [
             [
                 'id' => '',
                 'label' => 'Admin Dashboard',
-                'url' => '/admin',
+                'url' => '/admin/dashboard',
                 'comment' => '',
                 'link_parent' => '',
                 'link_area' => 1,
