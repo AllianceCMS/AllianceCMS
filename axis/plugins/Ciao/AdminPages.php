@@ -14,6 +14,14 @@ class AdminPages extends AbstractAdmin
         return $content;
     }
 
+    public function adminCiaoStats($axis)
+    {
+        $content = new Template(dirname(__FILE__) . DS . 'views/admin.tpl.php');
+        $content->set('greeting', 'Hello Ciao Admin');
+
+        return $content;
+    }
+
     public function adminNavigation($axis)
     {
         //parent::adminNavigation();

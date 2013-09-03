@@ -51,7 +51,7 @@ $pluginRoutes['Ciao']['Stats'] = [
         'values' => [
             'namespace' => 'Ciao',
             'controller' => 'AdminPages',
-            'action' => 'ciaoStats',
+            'action' => 'adminCiaoStats',
         ] // Required: namespace/controller/action
     ]
 ];
