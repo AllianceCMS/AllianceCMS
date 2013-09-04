@@ -4,4 +4,5 @@
 !.gitignore
 !index.php
 !templates*
-!Emplode
+!Emplode/*
+!Delta/*

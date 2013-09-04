@@ -49,6 +49,7 @@ if ($dispatch) {
     // Create Admin/theme template
     $tpl = new Template();
     $tpl->set('base_url', BASE_URL);
+    $tpl->set('basePath', $basePath);
     $tpl->set('venue_name', VENUE_NAME);
     $tpl->set('venue_title', VENUE_TITLE);
     $tpl->set('venue_description', VENUE_DESCRIPTION);

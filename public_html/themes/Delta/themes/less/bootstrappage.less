@@ -1,0 +1,99 @@
+@baseBorderRadius:      0px;
+@borderRadiusLarge:     0px;
+@borderRadiusSmall:     0px;
+
+body .container-fluid {
+padding-right: 0;
+padding-left: 0;
+}
+
+#mainBody {
+background: #eeeeee;
+margin-left: 220px;
+padding: 18px;
+margin-top: -18px;
+border-top-left-radius: 10px;
+}
+#breadcrumb {
+background-color: #e5e5e5;
+box-shadow: 0 0 1px #ffffff;
+border-top: 1px solid #d6d6d6;
+border-bottom: 1px solid #d6d6d6;
+padding-left: 10px;
+margin: 18px -18px;
+}
+
+#mainBody  h1 {
+color: #555555;
+font-size: 28px;
+font-weight: normal;
+text-shadow: 0 1px 0 #ffffff;
+margin-left: 20px;
+}
+body{background: url("../images/black_paper.png") repeat 0 0;}
+#mainBody{background: url("../images/brushed_alu.png") repeat 0 0;}
+#logo{background: url("../images/logo.png") no-repeat center center; height:34px; }
+#logo a{display:none}
+
+
+
+
+/* Sidebar Navigation */
+#sidebar {display: block;float: left;position: relative;width: 220px;z-index: 16;}
+#sidebar > ul {list-style: none;margin: 10px 0 0;padding: 0;position: absolute;width: 220px;}
+#sidebar > ul > li {display: block;	position: relative;}
+#sidebar > ul > li.active {box-shadow: 0 2px 4px rgba(0,0,0,0.2) inset;}
+#sidebar > ul > li > a {padding: 10px 0 10px 15px;display: block;color: #AAAAAA;}
+#sidebar > ul > li > a > i {margin-right: 10px;}
+#sidebar > ul > li > a > .label {margin: 0 20px 0 0;float: right;padding: 3px 5px 2px;box-shadow: 0 1px 2px rgba(0,0,0,0.5) inset, 0 1px 0 rgba(255,255,255,0.2);}
+#sidebar > ul ul {display: none;margin: 0;padding: 0;box-shadow: 0 0 3px rgba(0,0,0,0.5) inset;}
+#sidebar > ul li.open ul {display: block;}
+#sidebar > ul ul li a{padding: 10px 0 10px 25px;display: block;color: #777777;}
+#sidebar > ul ul li:first-child a {border-top: 0;}
+#sidebar > ul ul li:last-child a {border-bottom: 0;}
+body #sidebar > ul > li > a {background:#4a4a4a}
+
+
+
+
+
+
+
+
+
+
+
+
+#sidebar > ul > li.active > a {
+background: url("../images/menu-active.png") no-repeat scroll right center transparent !important;
+}
+
+#sidebar > ul > li > a {
+padding: 10px 0 10px 15px;
+display: block;
+color: #AAAAAA;
+font-size: 1.2em;
+text-decoration: none;
+}
+
+#sidebar > ul > li {
+border-top: 1px solid #222;
+border-bottom: 1px solid #111;
+}
+#sidebar > ul > li > a {
+color: #bbb;
+}
+@media (max-width: 767px) and (min-width: 481px){
+#mainBody {
+margin-left: 43px;
+}
+#sidebar, #sidebar > ul {
+width: 43px;
+}
+}
+
+@media (max-width: 480px){
+#mainBody {
+margin: 0;
+border-top-left-radius: 0;
+}}
