@@ -6,31 +6,49 @@ use Acms\Core\Templates\Template;
 
 class AdminPages extends AbstractAdmin
 {
-    public function adminCiao($axis)
+    public function adminCiao()
     {
-        $content = new Template(dirname(__FILE__) . DS . 'views/admin.tpl.php');
-        $content->set('greeting', 'Hello Ciao Admin');
+        $tabLabels = [
+            'Settings',
+            'Say Hello',
+            'Say Goodbye',
+        ];
+
+        $settingsContent = new Template(dirname(__FILE__) . DS . 'views/admin.settings.tpl.php');
+        $settingsContent->set('greeting', 'Ciao AllianceCMS Admin');
+
+        $sayHelloContent = new Template(dirname(__FILE__) . DS . 'views/admin.say_hello.tpl.php');
+        $sayHelloContent->set('greeting', 'Say Hello: Ciao AllianceCMS Admin');
+
+        $sayGoodbyeContent = new Template(dirname(__FILE__) . DS . 'views/admin.say_goodbye.tpl.php');
+        $sayGoodbyeContent->set('greeting', 'Say Goodbye: Ciao AllianceCMS Admin');
+
+        $tabContent = [
+            $settingsContent,
+            $sayHelloContent,
+            $sayGoodbyeContent,
+        ];
+
+        $content = $this->compilePage($tabLabels, $tabContent);
 
         return $content;
     }
 
-    public function adminCiaoStats($axis)
+    public function adminCiaoStats()
     {
-        $content = new Template(dirname(__FILE__) . DS . 'views/admin.tpl.php');
-        $content->set('greeting', 'Hello Ciao Admin');
+        $content = new Template(dirname(__FILE__) . DS . 'views/admin.stats.tpl.php');
+        $content->set('greeting', 'Here\'s Some Stats For You!!!. Courtesy Of The Ciao Plugin!');
 
         return $content;
     }
 
-    public function adminNavigation($axis)
+    public function adminNavigation()
     {
-        //parent::adminNavigation();
         $adminNav['title'] = 'Ciao';
         $adminNav['link'] = '/ciao';
         $adminNav['submenu'] = [
-                'Page 1' => '/ciao',
-                'Page 2' => '/ciao/stats',
-                'Page 3' => '/ciao/Jane Doe',
+                'Ciao Settings' => '/ciao',
+                'Ciao Stats' => '/ciao/stats',
         ];
 
         return $adminNav;

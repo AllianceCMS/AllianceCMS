@@ -35,8 +35,6 @@ if ($dispatch) {
         //$action = 'action';
     }
 
-    $page = new $controller;
-
     $basePath = BASE_URL . '/' . $axisRoute->values['venue'];
 
     $axis = new stdClass;
@@ -57,7 +55,7 @@ if ($dispatch) {
     $tpl->set('venue_tagline', VENUE_TAGLINE);
 
     // Is this Route an Admin route? If so, restrict access
-    if ('' !== $axisRoute->path_prefix) {
+    if ((string) '' !== (string) $axisRoute->path_prefix) {
 
         $pathArray = explode('/', $axisRoute->path_prefix);
         array_shift($pathArray);
@@ -67,10 +65,22 @@ if ($dispatch) {
         if ('admin' === $isAdmin) {
             $rbac->enforce(1, $currentUser->getId());
 
-            // Create Admin/theme template vars
-            $tpl->set('theme_folder', BASE_URL . '/themes/Delta');
+            // Assign the controller to the body of the base/theme template
+            $page = new $controller($axis);
 
-            $load_theme = THEMES . 'Delta' . DS . 'admin.tpl.php';
+            if ($page->$action() !== false) {
+                $content = $page->$action();
+            } else {
+                $content = '';
+            }
+
+
+            $adminTheme = 'Delta';
+
+            // Create Admin/theme template vars
+            $tpl->set('theme_folder', BASE_URL . '/themes/' . $adminTheme);
+
+            $load_theme = THEMES . $adminTheme . DS . 'admin.tpl.php';
 
             // Does the route indicate a namespace?
             if (isset($axisRoute->values['namespace'])) {
@@ -84,7 +94,31 @@ if ($dispatch) {
 
             $adminController = $namespace . 'AdminPages';
 
-            $adminObject = new $adminController;
+            $adminObject = new $adminController($axis);
+
+            /**
+             * Process Site Navigation Links
+             */
+
+            /*
+            // Not Needed in Delta Admin Theme
+
+            // Create/set 'Main Nav Links' vars and template
+            $sql->dbSelect('links',
+                'label, url',
+                'link_area = :link_area AND active = :active',
+                ['link_area' => intval(1), 'active' => intval(2)],
+                'ORDER BY link_order');
+            $links = $sql->dbFetch();
+
+            // Create navbar template
+            $nav1 = new Acms\Core\Templates\Template(THEMES . $adminTheme . DS . 'nav.tpl.php');
+            $nav1->set('currentVenue', $axisRoute->values['venue']);
+            $nav1->set('links', $links);
+
+            // Send navbar to main template (the active theme.tpl.php)
+            $tpl->set("nav1", $nav1);
+            //*/
 
             /**
              * Process Admin Navigation
@@ -101,7 +135,7 @@ if ($dispatch) {
 
                     $value['link'] = $basePath . '/admin' . $value['link'];
 
-                    $buildNav = new Acms\Core\Templates\Template(THEMES . 'Delta' . DS . 'nav.tpl.php');
+                    $buildNav = new Acms\Core\Templates\Template(THEMES . $adminTheme . DS . 'admin.nav.tpl.php');
                     $buildNav->set('pluginFolder', $pluginFolder);
 
                     if(!empty($value['submenu'])) {
@@ -137,6 +171,15 @@ if ($dispatch) {
 
         }
     } else {
+
+        // Assign the controller to the body of the base/theme template
+        $page = new $controller;
+
+        if ($page->$action($axis) !== false) {
+            $content = $page->$action($axis);
+        } else {
+            $content = '';
+        }
 
         // Create base/theme template vars
         $tpl->set('theme_folder', BASE_URL . '/' . $theme_path);
@@ -196,14 +239,6 @@ if ($dispatch) {
     /**
      * Process plugin output
      */
-
-    // Assign the controller to the body of the base/theme template
-
-    if ($page->$action($axis) !== false) {
-        $content = $page->$action($axis);
-    } else {
-        $content = '';
-    }
 
     $tpl->set("content", $content);
 

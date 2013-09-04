@@ -30,8 +30,8 @@ $pluginRoutes['Ciao']['Page Name 02'] = [
 ];
 
 $pluginRoutes['Ciao']['Page Name 03'] = [
-    'name' => 'hello', // Required: Route name
-    'path' => '/ciao/{:name*}', // Required: Route path
+    'name' => 'admin_ciao', // Required: Route name
+    'path' => '/ciao', // Required: Route path
     'type' => 'admin', // Required: admin, front, back
     'specs' => [
         'values' => [

@@ -4,10 +4,9 @@
             <p>
     			Welcome to the <strong>AllianceCMS Administrative Dashboard</strong>!
     			<a href="#" data-dismiss="alert" class="close">×</a>
-			</p>
-			<p>
+    			<br />
                 Check out the Example Widgets below!
-            </p>
+			</p>
 		</div>
 	</div>
 </div>
