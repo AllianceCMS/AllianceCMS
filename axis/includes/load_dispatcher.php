@@ -58,7 +58,7 @@ if ($dispatch) {
     $axis = new stdClass;
     $axis->acmsLoader = $acmsLoader;
     $axis->basePath = $basePath;
-    $axis->routeInfo = $axisRoute;
+    $axis->axisRoute = $axisRoute;
     $axis->sessionAxis = $sessionAxis;
     $axis->segmentUser = $segmentUser;
     $axis->currentUser = $currentUser;
@@ -137,12 +137,12 @@ if ($dispatch) {
             $adminController = $namespace . 'AdminPages';
             $adminObject = new $adminController($axis);
 
-            /**
-             * Process Site Navigation Links
+            /*
+             * Process Site Navigation Links (Top)
              */
 
-            //*
-            // Not Needed in Delta Admin Theme
+            /*
+            // Not Needed in Delta Admin Theme (YET!!!)
 
             // Create/set 'Main Nav Links' vars and template
             $sql->dbSelect('links',
@@ -162,74 +162,12 @@ if ($dispatch) {
             //*/
 
             /*
-             * Process Admin Navigation
+             * Process Admin Navigation (Left Side)
              */
 
-            // Get currently loaded URL. Used to determine which link gets the 'active' css class
-            $currentlyLoadedUrl =  BASE_URL . $axisRoute->matches[0];
+            $adminNavbar = $adminObject->getNavbar($adminTheme);
 
-            $adminNavCategories = $adminObject->adminNavCategories();
-            $adminNavDataArray = $adminObject->getNavData();
-
-            // Build Admin Navbar Links
-            if((!empty($adminNavCategories)) && (!empty($adminNavDataArray))) {
-
-                // Add Parent Category Links
-                foreach ($adminNavDataArray as $pluginName => $linkStack) {
-
-                    foreach ($linkStack as $pluginNavCategory => $linkData) {
-                        if ($pluginNavCategory === 'Parent') {
-
-                            foreach ($linkData as $categoryLabel => $categoryLink) {
-                                if (!array_key_exists($categoryLabel, $adminNavCategories)) {
-                                    $adminNavCategories[$categoryLabel] = $categoryLink;
-                                }
-                            }
-                        }
-                    }
-
-                    unset($adminNavDataArray[$pluginName]['Parent']);
-                }
-
-                foreach ($adminNavCategories as $categoryLabel => $categoryLink) {
-
-                    if ('#' !== $categoryLink) {
-                        $categoryLink = $basePath . '/admin' . $categoryLink;
-                    }
-
-                    $buildNavigation[$categoryLabel]['catLink'] = $categoryLink;
-
-                    foreach ($adminNavDataArray as $categoryData) {
-
-                        if (!empty($categoryData[$categoryLabel])) {
-
-                            $linkCount = 0;
-                            foreach ($categoryData[$categoryLabel] as $tempLabel => $tempLink) {
-
-                                if ('#' !== $tempLink) {
-                                    $tempLink = $basePath . '/admin' . $tempLink;
-                                }
-
-                                if ($currentlyLoadedUrl === $tempLink)
-                                    $categoryData[$categoryLabel]['activeLink'] = $tempLink;
-
-                                $categoryData[$categoryLabel][$tempLabel] = $tempLink;
-                                ++$linkCount;
-                            }
-
-                            $buildNavigation[$categoryLabel] = array_merge($buildNavigation[$categoryLabel], $categoryData[$categoryLabel]);
-                            $buildNavigation[$categoryLabel]['count'] = $linkCount;
-
-                        }
-                    }
-                }
-
-                $buildNav = new Acms\Core\Templates\Template(THEMES . $adminTheme . DS . 'admin.nav.tpl.php');
-
-                $buildNav->set('adminNavLinks', $buildNavigation);
-
-                $tpl->set('adminNavbar', $buildNav);
-            }
+            $tpl->set('adminNavbar', $adminNavbar);
 
             $adminVars = $adminObject->getTemplateVars($axis);
             $adminBlocks = $adminObject->getTemplateBlocks($axis);

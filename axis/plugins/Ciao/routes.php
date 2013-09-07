@@ -45,7 +45,7 @@ $pluginRoutes['Ciao']['Page Name 03'] = [
 
 $pluginRoutes['Ciao']['Stats'] = [
     'name' => 'ciao_stats', // Required: Route name
-    'path' => '/ciao/stats/{:wildcard*}', // Required: Route path
+    'path' => '/ciao/forms/{:wildcard*}', // Required: Route path
     'type' => 'admin', // Required: admin, front, back
     'specs' => [
         'values' => [

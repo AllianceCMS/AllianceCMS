@@ -18,24 +18,4 @@ class AdminPages extends AbstractAdmin
 
         return $content;
     }
-
-    public function adminNavigation()
-    {
-        $adminNav = [
-            'Parent' => [
-                'Dashboard' => '#',
-                'TestCat' => '#',
-            ],
-            'Dashboard' => [
-                'Dashboard' => '/dashboard',
-                'Dashboard Test' => '/dashboard/test',
-            ],
-            'TestCat' => [
-                'TestCat' => '/test-cat',
-                'TestCat 2' => '/test-cat-2',
-            ],
-        ];
-
-        return $adminNav;
-    }
 }

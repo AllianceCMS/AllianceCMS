@@ -27,7 +27,7 @@ class Users
 {
     public function loginBlock($axis)
     {
-        if ($axis->routeInfo->name !== 'login_page') {
+        if ($axis->axisRoute->name !== 'login_page') {
             $html_helper = new HtmlHelper($axis->basePath);
             $form_helper = new FormHelper($axis->basePath);
 
@@ -55,9 +55,9 @@ class Users
         $content->set('form_helper', $form_helper);
 
         // If login-attempt found empty required fields, then process errors sent back to this action
-        if (!empty($axis->routeInfo->values['errors'])) {
+        if (!empty($axis->axisRoute->values['errors'])) {
 
-            $form_data = $form_helper->processErrors($axis->routeInfo->values['errors']);
+            $form_data = $form_helper->processErrors($axis->axisRoute->values['errors']);
 
             if (!empty($form_data)) {
                 foreach($form_data as $attribute => $value) {

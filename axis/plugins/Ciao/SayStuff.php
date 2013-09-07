@@ -8,7 +8,7 @@ class SayStuff
     public function sayHi($axis)
     {
         $content = new Template(dirname(__FILE__) . DS . 'views/greetings.tpl.php');
-        $content->set('name', $axis->routeInfo->values['name'][0]);
+        $content->set('name', $axis->axisRoute->values['name'][0]);
 
         return $content;
     }
@@ -16,7 +16,7 @@ class SayStuff
     public function sayBye($axis)
     {
         $content = new Template(dirname(__FILE__) . DS . 'views/tata.tpl.php');
-        $content->set('name', $axis->routeInfo->values['name'][0]);
+        $content->set('name', $axis->axisRoute->values['name'][0]);
 
         return $content;
     }

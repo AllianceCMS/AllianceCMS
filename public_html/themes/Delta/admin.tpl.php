@@ -32,14 +32,14 @@
         <div id="mainBody">
         	<h1><?php echo $venue_name; ?>
         		<div class="pull-right">
-        		<a class="btn btn-large tip-bottom" title="Manage Files"><i class="icon-file"></i></a>
-        		<a class="btn btn-large tip-bottom" title="Manage Users"><i class="icon-user"></i></a>
-        		<a class="btn btn-large tip-bottom" title="Manage Comments" style="position:relative"><i class="icon-comment"></i>
-        		<span style="position:absolute; border-radius:12px; top:-23%; height:16px; width:16px" class="label label-important">5</span></a>
-        		<a class="btn btn-large tip-bottom" title="Manage Orders"><i class="icon-shopping-cart"></i></a>
-        		<a class="btn btn-large tip-bottom"  title="View Profile" href="#"><i class="icon icon-user"></i> <span>Profile</span></a>
-        		<a class="btn btn-large tip-bottom" title="Edit Profile Settings" href="#"><i class="icon icon-cog"></i> Settings</a>
-        		<a class="btn btn-large btn-danger tip-bottom" title="Log Off" href="#"><i class="icon-off"></i></a>
+            		<a class="btn btn-large tip-bottom" title="Manage Files"><i class="icon-file"></i></a>
+            		<a class="btn btn-large tip-bottom" title="Manage Users"><i class="icon-user"></i></a>
+            		<a class="btn btn-large tip-bottom" title="Manage Comments" style="position:relative"><i class="icon-comment"></i>
+            		<span style="position:absolute; border-radius:12px; top:-23%; height:16px; width:16px" class="label label-important">5</span></a>
+            		<a class="btn btn-large tip-bottom" title="Manage Orders"><i class="icon-shopping-cart"></i></a>
+            		<a class="btn btn-large tip-bottom"  title="View Profile" href="#"><i class="icon icon-user"></i> <span>Profile</span></a>
+            		<a class="btn btn-large tip-bottom" title="Edit Profile Settings" href="#"><i class="icon icon-cog"></i> Settings</a>
+            		<a class="btn btn-large btn-danger tip-bottom" title="Log Off" href="#"><i class="icon-off"></i></a>
         		</div>
         	</h1>
         	<div id="breadcrumb">
@@ -55,31 +55,12 @@
                 </div>
 
                 <div id="acms_content">
-
-                    <div class="pure-g-r">
-                        <div class="pure-u-5-6">
-                            <?php echo $content; ?>
-                        </div>
-                        <div class="pure-u-1-6">
-                            <div class="plugin-nav">
-                                <div class="pure-menu pure-menu-open">
-                                    <a class="pure-menu-heading">Plugin Navigation</a>
-
-                                    <ul>
-                                        <li><a href="#">Landing Page</a></li>
-                                        <li><a href="#">Content Page</a></li>
-                                        <li><a href="#">Settings Page</a></li>
-                                        <li><a href="#">Stats Page</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php echo $content; ?>
         	    </div>
 
         		<div class="row-fluid">
         			<div id="footer" class="span12">
-        				2012 - 2013 &copy; AllianceCMS. Brought to you by <a id="poweredBy" href="http://www.jbwebware.com" target="_blank" title="jbWebWare.com: Bringing The Web To You!">jbWebWare.com</a>
+        				2012 - 2013 &copy; AllianceCMS. Brought to you by <a id="poweredBy" href="http://www.jbwebware.com" target="_blank" title="jbWebWare.com: Bringing The Web To You!">jbWebWare.com</a> - Bringing The Web To You!
         			</div>
         		</div>
         	</div>

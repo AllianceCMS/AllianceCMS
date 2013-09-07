@@ -139,9 +139,9 @@ class InstallSite
         $this->createBody('dbInfo.tpl.php');
 
         // If installConfirmDbInfo found empty required fields, then process errors sent back to this action
-        if (!empty($axis->routeInfo->values['errors'])) {
+        if (!empty($axis->axisRoute->values['errors'])) {
 
-            $formData = $formHelper->processErrors($axis->routeInfo->values['errors']);
+            $formData = $formHelper->processErrors($axis->axisRoute->values['errors']);
 
             if (!empty($formData)) {
                 foreach($formData as $attribute => $value) {
@@ -363,9 +363,9 @@ class InstallSite
         $this->createBody('adminInfo.tpl.php');
 
         // If installConfirmAdminInfo found empty required fields, then process errors sent back to this action
-        if (!empty($axis->routeInfo->values['errors'])) {
+        if (!empty($axis->axisRoute->values['errors'])) {
 
-            $formData = $formHelper->processErrors($axis->routeInfo->values['errors']);
+            $formData = $formHelper->processErrors($axis->axisRoute->values['errors']);
 
             if (!empty($formData)) {
                 foreach($formData as $attribute => $value) {
@@ -480,9 +480,9 @@ class InstallSite
         $this->createBody('venueInfo.tpl.php');
 
         // If installConfirmVenueInfo found empty required fields, then process errors sent back to this action
-        if (!empty($axis->routeInfo->values['errors'])) {
+        if (!empty($axis->axisRoute->values['errors'])) {
 
-            $formData = $formHelper->processErrors($axis->routeInfo->values['errors']);
+            $formData = $formHelper->processErrors($axis->axisRoute->values['errors']);
 
             if (!empty($formData)) {
                 foreach($formData as $attribute => $value) {

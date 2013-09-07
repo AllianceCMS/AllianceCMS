@@ -36,7 +36,7 @@ class AdminPages extends AbstractAdmin
 
     public function adminCiaoStats()
     {
-        $content = new Template(dirname(__FILE__) . DS . 'views/admin.stats.tpl.php');
+        $content = new Template(dirname(__FILE__) . DS . 'views/admin.forms.tpl.php');
         $content->set('greeting', 'Here\'s Some Stats For You!!!. Courtesy Of The Ciao Plugin!');
 
         return $content;
@@ -45,9 +45,16 @@ class AdminPages extends AbstractAdmin
     public function adminNavigation()
     {
         $adminNav = [
+            'Parent' => [
+                'Ciao Test Parent' => '#',
+            ],
             'Other' => [
                 'Ciao' => '/ciao',
-                'Ciao Stats' => '/ciao/stats',
+                'Ciao Forms' => '/ciao/forms',
+            ],
+            'Ciao Test Parent' => [
+                'Ciao Test Link' => '#',
+                'Ciao Test Link 2' => '#',
             ],
         ];
 

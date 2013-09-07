@@ -65,7 +65,7 @@ if (file_exists(DBCONNFILE)) {
         $basePath = BASE_URL;
 
         $axis = new stdClass;
-        $axis->routeInfo = $axisRoute;
+        $axis->axisRoute = $axisRoute;
         $axis->basePath = $basePath;
 
 
