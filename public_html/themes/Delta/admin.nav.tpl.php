@@ -1,43 +1,54 @@
-<?php if (isset($adminNavigation['submenu'])): ?>
-<li class="<?php echo $active; ?> submenu">
-    <a href="<?php echo $adminNavigation['link']; ?>">
+<div id="sidebar">
+	<h1 id="logo"><a href="index.php"></a></h1>
+	<a href="<?php echo $basePath; ?>/admin/dashboard" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
+	<ul>
 
-        <?php if($pluginFolder === 'Admin'): ?>
-            <i class="icon icon-home"></i>
-        <?php else: ?>
-            <i class="icon icon-wrench"></i>
-        <?php endif; ?>
+        <?php foreach ($adminNavLinks as $categoryLabel => $linkList):?>
 
-        <span><?php echo $adminNavigation['title']; ?></span> <span class="label"><?php echo $numberOfItems; ?></span>
-    </a>
-    <ul>
-        <?php foreach($adminNavigation['submenu'] as $title => $link): ?>
 
             <?php
-            $classActive = '';
-            if (isset($adminNavigation['activeSublink'])) {
-                if ($adminNavigation['activeSublink'] === $link) {
-                    $classActive = ' class="active"';
-                }
-            }
+            $activeCategorySingle = (isset($linkList['activeLink'])) ? ' class="active"' : '';
+            $activeCategoryMulti = (isset($linkList['activeLink'])) ? 'active ' : '';
             ?>
 
-            <li<?php echo $classActive; ?>><a href="<?php echo $link; ?>"><?php echo $title; ?></a></li>
+            <?php $icon = ('Dashboard' === $categoryLabel) ? 'icon-home' : 'icon-wrench'; ?>
+
+            <?php if (!isset($linkList['count'])): ?>
+
+                <li<?php echo $activeCategorySingle; ?>><a href="<?php echo $linkList['catLink']; ?>"><i class="icon <?php echo $icon; ?>"></i> <span><?php echo $categoryLabel; ?></span></a></li>
+
+            <?php else: ?>
+
+                <?php
+                if(isset($linkList['activeLink']))
+                    $active = ($linkList['activeLink'] == $linkList['catLink']) ? 'active ' : '';
+                ?>
+
+                <li class="<?php echo $activeCategoryMulti; ?>submenu">
+                    <a href="<?php echo $linkList['catLink']; ?>"><i class="icon <?php echo $icon; ?>"></i> <span><?php echo $categoryLabel; ?></span> <span class="label"><?php echo $linkList['count']; ?></span></a>
+                    <ul>
+
+                        <?php foreach ($linkList as $itemLabel => $itemLink): ?>
+
+                            <?php if (('catLink' !== $itemLabel) && ('count' !== $itemLabel) && ('activeLink' !== $itemLabel)): ?>
+
+                                <?php
+                                if(isset($linkList['activeLink']))
+                                    $active = ($linkList['activeLink'] == $itemLink) ? ' class="active"' : '';
+                                ?>
+
+                                <li<?php echo $active; ?>><a href="<?php echo $itemLink; ?>"><?php echo $itemLabel; ?></a></li>
+
+                            <?php endif; ?>
+
+                        <?php endforeach;?>
+
+        			</ul>
+        		</li>
+
+            <?php endif; ?>
 
         <?php endforeach; ?>
-    </ul>
-</li>
-<?php else: ?>
-<li class="<?php echo $active; ?>">
-    <a href="<?php echo $adminNavigation['link']; ?>">
 
-        <?php if($pluginFolder === 'Admin'): ?>
-            <i class="icon icon-home"></i>
-        <?php else: ?>
-            <i class="icon icon-wrench"></i>
-        <?php endif; ?>
-
-        <span><?php echo $adminNavigation['title']; ?></span>
-    </a>
-</li>
-<?php endif; ?>
+	</ul>
+</div>

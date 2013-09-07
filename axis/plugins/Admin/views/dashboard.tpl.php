@@ -1,12 +1,13 @@
 <div class="row-fluid">
 	<div class="span12">
         <div class="alert alert-info">
+            <a href="#" data-dismiss="alert" class="close">×</a>
             <p>
-    			Welcome to the <strong>AllianceCMS Administrative Dashboard</strong>!
-    			<a href="#" data-dismiss="alert" class="close">×</a>
-    			<br />
+                Welcome to the <strong>AllianceCMS Administrative Dashboard</strong>!
+            </p>
+            <p>
                 Check out the Example Widgets below!
-			</p>
+            </p>
 		</div>
 	</div>
 </div>

@@ -1,29 +1,42 @@
-<div class="row-fluid">
-	<div class="span12">
-	   <h1><?php echo $greeting; ?></h1>
-	</div>
-</div>
-<div class="row-fluid">
-	<div class="span12">
-		<div class="widget-box">
-			<div class="widget-title"><span class="icon"><i class="icon-signal"></i></span><h5>Example Widget: Site Stats</h5><div class="buttons"><a href="#" class="btn btn-mini"><i class="icon-refresh"></i>Update Stats</a></div></div>
-			<div class="widget-content">
-				<div class="row-fluid">
-				<div class="span4">
-					<ul class="site-stats">
-						<li><i class="icon-spinner icon-spin"></i><strong>0</strong> <small>Pending Orders</small></li>
-						<li><i class="icon-user"></i> <strong>106</strong> <small>Total Users</small></li>
-						<li><i class="icon-arrow-right"></i> <strong>16</strong> <small>New Users (Today's user)</small></li>
-						<li class="divider"></li>
-						<li><i class="icon-shopping-cart"></i> <strong>259</strong> <small>Total Menu Items</small></li>
-						<li><i class="icon-tag"></i> <strong>4808</strong> <small>Total Orders</small></li>
-					</ul>
-				</div>
-				<div class="span8">
-					<div class="chart"></div>
-				</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+<form class="pure-form pure-form-stacked">
+    <fieldset>
+        <legend>Legend</legend>
+
+        <div class="pure-g-r">
+            <div class="pure-u-1-3">
+                <label for="first-name">First Name</label>
+                <input id="first-name" type="text">
+            </div>
+
+            <div class="pure-u-1-3">
+                <label for="last-name">Last Name</label>
+                <input id="last-name" type="text">
+            </div>
+
+            <div class="pure-u-1-3">
+                <label for="email">E-Mail</label>
+                <input id="email" type="email" required>
+            </div>
+
+            <div class="pure-u-1-3">
+                <label for="city">City</label>
+                <input id="city" type="text">
+            </div>
+
+            <div class="pure-u-1-3">
+                <label for="state">State</label>
+                <select id="state" class="pure-input-1-2">
+                    <option>AL</option>
+                    <option>CA</option>
+                    <option>IL</option>
+                </select>
+            </div>
+        </div>
+
+        <label for="terms" class="pure-checkbox">
+            <input id="terms" type="checkbox"> I've read the terms and conditions
+        </label>
+
+        <button type="submit" class="pure-button pure-button-primary">Submit</button>
+    </fieldset>
+</form>

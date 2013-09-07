@@ -28,7 +28,23 @@ abstract class AbstractAdmin
         return $tempObject;
     }
 
-    public function getTemplateNav()
+    public function adminNavCategories()
+    {
+        $adminNavCategories = [
+            'Dashboard' => '/dashboard',
+            'Venues' => '#',
+            'Users' => '#',
+            'Content' => '#',
+            'Plugin Manager' => '#',
+            'Theme Manager' => '#',
+            'Statistics' => '#',
+            'Other' => '#',
+        ];
+
+        return $adminNavCategories;
+    }
+
+    public function getNavData()
     {
         $this->axis->sql->dbSelect('plugins', 'folder_path, folder_name', 'active = :active', ['active' => intval(2)], 'ORDER BY weight');
         $result = $this->axis->sql->dbFetch();

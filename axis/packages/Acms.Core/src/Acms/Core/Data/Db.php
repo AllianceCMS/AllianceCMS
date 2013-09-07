@@ -514,6 +514,8 @@ class Db
             // password for the connection
             $dbPassword
         );
+
+        $this->unsetConnectionVars();
     }
 
     /**
@@ -620,6 +622,17 @@ class Db
         $this->queryText = null;
         $this->bindValues = null;
         $this->result = null;
+    }
+
+    private function unsetConnectionVars()
+    {
+        unset($this->dbAdapter);
+        unset($this->dbHost);
+        unset($this->dbUser);
+        unset($this->dbPassword);
+        unset($this->dbName);
+        unset($this->dbPersistent);
+        unset($this->dbActive);
     }
 
     /*

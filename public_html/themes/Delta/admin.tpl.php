@@ -2,59 +2,33 @@
 <html lang="en">
 	<head>
 		<title><?php echo $venue_title; ?></title>
+
 		<meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- Begin PureCSS Includes -->
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.1/pure-min.css">
+        <!-- End PureCSS Includes -->
+
+        <!-- Begin Delta Includes -->
 		<link rel="stylesheet/less" type="text/css" href="<?php echo $theme_folder; ?>/themes/less/bootstrap.less">
 		<script src="<?php echo $theme_folder; ?>/themes/js/less/less.js" type="text/javascript"></script>
 		<link rel="stylesheet" href="<?php echo $theme_folder; ?>/themes/style/fullcalendar.css" />
 
 		<link rel="stylesheet" href="<?php echo $theme_folder; ?>/themes/style/delta.main.css" />
 		<link rel="stylesheet" href="<?php echo $theme_folder; ?>/themes/style/delta.grey.css"/>
+        <!-- End Delta Includes -->
+
+        <!-- Begin Custom Includes -->
+		<link rel="stylesheet" href="<?php echo $theme_folder; ?>/css/style.css"/>
+        <!-- End Custom Includes -->
+
 	</head>
 	<body>
         <br>
-        <div id="sidebar">
-        	<h1 id="logo"><a href="index.php"></a></h1>
-        	<a href="<?php echo $basePath; ?>/admin/dashboard" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
-        	<ul>
 
-                <?php if (isset($adminNavLinks)): ?>
-                	<?php foreach ($adminNavLinks as $adminNavLink): ?>
+        <?php echo $adminNavbar; ?>
 
-                        <?php echo $adminNavLink; ?>
-
-                	<?php endforeach; ?>
-            	<?php endif; ?>
-
-        		<li class="submenu">
-        			<a href="#"><i class="icon icon-wrench"></i> <span>Form elements</span> <span class="label">3</span></a>
-        			<ul>
-        				<li><a href="#">Common elements</a></li>
-        				<li><a href="#">Validation</a></li>
-        				<li><a href="#">Wizard</a></li>
-        			</ul>
-        		</li>
-        		<li><a href="#"><i class="icon icon-tint"></i> <span>Buttons &amp; icons</span></a></li>
-        		<li><a href="#"><i class="icon icon-pencil"></i> <span>Interface elements</span></a></li>
-        		<li><a href="#"><i class="icon icon-th"></i> <span>Tables</span></a></li>
-        		<li><a href="#"><i class="icon icon-th-list"></i> <span>Grid Layout</span></a></li>
-        		<li class="submenu">
-        			<a href="#"><i class="icon icon-file"></i> <span>Sample pages</span> <span class="label">4</span></a>
-        			<ul>
-        				<li><a href="#">Invoice</a></li>
-        				<li><a href="#">Support chat</a></li>
-        				<li><a href="#">Calendar</a></li>
-        				<li><a href="#">Gallery</a></li>
-        			</ul>
-        		</li>
-        		<li>
-        			<a href="#"><i class="icon icon-signal"></i> <span>Charts &amp; graphs</span></a>
-        		</li>
-        		<li>
-        			<a href="#"><i class="icon icon-inbox"></i> <span>Widgets</span></a>
-        		</li>
-        	</ul>
-        </div>
         <div id="mainBody">
         	<h1><?php echo $venue_name; ?>
         		<div class="pull-right">
@@ -75,14 +49,33 @@
         	<div class="container-fluid">
                 <div class="row-fluid">
                     <div class="alert alert-danger">
-                        <p>
-                    		<strong>Warning: The AllianceCMS Administrative Dashboard is Under Construction!</strong>
-                    		<a href="#" data-dismiss="alert" class="close">×</a>
-                    	</p>
+                		<strong>Warning: The AllianceCMS Administrative Dashboard is Under Construction!</strong>
+                		<a href="#" data-dismiss="alert" class="close">&times;</a>
                     </div>
                 </div>
 
-        	    <?php echo $content; ?>
+                <div id="acms_content">
+
+                    <div class="pure-g-r">
+                        <div class="pure-u-5-6">
+                            <?php echo $content; ?>
+                        </div>
+                        <div class="pure-u-1-6">
+                            <div class="plugin-nav">
+                                <div class="pure-menu pure-menu-open">
+                                    <a class="pure-menu-heading">Plugin Navigation</a>
+
+                                    <ul>
+                                        <li><a href="#">Landing Page</a></li>
+                                        <li><a href="#">Content Page</a></li>
+                                        <li><a href="#">Settings Page</a></li>
+                                        <li><a href="#">Stats Page</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        	    </div>
 
         		<div class="row-fluid">
         			<div id="footer" class="span12">
@@ -92,6 +85,11 @@
         	</div>
     	</div>
 
+        <!-- JavaScript at the bottom for fast page loading -->
+
+    	<!-- More Scripts-->
+
+        <!-- Begin Delta Includes -->
         <script src="<?php echo $theme_folder; ?>/themes/js/excanvas.min.js"></script>
         <script src="<?php echo $theme_folder; ?>/themes/js/jquery.min.js"></script>
         <script src="<?php echo $theme_folder; ?>/themes/js/jquery.ui.custom.js"></script>
@@ -102,5 +100,7 @@
         <script src="<?php echo $theme_folder; ?>/themes/js/fullcalendar.min.js"></script>
         <script src="<?php echo $theme_folder; ?>/themes/js/delta.js"></script>
         <script src="<?php echo $theme_folder; ?>/themes/js/delta.dashboard.js"></script>
+        <!-- End Delta Includes -->
+
 	</body>
 </html>

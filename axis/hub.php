@@ -1,5 +1,6 @@
 <?php
 error_reporting(4);
+
 require_once ('configs/system.php');
 require_once (CONFIGS . 'autoload.php');
 require_once (INCLUDES . 'load_db.php');

@@ -91,6 +91,13 @@ class Users
 
         $result = $axis->sql->dbFetch('one');
 
+        /*
+        echo '<br /><pre>$result: ';
+        echo var_dump($result);
+        echo '</pre><br />';
+        //exit;
+        //*/
+
         if ($result !== false) {
             // User exists, check password
 
@@ -99,6 +106,9 @@ class Users
 
             if ((crypt($passwordAttempt, $passwordStored)) == $passwordStored)
             {
+                // Remove Old Session
+                //$this->logoutAttempt($axis);
+
                 // Setup Session
                 $axis->segmentUser->uid = $result['id'];
                 $axis->segmentUser->display_name = $result['display_name'];

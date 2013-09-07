@@ -8,6 +8,8 @@ $sessionAxis = include PACKAGE_AURA_SESSION . 'scripts/instance.php';
 $sessionAxis->start();
 $segmentUser = $sessionAxis->newSegment('User');
 
+$sessionAxis->commit();
+
 $currentUser = new CurrentUser($sessionAxis);
 
 $rbac = new \PhpRbac\Rbac();

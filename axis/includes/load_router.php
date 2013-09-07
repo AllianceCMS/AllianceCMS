@@ -82,9 +82,9 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
                         'path' => $route['path'],
                     ];
 
-                    foreach ($route['specs'] as $key => $value) {
-                        if ($value) {
-                            $adminRoutes['routes'][$route['name']][$key] = $value;
+                    foreach ($route['specs'] as $key => $specs) {
+                        if ($specs) {
+                            $adminRoutes['routes'][$route['name']][$key] = $specs;
                         }
                     }
                 } else if ($route['type'] === 'back') {

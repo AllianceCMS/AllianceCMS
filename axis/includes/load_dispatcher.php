@@ -7,22 +7,36 @@ if ($dispatch) {
     $axisRoute = $mapRoutes->match($path, $_SERVER);
 
     // If there is no match then we need to send user to custom '404'
-    if (! $axisRoute) {
+    if (!$axisRoute) {
 
         // No route object was returned
         // @todo: Need to change this to redirect to custom 404
-        echo "<br />No application route was found for that URI path.<br />";
+        echo "<p>No application route was found for this URI path.</p>";
         exit();
+    }
+
+    /*
+     * Build Plugin Callback
+     */
+
+    // Does the route indicate a namespace?
+    if (isset($axisRoute->values['namespace'])) {
+        // Take the namespace directly from the route
+        $namespace = $axisRoute->values['namespace'] . '\\';
+    } else {
+        // Use a default namespace
+        // @todo: ??? Implement this ???
+        //$namespace = 'PluginManager';
     }
 
     // Does the route indicate a controller?
     if (isset($axisRoute->values['controller'])) {
         // Take the controller class directly from the route
-        $controller = $axisRoute->values['namespace'] . '\\' . $axisRoute->values['controller'];
+        $controller = $namespace . $axisRoute->values['controller'];
     } else {
         // Use a default controller
         // @todo: ??? Implement this ???
-        //$controller = 'index';
+        //$controller = 'DefaultPlugin';
     }
 
     // Does the route indicate an action?
@@ -32,8 +46,12 @@ if ($dispatch) {
     } else {
         // Use a default action
         // @todo: ??? Implement this ???
-        //$action = 'action';
+        //$action = 'index';
     }
+
+    /*
+     * Build $axis object for use in Plugin development
+     */
 
     $basePath = BASE_URL . '/' . $axisRoute->values['venue'];
 
@@ -46,7 +64,10 @@ if ($dispatch) {
     $axis->currentUser = $currentUser;
     $axis->sql = $sql;
 
-    // Create Admin/theme template
+    /*
+     * Create Theme/Admin Template
+     */
+
     $tpl = new Template();
     $tpl->set('base_url', BASE_URL);
     $tpl->set('basePath', $basePath);
@@ -54,6 +75,10 @@ if ($dispatch) {
     $tpl->set('venue_title', VENUE_TITLE);
     $tpl->set('venue_description', VENUE_DESCRIPTION);
     $tpl->set('venue_tagline', VENUE_TAGLINE);
+
+    /*
+     * Load Front End or Admin Output
+     */
 
     // Is this Route an Admin route? If so, restrict access
     if ((string) '' !== (string) $axisRoute->path_prefix) {
@@ -76,32 +101,47 @@ if ($dispatch) {
             }
 
 
+            /*
+             * Create Admin Theme Template
+             */
+
+            //Define Admin Theme
+
+            /*
+            $adminTheme = 'Gumnum';
+            //*/
+
+            //*
             $adminTheme = 'Delta';
+            //*/
 
             // Create Admin/theme template vars
             $tpl->set('theme_folder', BASE_URL . '/themes/' . $adminTheme);
 
             $load_theme = THEMES . $adminTheme . DS . 'admin.tpl.php';
 
+            /*
+             * Build Admin Callback
+             */
+
             // Does the route indicate a namespace?
             if (isset($axisRoute->values['namespace'])) {
-                // Take the controller class directly from the route
+                // Take the namespace directly from the route
                 $namespace = $axisRoute->values['namespace'] . '\\';
             } else {
-                // Use a default controller
+                // Use a default namespace
                 // @todo: ??? Implement this ???
-                //$controller = 'index';
+                //$namespace = 'PluginManager';
             }
 
             $adminController = $namespace . 'AdminPages';
-
             $adminObject = new $adminController($axis);
 
             /**
              * Process Site Navigation Links
              */
 
-            /*
+            //*
             // Not Needed in Delta Admin Theme
 
             // Create/set 'Main Nav Links' vars and template
@@ -121,55 +161,78 @@ if ($dispatch) {
             $tpl->set("nav1", $nav1);
             //*/
 
-            /**
+            /*
              * Process Admin Navigation
              */
 
+            // Get currently loaded URL. Used to determine which link gets the 'active' css class
             $currentlyLoadedUrl =  BASE_URL . $axisRoute->matches[0];
 
-            $adminNavArray = $adminObject->getTemplateNav($axis);
+            $adminNavCategories = $adminObject->adminNavCategories();
+            $adminNavDataArray = $adminObject->getNavData();
 
-            $adminNav = new Acms\Core\Templates\Template();
+            // Build Admin Navbar Links
+            if((!empty($adminNavCategories)) && (!empty($adminNavDataArray))) {
 
-            if(!empty($adminNavArray)) {
-                foreach ($adminNavArray as $pluginFolder => $value) {
+                // Add Parent Category Links
+                foreach ($adminNavDataArray as $pluginName => $linkStack) {
 
-                    $value['link'] = $basePath . '/admin' . $value['link'];
+                    foreach ($linkStack as $pluginNavCategory => $linkData) {
+                        if ($pluginNavCategory === 'Parent') {
 
-                    $buildNav = new Acms\Core\Templates\Template(THEMES . $adminTheme . DS . 'admin.nav.tpl.php');
-                    $buildNav->set('pluginFolder', $pluginFolder);
-
-                    if(!empty($value['submenu'])) {
-                        $count = null;
-                        foreach ($value['submenu'] as $subTitle => $subLink) {
-                            $newSubLinks[$subTitle] = $basePath . '/admin' . $subLink;
-                            if ($currentlyLoadedUrl === $newSubLinks[$subTitle]) {
-                                $value['activeSublink'] = $currentlyLoadedUrl;
+                            foreach ($linkData as $categoryLabel => $categoryLink) {
+                                if (!array_key_exists($categoryLabel, $adminNavCategories)) {
+                                    $adminNavCategories[$categoryLabel] = $categoryLink;
+                                }
                             }
-
-                            ++$count;
                         }
-                        $value['submenu'] = $newSubLinks;
-                        $buildNav->set('numberOfItems', $count);
                     }
 
-                    $active = '';
-                    if ($pluginFolder === $axisRoute->values['namespace']) {
-                        $active = 'active';
-                    }
-
-                    $buildNav->set('active', $active);
-                    $buildNav->set('adminNavigation', $value);
-
-                    $buildNavArray[] = $buildNav;
+                    unset($adminNavDataArray[$pluginName]['Parent']);
                 }
 
-                $tpl->set('adminNavLinks', $buildNavArray);
+                foreach ($adminNavCategories as $categoryLabel => $categoryLink) {
+
+                    if ('#' !== $categoryLink) {
+                        $categoryLink = $basePath . '/admin' . $categoryLink;
+                    }
+
+                    $buildNavigation[$categoryLabel]['catLink'] = $categoryLink;
+
+                    foreach ($adminNavDataArray as $categoryData) {
+
+                        if (!empty($categoryData[$categoryLabel])) {
+
+                            $linkCount = 0;
+                            foreach ($categoryData[$categoryLabel] as $tempLabel => $tempLink) {
+
+                                if ('#' !== $tempLink) {
+                                    $tempLink = $basePath . '/admin' . $tempLink;
+                                }
+
+                                if ($currentlyLoadedUrl === $tempLink)
+                                    $categoryData[$categoryLabel]['activeLink'] = $tempLink;
+
+                                $categoryData[$categoryLabel][$tempLabel] = $tempLink;
+                                ++$linkCount;
+                            }
+
+                            $buildNavigation[$categoryLabel] = array_merge($buildNavigation[$categoryLabel], $categoryData[$categoryLabel]);
+                            $buildNavigation[$categoryLabel]['count'] = $linkCount;
+
+                        }
+                    }
+                }
+
+                $buildNav = new Acms\Core\Templates\Template(THEMES . $adminTheme . DS . 'admin.nav.tpl.php');
+
+                $buildNav->set('adminNavLinks', $buildNavigation);
+
+                $tpl->set('adminNavbar', $buildNav);
             }
 
             $adminVars = $adminObject->getTemplateVars($axis);
             $adminBlocks = $adminObject->getTemplateBlocks($axis);
-
         }
     } else {
 

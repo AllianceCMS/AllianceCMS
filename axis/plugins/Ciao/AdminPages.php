@@ -44,11 +44,23 @@ class AdminPages extends AbstractAdmin
 
     public function adminNavigation()
     {
+        $adminNav = [
+            'Other' => [
+                'Ciao' => '/ciao',
+                'Ciao Stats' => '/ciao/stats',
+            ],
+        ];
+
+        return $adminNav;
+    }
+
+    public function adminPluginNavigation()
+    {
         $adminNav['title'] = 'Ciao';
         $adminNav['link'] = '/ciao';
         $adminNav['submenu'] = [
-                'Ciao Settings' => '/ciao',
-                'Ciao Stats' => '/ciao/stats',
+        'Ciao Settings' => '/ciao',
+        'Ciao Stats' => '/ciao/stats',
         ];
 
         return $adminNav;
