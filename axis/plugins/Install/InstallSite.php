@@ -739,7 +739,7 @@ class InstallSite
         $this->tpl = new Template();
         $this->tpl->set('title', 'AllianceCMS: Installation');
         $this->tpl->set('author', 'AllianceCMS Dev Team');
-        $this->tpl->set('theme_folder', BASE_URL . '/' . 'themes/Emplode/');
+        $this->tpl->set('theme_folder', BASE_URL . '/' . 'themes/Emplode');
 
     }
 
@@ -747,7 +747,7 @@ class InstallSite
     {
         // Setup content for plugin template
         $this->content = new Template(dirname(__FILE__) . DS . 'views' . DS . $view);
-        $this->content->set('theme_folder', BASE_URL . '/' . 'themes/Emplode/');
+        $this->content->set('theme_folder', BASE_URL . '/' . 'themes/Emplode');
 
     }
 
@@ -756,7 +756,7 @@ class InstallSite
         // Create menu template
         $this->menu[0] = new Template(dirname(__FILE__) . DS . 'views' . DS . 'menu.tpl.php');
         $this->menu[0]->set('installStage', $stage);
-        $this->menu[0]->set('theme_folder', BASE_URL . '/' . 'themes/Emplode/');
+        $this->menu[0]->set('theme_folder', BASE_URL . '/' . 'themes/Emplode');
 
     }
 
