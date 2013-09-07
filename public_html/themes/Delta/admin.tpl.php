@@ -20,7 +20,7 @@
         <!-- End Delta Includes -->
 
         <!-- Begin Custom Includes -->
-		<link rel="stylesheet" href="<?php echo $theme_folder; ?>/css/style.css"/>
+		<link rel="stylesheet" href="<?php echo $theme_folder; ?>/acms/css/style.css"/>
         <!-- End Custom Includes -->
 
 	</head>
