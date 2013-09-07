@@ -5,10 +5,9 @@
 
         <?php foreach ($adminNavLinks as $categoryLabel => $linkList):?>
 
-
             <?php
-            $activeCategorySingle = (isset($linkList['activeLink'])) ? ' class="active"' : '';
-            $activeCategoryMulti = (isset($linkList['activeLink'])) ? 'active ' : '';
+            $activeCategorySingle = ((isset($linkList['activeLink'])) || (isset($linkList['activeCategoryLink']))) ? ' class="active"' : '';
+            $activeCategoryMulti = ((isset($linkList['activeLink'])) || (isset($linkList['activeCategoryLink']))) ? 'active ' : '';
             ?>
 
             <?php $icon = ('Dashboard' === $categoryLabel) ? 'icon-home' : 'icon-wrench'; ?>

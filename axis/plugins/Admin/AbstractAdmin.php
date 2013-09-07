@@ -102,7 +102,7 @@ abstract class AbstractAdmin
                 }
 
                 $buildNavigation[$categoryLabel]['catLink'] = $categoryLink;
-
+                
                 foreach ($adminNavDataArray as $categoryData) {
 
                     if (!empty($categoryData[$categoryLabel])) {
@@ -113,7 +113,7 @@ abstract class AbstractAdmin
                             if ('#' !== $tempLink[0]) {
                                 $tempLink = $this->axis->basePath . '/admin' . $tempLink;
                             }
-
+                            
                             if ($currentlyLoadedUrl === $tempLink)
                                 $categoryData[$categoryLabel]['activeLink'] = $tempLink;
 
@@ -126,6 +126,9 @@ abstract class AbstractAdmin
 
                     }
                 }
+                
+                if ($currentlyLoadedUrl === $categoryLink)
+                    $buildNavigation[$categoryLabel]['activeCategoryLink'] = $categoryLink;
             }
 
             $buildNav = new Template(THEMES . $adminTheme . DS . 'admin.nav.tpl.php');
