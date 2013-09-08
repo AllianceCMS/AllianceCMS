@@ -671,6 +671,16 @@ $schema['0.01']['create']['table']['sessions'] = [
     ],
     [
         'column' => [
+            'name' => 'acms_id',
+            'type' => 'varchar(60)',
+            'not_null' => '1',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => '',
+        ],
+    ],
+    [
+        'column' => [
             'name' => 'hostname',
             'type' => 'varchar(39)',
             'not_null' => '',
@@ -872,7 +882,7 @@ $schema['0.01']['create']['table']['users'] = [
     [
         'column' => [
             'name' => 'password',
-            'type' => 'varchar(128)',
+            'type' => 'varchar(60)',
             'not_null' => '1',
             'unsigned' => '',
             'autoincrement' => '',

@@ -91,28 +91,22 @@ class Users
 
         $result = $axis->sql->dbFetch('one');
 
-        /*
-        echo '<br /><pre>$result: ';
-        echo var_dump($result);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
         if ($result !== false) {
+
             // User exists, check password
 
             $passwordAttempt = $_POST['password'];
             $passwordStored = $result['password'];
 
-            if ((crypt($passwordAttempt, $passwordStored)) == $passwordStored)
-            {
+            if ((crypt($passwordAttempt, $passwordStored)) == $passwordStored) {
+
                 // Remove Old Session
                 //$this->logoutAttempt($axis);
 
                 // Setup Session
-                $axis->segmentUser->uid = $result['id'];
                 $axis->segmentUser->display_name = $result['display_name'];
-                $axis->segmentUser->logged_in = '1';
+                $axis->segmentUser->acms_id = crypt($result['login_name'], $axis->acmsSalt);
+
 
                 // Store Session in Database
                 $axis->sql->dbSelect('users',
@@ -126,12 +120,15 @@ class Users
                 $tableColumns = [
                     'user_id' => $result['id'],
                     'session_id' => $axis->sessionAxis->getId(),
+                    'acms_id' => $axis->segmentUser->acms_id,
                     'hostname' => $_SERVER['REMOTE_ADDR'],
                     'persistent' => 1,
                     'created' => date("Y-m-d H:i:s", time()),
                 ];
 
                 $axis->sql->dbInsert('sessions', $tableColumns);
+
+                $axis->sessionAxis->commit();
 
                 header('Location: ' . $axis->basePath);
                 exit;
@@ -142,6 +139,7 @@ class Users
                 $form_helper->sendErrors('/user/login');
             }
         } else {
+
             $form_helper->addError('invalid_login_name');
             $form_helper->sendErrors('/user/login');
         }

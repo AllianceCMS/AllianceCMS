@@ -648,7 +648,7 @@ class InstallSite
         }
 
         // Login Admin
-        $this->loginAdmin($_POST['adminLoginName'], $_POST['adminPassword']);
+        $this->loginAdmin($axis, $_POST['adminLoginName'], $_POST['adminPassword']);
 
         // Installation Complete Page
 
@@ -667,7 +667,7 @@ class InstallSite
         exit;
     }
 
-    private function loginAdmin($loginName, $password)
+    private function loginAdmin($axis, $loginName, $password)
     {
         $sql = new \Acms\Core\Data\Db;
 
@@ -721,14 +721,20 @@ class InstallSite
         // Setup Session
         $sessionAxis = include PACKAGE_AURA_SESSION . 'scripts/instance.php';
         $sessionAxis->start();
+        $segmentUser = $sessionAxis->newSegment('User');
+        $segmentUser->display_name = $loginName;
+        $segmentUser->acms_id = crypt($loginName, $axis->acmsSalt);
 
         $tableColumns = [
             'user_id' => 1,
             'session_id' => $sessionAxis->getId(),
+            'acms_id' => $segmentUser->acms_id,
             'hostname' => $_SERVER['REMOTE_ADDR'],
             'persistent' => 1,
             'created' => date("Y-m-d H:i:s", time()),
         ];
+
+        $sessionAxis->commit();
 
         $sql->dbInsert('sessions', $tableColumns, $dbPrefix);
     }

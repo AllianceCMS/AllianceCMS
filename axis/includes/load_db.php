@@ -67,6 +67,7 @@ if (file_exists(DBCONNFILE)) {
         $axis = new stdClass;
         $axis->axisRoute = $axisRoute;
         $axis->basePath = $basePath;
+        $axis->acmsSalt = $acmsSalt;
 
 
         // Does the route indicate a controller?
