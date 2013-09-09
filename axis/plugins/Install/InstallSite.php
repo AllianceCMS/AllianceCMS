@@ -737,7 +737,7 @@ class InstallSite
 
         $sql->dbUpdate('users', $tableColumns, $conditions, $bind, $dbPrefix);
 
-        setcookie('acms_cookie', $acms_id, 0, '/');
+        setcookie($_SERVER['SERVER_NAME'] . '_cookie', $acms_id, 0, '/', $_SERVER['SERVER_NAME']);
     }
 
     private function startTemplate()

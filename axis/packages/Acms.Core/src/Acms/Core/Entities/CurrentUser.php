@@ -14,11 +14,13 @@ class CurrentUser
 
     public function __construct()
     {
-        if (isset($_COOKIE['acms_cookie'])) {
+        $cookieName = str_replace('.', '_', $_SERVER['SERVER_NAME']) . '_cookie';
+
+        if (isset($_COOKIE[$cookieName])) {
 
             $sql = new Db;
 
-            $sql->dbSelect('users', 'id, display_name', 'acms_id = :acms_id', ['acms_id' => $_COOKIE['acms_cookie']]);
+            $sql->dbSelect('users', 'id, display_name', 'acms_id = :acms_id', ['acms_id' => urldecode($_COOKIE[$cookieName])]);
             $result = $sql->dbFetch('one');
 
             if ($result !== false) {

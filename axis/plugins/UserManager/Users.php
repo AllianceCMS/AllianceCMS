@@ -117,10 +117,11 @@ class Users
 
                 $result = $axis->sql->dbUpdate('users', $tableColumns, $conditions, $bind);
 
-                if (isset($_COOKIE['acms_cookie']))
-                    setcookie('acms_cookie', false, time() - 3600, '/');
+                $cookieName = str_replace('.', '_', $_SERVER['SERVER_NAME']) . '_cookie';
 
-                setcookie('acms_cookie', $acms_id, 0, '/');
+                setcookie($_SERVER['SERVER_NAME'] . '_cookie', false, time() - 3600, '/', $_SERVER['SERVER_NAME']);
+
+                setcookie($_SERVER['SERVER_NAME'] . '_cookie', $acms_id, 0, '/', $_SERVER['SERVER_NAME']);
 
                 header('Location: ' . $axis->basePath);
                 exit;
@@ -170,8 +171,9 @@ class Users
 
         $axis->sessionAxis->destroy();
 
-        if (isset($_COOKIE['acms_cookie']))
-            setcookie('acms_cookie', false, time() - 3600, '/');
+        $cookieName = str_replace('.', '_', $_SERVER['SERVER_NAME']) . '_cookie';
+
+        setcookie($_SERVER['SERVER_NAME'] . '_cookie', false, time() - 3600, '/', $_SERVER['SERVER_NAME']);
 
         header('Location: ' . $axis->basePath);
         exit;
