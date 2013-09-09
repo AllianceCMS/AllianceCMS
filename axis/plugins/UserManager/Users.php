@@ -100,35 +100,27 @@ class Users
 
             if ((crypt($passwordAttempt, $passwordStored)) == $passwordStored) {
 
-                // Remove Old Session
-                //$this->logoutAttempt($axis);
-
                 // Setup Session
                 $axis->segmentUser->display_name = $result['display_name'];
-                $axis->segmentUser->acms_id = crypt($result['login_name'], $axis->acmsSalt);
+                $axis->sessionAxis->commit();
 
-
-                // Store Session in Database
-                $axis->sql->dbSelect('users',
-                    'id, display_name, password',
-                    'login_name = :login_name',
-                    [
-                    'login_name' => $_POST['login_name'],
-                    ]
-                );
+                $acms_id = crypt($result['display_name'], $axis->acmsSalt);
 
                 $tableColumns = [
-                    'user_id' => $result['id'],
-                    'session_id' => $axis->sessionAxis->getId(),
-                    'acms_id' => $axis->segmentUser->acms_id,
-                    'hostname' => $_SERVER['REMOTE_ADDR'],
-                    'persistent' => 1,
-                    'created' => date("Y-m-d H:i:s", time()),
+                    'acms_id' => $acms_id,
+                    'modified' => date("Y-m-d H:i:s", time()),
                 ];
 
-                $axis->sql->dbInsert('sessions', $tableColumns);
+                $conditions = 'id = :id';
 
-                $axis->sessionAxis->commit();
+                $bind = ['id' => $result['id']];
+
+                $result = $axis->sql->dbUpdate('users', $tableColumns, $conditions, $bind);
+
+                if (isset($_COOKIE['acms_cookie']))
+                    setcookie('acms_cookie', false, time() - 3600, '/');
+
+                setcookie('acms_cookie', $acms_id, 0, '/');
 
                 header('Location: ' . $axis->basePath);
                 exit;
@@ -163,9 +155,23 @@ class Users
     {
         $axis->sessionAxis->start();
 
-        $axis->sql->dbDelete('sessions', 'session_id = :session_id', ['session_id' => $axis->sessionAxis->getId()]);
+        $currentUser = new \Acms\Core\Entities\CurrentUser($sessionAxis);
+
+        $tableColumns = [
+            'acms_id' => '',
+            'modified' => date("Y-m-d H:i:s", time()),
+        ];
+
+        $conditions = 'id = :id';
+
+        $bind = ['id' => $currentUser->getId()];
+
+        $axis->sql->dbUpdate('users', $tableColumns, $conditions, $bind, $dbPrefix);
 
         $axis->sessionAxis->destroy();
+
+        if (isset($_COOKIE['acms_cookie']))
+            setcookie('acms_cookie', false, time() - 3600, '/');
 
         header('Location: ' . $axis->basePath);
         exit;

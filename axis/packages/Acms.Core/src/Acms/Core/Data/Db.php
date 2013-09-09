@@ -395,7 +395,8 @@ class Db
      * @todo: Document with examples
      */
 
-    public function dbUpdate($tableName, $tableColumns, $conditions, $bind, $tablePrefix = '') {
+    public function dbUpdate($tableName, $tableColumns, $conditions, $bind, $tablePrefix = '')
+    {
         if (!empty($tablePrefix)) {
             if ($this->getDbPrefix() == null) {
                 $this->setDbPrefix($tablePrefix);

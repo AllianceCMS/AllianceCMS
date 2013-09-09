@@ -14,31 +14,27 @@ class CurrentUser
 
     public function __construct()
     {
-        $sql = new Db;
+        if (isset($_COOKIE['acms_cookie'])) {
 
-        $sql->dbSelect('sessions', 'user_id, persistent', 'session_id = :session_id', ['session_id' => session_id()]);
-        $result = $sql->dbFetch('one');
+            $sql = new Db;
 
-        if ($result !== false) {
-
-            // Setup Current User Info
-            $this->id = $result['user_id'];
-            $this->loggedIn = true;
-
-            $sql->dbSelect('users', 'id, display_name', 'id = :user_id', ['user_id' => $this->id]);
+            $sql->dbSelect('users', 'id, display_name', 'acms_id = :acms_id', ['acms_id' => $_COOKIE['acms_cookie']]);
             $result = $sql->dbFetch('one');
 
             if ($result !== false) {
 
+                // Setup Current User Info
+                $this->id = $result['id'];
                 $this->displayName = $result['display_name'];
+                $this->loggedIn = true;
+
+                $sql->dbUpdate('users',
+                    [
+                        'last_login_time' => (string) date("Y-m-d H:i:s", time()),
+                        'last_ip' => $_SERVER['REMOTE_ADDR'],
+                    ], 'id = :id', ['id' => $result['id']]
+                );
             }
-
-            $sql->dbUpdate('users',
-                [
-                    'last_login_time' => (string) date("Y-m-d H:i:s", time()),
-                    'last_ip' => $_SERVER['REMOTE_ADDR'],
-                ], 'id = :id', ['id' => $result['id']]);
-
         } else {
             return false;
         }

@@ -21,6 +21,12 @@ if (phpversion() < '5.4.0'):
 endif;
 
 /**
+ * Create random salt for blowfish crypt hash
+ */
+
+$acmsSalt = sprintf('$2y$%02d$', 12).substr(str_replace('+', '.', base64_encode(pack('N4', mt_rand(), mt_rand(), mt_rand(), mt_rand()))), 0, 22).'$';
+
+/**
  * Create directory separator for file system paths
  */
 
@@ -171,12 +177,12 @@ define('TEMPLATES', THEMES . 'templates' . DS);
 
 // If this is localhost or main domain (localhost/mysite.com/www.mysite.com)
 if (((count(explode('.', $_SERVER['SERVER_NAME']))) < 3) || ($serverPathArray[0] == 'www')) {
-    
+
     $serverName = $_SERVER['SERVER_NAME'];
-    
+
     if ($serverPathArray[0] == 'www')
         $serverName = substr((string) $serverName, 4);
-    
+
     if (file_exists(ZONES . $serverName .  DS . 'dbConnection.php')) {
         $dbConnFile = ZONES . $serverName .  DS . 'dbConnection.php';
     } else {

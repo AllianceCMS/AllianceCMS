@@ -723,20 +723,21 @@ class InstallSite
         $sessionAxis->start();
         $segmentUser = $sessionAxis->newSegment('User');
         $segmentUser->display_name = $loginName;
-        $segmentUser->acms_id = crypt($loginName, $axis->acmsSalt);
-
-        $tableColumns = [
-            'user_id' => 1,
-            'session_id' => $sessionAxis->getId(),
-            'acms_id' => $segmentUser->acms_id,
-            'hostname' => $_SERVER['REMOTE_ADDR'],
-            'persistent' => 1,
-            'created' => date("Y-m-d H:i:s", time()),
-        ];
-
         $sessionAxis->commit();
 
-        $sql->dbInsert('sessions', $tableColumns, $dbPrefix);
+        $acms_id = crypt($loginName, $axis->acmsSalt);
+
+        $tableColumns = [
+            'acms_id' => $acms_id,
+            'modified' => date("Y-m-d H:i:s", time()),
+        ];
+
+        $conditions = 'id = :id';
+        $bind = ['id' => intval(1)];
+
+        $sql->dbUpdate('users', $tableColumns, $conditions, $bind, $dbPrefix);
+
+        setcookie('acms_cookie', $acms_id, 0, '/');
     }
 
     private function startTemplate()
