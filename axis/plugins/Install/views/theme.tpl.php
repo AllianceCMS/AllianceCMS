@@ -19,7 +19,7 @@
 
         		<div id="site_title">
         			<h1><a href="#">Alliance<span>CMS</span></a></h1>
-        			<p>Bringing Us Together</p>
+        			<p>Bringing Us Together!!!</p>
         		</div>
 
         	</div>
