@@ -43,6 +43,9 @@
     <?php $form_helper->inputPassword('password', ((isset($password)) ? $password : $password)); ?>
 </p>
 <p>
+	<?php $form_helper->inputCheckBox('stay_logged_in', 1); ?> Keep me logged in
+</p>
+<p>
     <?php $form_helper->inputHidden('login_stage', 'attempt_login'); ?>
     <?php $form_helper->inputSubmit('submit', 'Sign In'); ?>
 </p>

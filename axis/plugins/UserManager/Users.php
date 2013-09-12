@@ -121,7 +121,11 @@ class Users
 
                 setcookie($_SERVER['SERVER_NAME'] . '_cookie', false, time() - 3600, '/', $_SERVER['SERVER_NAME']);
 
-                setcookie($_SERVER['SERVER_NAME'] . '_cookie', $acms_id, 0, '/', $_SERVER['SERVER_NAME']);
+                if ($_POST['stay_logged_in'] === '1') {
+                    setcookie($_SERVER['SERVER_NAME'] . '_cookie', $acms_id, time()+60*60*24*365, '/', $_SERVER['SERVER_NAME']);
+                } else {
+                    setcookie($_SERVER['SERVER_NAME'] . '_cookie', $acms_id, 0, '/', $_SERVER['SERVER_NAME']);
+                }
 
                 header('Location: ' . $axis->basePath);
                 exit;
