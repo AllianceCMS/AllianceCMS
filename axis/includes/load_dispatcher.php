@@ -95,12 +95,7 @@ if ($dispatch) {
             // Assign the controller to the body of the base/theme template
             $page = new $controller($axis);
 
-            if ($page->$action() !== false) {
-                $content = $page->$action();
-            } else {
-                $content = '';
-            }
-
+            $content = $page->$action();
 
             /*
              * Create Admin Theme Template
@@ -170,19 +165,16 @@ if ($dispatch) {
 
             $tpl->set('adminNavbar', $adminNavbar);
 
-            $adminVars = $adminObject->getTemplateVars($axis);
-            $adminBlocks = $adminObject->getTemplateBlocks($axis);
+            $adminVars = $adminObject->getTemplateVars();
+            $adminBlocks = $adminObject->getTemplateBlocks();
         }
     } else {
 
         // Assign the controller to the body of the base/theme template
-        $page = new $controller;
+        $page = new $controller($axis);
 
-        if ($page->$action($axis) !== false) {
-            $content = $page->$action($axis);
-        } else {
-            $content = '';
-        }
+        // @todo: Can we get rid of 'axis' parameter yet???
+        $content = $page->$action($axis);
 
         // Create base/theme template vars
         $tpl->set('theme_folder', BASE_URL . '/' . $theme_path);
@@ -243,12 +235,16 @@ if ($dispatch) {
      * Process plugin output
      */
 
+    $tpl->set("customHeaders", $page->getCustomHeaders());
+
     $tpl->set("content", $content);
 
     // If the function 'customHeaders' exists then include custom header into the themes 'header' tags
+    /*
     if (function_exists('customHeaders')) {
         $tpl->set("customHeaders", customHeaders());
     }
+    //*/
 
     // Render active theme template (which in turn loads all other templates assigned to it)
     echo $tpl->fetch($load_theme);

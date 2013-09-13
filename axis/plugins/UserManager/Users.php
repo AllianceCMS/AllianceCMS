@@ -5,9 +5,13 @@ use Aura\Core\Entities\CurrentUser;
 use Acms\Core\Templates\Template;
 use Acms\Core\Html\FormHelper;
 use Acms\Core\Html\HtmlHelper;
+use Acms\Core\Components\AbstractPlugin;
 
 /**
  * @todo: Multiple Items
+ *
+ *     - loginBlock loads separately and not instantiated with 'axis' as controller parameter
+ *
  *     - Filter/Validate login name and password
  *
  *     - Create Registration Page
@@ -23,7 +27,7 @@ use Acms\Core\Html\HtmlHelper;
  *     - Comment Code
  */
 
-class Users
+class Users extends AbstractPlugin
 {
     public function loginBlock($axis)
     {
@@ -45,19 +49,16 @@ class Users
         return false;
     }
 
-    public function loginPage($axis)
+    public function loginPage()
     {
-        $html_helper = new HtmlHelper($axis->basePath);
-        $form_helper = new FormHelper($axis->basePath);
-
         $content = new Template(dirname(__FILE__) . DS . 'views/login.tpl.php');
-        $content->set('html_helper', $html_helper);
-        $content->set('form_helper', $form_helper);
+        $content->set('html_helper', $this->htmlHelper);
+        $content->set('form_helper', $this->formHelper);
 
         // If login-attempt found empty required fields, then process errors sent back to this action
-        if (!empty($axis->axisRoute->values['errors'])) {
+        if (!empty($this->axis->axisRoute->values['errors'])) {
 
-            $form_data = $form_helper->processErrors($axis->axisRoute->values['errors']);
+            $form_data = $form_helper->processErrors($this->axis->axisRoute->values['errors']);
 
             if (!empty($form_data)) {
                 foreach($form_data as $attribute => $value) {
@@ -69,9 +70,9 @@ class Users
         return $content;
     }
 
-    public function loginAttempt($axis)
+    public function loginAttempt()
     {
-        $form_helper = new FormHelper($axis->basePath);
+        $form_helper = new FormHelper($this->axis->basePath);
 
         // Check for form errors
         $form_helper->checkRequired(['login_name', 'password']);
@@ -81,7 +82,7 @@ class Users
 
         // Attempt login
 
-        $axis->sql->dbSelect('users',
+        $this->axis->sql->dbSelect('users',
             'id, display_name, password',
             'login_name = :login_name',
             [
@@ -89,7 +90,7 @@ class Users
             ]
         );
 
-        $result = $axis->sql->dbFetch('one');
+        $result = $this->axis->sql->dbFetch('one');
 
         if ($result !== false) {
 
@@ -101,10 +102,10 @@ class Users
             if ((crypt($passwordAttempt, $passwordStored)) == $passwordStored) {
 
                 // Setup Session
-                $axis->segmentUser->display_name = $result['display_name'];
-                $axis->sessionAxis->commit();
+                $this->axis->segmentUser->display_name = $result['display_name'];
+                $this->axis->sessionAxis->commit();
 
-                $acms_id = crypt($result['display_name'], $axis->acmsSalt);
+                $acms_id = crypt($result['display_name'], $this->axis->acmsSalt);
 
                 $tableColumns = [
                     'acms_id' => $acms_id,
@@ -115,19 +116,19 @@ class Users
 
                 $bind = ['id' => $result['id']];
 
-                $result = $axis->sql->dbUpdate('users', $tableColumns, $conditions, $bind);
+                $result = $this->axis->sql->dbUpdate('users', $tableColumns, $conditions, $bind);
 
-                $cookieName = str_replace('.', '_', $_SERVER['SERVER_NAME']) . '_cookie';
+                $cookieName = str_replace('.', '_', $_SERVER['SERVER_NAME']) . '_acms';
 
-                setcookie($_SERVER['SERVER_NAME'] . '_cookie', false, time() - 3600, '/', $_SERVER['SERVER_NAME']);
+                setcookie($_SERVER['SERVER_NAME'] . '_acms', false, time() - 3600, '/', $_SERVER['SERVER_NAME']);
 
                 if ($_POST['stay_logged_in'] === '1') {
-                    setcookie($_SERVER['SERVER_NAME'] . '_cookie', $acms_id, time()+60*60*24*365, '/', $_SERVER['SERVER_NAME']);
+                    setcookie($_SERVER['SERVER_NAME'] . '_acms', $acms_id, time()+60*60*24*365, '/', $_SERVER['SERVER_NAME']);
                 } else {
-                    setcookie($_SERVER['SERVER_NAME'] . '_cookie', $acms_id, 0, '/', $_SERVER['SERVER_NAME']);
+                    setcookie($_SERVER['SERVER_NAME'] . '_acms', $acms_id, 0, '/', $_SERVER['SERVER_NAME']);
                 }
 
-                header('Location: ' . $axis->basePath);
+                header('Location: ' . $this->axis->basePath);
                 exit;
 
             } else {
@@ -144,21 +145,9 @@ class Users
         return false;
     }
 
-    public function loginSuccessful($axis)
+    public function logoutAttempt()
     {
-        $html_helper = new HtmlHelper($axis->basePath);
-        $form_helper = new FormHelper($axis->basePath);
-
-        $content = new Template(dirname(__FILE__) . DS . 'views/login_successful.tpl.php');
-        $content->set('html_helper', $html_helper);
-        $content->set('form_helper', $form_helper);
-
-        return $content;
-    }
-
-    public function logoutAttempt($axis)
-    {
-        $axis->sessionAxis->start();
+        $this->axis->sessionAxis->start();
 
         $currentUser = new \Acms\Core\Entities\CurrentUser($sessionAxis);
 
@@ -171,15 +160,15 @@ class Users
 
         $bind = ['id' => $currentUser->getId()];
 
-        $axis->sql->dbUpdate('users', $tableColumns, $conditions, $bind, $dbPrefix);
+        $this->axis->sql->dbUpdate('users', $tableColumns, $conditions, $bind, $dbPrefix);
 
-        $axis->sessionAxis->destroy();
+        $this->axis->sessionAxis->destroy();
 
-        $cookieName = str_replace('.', '_', $_SERVER['SERVER_NAME']) . '_cookie';
+        $cookieName = str_replace('.', '_', $_SERVER['SERVER_NAME']) . '_acms';
 
-        setcookie($_SERVER['SERVER_NAME'] . '_cookie', false, time() - 3600, '/', $_SERVER['SERVER_NAME']);
+        setcookie($_SERVER['SERVER_NAME'] . '_acms', false, time() - 3600, '/', $_SERVER['SERVER_NAME']);
 
-        header('Location: ' . $axis->basePath);
+        header('Location: ' . $this->axis->basePath);
         exit;
 
         return false;

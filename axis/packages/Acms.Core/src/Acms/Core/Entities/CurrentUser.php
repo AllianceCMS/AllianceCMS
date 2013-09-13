@@ -14,7 +14,7 @@ class CurrentUser
 
     public function __construct()
     {
-        $cookieName = str_replace('.', '_', $_SERVER['SERVER_NAME']) . '_cookie';
+        $cookieName = str_replace('.', '_', $_SERVER['SERVER_NAME']) . '_acms';
 
         if (isset($_COOKIE[$cookieName])) {
 

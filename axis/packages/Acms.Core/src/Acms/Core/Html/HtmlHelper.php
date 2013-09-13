@@ -111,7 +111,15 @@ class HtmlHelper
         $completeTag .= "</a>";
 
         echo $completeTag;
+    }
 
+    public function styleSheetLink($href) {
+
+        // Closing quote is on next line to keep each additional link aligned (see 'View Source')
+        $completeTag = '<link rel="stylesheet" href="' . $href . '" />
+';
+
+        return $completeTag;
     }
 }
 

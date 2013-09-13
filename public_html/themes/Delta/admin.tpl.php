@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <!-- Begin PureCSS Includes -->
-        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.1/pure-min.css">
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.1/pure-min.css" />
         <!-- End PureCSS Includes -->
 
         <!-- Begin Delta Includes -->
@@ -22,6 +22,14 @@
         <!-- Begin Custom Includes -->
 		<link rel="stylesheet" href="<?php echo $theme_folder; ?>/acms/css/style.css"/>
         <!-- End Custom Includes -->
+
+		<!-- Begin Custom Plugin Includes -->
+
+        <?php foreach ($customHeaders as $customHeader): ?>
+            <?php echo $customHeader; ?>
+        <?php endforeach; ?>
+
+		<!-- End Custom Plugin Includes -->
 
 	</head>
 	<body>

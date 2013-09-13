@@ -1,33 +1,11 @@
 <?php
 namespace Admin;
 
-use Acms\Core\Data\Db;
+use Acms\Core\Components\AbstractPlugin;
 use Acms\Core\Templates\Template;
-use Acms\Core\Html\FormHelper;
-use Acms\Core\Html\HtmlHelper;
 
-abstract class AbstractAdmin
+abstract class AbstractAdmin extends AbstractPlugin
 {
-    private $axis;
-    private $formHelper;
-    private $htmlHelper;
-
-    public function __construct($axis)
-    {
-        $this->axis = $axis;
-        $this->formHelper = new FormHelper($this->axis->basePath);
-        $this->htmlHelper = new HtmlHelper($this->axis->basePath);
-    }
-
-    public function getThisObject()
-    {
-        $reflection = new \ReflectionClass($this);
-        $tempController = '\\' . $reflection->getNamespaceName() . '\\' . 'AdminPages';
-        $tempObject = new $tempController;
-
-        return $tempObject;
-    }
-
     public function adminNavCategories()
     {
         $adminNavCategories = [
@@ -102,7 +80,7 @@ abstract class AbstractAdmin
                 }
 
                 $buildNavigation[$categoryLabel]['catLink'] = $categoryLink;
-                
+
                 foreach ($adminNavDataArray as $categoryData) {
 
                     if (!empty($categoryData[$categoryLabel])) {
@@ -113,7 +91,7 @@ abstract class AbstractAdmin
                             if ('#' !== $tempLink[0]) {
                                 $tempLink = $this->axis->basePath . '/admin' . $tempLink;
                             }
-                            
+
                             if ($currentlyLoadedUrl === $tempLink)
                                 $categoryData[$categoryLabel]['activeLink'] = $tempLink;
 
@@ -126,7 +104,7 @@ abstract class AbstractAdmin
 
                     }
                 }
-                
+
                 if ($currentlyLoadedUrl === $categoryLink)
                     $buildNavigation[$categoryLabel]['activeCategoryLink'] = $categoryLink;
             }

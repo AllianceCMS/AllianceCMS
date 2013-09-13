@@ -61,6 +61,7 @@ class FormHelper
      */
 
     public function inputFormStart($action = '', $method = 'POST', $attributes = '', $name = '', $target = '') {
+
         $completeTag = '<form action="' . $this->basePath . $action . '" method="' . $method . '"';
 
         if ($name != '') {
