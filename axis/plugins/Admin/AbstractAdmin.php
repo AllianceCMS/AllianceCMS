@@ -124,7 +124,7 @@ abstract class AbstractAdmin extends AbstractPlugin
             exit;
         }
 
-        $tabData = new Template(THEMES . 'Delta' . DS . 'admin.tabs.tpl.php');
+        $tabData = new Template(TEMPLATES . 'admin.tabs.tpl.php');
         $tabData->set('tabLabels', $tabLabels);
         $tabData->set('tabContent', $tabContent);
 
