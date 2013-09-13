@@ -108,7 +108,7 @@ if ($dispatch) {
             //*/
 
             //*
-            $adminTheme = 'Delta';
+            $adminTheme = 'Charisma';
             //*/
 
             // Create Admin/theme template vars
@@ -137,9 +137,6 @@ if ($dispatch) {
              * Process Site Navigation Links (Top)
              */
 
-            /*
-            // Not Needed in Delta Admin Theme (YET!!!)
-
             // Create/set 'Main Nav Links' vars and template
             $sql->dbSelect('links',
                 'label, url',
@@ -155,7 +152,6 @@ if ($dispatch) {
 
             // Send navbar to main template (the active theme.tpl.php)
             $tpl->set("nav1", $nav1);
-            //*/
 
             /*
              * Process Admin Navigation (Left Side)

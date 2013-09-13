@@ -1,0 +1,56 @@
+@CHARSET "ISO-8859-1";
+
+.plugin-header {
+    background-color: #33CCCC;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 2em;
+    padding: 1em;
+}
+.plugin-title {
+    background-color: #33CCCC;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 2em;
+    padding: 1em;
+}
+
+.plugin-body {
+    background-color: #66CCCC;
+    padding: 1em;
+    padding-right: 0;
+}
+
+.plugin-body div div p {
+
+}
+
+/*
+.plugin-content {
+    padding: 1em;
+}
+*/
+
+.even-column {
+    background-color: #009999;
+    height: 3em;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/*
+.plugin-title p {
+    margin: .5em;
+}
+
+.plugin-uninstall {
+    background-color: teal;
+    border-top-right-radius: 10px;
+}
+
+.plugin-uninstall p {
+    margin: .5em;
+}
+*/
