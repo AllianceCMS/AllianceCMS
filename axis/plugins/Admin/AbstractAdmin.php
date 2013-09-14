@@ -9,7 +9,7 @@ abstract class AbstractAdmin extends AbstractPlugin
     public function adminNavCategories()
     {
         $adminNavCategories = [
-            'Dashboard' => '/dashboard',
+            'Dashboard' => '#',
             'Venues' => '#',
             'Users' => '#',
             'Content' => '#',
@@ -109,7 +109,7 @@ abstract class AbstractAdmin extends AbstractPlugin
                     $buildNavigation[$categoryLabel]['activeCategoryLink'] = $categoryLink;
             }
 
-            $buildNav = new Template(THEMES . $adminTheme . DS . 'admin.nav.tpl.php');
+            $buildNav = new Template(THEMES . $adminTheme . DS . 'admin.nav2.tpl.php');
 
             $buildNav->set('adminNavLinks', $buildNavigation);
         }

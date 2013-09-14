@@ -14,8 +14,19 @@ class AdminPages extends AbstractAdmin
         $form_helper = new FormHelper($axis->basePath);
 
         $content = new Template(dirname(__FILE__) . DS . 'views/dashboard.tpl.php');
-        $content->set('theme_folder', BASE_URL . '/themes/Delta');
+        $content->set('theme_folder', BASE_URL . '/themes/Charisma');
 
         return $content;
+    }
+
+    public function adminNavigation()
+    {
+        $adminNav = [
+            'Dashboard' => [
+                'Home' => '/dashboard',
+            ],
+        ];
+
+        return $adminNav;
     }
 }

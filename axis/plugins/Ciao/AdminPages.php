@@ -46,15 +46,15 @@ class AdminPages extends AbstractAdmin
     {
         $adminNav = [
             'Parent' => [
-                'Ciao Test Parent' => '#',
+                'Ciao Demo Category' => '#',
             ],
             'Other' => [
                 'Ciao' => '/ciao',
                 'Ciao Forms' => '/ciao/forms',
             ],
-            'Ciao Test Parent' => [
-                'Ciao Test Link' => '#',
-                'Ciao Test Link 2' => '#',
+            'Ciao Demo Category' => [
+                'Ciao Demo Link' => '#',
+                'Ciao Demo Link 2' => '#',
             ],
         ];
 
