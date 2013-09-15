@@ -23,7 +23,7 @@ class AdminPages extends AbstractAdmin
     {
         $adminNav = [
             'Dashboard' => [
-                'Home' => '/dashboard',
+                'Admin Home' => '/dashboard',
             ],
         ];
 

@@ -3,7 +3,7 @@ $navString = '';
 
 foreach ($links as $link) {
 
-    if (THIS_QUERY_STRING == $link['url']) {
+    if ('Admin Dashboard' == $link['label']) {
         $activeLink = ' class="active"';
     } else {
         $activeLink = '';

@@ -11,7 +11,16 @@ class AdminPages extends AbstractAdmin
         $this->addCustomHeader($this->htmlHelper->styleSheetLink('http://www.alliancecms.com/PluginManager/project/PluginManager/0.01/files/css/style.css'));
 
         $content = new Template(dirname(__FILE__) . DS . 'views/admin.installed_plugins.tpl.php');
-        $content->set('greeting', 'Installed Plugins!');
+
+        $this->axis->sql->dbSelect('plugins',
+            'name, version, description, developer, developer_email, developer_site, created',
+            'active = :active',
+            ['active' => intval(2)],
+            'ORDER BY weight');
+
+        $plugins = $this->axis->sql->dbFetch();
+
+        $content->set('plugins', $plugins);
 
         return $content;
     }

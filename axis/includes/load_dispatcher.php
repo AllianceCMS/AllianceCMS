@@ -235,13 +235,6 @@ if ($dispatch) {
 
     $tpl->set("content", $content);
 
-    // If the function 'customHeaders' exists then include custom header into the themes 'header' tags
-    /*
-    if (function_exists('customHeaders')) {
-        $tpl->set("customHeaders", customHeaders());
-    }
-    //*/
-
     // Render active theme template (which in turn loads all other templates assigned to it)
     echo $tpl->fetch($load_theme);
 }

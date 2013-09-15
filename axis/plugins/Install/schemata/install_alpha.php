@@ -373,9 +373,9 @@ $schema['0.01']['create']['table']['plugins'] = [
     [
         'column' => [
             'name' => 'version',
-            'type' => 'int(11)',
+            'type' => 'varchar(20)',
             'not_null' => '1',
-            'unsigned' => '1',
+            'unsigned' => '',
             'autoincrement' => '',
             'default' => '',
         ],
@@ -422,7 +422,7 @@ $schema['0.01']['create']['table']['plugins'] = [
     ],
     [
         'column' => [
-            'name' => 'developer_email',
+            'name' => 'developer_site',
             'type' => 'varchar(100)',
             'not_null' => '',
             'unsigned' => '',
@@ -432,7 +432,7 @@ $schema['0.01']['create']['table']['plugins'] = [
     ],
     [
         'column' => [
-            'name' => 'developer_site',
+            'name' => 'developer_email',
             'type' => 'varchar(100)',
             'not_null' => '',
             'unsigned' => '',
@@ -672,7 +672,7 @@ $schema['0.01']['create']['table']['themes'] = [
     [
         'column' => [
             'name' => 'version',
-            'type' => 'int(11)',
+            'type' => 'varchar(20)',
             'not_null' => '1',
             'unsigned' => '1',
             'autoincrement' => '',
@@ -1273,11 +1273,11 @@ $schema['0.01']['insert']['table'] = [
         'plugins' => [
             [
                 'id' => '',
-                'name' => 'Admin',
-                'version' => '',
+                'name' => 'Home',
+                'version' => '0.01',
                 'folder_path' => 'axis/plugins/',
-                'folder_name' => 'Admin',
-                'description' => 'This Official AllianceCMS Plugin allows you to manage your administrative pages.',
+                'folder_name' => 'Home',
+                'description' => 'This Official AllianceCMS Plugin allows you to manage your home page.',
                 'developer' => 'Jesse Burns',
                 'developer_email' => 'jesse.burns@alliancecms.com',
                 'developer_site' => 'http://www.alliancecms.com',
@@ -1288,11 +1288,11 @@ $schema['0.01']['insert']['table'] = [
             ],
             [
                 'id' => '',
-                'name' => 'Home',
-                'version' => '',
+                'name' => 'Admin',
+                'version' => '0.01',
                 'folder_path' => 'axis/plugins/',
-                'folder_name' => 'Home',
-                'description' => 'This Official AllianceCMS Plugin allows you to manage your home page.',
+                'folder_name' => 'Admin',
+                'description' => 'This Official AllianceCMS Plugin allows you to manage your administrative pages.',
                 'developer' => 'Jesse Burns',
                 'developer_email' => 'jesse.burns@alliancecms.com',
                 'developer_site' => 'http://www.alliancecms.com',
@@ -1304,7 +1304,7 @@ $schema['0.01']['insert']['table'] = [
             [
                 'id' => '',
                 'name' => 'User Manager',
-                'version' => '',
+                'version' => '0.01',
                 'folder_path' => 'axis/plugins/',
                 'folder_name' => 'UserManager',
                 'description' => 'This Official AllianceCMS Plugin enables user management functionality.',
@@ -1318,15 +1318,30 @@ $schema['0.01']['insert']['table'] = [
             ],
             [
                 'id' => '',
+                'name' => 'Plugin Manager',
+                'version' => '0.01',
+                'folder_path' => 'axis/plugins/',
+                'folder_name' => 'PluginManager',
+                'description' => 'This Official AllianceCMS Plugin allows you to manage your site Plugins.',
+                'developer' => 'Jesse Burns',
+                'developer_email' => 'jesse.burns@alliancecms.com',
+                'developer_site' => 'http://www.alliancecms.com',
+                'weight' => 4,
+                'active' => 2,
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
+            [
+                'id' => '',
                 'name' => 'Ciao',
-                'version' => '',
+                'version' => '0.01',
                 'folder_path' => 'axis/plugins/',
                 'folder_name' => 'Ciao',
                 'description' => 'This is a simple take on the classic "Hello World!" plugin, AllianceCMS style.',
                 'developer' => 'Jesse Burns',
                 'developer_email' => 'jesse.burns@alliancecms.com',
                 'developer_site' => 'http://www.alliancecms.com',
-                'weight' => 4,
+                'weight' => 5,
                 'active' => 2,
                 'created' => $currentMySqlTimestamp,
                 'modified' => $currentMySqlTimestamp,
@@ -1352,7 +1367,7 @@ $schema['0.01']['insert']['table'] = [
             [
                 'id' => '',
                 'name' => 'Emplode',
-                'version' => '',
+                'version' => '0.01',
                 'folder_path' => 'themes/',
                 'folder_name' => 'Emplode',
                 'description' => 'This theme is an AllianceCMS port of the Emplode website template found @ http://templates.arcsin.se.',

@@ -6,17 +6,17 @@
             <?php echo $categoryLabel; ?>
         </li>
 
-            <?php foreach ($linkList as $itemLabel => $itemLink): ?>
+        <?php foreach ($linkList as $itemLabel => $itemLink): ?>
 
-                <?php if (('catLink' !== $itemLabel) && ('count' !== $itemLabel) && ('activeLink' !== $itemLabel)): ?>
+            <?php if (('catLink' !== $itemLabel) && ('count' !== $itemLabel) && ('activeLink' !== $itemLabel)): ?>
 
-                    <?php $icon = ('Home' === $itemLabel) ? 'icon-home' : 'icon-wrench'; ?>
+                <?php $icon = ('Admin Home' === $itemLabel) ? 'icon-home' : 'icon-wrench'; ?>
 
-                    <li<?php echo $active; ?>><a href="<?php echo $itemLink; ?>"><i class="<?php echo $icon; ?>"></i><span class="hidden-tablet"><?php echo $itemLabel; ?></span></a></li>
+                <li<?php echo $active; ?>><a href="<?php echo $itemLink; ?>"><i class="<?php echo $icon; ?>"></i><span class="hidden-tablet"><?php echo $itemLabel; ?></span></a></li>
 
-                <?php endif; ?>
+            <?php endif; ?>
 
-            <?php endforeach;?>
+        <?php endforeach;?>
 
     <?php endif; ?>
 

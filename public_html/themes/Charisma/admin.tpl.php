@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+
     	<!--
     		Charisma v1.0.0
 
@@ -11,6 +12,7 @@
     		http://usman.it
     		http://twitter.com/halalit_usman
     	-->
+
     	<meta charset="utf-8">
     	<title><?php echo $venue_title; ?></title>
     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +26,7 @@
         <!-- End PureCSS Includes -->
 
         <!-- Begin Charisma Includes -->
-    	<link id="bs-css" href="<?php echo $theme_folder; ?>/css/bootstrap-classic.css" rel="stylesheet">
+    	<link id="bs-css" href="" rel="stylesheet">
     	<style type="text/css">
     	  body {
     		padding-bottom: 40px;
@@ -279,7 +281,6 @@
     	<script src="<?php echo $theme_folder; ?>/js/jquery.history.js"></script>
     	<!-- application script for Charisma demo -->
     	<script src="<?php echo $theme_folder; ?>/js/charisma.js"></script>
-
 
     </body>
 </html>
