@@ -9,7 +9,7 @@ $(document).ready(function(){
 	$('#themes a').click(function(e){
 		e.preventDefault();
 		current_theme=$(this).attr('data-value');
-		$.cookie('current_theme',current_theme,{expires:365});
+		$.cookie('current_theme',current_theme,{expires:365, path: '/'});
 		switch_theme(current_theme);
 		$('#themes i').removeClass('icon-ok');
 		$(this).find('i').addClass('icon-ok');
@@ -25,7 +25,7 @@ $(document).ready(function(){
 	
 	//ajax menu checkbox
 	$('#is-ajax').click(function(e){
-		$.cookie('is-ajax',$(this).prop('checked'),{expires:365});
+		$.cookie('is-ajax',$(this).prop('checked'),{expires:365, path: '/'});
 	});
 	$('#is-ajax').prop('checked',$.cookie('is-ajax')==='true' ? true : false);
 	
