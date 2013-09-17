@@ -2,7 +2,7 @@
     <div class="pure-u-3-4">
         <div class="pure-g-r">
             <div class="pure-u-1">
-                <h1>Installed Plugins</h1>
+                <h1>Current Plugins</h1>
                 <hr>
             </div>
         </div>

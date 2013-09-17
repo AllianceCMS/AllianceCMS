@@ -1,1 +1,1 @@
-<h2>Install Local Plugins</h2>
+<h2>Install Plugins</h2>

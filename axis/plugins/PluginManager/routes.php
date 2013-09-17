@@ -1,5 +1,5 @@
 <?php
-$pluginRoutes['PluginManager']['Installed Plugins'] = [
+$pluginRoutes['PluginManager']['Current Plugins'] = [
     'name' => 'plugin_manager', // Required: Route name
     'path' => '/plugin-manager', // Required: Route path
     'type' => 'admin', // Required: admin, front, back
@@ -7,7 +7,7 @@ $pluginRoutes['PluginManager']['Installed Plugins'] = [
         'values' => [
             'namespace' => 'PluginManager',
             'controller' => 'AdminPages',
-            'action' => 'installedPlugins',
+            'action' => 'currentPlugins',
         ] // Required: namespace/controller/action
     ]
 ];
@@ -25,6 +25,7 @@ $pluginRoutes['PluginManager']['Install Local Plugins'] = [
     ]
 ];
 
+/*
 $pluginRoutes['PluginManager']['Install Remote Plugins'] = [
     'name' => 'install_remote_plugins', // Required: Route name
     'path' => '/plugin-manager/install-remote-plugins', // Required: Route path
@@ -37,3 +38,4 @@ $pluginRoutes['PluginManager']['Install Remote Plugins'] = [
         ] // Required: namespace/controller/action
     ]
 ];
+//*/
