@@ -9,4 +9,5 @@ $acmsLoader->setPaths([
     'Aura\Sql\\' => PACKAGES . 'Aura.Sql' . DS . 'src' . DS,
     'PhpRbac\\' => PACKAGES . 'PhpRbac' . DS . 'src' . DS,
     'Respect\Validation\\' => PACKAGES . 'Respect.Validation' . DS . 'library' . DS,
+    'Symfony\\' => PACKAGES . 'Symfony' . DS . 'src' . DS,
 ]);
