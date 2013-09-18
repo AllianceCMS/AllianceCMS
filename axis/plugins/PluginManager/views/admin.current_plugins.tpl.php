@@ -40,12 +40,12 @@
                         </div>
                         <div class="pure-u-23-24">
                             <p>
-                                <strong>Developer Site:</strong> <?php echo $plugin['developer_email']; ?>
+                                <strong>Developer Site:</strong> <a href="<?php echo $plugin['developer_site']; ?>"><?php echo $plugin['developer_site']; ?></a>
                             </p>
                         </div>
                         <div class="pure-u-23-24">
                             <p>
-                                <strong>Developer Email:</strong> <?php echo $plugin['developer_site']; ?>
+                                <strong>Developer Email:</strong> <a href="mailto:<?php echo $plugin['developer_email']; ?>"><?php echo $plugin['developer_email']; ?></a>
                             </p>
                         </div>
                         <div class="pure-u-23-24">

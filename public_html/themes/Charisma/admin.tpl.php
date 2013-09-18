@@ -25,6 +25,13 @@
         <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
         <!-- End PureCSS Includes -->
 
+        <!-- Begin Bootstrap 3.0 Includes -->
+        <!--
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+        -->
+        <!-- End Bootstrap 3.0 Includes -->
+
         <!-- Begin Charisma Includes -->
     	<link id="bs-css" href="" rel="stylesheet">
     	<style type="text/css">
