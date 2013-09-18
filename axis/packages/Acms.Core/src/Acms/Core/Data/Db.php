@@ -437,6 +437,11 @@ class Db
         return $result;
     }
 
+    public function dbLastInsertId()
+    {
+        return $this->connection->lastInsertId();
+    }
+
     /*
      * Database connection methods
      */

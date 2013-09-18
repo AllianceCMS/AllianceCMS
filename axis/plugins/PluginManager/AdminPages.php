@@ -66,16 +66,14 @@ class AdminPages extends AbstractAdmin
 
     public function installLocalPlugins()
     {
-        $content = new Template(dirname(__FILE__) . DS . 'views/admin.install_local_plugins.tpl.php');
-
-        $currentZonePath = str_replace(DS . 'dbConnection.php', '', DBCONNFILE);
+        $this->addCustomHeader($this->htmlHelper->styleSheetLink('http://www.alliancecms.com/PluginManager/project/PluginManager/0.01/files/css/style.css'));
 
         $zoneAllfinder = new \Symfony\Component\Finder\Finder();
+        $zoneAllfinder->ignoreUnreadableDirs()->files()->name('details.php')->in(ZONES . 'all');
 
-        $zoneAllfinder->ignoreUnreadableDirs()->files()->name('routes.php')->in(ZONES . 'all');
-
+        $currentZonePath = str_replace(DS . 'dbConnection.php', '', DBCONNFILE);
         $zoneCurrentfinder = new \Symfony\Component\Finder\Finder();
-        $zoneCurrentfinder->ignoreUnreadableDirs()->files()->name('routes.php')->in($currentZonePath . DS . 'plugins');
+        $zoneCurrentfinder->ignoreUnreadableDirs()->files()->name('details.php')->in($currentZonePath . DS . 'plugins');
 
         foreach ($zoneAllfinder as $file) {
 
@@ -84,7 +82,7 @@ class AdminPages extends AbstractAdmin
 
             $zoneName = $absoluteFolderArray[count($absoluteFolderArray) - 5];
             $folder_name = $relativeFolderArray[count($relativeFolderArray) -1];
-            $folder_path = 'zones' . DS . $zoneName . DS . str_replace(DS . $folder_name, '', $file->getRelativePath());
+            $folder_path = 'zones' . DS . $zoneName . DS . str_replace(DS . $folder_name, '', $file->getRelativePath()) . DS;
 
             // Is this plugin already installed?
             $this->axis->sql->dbSelect('plugins',
@@ -97,64 +95,26 @@ class AdminPages extends AbstractAdmin
                 ]
             );
 
-            $zoneAllPlugins = $this->axis->sql->dbFetch();
+            $installedZoneAllPlugins = $this->axis->sql->dbFetch();
 
-            if (!$zoneAllPlugins) {
-                //*
-                echo '<br />Display this plugin<br />';
-                //exit;
-                //*/
+            if (!$installedZoneAllPlugins) {
 
-                //*
-                echo '<br />$folder_name is: ' . $folder_name . '<br />';
-                //exit;
-                //*/
+                include $file->getRealpath();
 
-                //*
-                echo '<br />$folder_path is: ' . $folder_path . '<br />';
-                //exit;
-                //*/
-
-                //*
-                echo '<br />$file->getRealpath() is: ' . $file->getRealpath() . '<br />';
-                //exit;
-                //*/
-
-                /*
-                 echo '<br />$file->getRelativePath() is: ' . $file->getRelativePath() . '<br />';
-                //exit;
-                //*/
-
-                /*
-                 echo '<br />$file->getRelativePathname() is: ' . $file->getRelativePathname() . '<br />';
-                //exit;
-                //*/
-
-                //*
-                echo '<br /><pre>$zoneAllPlugins: ';
-                echo print_r($zoneAllPlugins);
-                echo '</pre><br />';
-                //exit;
-                //*/
+                $zoneAllPlugins = [
+                    [
+                        'name' => $details['name'],
+                        'version' => $details['version'],
+                        'description' => urlencode($details['description']),
+                        'developer' => $details['developer'],
+                        'developer_site' => $details['developer_site'],
+                        'developer_email' => $details['developer_email'],
+                        'folder_path' => $folder_path,
+                        'folder_name' => $folder_name,
+                    ],
+                ];
             }
-
-            /*
-            echo '<br /><pre>$zoneAllPlugins: ';
-            echo var_dump($zoneAllPlugins);
-            echo '</pre><br />';
-            //exit;
-            //*/
-
-            //$zoneAllPlugins = '';
-
         }
-
-        $content->set('greeting', 'Install Local Plugins!');
-
-        //*
-        echo '<br /><hr><br />';
-        //exit;
-        //*/
 
         foreach ($zoneCurrentfinder as $file) {
 
@@ -163,18 +123,9 @@ class AdminPages extends AbstractAdmin
 
             $zoneName = $absoluteFolderArray[count($absoluteFolderArray) - 5];
             $folder_name = $relativeFolderArray[count($relativeFolderArray) -1];
-            $folder_path = 'zones' . DS . $zoneName . DS . str_replace(DS . $folder_name, '', $file->getRelativePath());
+            $folder_path = 'zones' . DS . $zoneName . DS . str_replace(DS . $folder_name, '', $file->getRelativePath()) . DS;
 
             $absoluteFolderArray = explode(DS, $file->getRealpath());
-
-            /*
-            echo '<br /><pre>$absoluteFolderArray: ';
-            echo print_r($absoluteFolderArray);
-            echo '</pre><br />';
-            //exit;
-            //*/
-
-            //$zoneName = $absoluteFolderArray[count($absoluteFolderArray) - 5];
 
             // Is this plugin already installed?
             $this->axis->sql->dbSelect('plugins',
@@ -187,56 +138,95 @@ class AdminPages extends AbstractAdmin
                 ]
             );
 
-            $zoneAllPlugins = $this->axis->sql->dbFetch();
+            $installedZoneSpecificPlugins = $this->axis->sql->dbFetch();
 
-            if (!$zoneAllPlugins) {
-                //*
-                echo '<br />Display this plugin<br />';
-                //exit;
-                //*/
+            if (!$installedZoneSpecificPlugins) {
 
-                //*
-                echo '<br />$zoneName is: ' . $zoneName . '<br />';
-                //exit;
-                //*/
+                include $file->getRealpath();
 
-                //*
-                echo '<br />$folder_name is: ' . $folder_name . '<br />';
-                //exit;
-                //*/
-
-                //*
-                echo '<br />$folder_path is: ' . $folder_path . '<br />';
-                //exit;
-                //*/
-
-                //*
-                echo '<br />$file->getRealpath() is: ' . $file->getRealpath() . '<br />';
-                //exit;
-                //*/
-
-                /*
-                 echo '<br />$file->getRelativePath() is: ' . $file->getRelativePath() . '<br />';
-                //exit;
-                //*/
-
-                /*
-                 echo '<br />$file->getRelativePathname() is: ' . $file->getRelativePathname() . '<br />';
-                //exit;
-                //*/
+                $zoneSpecificPlugins = [
+                    [
+                        'name' => $details['name'],
+                        'version' => $details['version'],
+                        'description' => urlencode($details['description']),
+                        'developer' => $details['developer'],
+                        'developer_site' => $details['developer_site'],
+                        'developer_email' => $details['developer_email'],
+                        'folder_path' => $folder_path,
+                        'folder_name' => $folder_name,
+                    ],
+                ];
             }
         }
 
-        /*
-        echo '<br /><pre>$zoneAllfinder: ';
-        echo var_dump($zoneAllfinder);
-        echo '</pre><br />';
-        //exit;
-        //*/
+        $content = new Template(dirname(__FILE__) . DS . 'views/admin.install_local_plugins.tpl.php');
 
+        if (1 === ((int) count($this->axis->axisRoute->values['query_string']))) {
+            $content->set('installationSuccessful', true);
+        } else {
+            if ($this->axis->axisRoute->values['query_string'][1]) {
+                $content->set($this->axis->axisRoute->values['query_string'][1], true);
+            }
 
+            if ($this->axis->axisRoute->values['query_string'][2]) {
+                $content->set($this->axis->axisRoute->values['query_string'][2], true);
+            }
+        }
 
-        $content->set('greeting', 'Install Local Plugins!');
+        $content->set('zoneAllPlugins', $zoneAllPlugins);
+        $content->set('zoneSpecificPlugins', $zoneSpecificPlugins);
+        $content->set('formHelper', $this->formHelper);
+
+        return $content;
+    }
+
+    public function installPlugin()
+    {
+        $tableColumns = [
+            'name' => $_POST['name'],
+            'version' => $_POST['version'],
+            'description' => urldecode($_POST['description']),
+            'developer' => $_POST['developer'],
+            'developer_site' => $_POST['developer_site'],
+            'developer_email' => $_POST['developer_email'],
+            'folder_path' => str_replace('\\', '/', $_POST['folder_path']),
+            'folder_name' => $_POST['folder_name'],
+            'active' => 2,
+            'created' => date("Y-m-d H:i:s", time()),
+        ];
+
+        $result_plugin = $this->axis->sql->dbInsert('plugins', $tableColumns);
+
+        if ($result_plugin) {
+            $lastInsertId = $this->axis->sql->dbLastInsertId();
+
+            $pluginPath = BASE_DIR . $_POST['folder_path'] . $_POST['folder_name'] . DS;
+
+            include $pluginPath . 'details.php';
+
+            foreach ($details['links'] as $label => $url) {
+                $tableColumns = [
+                    'plugin_id' => $lastInsertId,
+                    'label' => $label,
+                    'url' => $url,
+                    'active' => 2,
+                    'created' => date("Y-m-d H:i:s", time()),
+                ];
+
+                $result_links = $this->axis->sql->dbInsert('links', $tableColumns);
+            }
+        }
+
+        if (!$result_plugin) {
+            $queryString .= '/result_plugin';
+        }
+
+        if (!$result_links) {
+            $queryString .= '/result_links';
+        }
+
+        header('Location: ' . $this->axis->basePath . '/admin/plugin-manager/install-local-plugins/installation-attempted' . $queryString);
+        exit;
 
         return $content;
     }
