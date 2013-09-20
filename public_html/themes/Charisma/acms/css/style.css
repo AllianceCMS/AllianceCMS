@@ -1,8 +1,6 @@
+@CHARSET "ISO-8859-1";
+
 /*
 Custom AllianceCMS styles.
 */
 
-/* For testing grids */
-.plugin-nav {
-    padding: 0.75em 0.5em;
-}

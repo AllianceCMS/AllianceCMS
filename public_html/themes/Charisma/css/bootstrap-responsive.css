@@ -716,7 +716,8 @@
   .nav-collapse .nav > li {
     float: none;
   }
-  .nav-collapse .nav > li > a {
+  .nav-collapse .nav > li > a,
+  .nav-collapse .nav > div > li > a {
     margin-bottom: 2px;
   }
   .nav-collapse .nav > .divider-vertical {

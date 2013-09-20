@@ -38,6 +38,32 @@ $pluginRoutes['PluginManager']['Install Plugin'] = [
     ]
 ];
 
+$pluginRoutes['PluginManager']['Confirm Uninstall Plugin'] = [
+    'name' => 'confirm_uninstall_plugin', // Required: Route name
+    'path' => '/plugin-manager/confirm-uninstall-plugin', // Required: Route path
+    'type' => 'admin', // Required: admin, front, back
+    'specs' => [
+        'values' => [
+            'namespace' => 'PluginManager',
+            'controller' => 'AdminPages',
+            'action' => 'confirmUninstallPlugin',
+        ] // Required: namespace/controller/action
+    ]
+];
+
+$pluginRoutes['PluginManager']['Uninstall Plugin'] = [
+    'name' => 'uninstall_plugin', // Required: Route name
+    'path' => '/plugin-manager/uninstall-plugin', // Required: Route path
+    'type' => 'admin', // Required: admin, front, back
+    'specs' => [
+        'values' => [
+            'namespace' => 'PluginManager',
+            'controller' => 'AdminPages',
+            'action' => 'uninstallPlugin',
+        ] // Required: namespace/controller/action
+    ]
+];
+
 /*
 $pluginRoutes['PluginManager']['Install Remote Plugins'] = [
     'name' => 'install_remote_plugins', // Required: Route name

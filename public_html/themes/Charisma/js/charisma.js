@@ -39,11 +39,20 @@ $(document).ready(function(){
 		
 	}
 	
-	
 	//highlight current / active link
 	$('ul.main-menu li a').each(function(){
 		if($($(this))[0].href==String(window.location))
 			$(this).parent().addClass('active');
+	});
+	
+	
+
+	//highlight current / active link
+	$('ul.main-menu div li a').each(function(){
+		if($($($(this)))[0].href==String(window.location)) {
+			$(this).parent().addClass('active');
+			$($(this).parent()).parent().addClass('in');
+		}
 	});
 	
 	//establish history variables

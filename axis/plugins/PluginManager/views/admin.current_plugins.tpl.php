@@ -16,17 +16,26 @@
             <?php foreach ($zoneAllPlugins as $plugin): ?>
                 <div class="pure-g-r plugin-title">
                     <div class="pure-u-23-24">
-                        <p class="pull-left">
+                        <div class="pull-left">
                             <strong><?php echo $plugin['name']; ?> v<?php echo $plugin['version']; ?></strong>
-                        </p>
-                        <p class="pull-right">
+                        </div>
+                        <div class="pull-right">
                             <?php if ($plugin['update_plugin']): ?>
                                 <a class="pure-button pure-button-active" href="#">Update Now!</a>
                             <?php endif; ?>
                             <?php if (!$plugin['axis_plugin']): ?>
-                                <a class="pure-button" href="#">Uninstall</a>
+                                <?php $formHelper->inputFormStart('/admin/plugin-manager/uninstall-plugin'); ?>
+                                    <?php
+                                    foreach($plugin as $attribute => $value) {
+                                        if (((string)(strpos($attribute, 'admin')) !== ((string)0))) {
+                                            $formHelper->inputHidden($attribute, $value);
+                                        }
+                                    }
+                                    $formHelper->inputSubmit('submit', 'Uninstall', array('class' => 'pure-button'));
+                                    ?>
+                                <?php $formHelper->inputFormEnd(); ?>
                             <?php endif; ?>
-                        </p>
+                        </div>
                     </div>
                 </div>
                 <div class="pure-g-r plugin-body">
@@ -83,17 +92,26 @@
             <?php foreach ($zoneSpecificPlugins as $plugin): ?>
                 <div class="pure-g-r plugin-title">
                     <div class="pure-u-23-24">
-                        <p class="pull-left">
+                        <div class="pull-left">
                             <strong><?php echo $plugin['name']; ?> v<?php echo $plugin['version']; ?></strong>
-                        </p>
-                        <p class="pull-right">
+                        </div>
+                        <div class="pull-right">
                             <?php if ($plugin['update_plugin']): ?>
                                 <a class="pure-button pure-button-active" href="#">Update Now!</a>
                             <?php endif; ?>
                             <?php if (!$plugin['axis_plugin']): ?>
-                                <a class="pure-button" href="#">Uninstall</a>
+                                <?php $formHelper->inputFormStart('/admin/plugin-manager/uninstall-plugin'); ?>
+                                    <?php
+                                    foreach($plugin as $attribute => $value) {
+                                        if (((string)(strpos($attribute, 'admin')) !== ((string)0))) {
+                                            $formHelper->inputHidden($attribute, $value);
+                                        }
+                                    }
+                                    $formHelper->inputSubmit('submit', 'Uninstall', array('class' => 'pure-button'));
+                                    ?>
+                                <?php $formHelper->inputFormEnd(); ?>
                             <?php endif; ?>
-                        </p>
+                        </div>
                     </div>
                 </div>
                 <div class="pure-g-r plugin-body">

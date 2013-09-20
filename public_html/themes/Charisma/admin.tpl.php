@@ -22,15 +22,12 @@
     	<!-- The styles -->
 
         <!-- Begin PureCSS Includes -->
-        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+        <link rel="stylesheet" href="<?php echo $templateFolder; ?>/tools/pure/0.3.0/pure-min.css">
         <!-- End PureCSS Includes -->
 
-        <!-- Begin Bootstrap 3.0 Includes -->
-        <!--
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-        -->
-        <!-- End Bootstrap 3.0 Includes -->
+        <!-- Begin Hint.css Includes -->
+        <link rel="stylesheet" href="<?php echo $templateFolder; ?>/tools/hint.css/1.3.0/hint.min.css">
+        <!-- End Hint.css Includes -->
 
         <!-- Begin Charisma Includes -->
     	<link id="bs-css" href="" rel="stylesheet">
@@ -69,7 +66,9 @@
         <!-- End Charisma Includes -->
 
         <!-- Begin Custom Includes -->
-		<link rel="stylesheet" href="<?php echo $theme_folder; ?>/acms/css/style.css"/>
+    	<link href="<?php echo $theme_folder; ?>/acms/css/style.css" rel="stylesheet">
+		<link rel="stylesheet" href="<?php echo $templateFolder; ?>/tools/acms/css/style.css"/>
+    	<script src="<?php echo $templateFolder; ?>/tools/acms/js/acms.js"></script>
         <!-- End Custom Includes -->
 
 		<!-- Begin Custom Plugin Includes -->
@@ -140,7 +139,7 @@
     		<div class="row-fluid">
 
     			<!-- left menu starts -->
-    			<div class="span2 main-menu-span">
+    			<div id="accordion" class="span2 main-menu-span">
     				<div class="well nav-collapse sidebar-nav">
     					<ul class="nav nav-tabs nav-stacked main-menu">
 
@@ -288,6 +287,13 @@
     	<script src="<?php echo $theme_folder; ?>/js/jquery.history.js"></script>
     	<!-- application script for Charisma demo -->
     	<script src="<?php echo $theme_folder; ?>/js/charisma.js"></script>
+
+        <!-- Begin Custom Bootstrap 3.0 Includes -->
+    	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/alert.js"></script>
+    	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/collapse.js"></script>
+    	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/dropdown.js"></script>
+    	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/transition.js"></script>
+        <!-- End Custom Bootstrap 3.0 Includes -->
 
     </body>
 </html>

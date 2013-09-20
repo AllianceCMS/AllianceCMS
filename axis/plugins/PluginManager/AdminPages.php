@@ -60,6 +60,7 @@ class AdminPages extends AbstractAdmin
         $content->set('zoneAllPlugins', $zoneAllPlugins);
         $content->set('zoneSpecificPlugins', $zoneSpecificPlugins);
         $content->set('axisPlugins', $axisPlugins);
+        $content->set('formHelper', $this->formHelper);
 
         return $content;
     }
@@ -182,6 +183,7 @@ class AdminPages extends AbstractAdmin
 
     public function installPlugin()
     {
+        // Add plugin to database
         $tableColumns = [
             'name' => $_POST['name'],
             'version' => $_POST['version'],
@@ -204,6 +206,7 @@ class AdminPages extends AbstractAdmin
 
             include $pluginPath . 'details.php';
 
+            // Add links to database
             foreach ($details['links'] as $label => $url) {
                 $tableColumns = [
                     'plugin_id' => $lastInsertId,
@@ -216,6 +219,64 @@ class AdminPages extends AbstractAdmin
                 $result_links = $this->axis->sql->dbInsert('links', $tableColumns);
             }
         }
+
+        // Add schema info to database
+
+        include $pluginPath . 'schema.php';
+
+        /*
+        echo '<br /><pre>$schema: ';
+        echo print_r($schema);
+        echo '</pre><br />';
+        exit;
+        //*/
+
+        foreach ($schema as $version) {
+            // Create Tables
+            if (isset($version['create']['table'])){
+                foreach ($version['create']['table'] as $tableName => $index) {
+                    $this->axis->sql->dbCreateTable($tableName, $index, $dbPrefix);
+                }
+            }
+
+            // Insert Data Into Database
+            if (isset($version['insert']['table'])) {
+                foreach ($version['insert']['table'] as $loopTables) {
+
+                    foreach ($loopTables as $tableName => $loopFields) {
+                        foreach ($loopFields as $columns) {
+                            $result = $this->axis->sql->dbInsert($tableName, $columns, $dbPrefix);
+                        }
+                    }
+                }
+            }
+
+            // Alter Database Tables
+            if (isset($version['alter']['table'])) {
+                foreach ($version['alter']['table'] as $loopTables) {
+                    foreach ($loopTables as $tableName => $statement) {
+                        $this->axis->sql->dbAlterTable($tableName, $statement);
+                    }
+                }
+            }
+        }
+
+        // Update database schema version
+
+        // Get the most recent schema version for this database install
+        end($schema); // move the internal pointer to the end of the array
+        $schemaVersion = key($schema); // fetches the key of the element pointed to by the internal pointer
+        reset($schema);
+
+        $schemaColumns = [
+            'system_name' => $_POST['name'],
+            'schema_version' => $schemaVersion,
+            'created' => $currentMySqlTimestamp,
+            'modified' => $currentMySqlTimestamp,
+        ];
+
+        $this->axis->sql->dbInsert('schemas', $schemaColumns, $dbPrefix);
+
 
         if (!$result_plugin) {
             $queryString .= '/result_plugin';
