@@ -23,7 +23,7 @@
 ?>
 
 <p>
-    <strong>Please Confirm Main Venue Information, Then Install Venue</strong>
+    <strong>Please Confirm Main Venue Information</strong>
 </p>
 
 <hr>

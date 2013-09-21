@@ -192,6 +192,16 @@ $schema['0.01']['create']['table']['links'] = [
     ],
     [
         'column' => [
+            'name' => 'plugin_id',
+            'type' => 'int(11)',
+            'not_null' => '1',
+            'unsigned' => '1',
+            'autoincrement' => '',
+            'default' => '',
+        ],
+    ],
+    [
+        'column' => [
             'name' => 'label',
             'type' => 'varchar(50)',
             'not_null' => '1',
@@ -284,6 +294,7 @@ $schema['0.01']['create']['table']['links'] = [
         'keys' => [
             'PRIMARY KEY (id)',
             'INDEX (link_parent)',
+            'INDEX (plugin_id)',
         ],
     ],
 ];
@@ -1200,6 +1211,7 @@ $schema['0.01']['insert']['table'] = [
         'links' => [
             [
                 'id' => '',
+                'plugin_id' => '1',
                 'label' => 'Home',
                 'url' => '',
                 'comment' => '',
@@ -1210,34 +1222,9 @@ $schema['0.01']['insert']['table'] = [
                 'created' => $currentMySqlTimestamp,
                 'modified' => $currentMySqlTimestamp,
             ],
-            /*
             [
                 'id' => '',
-                'label' => 'Ciao Folks',
-                'url' => '/ciao/hey',
-                'comment' => '',
-                'link_parent' => '',
-                'link_area' => 1,
-                'link_order' => 2,
-                'active' => 2,
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp,
-            ],
-            [
-                'id' => '',
-                'label' => 'Ciao People',
-                'url' => '/ciao/later',
-                'comment' => '',
-                'link_parent' => '',
-                'link_area' => 1,
-                'link_order' => 3,
-                'active' => 2,
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp,
-            ],
-            //*/
-            [
-                'id' => '',
+                'plugin_id' => '',
                 'label' => 'AllianceCMS: Wiki',
                 'url' => 'https://github.com/jbWebWare/AllianceCMS/wiki',
                 'comment' => '',
@@ -1250,6 +1237,7 @@ $schema['0.01']['insert']['table'] = [
             ],
             [
                 'id' => '',
+                'plugin_id' => '',
                 'label' => 'AllianceCMS: API',
                 'url' => 'http://api.alliancecms.com/',
                 'comment' => '',
@@ -1262,6 +1250,7 @@ $schema['0.01']['insert']['table'] = [
             ],
             [
                 'id' => '',
+                'plugin_id' => '2',
                 'label' => 'Admin Dashboard',
                 'url' => '/admin/dashboard',
                 'comment' => '',
@@ -1343,23 +1332,6 @@ $schema['0.01']['insert']['table'] = [
                 'created' => $currentMySqlTimestamp,
                 'modified' => $currentMySqlTimestamp,
             ],
-            /*
-            [
-                'id' => '',
-                'name' => 'Ciao',
-                'version' => '0.01',
-                'description' => 'This is a simple take on the classic "Hello World!" plugin, AllianceCMS style.',
-                'developer' => 'Jesse Burns',
-                'developer_email' => 'jesse.burns@alliancecms.com',
-                'developer_site' => 'http://www.alliancecms.com',
-                'folder_path' => 'zones/all/plugins/provider/',
-                'folder_name' => 'Ciao',
-                'weight' => 5,
-                'active' => 2,
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp,
-            ],
-            //*/
         ],
         'roles' => [
             [
