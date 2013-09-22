@@ -29,8 +29,14 @@
         <link rel="stylesheet" href="<?php echo $templateFolder; ?>/tools/hint.css/1.3.0/hint.min.css">
         <!-- End Hint.css Includes -->
 
+        <!-- Begin Custom Includes -->
+		<link rel="stylesheet" href="<?php echo $templateFolder; ?>/tools/acms/css/style.css"/>
+    	<link href="<?php echo $theme_folder; ?>/acms/css/style.css" rel="stylesheet">
+        <!-- End Custom Includes -->
+
         <!-- Begin Charisma Includes -->
-    	<link id="bs-css" href="" rel="stylesheet">
+    	<!-- <link id="bs-css" href="<?php echo $theme_folder; ?>/css/bootstrap-classic.min.css" rel="stylesheet"> -->
+    	<link rel="stylesheet" href="<?php echo $theme_folder; ?>/css/bootstrap-classic.min.css">
     	<style type="text/css">
     	  body {
     		padding-bottom: 40px;
@@ -65,12 +71,6 @@
     	<!-- <link rel="shortcut icon" href="<?php /*echo $theme_folder;*/ ?>/img/favicon.ico"> -->
         <!-- End Charisma Includes -->
 
-        <!-- Begin Custom Includes -->
-    	<link href="<?php echo $theme_folder; ?>/acms/css/style.css" rel="stylesheet">
-		<link rel="stylesheet" href="<?php echo $templateFolder; ?>/tools/acms/css/style.css"/>
-    	<script src="<?php echo $templateFolder; ?>/tools/acms/js/acms.js"></script>
-        <!-- End Custom Includes -->
-
 		<!-- Begin Custom Plugin Includes -->
 
     	<?php if (!empty($customHeaders)): ?>
@@ -96,6 +96,7 @@
     				<a class="brand" href="<?php echo $basePath; ?>"> <span><?php echo $venue_name; ?></span></a>
 
     				<!-- theme selector starts -->
+    				<!--
     				<div class="btn-group pull-right theme-container" >
     					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
     						<i class="icon-tint"></i><span class="hidden-phone"> Change Theme / Skin</span>
@@ -111,6 +112,7 @@
     						<li><a data-value="spacelab" href="#"><i class="icon-blank"></i> Spacelab</a></li>
     					</ul>
     				</div>
+    				-->
     				<!-- theme selector ends -->
 
     				<!-- user dropdown starts -->
@@ -175,7 +177,7 @@
         			</div>
 
         			<div class="sortable row-fluid">
-                        <div class="alert alert-error">
+                        <div class="alert alert-error fade in">
                             <strong>Warning: The AllianceCMS Administrative Dashboard is Under Construction!</strong>
                             <a href="#" data-dismiss="alert" class="close">&times;</a>
                         </div>
@@ -291,11 +293,21 @@
     	<script src="<?php echo $theme_folder; ?>/js/charisma.js"></script>
 
         <!-- Begin Custom Bootstrap 3.0 Includes -->
-    	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/alert.js"></script>
-    	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/collapse.js"></script>
-    	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/dropdown.js"></script>
-    	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/transition.js"></script>
+    	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/js/alert.js"></script>
+    	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/js/collapse.js"></script>
+    	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/js/dropdown.js"></script>
+    	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/js/tab.js"></script>
+    	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/js/transition.js"></script>
         <!-- End Custom Bootstrap 3.0 Includes -->
+
+        <!-- Begin Custom jQuery Includes -->
+    	<!-- <script src="<?php echo $templateFolder; ?>/tools/jquery/1.10.2/jquery-1.10.2.min.js"></script> -->
+    	<!-- <script src="<?php echo $templateFolder; ?>/tools/jquery/1.10.2/jquery-migrate-1.2.1.min.js"></script> -->
+        <!-- End Custom jQuery Includes -->
+
+        <!-- Begin Custom Includes -->
+    	<script src="<?php echo $templateFolder; ?>/tools/acms/js/acms.js"></script>
+        <!-- End Custom Includes -->
 
     </body>
 </html>

@@ -2670,7 +2670,8 @@ input[type="submit"].btn.btn-mini {
 .alert-block p + p {
   margin-top: 5px;
 }
-.nav {
+.nav,
+.acms-tabs {
   margin-left: 0;
   margin-bottom: 18px;
   list-style: none;
@@ -2679,7 +2680,8 @@ input[type="submit"].btn.btn-mini {
 .nav > div > li > a {
   display: block;
 }
-.nav > li > a:hover {
+.nav > li > a:hover,
+.acms-tabs > li > a:hover {
   text-decoration: none;
   background-color: #eeeeee;
 }
@@ -2775,13 +2777,16 @@ input[type="submit"].btn.btn-mini {
   -moz-border-radius: 4px 4px 0 0;
   border-radius: 4px 4px 0 0;
 }
-.nav-tabs > li > a:hover {
+.nav-tabs > li > a:hover,
+.acms-tabs > li > a:hover {
   border-color: #eeeeee #eeeeee #dddddd;
 }
 .nav-tabs > .active > a,
 .nav-tabs > .active > a:hover,
 .nav-tabs > div > .active > a,
-.nav-tabs > div > .active > a:hover {
+.nav-tabs > div > .active > a:hover,
+.acms-tabs > .active > a,
+.acms-tabs > .active > a:hover {
   color: #888888;
   background-color: #ffffff;
   border: 1px solid #ddd;

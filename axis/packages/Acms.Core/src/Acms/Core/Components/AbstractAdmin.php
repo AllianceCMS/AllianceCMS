@@ -117,7 +117,7 @@ abstract class AbstractAdmin extends AbstractPlugin
         return $buildNav;
     }
 
-    public function compilePage($tabLabels, $tabContent)
+    public function compileTabs($tabLabels, $tabContent, $active = 1)
     {
         if (count($tabLabels) !== count($tabContent)) {
             echo "You need to have the same amount of labels as content";
@@ -125,6 +125,7 @@ abstract class AbstractAdmin extends AbstractPlugin
         }
 
         $tabData = new Template(TEMPLATES . 'admin.tabs.tpl.php');
+        $tabData->set('active', $active);
         $tabData->set('tabLabels', $tabLabels);
         $tabData->set('tabContent', $tabContent);
 

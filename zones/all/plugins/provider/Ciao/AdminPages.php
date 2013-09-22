@@ -30,7 +30,10 @@ class AdminPages extends AbstractAdmin
             $sayGoodbyeContent,
         ];
 
-        $content = $this->compilePage($tabLabels, $tabContent);
+        $tabTemplate = $this->compileTabs($tabLabels, $tabContent, $active = 2);
+
+        $content = new Template(dirname(__FILE__) . DS . 'views/admin.ciao.tpl.php');
+        $content->set('tabTemplate', $tabTemplate);
 
         return $content;
     }

@@ -49,7 +49,7 @@ $(document).ready(function(){
 
 	//highlight current / active link
 	$('ul.main-menu div li a').each(function(){
-		alert(String(window.location) + ' and ' + $($($(this)))[0].href);
+		/* alert(String(window.location) + ' and ' + $($($(this)))[0].href); */
 		if($($($(this)))[0].href==String(window.location)) {
 			/*if(String(window.location).match($($($(this)))[0].href)) {*/
 			$(this).parent().addClass('active');
