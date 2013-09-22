@@ -165,14 +165,20 @@ class AdminPages extends AbstractAdmin
         if (1 === ((int) count($this->axis->axisRoute->values['query_string']))) {
             $content->set('installationSuccessful', true);
         } else {
-            if ($this->axis->axisRoute->values['query_string'][1]) {
+            if (isset($this->axis->axisRoute->values['query_string'][1])) {
                 $content->set($this->axis->axisRoute->values['query_string'][1], true);
             }
 
-            if ($this->axis->axisRoute->values['query_string'][2]) {
+            if (isset($this->axis->axisRoute->values['query_string'][2])) {
                 $content->set($this->axis->axisRoute->values['query_string'][2], true);
             }
         }
+
+        if (!isset($zoneAllPlugins))
+            $zoneAllPlugins = '';
+
+        if (!isset($zoneSpecificPlugins))
+            $zoneSpecificPlugins = '';
 
         $content->set('zoneAllPlugins', $zoneAllPlugins);
         $content->set('zoneSpecificPlugins', $zoneSpecificPlugins);
@@ -235,7 +241,7 @@ class AdminPages extends AbstractAdmin
             // Create Tables
             if (isset($version['create']['table'])){
                 foreach ($version['create']['table'] as $tableName => $index) {
-                    $this->axis->sql->dbCreateTable($tableName, $index, $dbPrefix);
+                    $this->axis->sql->dbCreateTable($tableName, $index);
                 }
             }
 
@@ -245,7 +251,7 @@ class AdminPages extends AbstractAdmin
 
                     foreach ($loopTables as $tableName => $loopFields) {
                         foreach ($loopFields as $columns) {
-                            $result = $this->axis->sql->dbInsert($tableName, $columns, $dbPrefix);
+                            $result = $this->axis->sql->dbInsert($tableName, $columns);
                         }
                     }
                 }
@@ -271,12 +277,13 @@ class AdminPages extends AbstractAdmin
         $schemaColumns = [
             'system_name' => $_POST['name'],
             'schema_version' => $schemaVersion,
-            'created' => $currentMySqlTimestamp,
-            'modified' => $currentMySqlTimestamp,
+            'created' => date("Y-m-d H:i:s", time()),
+            'modified' => date("Y-m-d H:i:s", time()),
         ];
 
-        $this->axis->sql->dbInsert('schemas', $schemaColumns, $dbPrefix);
+        $this->axis->sql->dbInsert('schemas', $schemaColumns);
 
+        $queryString = '';
 
         if (!$result_plugin) {
             $queryString .= '/result_plugin';

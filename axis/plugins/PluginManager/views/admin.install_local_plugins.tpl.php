@@ -1,4 +1,4 @@
-<?php if ($installationSuccessful): ?>
+<?php if (isset($installationSuccessful)): ?>
     <div class="sortable row-fluid">
         <div class="alert alert-success">
             <strong>Plugin Successfully Installed!</strong>
@@ -20,7 +20,7 @@
                 <h2>Domain Wide Plugins</h2>
             </div>
         </div>
-        <?php if ($zoneAllPlugins): ?>
+        <?php if (!empty($zoneAllPlugins)): ?>
             <?php foreach ($zoneAllPlugins as $plugin): ?>
                 <div class="pure-g-r plugin-title">
                     <div class="pure-u-23-24">
@@ -69,11 +69,6 @@
                                     <strong>Developer Email:</strong> <a href="mailto:<?php echo $plugin['developer_email']; ?>"><?php echo $plugin['developer_email']; ?></a>
                                 </p>
                             </div>
-                            <div class="pure-u-23-24">
-                                <p>
-                                    <strong>Installed On:</strong> <?php echo $plugin['created']; ?>
-                                </p>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -91,7 +86,7 @@
                 <h2>Domain Specific Plugins</h2>
             </div>
         </div>
-        <?php if ($zoneSpecificPlugins): ?>
+        <?php if (!empty($zoneSpecificPlugins)): ?>
             <?php foreach ($zoneSpecificPlugins as $plugin): ?>
                 <div class="pure-g-r plugin-title">
                     <div class="pure-u-23-24">
@@ -138,11 +133,6 @@
                             <div class="pure-u-23-24">
                                 <p>
                                     <strong>Developer Email:</strong> <a href="mailto:<?php echo $plugin['developer_email']; ?>"><?php echo $plugin['developer_email']; ?></a>
-                                </p>
-                            </div>
-                            <div class="pure-u-23-24">
-                                <p>
-                                    <strong>Installed On:</strong> <?php echo $plugin['created']; ?>
                                 </p>
                             </div>
                         </div>

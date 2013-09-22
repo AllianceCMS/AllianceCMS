@@ -63,8 +63,8 @@ $schema['0.01']['insert']['table'] = [
             [
                 'language' => 'English',
                 'greeting' => 'Good morning',
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp
+                'created' => date("Y-m-d H:i:s", time()),
+                'modified' => date("Y-m-d H:i:s", time())
             ],
         ],
     ],
@@ -73,8 +73,8 @@ $schema['0.01']['insert']['table'] = [
             [
                 'language' => 'Bulgarian',
                 'greeting' => 'Dobro utro',
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp
+                'created' => date("Y-m-d H:i:s", time()),
+                'modified' => date("Y-m-d H:i:s", time())
             ],
         ],
     ],
@@ -83,8 +83,8 @@ $schema['0.01']['insert']['table'] = [
             [
                 'language' => 'Finnish',
                 'greeting' => 'Hyvää huomenta',
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp
+                'created' => date("Y-m-d H:i:s", time()),
+                'modified' => date("Y-m-d H:i:s", time())
             ],
         ],
     ],
@@ -93,8 +93,8 @@ $schema['0.01']['insert']['table'] = [
             [
                 'language' => 'French',
                 'greeting' => 'Bonjour',
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp
+                'created' => date("Y-m-d H:i:s", time()),
+                'modified' => date("Y-m-d H:i:s", time())
             ],
         ],
     ],
@@ -103,8 +103,8 @@ $schema['0.01']['insert']['table'] = [
             [
                 'language' => 'German',
                 'greeting' => 'Guten Morgen',
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp
+                'created' => date("Y-m-d H:i:s", time()),
+                'modified' => date("Y-m-d H:i:s", time())
             ],
         ],
     ],
@@ -113,8 +113,8 @@ $schema['0.01']['insert']['table'] = [
             [
                 'language' => 'Mandarin',
                 'greeting' => 'Zao shang hao',
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp
+                'created' => date("Y-m-d H:i:s", time()),
+                'modified' => date("Y-m-d H:i:s", time())
             ],
         ],
     ],
@@ -123,8 +123,8 @@ $schema['0.01']['insert']['table'] = [
             [
                 'language' => 'Spanish',
                 'greeting' => 'Buenos dias',
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp
+                'created' => date("Y-m-d H:i:s", time()),
+                'modified' => date("Y-m-d H:i:s", time())
             ],
         ],
     ],
@@ -133,8 +133,8 @@ $schema['0.01']['insert']['table'] = [
             [
                 'language' => 'Tibetan',
                 'greeting' => 'Nyado delek',
-                'created' => $currentMySqlTimestamp,
-                'modified' => $currentMySqlTimestamp
+                'created' => date("Y-m-d H:i:s", time()),
+                'modified' => date("Y-m-d H:i:s", time())
             ],
         ],
     ],

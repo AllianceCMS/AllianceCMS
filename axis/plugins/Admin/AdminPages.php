@@ -8,10 +8,10 @@ use Acms\Core\Html\HtmlHelper;
 
 class AdminPages extends AbstractAdmin
 {
-    public function dashboardHome($axis)
+    public function dashboardHome()
     {
-        $html_helper = new HtmlHelper($axis->basePath);
-        $form_helper = new FormHelper($axis->basePath);
+        $html_helper = new HtmlHelper($this->axis->basePath);
+        $form_helper = new FormHelper($this->axis->basePath);
 
         $content = new Template(dirname(__FILE__) . DS . 'views/dashboard.tpl.php');
         $content->set('theme_folder', BASE_URL . '/themes/Charisma');

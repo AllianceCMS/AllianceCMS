@@ -33,7 +33,7 @@ abstract class AbstractAdmin extends AbstractPlugin
 
                 $tempController = '\\' . $plugin['folder_name'] . '\\' . 'AdminPages';
 
-                $tempObject = new $tempController;
+                $tempObject = new $tempController($this->axis);
 
                 if (method_exists($tempObject, 'adminNavigation')) {
                     $navLinks[$plugin['folder_name']] = $tempObject->adminNavigation($this->axis);

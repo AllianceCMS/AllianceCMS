@@ -18,7 +18,7 @@ class Blocks
 
                     if ($value['name'] === $block_route['name']) {
                         $namespaced_controller = $block_route['namespace']. '\\' . $block_route['controller'];
-                        $block_controller = new $namespaced_controller;
+                        $block_controller = new $namespaced_controller($axis);
                         $block_action = $block_route['action'];
 
                         if ($block_controller->$block_action($axis) !== false) {

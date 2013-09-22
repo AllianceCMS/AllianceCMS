@@ -12,7 +12,7 @@
                 <h2>Domain Wide Plugins</h2>
             </div>
         </div>
-        <?php if ($zoneAllPlugins): ?>
+        <?php if (!empty($zoneAllPlugins)): ?>
             <?php foreach ($zoneAllPlugins as $plugin): ?>
                 <div class="pure-g-r plugin-title">
                     <div class="pure-u-23-24">
@@ -88,7 +88,7 @@
                 <h2>Domain Specific Plugins</h2>
             </div>
         </div>
-        <?php if ($zoneSpecificPlugins): ?>
+        <?php if (!empty($zoneSpecificPlugins)): ?>
             <?php foreach ($zoneSpecificPlugins as $plugin): ?>
                 <div class="pure-g-r plugin-title">
                     <div class="pure-u-23-24">
@@ -171,7 +171,7 @@
                         <strong><?php echo $plugin['name']; ?> v<?php echo $plugin['version']; ?></strong>
                     </p>
                     <p class="pull-right">
-                        <?php if ($plugin['update_plugin']): ?>
+                        <?php if (isset($plugin['update_plugin'])): ?>
                             <a class="pure-button pure-button-active" href="#">Update Now!</a>
                         <?php endif; ?>
                     </p>

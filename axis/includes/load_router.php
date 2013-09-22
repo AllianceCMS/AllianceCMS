@@ -123,8 +123,10 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
     $pathVenue = $pathArray[0];
 
     $redirectAdminDashboard = false;
-    if (('admin' === $pathArray[1]) && (!isset($pathArray[2])))
-        $redirectAdminDashboard = true;
+    if (isset($pathArray[1])) {
+        if (('admin' === $pathArray[1]) && (!isset($pathArray[2])))
+            $redirectAdminDashboard = true;
+    }
 
     unset($pathArray);
 

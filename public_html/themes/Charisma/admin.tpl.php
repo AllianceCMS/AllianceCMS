@@ -73,9 +73,11 @@
 
 		<!-- Begin Custom Plugin Includes -->
 
-        <?php foreach ($customHeaders as $customHeader): ?>
-            <?php echo $customHeader; ?>
-        <?php endforeach; ?>
+    	<?php if (!empty($customHeaders)): ?>
+            <?php foreach ($customHeaders as $customHeader): ?>
+                <?php echo $customHeader; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
 
 		<!-- End Custom Plugin Includes -->
 
