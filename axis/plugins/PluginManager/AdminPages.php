@@ -1,7 +1,8 @@
 <?php
 namespace PluginManager;
 
-use \Admin\AbstractAdmin;
+//use \Admin\AbstractAdmin;
+use Acms\Core\Components\AbstractAdmin;
 use Acms\Core\Templates\Template;
 use Symfony\Component\Finder\Finder;
 
@@ -14,7 +15,7 @@ class AdminPages extends AbstractAdmin
         $content = new Template(dirname(__FILE__) . DS . 'views/admin.current_plugins.tpl.php');
 
         // List plugins installed for all zones/domains
-        $this->axis->sql->dbSelect('plugins',
+        $this->sql->dbSelect('plugins',
             'name, version, description, developer, developer_email, developer_site, created',
             'active = :active
             AND folder_path = :folder_path1
@@ -26,10 +27,10 @@ class AdminPages extends AbstractAdmin
             ],
             'ORDER BY weight');
 
-        $zoneAllPlugins = $this->axis->sql->dbFetch();
+        $zoneAllPlugins = $this->sql->dbFetch();
 
         // List plugins installed for this specific zone/domain
-        $this->axis->sql->dbSelect('plugins',
+        $this->sql->dbSelect('plugins',
             'name, version, description, developer, developer_email, developer_site, created',
             'active = :active
             AND folder_path != :folder_path1
@@ -43,10 +44,10 @@ class AdminPages extends AbstractAdmin
             ],
             'ORDER BY weight');
 
-        $zoneSpecificPlugins = $this->axis->sql->dbFetch();
+        $zoneSpecificPlugins = $this->sql->dbFetch();
 
         // List currently installed Axis plugins
-        $this->axis->sql->dbSelect('plugins',
+        $this->sql->dbSelect('plugins',
             'name, version, description, developer, developer_email, developer_site, created',
             'active = :active AND folder_path = :folder_path',
             [
@@ -55,7 +56,7 @@ class AdminPages extends AbstractAdmin
             ],
             'ORDER BY weight');
 
-        $axisPlugins = $this->axis->sql->dbFetch();
+        $axisPlugins = $this->sql->dbFetch();
 
         $content->set('zoneAllPlugins', $zoneAllPlugins);
         $content->set('zoneSpecificPlugins', $zoneSpecificPlugins);
@@ -86,7 +87,7 @@ class AdminPages extends AbstractAdmin
             $folder_path = 'zones' . DS . $zoneName . DS . str_replace(DS . $folder_name, '', $file->getRelativePath()) . DS;
 
             // Is this plugin already installed?
-            $this->axis->sql->dbSelect('plugins',
+            $this->sql->dbSelect('plugins',
                 'name, version, description, developer, developer_email, developer_site, created',
                 'active = :active
                 AND folder_name = :folder_name',
@@ -96,7 +97,7 @@ class AdminPages extends AbstractAdmin
                 ]
             );
 
-            $installedZoneAllPlugins = $this->axis->sql->dbFetch();
+            $installedZoneAllPlugins = $this->sql->dbFetch();
 
             if (!$installedZoneAllPlugins) {
 
@@ -129,7 +130,7 @@ class AdminPages extends AbstractAdmin
             $absoluteFolderArray = explode(DS, $file->getRealpath());
 
             // Is this plugin already installed?
-            $this->axis->sql->dbSelect('plugins',
+            $this->sql->dbSelect('plugins',
                 'name, version, description, developer, developer_email, developer_site, created',
                 'active = :active
                 AND folder_name = :folder_name',
@@ -139,7 +140,7 @@ class AdminPages extends AbstractAdmin
                 ]
             );
 
-            $installedZoneSpecificPlugins = $this->axis->sql->dbFetch();
+            $installedZoneSpecificPlugins = $this->sql->dbFetch();
 
             if (!$installedZoneSpecificPlugins) {
 
@@ -162,15 +163,15 @@ class AdminPages extends AbstractAdmin
 
         $content = new Template(dirname(__FILE__) . DS . 'views/admin.install_local_plugins.tpl.php');
 
-        if (1 === ((int) count($this->axis->axisRoute->values['query_string']))) {
+        if (1 === ((int) count($this->axisRoute->values['query_string']))) {
             $content->set('installationSuccessful', true);
         } else {
-            if (isset($this->axis->axisRoute->values['query_string'][1])) {
-                $content->set($this->axis->axisRoute->values['query_string'][1], true);
+            if (isset($this->axisRoute->values['query_string'][1])) {
+                $content->set($this->axisRoute->values['query_string'][1], true);
             }
 
-            if (isset($this->axis->axisRoute->values['query_string'][2])) {
-                $content->set($this->axis->axisRoute->values['query_string'][2], true);
+            if (isset($this->axisRoute->values['query_string'][2])) {
+                $content->set($this->axisRoute->values['query_string'][2], true);
             }
         }
 
@@ -203,10 +204,10 @@ class AdminPages extends AbstractAdmin
             'created' => date("Y-m-d H:i:s", time()),
         ];
 
-        $result_plugin = $this->axis->sql->dbInsert('plugins', $tableColumns);
+        $result_plugin = $this->sql->dbInsert('plugins', $tableColumns);
 
         if ($result_plugin) {
-            $lastInsertId = $this->axis->sql->dbLastInsertId();
+            $lastInsertId = $this->sql->dbLastInsertId();
 
             $pluginPath = BASE_DIR . $_POST['folder_path'] . $_POST['folder_name'] . DS;
 
@@ -222,7 +223,7 @@ class AdminPages extends AbstractAdmin
                     'created' => date("Y-m-d H:i:s", time()),
                 ];
 
-                $result_links = $this->axis->sql->dbInsert('links', $tableColumns);
+                $result_links = $this->sql->dbInsert('links', $tableColumns);
             }
         }
 
@@ -241,7 +242,7 @@ class AdminPages extends AbstractAdmin
             // Create Tables
             if (isset($version['create']['table'])){
                 foreach ($version['create']['table'] as $tableName => $index) {
-                    $this->axis->sql->dbCreateTable($tableName, $index);
+                    $this->sql->dbCreateTable($tableName, $index);
                 }
             }
 
@@ -251,7 +252,7 @@ class AdminPages extends AbstractAdmin
 
                     foreach ($loopTables as $tableName => $loopFields) {
                         foreach ($loopFields as $columns) {
-                            $result = $this->axis->sql->dbInsert($tableName, $columns);
+                            $result = $this->sql->dbInsert($tableName, $columns);
                         }
                     }
                 }
@@ -261,7 +262,7 @@ class AdminPages extends AbstractAdmin
             if (isset($version['alter']['table'])) {
                 foreach ($version['alter']['table'] as $loopTables) {
                     foreach ($loopTables as $tableName => $statement) {
-                        $this->axis->sql->dbAlterTable($tableName, $statement);
+                        $this->sql->dbAlterTable($tableName, $statement);
                     }
                 }
             }
@@ -281,7 +282,7 @@ class AdminPages extends AbstractAdmin
             'modified' => date("Y-m-d H:i:s", time()),
         ];
 
-        $this->axis->sql->dbInsert('schemas', $schemaColumns);
+        $this->sql->dbInsert('schemas', $schemaColumns);
 
         $queryString = '';
 
@@ -293,7 +294,7 @@ class AdminPages extends AbstractAdmin
             $queryString .= '/result_links';
         }
 
-        header('Location: ' . $this->axis->basePath . '/admin/plugin-manager/install-local-plugins/installation-attempted' . $queryString);
+        header('Location: ' . $this->basePath . '/admin/plugin-manager/install-local-plugins/installation-attempted' . $queryString);
         exit;
 
         return $content;

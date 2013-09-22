@@ -24,6 +24,7 @@ abstract class AbstractPlugin
     public function __construct($axis)
     {
         $this->axis = $axis;
+
         $this->acmsLoader = $axis->acmsLoader;
         $this->acmsSalt = $axis->acmsSalt;
         $this->basePath = $axis->basePath;
@@ -32,8 +33,9 @@ abstract class AbstractPlugin
         $this->segmentUser = $axis->segmentUser;
         $this->currentUser = $axis->currentUser;
         $this->sql = $axis->sql;
-        $this->formHelper = new FormHelper($this->axis->basePath);
-        $this->htmlHelper = new HtmlHelper($this->axis->basePath);
+
+        $this->formHelper = new FormHelper($this->basePath);
+        $this->htmlHelper = new HtmlHelper($this->basePath);
     }
 
     public function getThisObject()

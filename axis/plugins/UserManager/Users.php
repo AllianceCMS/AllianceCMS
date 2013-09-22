@@ -29,18 +29,18 @@ use Acms\Core\Components\AbstractPlugin;
 
 class Users extends AbstractPlugin
 {
-    public function loginBlock($axis)
+    public function loginBlock()
     {
-        if ($axis->axisRoute->name !== 'login_page') {
-            $html_helper = new HtmlHelper($axis->basePath);
-            $form_helper = new FormHelper($axis->basePath);
+        if ($this->axisRoute->name !== 'login_page') {
+            $html_helper = new HtmlHelper($this->basePath);
+            $form_helper = new FormHelper($this->basePath);
 
             $block_content = new Template(dirname(__FILE__) . DS . 'views/login_block.tpl.php');
             $block_content->set('html_helper', $html_helper);
             $block_content->set('form_helper', $form_helper);
-            $block_content->set('logged_in', (($axis->currentUser->isLoggedIn()) ? intval(1) : ''));
+            $block_content->set('logged_in', (($this->currentUser->isLoggedIn()) ? intval(1) : ''));
 
-            $block['title'] = (($axis->currentUser->isLoggedIn()) ? 'Welcome ' . $axis->currentUser->displayName() . '!' : 'Sign In');
+            $block['title'] = (($this->currentUser->isLoggedIn()) ? 'Welcome ' . $this->currentUser->displayName() . '!' : 'Sign In');
             $block['content'] = $block_content;
 
             return $block;
@@ -52,13 +52,14 @@ class Users extends AbstractPlugin
     public function loginPage()
     {
         $content = new Template(dirname(__FILE__) . DS . 'views/login.tpl.php');
+        $content->set('logged_in', (($this->currentUser->isLoggedIn()) ? intval(1) : ''));
         $content->set('html_helper', $this->htmlHelper);
         $content->set('form_helper', $this->formHelper);
 
         // If login-attempt found empty required fields, then process errors sent back to this action
-        if (!empty($this->axis->axisRoute->values['errors'])) {
+        if (!empty($this->axisRoute->values['errors'])) {
 
-            $form_data = $form_helper->processErrors($this->axis->axisRoute->values['errors']);
+            $form_data = $form_helper->processErrors($this->axisRoute->values['errors']);
 
             if (!empty($form_data)) {
                 foreach($form_data as $attribute => $value) {
@@ -72,7 +73,7 @@ class Users extends AbstractPlugin
 
     public function loginAttempt()
     {
-        $form_helper = new FormHelper($this->axis->basePath);
+        $form_helper = new FormHelper($this->basePath);
 
         // Check for form errors
         $form_helper->checkRequired(['login_name', 'password']);
@@ -82,7 +83,7 @@ class Users extends AbstractPlugin
 
         // Attempt login
 
-        $this->axis->sql->dbSelect('users',
+        $this->sql->dbSelect('users',
             'id, display_name, password',
             'login_name = :login_name',
             [
@@ -90,7 +91,7 @@ class Users extends AbstractPlugin
             ]
         );
 
-        $result = $this->axis->sql->dbFetch('one');
+        $result = $this->sql->dbFetch('one');
 
         if ($result !== false) {
 
@@ -102,10 +103,10 @@ class Users extends AbstractPlugin
             if ((crypt($passwordAttempt, $passwordStored)) == $passwordStored) {
 
                 // Setup Session
-                $this->axis->segmentUser->display_name = $result['display_name'];
-                $this->axis->sessionAxis->commit();
+                $this->segmentUser->display_name = $result['display_name'];
+                $this->sessionAxis->commit();
 
-                $acms_id = crypt($result['display_name'], $this->axis->acmsSalt);
+                $acms_id = crypt($result['display_name'], $this->acmsSalt);
 
                 $tableColumns = [
                     'acms_id' => $acms_id,
@@ -116,7 +117,7 @@ class Users extends AbstractPlugin
 
                 $bind = ['id' => $result['id']];
 
-                $result = $this->axis->sql->dbUpdate('users', $tableColumns, $conditions, $bind);
+                $result = $this->sql->dbUpdate('users', $tableColumns, $conditions, $bind);
 
                 $cookieName = str_replace('.', '_', $_SERVER['SERVER_NAME']) . '_acms';
 
@@ -128,7 +129,7 @@ class Users extends AbstractPlugin
                     setcookie($_SERVER['SERVER_NAME'] . '_acms', $acms_id, 0, '/', $_SERVER['SERVER_NAME']);
                 }
 
-                header('Location: ' . $this->axis->basePath);
+                header('Location: ' . $this->basePath);
                 exit;
 
             } else {
@@ -147,9 +148,9 @@ class Users extends AbstractPlugin
 
     public function logoutAttempt()
     {
-        $this->axis->sessionAxis->start();
+        $this->sessionAxis->start();
 
-        $currentUser = new \Acms\Core\Entities\CurrentUser($sessionAxis);
+        $currentUser = new \Acms\Core\Entities\CurrentUser($this->sessionAxis);
 
         $tableColumns = [
             'acms_id' => '',
@@ -160,15 +161,15 @@ class Users extends AbstractPlugin
 
         $bind = ['id' => $currentUser->getId()];
 
-        $this->axis->sql->dbUpdate('users', $tableColumns, $conditions, $bind, $dbPrefix);
+        $this->sql->dbUpdate('users', $tableColumns, $conditions, $bind);
 
-        $this->axis->sessionAxis->destroy();
+        $this->sessionAxis->destroy();
 
         $cookieName = str_replace('.', '_', $_SERVER['SERVER_NAME']) . '_acms';
 
         setcookie($_SERVER['SERVER_NAME'] . '_acms', false, time() - 3600, '/', $_SERVER['SERVER_NAME']);
 
-        header('Location: ' . $this->axis->basePath);
+        header('Location: ' . $this->basePath);
         exit;
 
         return false;

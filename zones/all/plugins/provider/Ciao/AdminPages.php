@@ -1,7 +1,8 @@
 <?php
 namespace Ciao;
 
-use \Admin\AbstractAdmin;
+//use \Admin\AbstractAdmin;
+use Acms\Core\Components\AbstractAdmin;
 use Acms\Core\Templates\Template;
 
 class AdminPages extends AbstractAdmin

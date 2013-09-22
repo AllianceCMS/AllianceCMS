@@ -171,7 +171,7 @@ if ($dispatch) {
         $page = new $controller($axis);
 
         // @todo: Can we get rid of 'axis' parameter yet???
-        $content = $page->$action($axis);
+        $content = $page->$action();
 
         // Create base/theme template vars
         $tpl->set('theme_folder', BASE_URL . '/' . $theme_path);
@@ -204,8 +204,8 @@ if ($dispatch) {
 
         $finished_blocks = new Acms\Core\Templates\Template();
 
-        $process_blocks = new Acms\Core\Templates\Blocks();
-        $active_blocks = $process_blocks->getBlocks($axis, $block_routes);
+        $process_blocks = new Acms\Core\Templates\Blocks($axis);
+        $active_blocks = $process_blocks->getBlocks($block_routes);
 
         if(!empty($active_blocks)) {
             foreach ($active_blocks as $key => $blocks) {
