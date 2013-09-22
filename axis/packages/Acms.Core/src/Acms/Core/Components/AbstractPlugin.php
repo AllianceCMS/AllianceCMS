@@ -7,6 +7,16 @@ use Acms\Core\Html\HtmlHelper;
 abstract class AbstractPlugin
 {
     protected $axis;
+
+    protected $acmsLoader;
+    protected $acmsSalt;
+    protected $axisRoute;
+    protected $basePath;
+    protected $sessionAxis;
+    protected $segmentUser;
+    protected $currentUser;
+    protected $sql;
+
     protected $formHelper;
     protected $htmlHelper;
     protected $customHeaders;
@@ -14,6 +24,14 @@ abstract class AbstractPlugin
     public function __construct($axis)
     {
         $this->axis = $axis;
+        $this->acmsLoader = $axis->acmsLoader;
+        $this->acmsSalt = $axis->acmsSalt;
+        $this->basePath = $axis->basePath;
+        $this->axisRoute = $axis->axisRoute;
+        $this->sessionAxis = $axis->sessionAxis;
+        $this->segmentUser = $axis->segmentUser;
+        $this->currentUser = $axis->currentUser;
+        $this->sql = $axis->sql;
         $this->formHelper = new FormHelper($this->axis->basePath);
         $this->htmlHelper = new HtmlHelper($this->axis->basePath);
     }
