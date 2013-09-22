@@ -20,10 +20,10 @@
                             <strong><?php echo $plugin['name']; ?> v<?php echo $plugin['version']; ?></strong>
                         </div>
                         <div class="pull-right">
-                            <?php if ($plugin['update_plugin']): ?>
+                            <?php if (isset($plugin['update_plugin'])): ?>
                                 <a class="pure-button pure-button-active" href="#">Update Now!</a>
                             <?php endif; ?>
-                            <?php if (!$plugin['axis_plugin']): ?>
+                            <?php /*if (!$plugin['axis_plugin']):*/ ?>
                                 <?php $formHelper->inputFormStart('/admin/plugin-manager/uninstall-plugin'); ?>
                                     <?php
                                     foreach($plugin as $attribute => $value) {
@@ -34,7 +34,7 @@
                                     $formHelper->inputSubmit('submit', 'Uninstall', array('class' => 'pure-button'));
                                     ?>
                                 <?php $formHelper->inputFormEnd(); ?>
-                            <?php endif; ?>
+                            <?php /*endif;*/ ?>
                         </div>
                     </div>
                 </div>
@@ -96,10 +96,10 @@
                             <strong><?php echo $plugin['name']; ?> v<?php echo $plugin['version']; ?></strong>
                         </div>
                         <div class="pull-right">
-                            <?php if ($plugin['update_plugin']): ?>
+                            <?php if (isset($plugin['update_plugin'])): ?>
                                 <a class="pure-button pure-button-active" href="#">Update Now!</a>
                             <?php endif; ?>
-                            <?php if (!$plugin['axis_plugin']): ?>
+                            <?php /*if (!$plugin['axis_plugin']):*/ ?>
                                 <?php $formHelper->inputFormStart('/admin/plugin-manager/uninstall-plugin'); ?>
                                     <?php
                                     foreach($plugin as $attribute => $value) {
@@ -110,7 +110,7 @@
                                     $formHelper->inputSubmit('submit', 'Uninstall', array('class' => 'pure-button'));
                                     ?>
                                 <?php $formHelper->inputFormEnd(); ?>
-                            <?php endif; ?>
+                            <?php /*endif;*/ ?>
                         </div>
                     </div>
                 </div>
