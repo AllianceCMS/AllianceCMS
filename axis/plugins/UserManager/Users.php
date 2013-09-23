@@ -59,7 +59,7 @@ class Users extends AbstractPlugin
         // If login-attempt found empty required fields, then process errors sent back to this action
         if (!empty($this->axisRoute->values['errors'])) {
 
-            $form_data = $form_helper->processErrors($this->axisRoute->values['errors']);
+            $form_data = $this->formHelper->processErrors($this->axisRoute->values['errors']);
 
             if (!empty($form_data)) {
                 foreach($form_data as $attribute => $value) {
