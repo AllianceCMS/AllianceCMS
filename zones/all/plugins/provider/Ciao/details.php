@@ -1,4 +1,9 @@
 <?php
+/**
+ * Plugin Details
+ *
+ * Used for Plugin installation
+ */
 
 $details = [
 	'name' => 'Ciao',

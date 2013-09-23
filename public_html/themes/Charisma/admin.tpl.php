@@ -300,11 +300,6 @@
     	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/js/transition.js"></script>
         <!-- End Custom Bootstrap 3.0 Includes -->
 
-        <!-- Begin Custom jQuery Includes -->
-    	<!-- <script src="<?php echo $templateFolder; ?>/tools/jquery/1.10.2/jquery-1.10.2.min.js"></script> -->
-    	<!-- <script src="<?php echo $templateFolder; ?>/tools/jquery/1.10.2/jquery-migrate-1.2.1.min.js"></script> -->
-        <!-- End Custom jQuery Includes -->
-
         <!-- Begin Custom Includes -->
     	<script src="<?php echo $templateFolder; ?>/tools/acms/js/acms.js"></script>
         <!-- End Custom Includes -->

@@ -9,4 +9,4 @@
 * Then we create any Views that the actions use in their Templates
 * We have to make sure that we create an entry in the 'plugins' database table, and that the plugin is active (active = 2) so the router will map routes correctly
     * The 'PluginManager' plugin will take care of this once we've completed it, but for now you will need to manually enter this data into your database (using a MySql client or PHPMyAdmin)
-* (Note: We need to make sure the plugin is PSR-0 compliant so that the class autoloader works correctly = Very Important)
+* (Note: We need to make sure the plugin is PSR-0 compliant so that the internal class autoloader works correctly = Very Important)
