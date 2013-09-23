@@ -1,8 +1,10 @@
 <?php if (isset($installationSuccessful)): ?>
-    <div class="sortable row-fluid">
-        <div class="alert alert-success">
-            <strong>Plugin Successfully Installed!</strong>
-            <a href="#" data-dismiss="alert" class="close">&times;</a>
+    <div class="pure-g-r">
+        <div class="pure-u-1">
+            <div class="acms-alert alert-success fade in">
+                <strong>Plugin Successfully Installed!</strong>
+                <a href="#" data-dismiss="alert" class="close">&times;</a>
+            </div>
         </div>
     </div>
 <?php endif; ?>

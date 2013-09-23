@@ -660,7 +660,10 @@ class Db
      */
     public function getDbAdapter()
     {
-        return $this->dbAdapter;
+        if (isset($this->dbAdapter))
+            return $this->dbAdapter;
+
+        return null;
     }
 
     /**
