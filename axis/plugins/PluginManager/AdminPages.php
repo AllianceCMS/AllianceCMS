@@ -12,11 +12,9 @@ class AdminPages extends AbstractAdmin
     {
         $this->addCustomHeader($this->htmlHelper->styleSheetLink('http://www.alliancecms.com/PluginManager/project/PluginManager/0.01/files/css/style.css'));
 
-        $content = new Template(dirname(__FILE__) . DS . 'views/admin.current_plugins.tpl.php');
-
         // List plugins installed for all zones/domains
         $this->sql->dbSelect('plugins',
-            'name, version, description, developer, developer_email, developer_site, created',
+            'id, name, version, description, developer, developer_site, developer_email, folder_path, folder_name, created',
             'active = :active
             AND folder_path = :folder_path1
             OR folder_path = :folder_path2',
@@ -31,7 +29,7 @@ class AdminPages extends AbstractAdmin
 
         // List plugins installed for this specific zone/domain
         $this->sql->dbSelect('plugins',
-            'name, version, description, developer, developer_email, developer_site, created',
+            'id, name, version, description, developer, developer_email, developer_site, created',
             'active = :active
             AND folder_path != :folder_path1
             AND folder_path != :folder_path2
@@ -48,7 +46,7 @@ class AdminPages extends AbstractAdmin
 
         // List currently installed Axis plugins
         $this->sql->dbSelect('plugins',
-            'name, version, description, developer, developer_email, developer_site, created',
+            'id, name, version, description, developer, developer_email, developer_site, created',
             'active = :active AND folder_path = :folder_path',
             [
             'active' => intval(2),
@@ -57,6 +55,27 @@ class AdminPages extends AbstractAdmin
             'ORDER BY weight');
 
         $axisPlugins = $this->sql->dbFetch();
+
+        $content = new Template(dirname(__FILE__) . DS . 'views/admin.current_plugins.tpl.php');
+
+        if (1 === ((int) count($this->axisRoute->values['query_string']))) {
+            $content->set('uninstallationSuccessful', true);
+        } else {
+            if (isset($this->axisRoute->values['query_string'][1])) {
+                $content->set($this->axisRoute->values['query_string'][1], true);
+            }
+
+            if (isset($this->axisRoute->values['query_string'][2])) {
+                $content->set($this->axisRoute->values['query_string'][2], true);
+            }
+            if (isset($this->axisRoute->values['query_string'][3])) {
+                $content->set($this->axisRoute->values['query_string'][3], true);
+            }
+
+            if (isset($this->axisRoute->values['query_string'][4])) {
+                $content->set($this->axisRoute->values['query_string'][4], true);
+            }
+        }
 
         $content->set('zoneAllPlugins', $zoneAllPlugins);
         $content->set('zoneSpecificPlugins', $zoneSpecificPlugins);
@@ -190,7 +209,7 @@ class AdminPages extends AbstractAdmin
 
     public function installPlugin()
     {
-        // Add plugin to database
+        // Add entry to plugins database table
         $tableColumns = [
             'name' => $_POST['name'],
             'version' => $_POST['version'],
@@ -213,7 +232,7 @@ class AdminPages extends AbstractAdmin
 
             include $pluginPath . 'details.php';
 
-            // Add links to database
+            // Add entries to links database table
             foreach ($details['links'] as $label => $url) {
                 $tableColumns = [
                     'plugin_id' => $lastInsertId,
@@ -227,16 +246,9 @@ class AdminPages extends AbstractAdmin
             }
         }
 
-        // Add schema info to database
+        // Create plugin tables and insert data
 
         include $pluginPath . 'schema.php';
-
-        /*
-        echo '<br /><pre>$schema: ';
-        echo print_r($schema);
-        echo '</pre><br />';
-        exit;
-        //*/
 
         foreach ($schema as $version) {
             // Create Tables
@@ -268,7 +280,7 @@ class AdminPages extends AbstractAdmin
             }
         }
 
-        // Update database schema version
+        // Enter schema version to schemas database table
 
         // Get the most recent schema version for this database install
         end($schema); // move the internal pointer to the end of the array
@@ -296,8 +308,74 @@ class AdminPages extends AbstractAdmin
 
         header('Location: ' . $this->basePath . '/admin/plugin-manager/install-local-plugins/installation-attempted' . $queryString);
         exit;
+    }
 
-        return $content;
+    public function uninstallPlugin()
+    {
+        // Remove plugin from Plugins Database Table
+        $resultDeletePlugins = $this->sql->dbDelete(
+            'plugins',
+            'id = :id',
+            [
+	           'id' => $_POST['id'],
+            ]
+        );
+
+        // Remove plugin links from Links Database Table
+        $resultDeleteLinks = $this->sql->dbDelete(
+            'links',
+            'plugin_id = :plugin_id',
+            [
+            'plugin_id' => $_POST['id'],
+            ]
+        );
+
+        // Drop Plugin Tables
+
+        $pluginPath = BASE_DIR . $_POST['folder_path'] . $_POST['folder_name'] . DS;
+
+        include $pluginPath . 'schema.php';
+
+        foreach ($schema as $version) {
+            if (isset($version['create']['table'])){
+                foreach ($version['create']['table'] as $tableName => $index) {
+                    $resultDeletePluginTables[] = $this->sql->dbDropTable($tableName);
+                }
+            }
+        }
+
+        // Remove database schema info from Schemas database table
+
+        $resultDeleteSchema = $this->sql->dbDelete(
+            'schemas',
+            'system_name = :system_name',
+            [
+            'system_name' => $_POST['folder_name'],
+            ]
+        );
+
+        $queryString = '';
+
+        if (!$resultDeletePlugins) {
+            $queryString .= '/result_delete_plugins';
+        }
+
+        if (!$resultDeleteLinks) {
+            $queryString .= '/result_delete_links';
+        }
+
+        if (isset($resultDeletePluginTables)) {
+            if (count($resultDeletePluginTables) > 1) {
+                $queryString .= '/result_delete_plugin_tables';
+            }
+        }
+
+        if (!$resultDeleteSchema) {
+            $queryString .= '/result_delete_schema';
+        }
+
+        header('Location: ' . $this->basePath . '/admin/plugin-manager/current-plugins/uninstall-attempted' . $queryString);
+        exit;
     }
 
     /*
@@ -314,7 +392,7 @@ class AdminPages extends AbstractAdmin
     {
         $adminNav = [
             'Plugin Manager' => [
-                'Current Plugins' => '/plugin-manager',
+                'Current Plugins' => '/plugin-manager/current-plugins',
                 'Install Plugins' => '/plugin-manager/install-local-plugins',
                 //'Install Remote Plugins' => '/plugin-manager/install-remote-plugins',
             ],

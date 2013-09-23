@@ -242,6 +242,26 @@ class Db
         }
     }
 
+    public function dbDropTable($tableName, $tablePrefix = '')
+    {
+        if (!empty($tablePrefix)) {
+            if ($this->getDbPrefix() == null) {
+                $this->setDbPrefix($tablePrefix);
+            }
+        }
+
+        $queryString = 'DROP TABLE IF EXISTS ' . $this->getDbPrefix() . $tableName . ';';
+
+        try {
+            $dbStmt = $this->connection->query($queryString);
+            return true;
+        }
+        catch (\PDOException $e)
+        {
+            return false;
+        }
+    }
+
     public function dbAlterTable($table_name, $statement)
     {
         if (!empty($tablePrefix)) {

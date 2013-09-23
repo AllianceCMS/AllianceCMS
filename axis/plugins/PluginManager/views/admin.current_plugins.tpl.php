@@ -1,3 +1,13 @@
+<?php if (isset($uninstallationSuccessful)): ?>
+    <div class="pure-g-r">
+        <div class="pure-u-1">
+            <div class="acms-alert alert-success fade in">
+                <strong>Plugin Successfully Uninstalled!</strong>
+                <a href="#" data-dismiss="alert" class="close">&times;</a>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
 <div class="pure-g-r">
     <div class="pure-u-3-4">
         <div class="pure-g-r">
@@ -78,7 +88,7 @@
         <?php else: ?>
             <div class="pure-g-r plugin-title">
                 <div class="pure-u-23-24">
-                    <h3>No Domain Wide Plugins Installed</h3>
+                    <h3>No Plugins Installed</h3>
                 </div>
             </div>
         <?php endif; ?>
@@ -154,7 +164,7 @@
         <?php else: ?>
             <div class="pure-g-r plugin-title">
                 <div class="pure-u-23-24">
-                    <h3>No Domain Specific Plugins Installed</h3>
+                    <h3>No Plugins Installed</h3>
                 </div>
             </div>
         <?php endif; ?>

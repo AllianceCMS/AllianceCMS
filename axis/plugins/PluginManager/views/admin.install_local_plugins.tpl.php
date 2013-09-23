@@ -78,7 +78,7 @@
         <?php else: ?>
             <div class="pure-g-r plugin-title">
                 <div class="pure-u-23-24">
-                    <h3>No Domain Wide Plugins Available</h3>
+                    <h3>No Plugins Available</h3>
                 </div>
             </div>
         <?php endif; ?>
@@ -144,7 +144,7 @@
         <?php else: ?>
             <div class="pure-g-r plugin-title">
                 <div class="pure-u-23-24">
-                    <h3>No Domain Specific Plugins Available</h3>
+                    <h3>No Plugins Available</h3>
                 </div>
             </div>
         <?php endif; ?>

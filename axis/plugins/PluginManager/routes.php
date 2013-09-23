@@ -1,7 +1,7 @@
 <?php
 $pluginRoutes['PluginManager']['Current Plugins'] = [
     'name' => 'plugin_manager', // Required: Route name
-    'path' => '/plugin-manager', // Required: Route path
+    'path' => '/plugin-manager/current-plugins/{:query_string*}', // Required: Route path
     'type' => 'admin', // Required: admin, front, back
     'specs' => [
         'values' => [
