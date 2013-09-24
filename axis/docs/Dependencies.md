@@ -7,6 +7,7 @@
     * alert.js
     * collapse.js
     * dropdown.js
+    * tabs.js
     * transition.js
 * Hint.css 1.3.0 - http://kushagragour.in/lab/hint/
 * PhpRbac 2.0 - https://github.com/OWASP/rbac
