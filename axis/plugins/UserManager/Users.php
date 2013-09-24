@@ -123,7 +123,7 @@ class Users extends AbstractPlugin
 
                 setcookie($_SERVER['SERVER_NAME'] . '_acms', false, time() - 3600, '/', $_SERVER['SERVER_NAME']);
 
-                if ($_POST['stay_logged_in'] === '1') {
+                if ((isset($_POST['stay_logged_in'])) && ($_POST['stay_logged_in'] === '1')) {
                     setcookie($_SERVER['SERVER_NAME'] . '_acms', $acms_id, time()+60*60*24*365, '/', $_SERVER['SERVER_NAME']);
                 } else {
                     setcookie($_SERVER['SERVER_NAME'] . '_acms', $acms_id, 0, '/', $_SERVER['SERVER_NAME']);

@@ -1,6 +1,6 @@
 <?php
 # PHP error reporting. supported values are given below.
-# -1 0 - Show every possible error, even when new levels and constants are added in future PHP versions
+# -1 - Show every possible error, even when new levels and constants are added in future PHP versions
 # 0 - Turn off all error reporting
 # 1 - Running errors
 # 2 - Running errors + notices
@@ -8,6 +8,9 @@
 # 4 - All errors except notices
 # 5 - All errors
 error_reporting(-1);
+
+echo phpinfo();
+exit;
 
 require_once ('configs/system.php');
 require_once (CONFIGS . 'autoload.php');
