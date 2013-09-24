@@ -9,9 +9,6 @@
 # 5 - All errors
 error_reporting(-1);
 
-echo phpinfo();
-exit;
-
 require_once ('configs/system.php');
 require_once (CONFIGS . 'autoload.php');
 require_once (INCLUDES . 'load_db.php');
