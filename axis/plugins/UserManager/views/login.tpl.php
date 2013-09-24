@@ -26,7 +26,7 @@
                 <div class="error">Error: Please Enter A Login Name</div>
         <?php endif; ?>
         <?php if ($password == ''): ?>
-                <div class="error">Error: Please Enter A Password</div>
+                <div class="error">Error: Please Enter A Valid Password</div>
         <?php endif; ?>
         <?php if (($invalid_login_name == '1') || ($invalid_password == '1')): ?>
                 <div class="error">Login Failed: Incorrect Login/Password Combination</div>

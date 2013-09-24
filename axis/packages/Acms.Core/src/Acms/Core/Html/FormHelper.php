@@ -707,6 +707,11 @@ class FormHelper
         if (!empty($formErrorTrue)) {
 
             foreach($_POST as $key => $value) {
+
+                if (strpos($key, 'password') !== false) {
+                    $value = '';
+                }
+
                 // Convert periods to |_|, and convert / to |-| (if not, URLs will break routing)
                 $this->processedErrors .= '/' . $key . '.' . str_replace('#', '||', str_replace('.', '|_|', str_replace('/', '|-|', $value)));
             }
