@@ -1,25 +1,4 @@
 <?php
-
-if (phpversion() < '5.4.0'):
-?>
-    <h1>AllianceCMS: Error</h1>
-    <h2>
-        <span style="color: red;">There are one or more errors that will prevent you from installing and using AllianceCMS</span>
-    </h2>
-
-    <p>
-        Current PHP version: <strong><?php echo phpversion(); ?></strong>
-    </p>
-    <p>
-        Required PHP version: <strong>5.4+</strong>
-    </p>
-    <p>
-        Please talk to your system administrator about upgrading your PHP server software before continuing...
-    </p>
-<?php
-    exit;
-endif;
-
 /**
  * Create random salt for blowfish crypt hash
  */

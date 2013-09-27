@@ -1,10 +1,32 @@
 <?php
 /**
- * Directory path for main domain 'Document Root'
- *     Domain: www.mysite.com
- *     Folder Structure: /home/username/public_html
+ * Make sure PHP version is not < 5.4.0
  *
- * If AllianceCMS is installed on a subdomain, comment out the following line
+ * If PHP version is < 5.4.0 display error message and halt execution.
+ */
+?>
+
+<?php if (phpversion() < '5.4.0'): ?>
+    <h1>AllianceCMS: Error</h1>
+    <h2>
+        <span style="color: red;">There are one or more errors that will prevent you from installing and using AllianceCMS</span>
+    </h2>
+
+    <p>
+        Current PHP version: <strong><?php echo phpversion(); ?></strong>
+    </p>
+    <p>
+        Required PHP version: <strong>5.4+</strong>
+    </p>
+    <p>
+        Please talk to your system administrator about upgrading your PHP server software before continuing...
+    </p>
+    <?php exit; ?>
+<? endif; ?>
+
+<?php
+/**
+ * Try to locate and require hub.php automatically
  */
 
 if (file_exists(dirname(__dir__) . ('/axis/hub.php'))):
@@ -16,6 +38,7 @@ elseif (dirname(dirname(__dir__)) . ('/axis/hub.php')):
     }
     require_once (dirname(dirname(__dir__)) . ('/axis/hub.php'));
 else:
+    // Can't find hub.php, display error message
 ?>
     <p>
         You may have a problem with your folder structure. You may have placed the AllianceCMS installation folders in the wrong place, please check your installation carefully.
