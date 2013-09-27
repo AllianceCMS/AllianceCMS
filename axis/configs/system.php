@@ -143,7 +143,7 @@ define('PLUGINS_AXIS', AXIS . 'plugins' . DS);
 /**
  *
  * Database connections file location
- *     Dynamically load dbConnection.php, dependant on which domain/subdomain we're on
+ *     Dynamically load dbConnection.php, dependent on which domain/subdomain we're on
  */
 
 $serverPathArray = explode('.', $_SERVER['SERVER_NAME']);
@@ -172,7 +172,7 @@ define('TEMPLATES', THEMES . 'templates' . DS);
 /**
  *
  * Database connection file location
- *     Dynamically load dbConnection.php, dependant on which domain/subdomain we're on
+ *     Dynamically load dbConnection.php, dependent on which domain/subdomain we're on
  */
 
 // If this is localhost or main domain (localhost/mysite.com/www.mysite.com)

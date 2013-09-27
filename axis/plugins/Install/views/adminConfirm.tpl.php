@@ -12,7 +12,7 @@
     }
 ?>
 <p>
-    <strong>Please Confirm The Main Administrators Information</strong>
+    <strong>Please Confirm The Main Administrator's Information</strong>
 </p>
 
 <hr>

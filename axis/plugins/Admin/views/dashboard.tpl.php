@@ -47,8 +47,8 @@
 
 			<div id="myTabContent" class="tab-content">
 				<div class="tab-pane active" id="info">
-					<h3>Charisma <small>a fully featued template</small></h3>
-					<p>Its a fully featured, responsive template for your admin panel. Its optimized for tablet and mobile phones. Scan the QR code below to view it in your mobile device.</p> <img alt="QR Code" class="charisma_qr center" src="<?php echo $theme_folder; ?>/img/qrcode136.png" />
+					<h3>Charisma <small>a fully featured template</small></h3>
+					<p>It's a fully featured, responsive template for your admin panel. It's optimized for tablet and mobile phones. Scan the QR code below to view it in your mobile device.</p> <img alt="QR Code" class="charisma_qr center" src="<?php echo $theme_folder; ?>/img/qrcode136.png" />
 				</div>
 				<div class="tab-pane" id="custom">
 					<h3>Custom <small>small text</small></h3>
