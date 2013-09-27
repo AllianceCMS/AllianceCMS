@@ -28,8 +28,8 @@
     
     <div class="notice">
         <p>
-            Hint: Verify that you're database credentials are correct<br />
-            Hint: Verify that the specified Database exists
+            Hint: Verify that your database credentials are correct!<br />
+            Hint: Verify that the specified database exists!
         </p>
         <p>
             Please Review The Database Connection Information You Entered And Try Again
