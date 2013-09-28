@@ -18,7 +18,7 @@ active
 created
 modified
 
-a_plugins
+a_modules
 id
 name
 version
@@ -38,7 +38,7 @@ name
 title
 tagline
 active_theme
-default_plugin
+default_module
 created
 modified
 install_date
@@ -90,7 +90,7 @@ a_menus
 id
 name
 link
-plugin
+module
 area
 active
 order

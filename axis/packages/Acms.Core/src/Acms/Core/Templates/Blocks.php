@@ -1,11 +1,11 @@
 <?php
 namespace Acms\Core\Templates;
 
-use Acms\Core\Components\AbstractPlugin;
+use Acms\Core\Components\AbstractModule;
 use Acms\Core\Templates\Template;
 use Acms\Core\Data\Db;
 
-class Blocks extends AbstractPlugin
+class Blocks extends AbstractModule
 {
     public function getBlocks($block_routes)
     {

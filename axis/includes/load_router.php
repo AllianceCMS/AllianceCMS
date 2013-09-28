@@ -7,7 +7,7 @@ $dispatch = false;
 $sql->dbSelect('venues', 'maintenance_flag', 'id = :id', ['id' => intval(1)]);
 $result = $sql->dbFetch('one');
 
-// If maintenance_flag is turned on send user to maintenance page/plugin (???possibly plugin that contains '404' pages???)
+// If maintenance_flag is turned on send user to maintenance page/module (???possibly module that contains '404' pages???)
 if ((int) $result['maintenance_flag'] === intval(2)) {
     // Display 'Site undergoing maintenance' page
     echo 'Site is down for maintenance, please check back later.';
@@ -18,62 +18,62 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
     $mapRoutes = require PACKAGES . 'Aura.Router/scripts/instance.php';
 
     /**
-     * Query Db and find out which plugins are installed
+     * Query Db and find out which modules are installed
      */
 
-    // Include only installed plugins 'routes.php' so we have access to routes
-    $sql->dbSelect('plugins', 'folder_path, folder_name', 'active = :active', ['active' => intval(2)]);
+    // Include only installed modules 'routes.php' so we have access to routes
+    $sql->dbSelect('modules', 'folder_path, folder_name', 'active = :active', ['active' => intval(2)]);
     $result = $sql->dbFetch();
 
     foreach ($result as $row) {
 
         /**
-         * Dynamically load plugins based on 'folder_path' ('plugins' db table field)
+         * Dynamically load modules based on 'folder_path' ('modules' db table field)
          *
-         * The plugin folder must reside in '/axis/plugins' or '/zones/some-zone/plugins/some-directory'
-         *     (i.e.  '/zones/all/plugins/provider', '/zones/subdomain.mysite.com/plugins/custom')
+         * The module folder must reside in '/axis/modules' or '/zones/some-zone/modules/some-directory'
+         *     (i.e.  '/zones/all/modules/provider', '/zones/subdomain.mysite.com/modules/custom')
          */
 
-        $loadPlugin = null;
-        $plugin_path_array = null;
-        $plugin_path = null;
-        $plugin_folder_name = null;
+        $loadModule = null;
+        $module_path_array = null;
+        $module_path = null;
+        $module_folder_name = null;
 
-        $plugin_path_array = explode('/', $row['folder_path']);
+        $module_path_array = explode('/', $row['folder_path']);
 
-        if ($plugin_path_array['0'] == 'axis') {
-            $plugin_path = PLUGINS_AXIS;
-            $loadPlugin = 1;
-        } elseif ($plugin_path_array['0'] == 'zones') {
-            if ($plugin_path_array['1'] == 'all') {
-                $plugin_path = ZONES . $plugin_path_array['1'] . DS . $plugin_path_array['2'] . DS . $plugin_path_array['3'] . DS;
-                $loadPlugin = 1;
-            } elseif ($plugin_path_array['1'] == $_SERVER['SERVER_NAME']) {
-                $plugin_path = ZONES . $_SERVER['SERVER_NAME'] . DS . $plugin_path_array['2'] . DS . $plugin_path_array['3'] . DS;
-                $loadPlugin = 1;
+        if ($module_path_array['0'] == 'axis') {
+            $module_path = MODULES_AXIS;
+            $loadModule = 1;
+        } elseif ($module_path_array['0'] == 'zones') {
+            if ($module_path_array['1'] == 'all') {
+                $module_path = ZONES . $module_path_array['1'] . DS . $module_path_array['2'] . DS . $module_path_array['3'] . DS;
+                $loadModule = 1;
+            } elseif ($module_path_array['1'] == $_SERVER['SERVER_NAME']) {
+                $module_path = ZONES . $_SERVER['SERVER_NAME'] . DS . $module_path_array['2'] . DS . $module_path_array['3'] . DS;
+                $loadModule = 1;
             }
         }
 
-        $plugin_folder_name = $row['folder_name'];
+        $module_folder_name = $row['folder_name'];
 
-        // Get routes for active plugins and add plugin namespace to autoloader
-        if ($loadPlugin) {
-            if (file_exists($plugin_path . $plugin_folder_name . DS . 'routes.php')) {
-                include_once($plugin_path . $plugin_folder_name . DS . 'routes.php');
-                $acmsLoader->add($plugin_folder_name . '\\', $plugin_path);
+        // Get routes for active modules and add module namespace to autoloader
+        if ($loadModule) {
+            if (file_exists($module_path . $module_folder_name . DS . 'routes.php')) {
+                include_once($module_path . $module_folder_name . DS . 'routes.php');
+                $acmsLoader->add($module_folder_name . '\\', $module_path);
             }
         }
     }
 
     // @todo: The next two 'if' statements should be a class method
-    // Parse plugin routes and add them to the routing map
-    if (isset($pluginRoutes)) {
-        foreach ($pluginRoutes as $plugin => $pluginPage) {
+    // Parse module routes and add them to the routing map
+    if (isset($moduleRoutes)) {
+        foreach ($moduleRoutes as $module => $modulePage) {
 
-            foreach ($pluginPage as $route) {
+            foreach ($modulePage as $route) {
 
                 if ($route['type'] === 'front') {
-                    // If plugin route is a front end route then add route to routing map
+                    // If module route is a front end route then add route to routing map
                     $mapRoutes->add($route['name'], '/{:venue}' . $route['path'], $route['specs']);
                 } else if ($route['type'] === 'admin') {
 
@@ -203,13 +203,13 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
     } else {
         // Venue does not exist
 
-        // Send to 'venue' plugin and prompt user to create venue (Should probably make some venue names unavailable for use)
+        // Send to 'venue' module and prompt user to create venue (Should probably make some venue names unavailable for use)
 
         // Get main venue
         $sql->dbSelect('venues', 'name', 'id = :id', ['id' => intval(1)]);
         $list = $sql->dbFetch();
 
-        // Redirect user to 'Venue Creation' page (Venues plugin)
+        // Redirect user to 'Venue Creation' page (Venues module)
         header('Location: /'. $list[0]['name'] . '/admin/venues/create/'. $pathVenue);
         exit;
     }

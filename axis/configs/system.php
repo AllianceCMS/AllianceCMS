@@ -65,7 +65,7 @@ foreach ($pathArray as $val) {
  */
 
 if (!isset($subDomainFolder)) {
-    $subDomainFolder = '';
+    $subDomainFolder = DS;
 } else {
     $subDomainFolder = $subDomainFolder . DS;
 }
@@ -94,6 +94,12 @@ define('ZONES', BASE_DIR . 'zones' . DS);
 define('PUBLIC_HTML', BASE_DIR . 'public_html' . DS . $subDomainFolder);
 
 /**
+ * Resource folder locations
+ */
+
+define('RESOURCES', PUBLIC_HTML . 'resources' . DS);
+
+/**
  * System folder locations
  */
 
@@ -110,13 +116,13 @@ define('PACKAGE_ACMS_CORE', PACKAGES . 'Acms.Core' . DS . 'src' . DS . 'Acms' . 
 define('PACKAGE_AURA_SESSION', PACKAGES . 'Aura.Session' . DS);
 
 /**
- * Axis plugin/theme folder locations
+ * Axis module/theme folder locations
  */
 
-define('PLUGINS_AXIS', AXIS . 'plugins' . DS);
+define('MODULES_AXIS', AXIS . 'modules' . DS);
 
 /*
- * Domain/Subdomain plugin folder locations
+ * Domain/Subdomain module folder locations
  */
 
 /**
@@ -130,16 +136,16 @@ $serverPathArray = explode('.', $_SERVER['SERVER_NAME']);
 // If this is localhost or main domain (localhost, mysite.com, www.mysite.com)
 if (((count($serverPathArray)) < 3) || ($serverPathArray[0] == 'www')) {
     if (file_exists(ZONES . $_SERVER['SERVER_NAME'])) {
-        $pluginZones = ZONES . $_SERVER['SERVER_NAME'] . DS . 'plugins';
+        $moduleZones = ZONES . $_SERVER['SERVER_NAME'] . DS . 'modules';
     } else {
-        $pluginZones = ZONES . 'default' . DS . 'plugins';
+        $moduleZones = ZONES . 'default' . DS . 'modules';
     }
 } else {
     // This is a subdomain, do not use '/default/dbConnection.php'
-    $pluginZones = ZONES . $_SERVER['SERVER_NAME'] . DS . 'plugins';
+    $moduleZones = ZONES . $_SERVER['SERVER_NAME'] . DS . 'modules';
 }
 
-define('PLUGINS_ZONES', $pluginZones);
+define('MODULES_ZONES', $moduleZones);
 
 /**
  * Theme/Template folder locations
@@ -176,7 +182,7 @@ define('DBCONNFILE', $dbConnFile);
 
 /**
  * Unset variables that are no longer needed
- *     We should not be using these in plugins/themes
+ *     We should not be using these in modules/themes
  */
 
 unset($baseUrl);

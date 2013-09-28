@@ -83,7 +83,7 @@ class Db
 
     /**
      * Creates a new database
-     *     (Should not be used in plugin/theme development)
+     *     (Should not be used in module/theme development)
      *
      * @param string $dbName
      *     Name of the database you want to create
@@ -118,7 +118,7 @@ class Db
 
     /**
      * Creates a new database table
-     *     (Should not be used in plugin/theme development)
+     *     (Should not be used in module/theme development)
      *
      * @param string $tableName
      *     Name of the table you want to create

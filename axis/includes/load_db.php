@@ -25,17 +25,17 @@ if (file_exists(DBCONNFILE)) {
         exit;
     } else {
 
-        include_once(BASE_DIR . 'axis/plugins/Install/routes.php');
+        include_once(BASE_DIR . 'axis/modules/Install/routes.php');
 
-        $acmsLoader->add('Install\\', PLUGINS_AXIS);
+        $acmsLoader->add('Install\\', MODULES_AXIS);
 
         $installRoutes = require PACKAGES . 'Aura.Router/scripts/instance.php';
 
         // @todo: The next two 'if' statements should be a class method
-        if (isset($pluginRoutes)) {
-            foreach ($pluginRoutes as $plugin => $pluginPage) {
+        if (isset($moduleRoutes)) {
+            foreach ($moduleRoutes as $module => $modulePage) {
 
-                foreach ($pluginPage as $route) {
+                foreach ($modulePage as $route) {
 
                     if ($route['type'] === 'front') {
                         $installRoutes->add($route['name'], $route['path'], $route['specs']);
@@ -84,7 +84,7 @@ if (file_exists(DBCONNFILE)) {
 
         $page = new $controller;
 
-        // Dynamically call Install plugin controller/action
+        // Dynamically call Install module controller/action
         $page->$action($axis);
 
         exit;

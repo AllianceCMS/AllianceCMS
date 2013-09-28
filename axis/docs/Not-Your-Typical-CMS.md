@@ -42,7 +42,7 @@ If you have any questions, please contact us at: [support@alliancecms.com](mailt
     * Easily create content using a GUI
     * Laying out content using a GUI
     * Configuring settings and permissions using a GUI
-    * Upload and install Plugins/Themes using a GUI
+    * Upload and install Modules/Themes using a GUI
 
 ##What a Typical CMS Offers:
 
@@ -80,11 +80,11 @@ There's been an informative bullet list so far, but lets break out of that forma
 
 **Case 1:**
 
-* A Real Estate Broker can install AllianceCMS. The main/landing pages will focus on the agency as a whole. But the Broker's Agents can create Venues, which are specific to that Agent. The Agent will be able to provide contact info, enable plugins that will list the MLS listings they manage personally, and much more.
+* A Real Estate Broker can install AllianceCMS. The main/landing pages will focus on the agency as a whole. But the Broker's Agents can create Venues, which are specific to that Agent. The Agent will be able to provide contact info, enable modules that will list the MLS listings they manage personally, and much more.
 
 **Case 2:**
 
-* A book club wants to create a web presence. The main/landing pages can represent the club, ongoing events and schedule meetings. But individuals, or the club itself, can create Venues for specific books. Those Venues can use plugins to hold discussions regarding the book. Members can supply links or info that's pertinent to the specific title, list author signings, and much more.
+* A book club wants to create a web presence. The main/landing pages can represent the club, ongoing events and schedule meetings. But individuals, or the club itself, can create Venues for specific books. Those Venues can use modules to hold discussions regarding the book. Members can supply links or info that's pertinent to the specific title, list author signings, and much more.
 
 **Case 3:**
 
@@ -92,7 +92,7 @@ There's been an informative bullet list so far, but lets break out of that forma
 
 **Case 4:**
 
-* [AllianceCMS.com](http://www.alliancecms.com) is going to allow Plugin and Theme developers to create their own Venue to host their creations, offer support, and keep the community informed of their work. We have also been throwing around the idea of allowing multiple Venue 'Types'. This will allow members of the site to create 'Topic/Special Interest' Venues along with Plugin/Theme Venues. Maybe a group of developers would like to collaborate and make the next killer Forum System. And maybe another group of members want to start a Venue that focuses on mentoring new members of the community.  
+* [AllianceCMS.com](http://www.alliancecms.com) is going to allow Module and Theme developers to create their own Venue to host their creations, offer support, and keep the community informed of their work. We have also been throwing around the idea of allowing multiple Venue 'Types'. This will allow members of the site to create 'Topic/Special Interest' Venues along with Module/Theme Venues. Maybe a group of developers would like to collaborate and make the next killer Forum System. And maybe another group of members want to start a Venue that focuses on mentoring new members of the community.  
 
 As you can see, the main focus is on building and expanding communities. But now you can also see that there are limitless possibilities as to why or how you can use AllianceCMS!
 
@@ -102,9 +102,9 @@ Now that sounds great, but how you administrate the system is great too.
 
 First, a user registers for the site. They can then create a Venue (if the main site admin allows it). A registered member can also request to be a member of a Venue (if the Venue admin allows it).
 
-Main site admins can install plugins, create links and permissions, and then allow Venues/Venue admins to have access to those plugins, links and permissions.
+Main site admins can install modules, create links and permissions, and then allow Venues/Venue admins to have access to those modules, links and permissions.
 
-The Venue admin can then have full control as to which plugins, links and permissions they would like to use, and they can even choose where plugin blocks are displayed (left side, right side, footer, etc...). As of right now the main content of a plugin is displayed in the center of the site.
+The Venue admin can then have full control as to which modules, links and permissions they would like to use, and they can even choose where module blocks are displayed (left side, right side, footer, etc...). As of right now the main content of a module is displayed in the center of the site.
 
 So there is major flexibility for both Main Site Admins and Venue Admins. AllianceCMS is also designed so that the entire site can be the community, or the main site is the glue that ties together many communities, made up of Venue creators/admins and Venue members.
 
@@ -116,16 +116,16 @@ That's why we have decided to create something from the ground up that focuses o
 
 Having said that, there's nothing stopping you from restricting access to Venue creation, not creating any Venues on your own, and using AllianceCMS as a One-To-Many solution :-)
 
-##Benefits for Plugin Developers
+##Benefits for Module Developers
 
 * Flexible/Powerful API
-    * Plugin directory structures follow PSR-0 standards in order to take advantage of AllianceCMS's powerful Autoloader
-    * Plugins are developed using the MVC design pattern using our easy to use:
+    * Module directory structures follow PSR-0 standards in order to take advantage of AllianceCMS's powerful Autoloader
+    * Modules are developed using the MVC design pattern using our easy to use:
         * Database Management API
         * Powerful and flexible Routing API used to create routes to your custom Controller/Actions
         * A thin and flexible Templating System, along with our handy HtmlHelper and FormHelper API's
 * Automated logic
-    * When you create a plugin you only have to worry about designing for one Venue. The back end system will track which Venue a user is on and automatically display/create/edit/update/save data only for the Venue intended
+    * When you create a module you only have to worry about designing for one Venue. The back end system will track which Venue a user is on and automatically display/create/edit/update/save data only for the Venue intended
 
 ##What AllianceCMS is Not!
 

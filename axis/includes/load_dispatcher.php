@@ -16,7 +16,7 @@ if ($dispatch) {
     }
 
     /*
-     * Build Plugin Callback
+     * Build Module Callback
      */
 
     // Does the route indicate a namespace?
@@ -26,7 +26,7 @@ if ($dispatch) {
     } else {
         // Use a default namespace
         // @todo: ??? Implement this ???
-        //$namespace = 'PluginManager';
+        //$namespace = 'ModuleManager';
     }
 
     // Does the route indicate a controller?
@@ -36,7 +36,7 @@ if ($dispatch) {
     } else {
         // Use a default controller
         // @todo: ??? Implement this ???
-        //$controller = 'DefaultPlugin';
+        //$controller = 'DefaultModule';
     }
 
     // Does the route indicate an action?
@@ -50,7 +50,7 @@ if ($dispatch) {
     }
 
     /*
-     * Build $axis object for use in Plugin development
+     * Build $axis object for use in Module development
      */
 
     $basePath = BASE_URL . '/' . $axisRoute->values['venue'];
@@ -128,7 +128,7 @@ if ($dispatch) {
             } else {
                 // Use a default namespace
                 // @todo: ??? Implement this ???
-                //$namespace = 'PluginManager';
+                //$namespace = 'ModuleManager';
             }
 
             $adminController = $namespace . 'AdminPages';
@@ -229,7 +229,7 @@ if ($dispatch) {
     }
 
     /**
-     * Process plugin output
+     * Process module output
      */
 
     $tpl->set("customHeaders", $page->getCustomHeaders());

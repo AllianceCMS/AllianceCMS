@@ -33,19 +33,19 @@ define("THEME_FAVICON",     $row->fields['favicon']);
  */
 
     /*
-     $sql->dbSelect("menus", "name, link, plugin_id, menu_area", "active = 2 ORDER BY menu_order";
+     $sql->dbSelect("menus", "name, link, module_id, menu_area", "active = 2 ORDER BY menu_order";
      $row = $sql->dbFetch();
 
-     $basePluginDir = NULL;
+     $baseModuleDir = NULL;
      if (($row->fields['folder_base_dir'] != NULL) && ($row->fields['folder_base_dir'] != "basedir")) {
-     $basePluginDir = $row->fields['folder_base_dir'].DS;
+     $baseModuleDir = $row->fields['folder_base_dir'].DS;
      } else {
-     $basePluginDir = BASEDIR;
+     $baseModuleDir = BASEDIR;
      }
 
-     define("PLUGINS_NAME",            $row->fields['name']);
-     define("PLUGINS_FOLDER_BASE_DIR", $basePluginDir);
-     define("PLUGINS_FOLDER_NAME",     $row->fields['folder_name']);
+     define("MODULES_NAME",            $row->fields['name']);
+     define("MODULES_FOLDER_BASE_DIR", $baseModuleDir);
+     define("MODULES_FOLDER_NAME",     $row->fields['folder_name']);
      //*/
 
 // Get the file system path to the venue's active theme: used for theme images/css/js links

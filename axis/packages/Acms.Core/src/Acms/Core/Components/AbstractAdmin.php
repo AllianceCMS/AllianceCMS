@@ -1,10 +1,10 @@
 <?php
 namespace Acms\Core\Components;
 
-use Acms\Core\Components\AbstractPlugin;
+use Acms\Core\Components\AbstractModule;
 use Acms\Core\Templates\Template;
 
-abstract class AbstractAdmin extends AbstractPlugin
+abstract class AbstractAdmin extends AbstractModule
 {
     public function adminNavCategories()
     {
@@ -14,7 +14,7 @@ abstract class AbstractAdmin extends AbstractPlugin
             'Users' => '#',
             'Content' => '#',
             'Statistics' => '#',
-            'Plugin Manager' => '#',
+            'Module Manager' => '#',
             'Theme Manager' => '#',
             'Other' => '#',
         ];
@@ -24,19 +24,19 @@ abstract class AbstractAdmin extends AbstractPlugin
 
     public function getNavData()
     {
-        $this->sql->dbSelect('plugins', 'folder_path, folder_name', 'active = :active', ['active' => intval(2)], 'ORDER BY weight');
+        $this->sql->dbSelect('modules', 'folder_path, folder_name', 'active = :active', ['active' => intval(2)], 'ORDER BY weight');
         $result = $this->sql->dbFetch();
 
-        foreach ($result as $plugin) {
+        foreach ($result as $module) {
 
-            if (file_exists(BASE_DIR . $plugin['folder_path'] . $plugin['folder_name'] . DS . 'AdminPages.php')) {
+            if (file_exists(BASE_DIR . $module['folder_path'] . $module['folder_name'] . DS . 'AdminPages.php')) {
 
-                $tempController = '\\' . $plugin['folder_name'] . '\\' . 'AdminPages';
+                $tempController = '\\' . $module['folder_name'] . '\\' . 'AdminPages';
 
                 $tempObject = new $tempController($this->axis);
 
                 if (method_exists($tempObject, 'adminNavigation')) {
-                    $navLinks[$plugin['folder_name']] = $tempObject->adminNavigation();
+                    $navLinks[$module['folder_name']] = $tempObject->adminNavigation();
                 }
             }
         }
@@ -57,10 +57,10 @@ abstract class AbstractAdmin extends AbstractPlugin
         if((!empty($adminNavCategories)) && (!empty($adminNavDataArray))) {
 
             // Add Parent Category Links
-            foreach ($adminNavDataArray as $pluginName => $linkStack) {
+            foreach ($adminNavDataArray as $moduleName => $linkStack) {
 
-                foreach ($linkStack as $pluginNavCategory => $linkData) {
-                    if ($pluginNavCategory === 'Parent') {
+                foreach ($linkStack as $moduleNavCategory => $linkData) {
+                    if ($moduleNavCategory === 'Parent') {
 
                         foreach ($linkData as $categoryLabel => $categoryLink) {
                             if (!array_key_exists($categoryLabel, $adminNavCategories)) {
@@ -70,7 +70,7 @@ abstract class AbstractAdmin extends AbstractPlugin
                     }
                 }
 
-                unset($adminNavDataArray[$pluginName]['Parent']);
+                unset($adminNavDataArray[$moduleName]['Parent']);
             }
 
             foreach ($adminNavCategories as $categoryLabel => $categoryLink) {

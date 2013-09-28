@@ -71,7 +71,7 @@
     	<!-- <link rel="shortcut icon" href="<?php /*echo $theme_folder;*/ ?>/img/favicon.ico"> -->
         <!-- End Charisma Includes -->
 
-		<!-- Begin Custom Plugin Includes -->
+		<!-- Begin Custom Module Includes -->
 
     	<?php if (!empty($customHeaders)): ?>
             <?php foreach ($customHeaders as $customHeader): ?>
@@ -79,7 +79,7 @@
             <?php endforeach; ?>
         <?php endif; ?>
 
-		<!-- End Custom Plugin Includes -->
+		<!-- End Custom Module Includes -->
 
     </head>
 
@@ -183,13 +183,13 @@
                         </div>
         			</div>
 
-                    <!-- Plugin content starts -->
+                    <!-- Module content starts -->
 
                     <div id="acms_content">
                         <?php echo $content; ?>
             	    </div>
 
-                    <!-- Plugin content ends -->
+                    <!-- Module content ends -->
 
 					<!-- content ends -->
     			</div><!--/#content.span10-->
@@ -199,7 +199,7 @@
 
     		<div class="modal hide fade" id="myModal">
     			<div class="modal-header">
-    				<button type="button" class="close" data-dismiss="modal">×</button>
+    				<button type="button" class="close" data-dismiss="modal">ï¿½</button>
     				<h3>Settings</h3>
     			</div>
     			<div class="modal-body">

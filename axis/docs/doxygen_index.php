@@ -19,7 +19,7 @@
  * Here are some areas that could use a contribution:
  *
  * * Graphic Design/Theme Creation
- * * Plugin Development
+ * * Module Development
  * * Data Management
  * * Documentation
  * * Translation
