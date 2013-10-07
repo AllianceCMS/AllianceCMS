@@ -1,11 +1,12 @@
 <?php
 namespace UserManager;
 
-use Aura\Core\Entities\CurrentUser;
-use Acms\Core\Templates\Template;
+use Acms\Core\Components\AbstractModule;
+use Acms\Core\Data\Db;
 use Acms\Core\Html\FormHelper;
 use Acms\Core\Html\HtmlHelper;
-use Acms\Core\Components\AbstractModule;
+use Acms\Core\Templates\Template;
+use Aura\Core\Entities\CurrentUser;
 
 /**
  * @todo: Multiple Items
@@ -73,6 +74,8 @@ class Users extends AbstractModule
 
     public function loginAttempt()
     {
+        $sql = new Db();
+
         $form_helper = new FormHelper($this->basePath);
 
         // Check for form errors
@@ -83,7 +86,7 @@ class Users extends AbstractModule
 
         // Attempt login
 
-        $this->sql->dbSelect('users',
+        $sql->dbSelect('users',
             'id, display_name, password',
             'login_name = :login_name',
             [
@@ -91,7 +94,7 @@ class Users extends AbstractModule
             ]
         );
 
-        $result = $this->sql->dbFetch('one');
+        $result = $sql->dbFetch('one');
 
         if ($result !== false) {
 
@@ -117,7 +120,7 @@ class Users extends AbstractModule
 
                 $bind = ['id' => $result['id']];
 
-                $result = $this->sql->dbUpdate('users', $tableColumns, $conditions, $bind);
+                $result = $sql->dbUpdate('users', $tableColumns, $conditions, $bind);
 
                 $cookieName = str_replace('.', '_', $_SERVER['SERVER_NAME']) . '_acms';
 
@@ -148,6 +151,8 @@ class Users extends AbstractModule
 
     public function logoutAttempt()
     {
+        $sql = new Db();
+
         $this->sessionAxis->start();
 
         $currentUser = new \Acms\Core\Entities\CurrentUser($this->sessionAxis);
@@ -161,7 +166,7 @@ class Users extends AbstractModule
 
         $bind = ['id' => $currentUser->getId()];
 
-        $this->sql->dbUpdate('users', $tableColumns, $conditions, $bind);
+        $sql->dbUpdate('users', $tableColumns, $conditions, $bind);
 
         $this->sessionAxis->destroy();
 

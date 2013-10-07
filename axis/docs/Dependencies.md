@@ -13,4 +13,5 @@
 * PhpRbac 2.0 - https://github.com/OWASP/rbac
 * PureCSS - 0.3.0 - http://purecss.io/
 * Symfony Components 2.3 - symfony.com/doc/2.3/components/finder.html
-    * Finder
+    * Filesystem - 2.3.5
+    * Finder - 2.3.5

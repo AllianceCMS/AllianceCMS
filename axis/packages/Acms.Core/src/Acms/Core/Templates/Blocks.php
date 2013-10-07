@@ -9,10 +9,12 @@ class Blocks extends AbstractModule
 {
     public function getBlocks($block_routes)
     {
+        $sql = new Db();
+
         if (isset($block_routes)) {
 
-            $this->sql->dbSelect('blocks', '*', 'active = :active', ['active' => intval(2)], 'ORDER BY block_order');
-            $result = $this->sql->dbFetch();
+            $sql->dbSelect('blocks', '*', 'active = :active', ['active' => intval(2)], 'ORDER BY block_order');
+            $result = $sql->dbFetch();
 
             foreach ($result as $key => $value) {
                 foreach ($block_routes as $block_route) {

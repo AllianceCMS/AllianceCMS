@@ -1,8 +1,8 @@
 <?php
 namespace ModuleManager;
 
-//use \Admin\AbstractAdmin;
 use Acms\Core\Components\AbstractAdmin;
+use Acms\Core\Data\Db;
 use Acms\Core\Templates\Template;
 use Symfony\Component\Finder\Finder;
 
@@ -10,10 +10,12 @@ class AdminPages extends AbstractAdmin
 {
     public function currentModules()
     {
+        $sql = new Db();
+
         $this->addCustomHeader($this->htmlHelper->styleSheetLink('http://www.alliancecms.com/ModuleManager/project/ModuleManager/0.01/files/css/style.css'));
 
         // List modules installed for all zones/domains
-        $this->sql->dbSelect('modules',
+        $sql->dbSelect('modules',
             'id, name, version, description, developer, developer_site, developer_email, folder_path, folder_name, created',
             'active = :active
             AND folder_path = :folder_path1
@@ -25,10 +27,10 @@ class AdminPages extends AbstractAdmin
             ],
             'ORDER BY weight');
 
-        $zoneAllModules = $this->sql->dbFetch();
+        $zoneAllModules = $sql->dbFetch();
 
         // List modules installed for this specific zone/domain
-        $this->sql->dbSelect('modules',
+        $sql->dbSelect('modules',
             'id, name, version, description, developer, developer_email, developer_site, created',
             'active = :active
             AND folder_path != :folder_path1
@@ -42,10 +44,10 @@ class AdminPages extends AbstractAdmin
             ],
             'ORDER BY weight');
 
-        $zoneSpecificModules = $this->sql->dbFetch();
+        $zoneSpecificModules = $sql->dbFetch();
 
         // List currently installed Axis modules
-        $this->sql->dbSelect('modules',
+        $sql->dbSelect('modules',
             'id, name, version, description, developer, developer_email, developer_site, created',
             'active = :active AND folder_path = :folder_path',
             [
@@ -54,7 +56,7 @@ class AdminPages extends AbstractAdmin
             ],
             'ORDER BY weight');
 
-        $axisModules = $this->sql->dbFetch();
+        $axisModules = $sql->dbFetch();
 
         $content = new Template(dirname(__FILE__) . DS . 'views/admin.current_modules.tpl.php');
 
@@ -87,6 +89,8 @@ class AdminPages extends AbstractAdmin
 
     public function installLocalModules()
     {
+        $sql = new Db();
+
         $this->addCustomHeader($this->htmlHelper->styleSheetLink('http://www.alliancecms.com/ModuleManager/project/ModuleManager/0.01/files/css/style.css'));
 
         $zoneAllfinder = new \Symfony\Component\Finder\Finder();
@@ -106,7 +110,7 @@ class AdminPages extends AbstractAdmin
             $folder_path = 'zones' . DS . $zoneName . DS . str_replace(DS . $folder_name, '', $file->getRelativePath()) . DS;
 
             // Is this module already installed?
-            $this->sql->dbSelect('modules',
+            $sql->dbSelect('modules',
                 'name, version, description, developer, developer_email, developer_site, created',
                 'active = :active
                 AND folder_name = :folder_name',
@@ -116,7 +120,7 @@ class AdminPages extends AbstractAdmin
                 ]
             );
 
-            $installedZoneAllModules = $this->sql->dbFetch();
+            $installedZoneAllModules = $sql->dbFetch();
 
             if (!$installedZoneAllModules) {
 
@@ -149,7 +153,7 @@ class AdminPages extends AbstractAdmin
             $absoluteFolderArray = explode(DS, $file->getRealpath());
 
             // Is this module already installed?
-            $this->sql->dbSelect('modules',
+            $sql->dbSelect('modules',
                 'name, version, description, developer, developer_email, developer_site, created',
                 'active = :active
                 AND folder_name = :folder_name',
@@ -159,7 +163,7 @@ class AdminPages extends AbstractAdmin
                 ]
             );
 
-            $installedZoneSpecificModules = $this->sql->dbFetch();
+            $installedZoneSpecificModules = $sql->dbFetch();
 
             if (!$installedZoneSpecificModules) {
 
@@ -209,6 +213,8 @@ class AdminPages extends AbstractAdmin
 
     public function installModule()
     {
+        $sql = new Db();
+
         // Add entry to modules database table
         $tableColumns = [
             'name' => $_POST['name'],
@@ -223,10 +229,10 @@ class AdminPages extends AbstractAdmin
             'created' => date("Y-m-d H:i:s", time()),
         ];
 
-        $result_module = $this->sql->dbInsert('modules', $tableColumns);
+        $result_module = $sql->dbInsert('modules', $tableColumns);
 
         if ($result_module) {
-            $lastInsertId = $this->sql->dbLastInsertId();
+            $lastInsertId = $sql->dbLastInsertId();
 
             $modulePath = BASE_DIR . $_POST['folder_path'] . $_POST['folder_name'] . DS;
 
@@ -242,7 +248,7 @@ class AdminPages extends AbstractAdmin
                     'created' => date("Y-m-d H:i:s", time()),
                 ];
 
-                $result_links = $this->sql->dbInsert('links', $tableColumns);
+                $result_links = $sql->dbInsert('links', $tableColumns);
             }
         }
 
@@ -254,7 +260,7 @@ class AdminPages extends AbstractAdmin
             // Create Tables
             if (isset($version['create']['table'])){
                 foreach ($version['create']['table'] as $tableName => $index) {
-                    $this->sql->dbCreateTable($tableName, $index);
+                    $sql->dbCreateTable($tableName, $index);
                 }
             }
 
@@ -264,7 +270,7 @@ class AdminPages extends AbstractAdmin
 
                     foreach ($loopTables as $tableName => $loopFields) {
                         foreach ($loopFields as $columns) {
-                            $result = $this->sql->dbInsert($tableName, $columns);
+                            $result = $sql->dbInsert($tableName, $columns);
                         }
                     }
                 }
@@ -274,7 +280,7 @@ class AdminPages extends AbstractAdmin
             if (isset($version['alter']['table'])) {
                 foreach ($version['alter']['table'] as $loopTables) {
                     foreach ($loopTables as $tableName => $statement) {
-                        $this->sql->dbAlterTable($tableName, $statement);
+                        $sql->dbAlterTable($tableName, $statement);
                     }
                 }
             }
@@ -294,7 +300,7 @@ class AdminPages extends AbstractAdmin
             'modified' => date("Y-m-d H:i:s", time()),
         ];
 
-        $this->sql->dbInsert('schemas', $schemaColumns);
+        $sql->dbInsert('schemas', $schemaColumns);
 
         $queryString = '';
 
@@ -312,8 +318,10 @@ class AdminPages extends AbstractAdmin
 
     public function uninstallModule()
     {
+        $sql = new Db();
+
         // Remove module from Modules Database Table
-        $resultDeleteModules = $this->sql->dbDelete(
+        $resultDeleteModules = $sql->dbDelete(
             'modules',
             'id = :id',
             [
@@ -322,7 +330,7 @@ class AdminPages extends AbstractAdmin
         );
 
         // Remove module links from Links Database Table
-        $resultDeleteLinks = $this->sql->dbDelete(
+        $resultDeleteLinks = $sql->dbDelete(
             'links',
             'module_id = :module_id',
             [
@@ -339,14 +347,14 @@ class AdminPages extends AbstractAdmin
         foreach ($schema as $version) {
             if (isset($version['create']['table'])){
                 foreach ($version['create']['table'] as $tableName => $index) {
-                    $resultDeleteModuleTables[] = $this->sql->dbDropTable($tableName);
+                    $resultDeleteModuleTables[] = $sql->dbDropTable($tableName);
                 }
             }
         }
 
         // Remove database schema info from Schemas database table
 
-        $resultDeleteSchema = $this->sql->dbDelete(
+        $resultDeleteSchema = $sql->dbDelete(
             'schemas',
             'system_name = :system_name',
             [
@@ -364,11 +372,13 @@ class AdminPages extends AbstractAdmin
             $queryString .= '/result_delete_links';
         }
 
+        /*
         if (isset($resultDeleteModuleTables)) {
             if (count($resultDeleteModuleTables) > 1) {
                 $queryString .= '/result_delete_module_tables';
             }
         }
+        //*/
 
         if (!$resultDeleteSchema) {
             $queryString .= '/result_delete_schema';

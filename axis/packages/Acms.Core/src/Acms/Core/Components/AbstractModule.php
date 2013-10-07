@@ -6,8 +6,9 @@ use Acms\Core\Html\HtmlHelper;
 
 abstract class AbstractModule
 {
-    protected $axis;
+    protected $pluginName;
 
+    protected $axis;
     protected $acmsLoader;
     protected $acmsSalt;
     protected $axisRoute;
@@ -16,7 +17,6 @@ abstract class AbstractModule
     protected $segmentUser;
     protected $currentUser;
     protected $sql;
-
     protected $formHelper;
     protected $htmlHelper;
     protected $customHeaders;
@@ -32,7 +32,6 @@ abstract class AbstractModule
         $this->sessionAxis = $axis->sessionAxis;
         $this->segmentUser = $axis->segmentUser;
         $this->currentUser = $axis->currentUser;
-        $this->sql = $axis->sql;
 
         $this->formHelper = new FormHelper($this->basePath);
         $this->htmlHelper = new HtmlHelper($this->basePath);

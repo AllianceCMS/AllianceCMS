@@ -105,7 +105,7 @@ class Db
             $queryString = 'CREATE DATABASE IF NOT EXISTS ' . $dbName . ' CHARACTER SET ' . $dbCharset . ' COLLATE ' . $dbCollation . ';';
 
             try {
-                $dbStmt = $this->connection->query($queryString);
+                $dbStmt = self::$connection->query($queryString);
             }
             catch (\PDOException $e)
             {
@@ -233,7 +233,7 @@ class Db
         $queryString .= ");";
 
         try {
-            $dbStmt = $this->connection->query($queryString);
+            $dbStmt = self::$connection->query($queryString);
             return true;
         }
         catch (\PDOException $e)
@@ -253,7 +253,7 @@ class Db
         $queryString = 'DROP TABLE IF EXISTS ' . $this->getDbPrefix() . $tableName . ';';
 
         try {
-            $dbStmt = $this->connection->query($queryString);
+            $dbStmt = self::$connection->query($queryString);
             return true;
         }
         catch (\PDOException $e)
@@ -273,7 +273,7 @@ class Db
         $queryString = "ALTER TABLE " . $this->getDbPrefix() . $table_name . " " . $statement;
 
         try {
-            $dbStmt = $this->connection->query($queryString);
+            $dbStmt = self::$connection->query($queryString);
             return true;
         }
         catch (\PDOException $e)
@@ -345,17 +345,17 @@ class Db
 
         switch ($fetchType) {
             case 'all':
-                return $this->connection->fetchAll($this->getQueryText(), $this->getBindValues());
+                return self::$connection->fetchAll($this->getQueryText(), $this->getBindValues());
             case 'assoc':
-                return $this->connection->fetchAssoc($this->getQueryText(), $this->getBindValues());
+                return self::$connection->fetchAssoc($this->getQueryText(), $this->getBindValues());
             case 'col':
-                return $this->connection->fetchCol($this->getQueryText(), $this->getBindValues());
+                return self::$connection->fetchCol($this->getQueryText(), $this->getBindValues());
             case 'one':
-                return $this->connection->fetchOne($this->getQueryText(), $this->getBindValues());
+                return self::$connection->fetchOne($this->getQueryText(), $this->getBindValues());
             case 'pairs':
-                return $this->connection->fetchPairs($this->getQueryText(), $this->getBindValues());
+                return self::$connection->fetchPairs($this->getQueryText(), $this->getBindValues());
             case 'value':
-                return $this->connection->fetchValue($this->getQueryText(), $this->getBindValues());
+                return self::$connection->fetchValue($this->getQueryText(), $this->getBindValues());
             default:
                 return false;
         }
@@ -393,7 +393,7 @@ class Db
 
         $prefixedTableName = $this->getDbPrefix() . $tableName;
 
-        $result = $this->connection->insert($prefixedTableName, $tableColumns);
+        $result = self::$connection->insert($prefixedTableName, $tableColumns);
 
         // Save this for PostgreSQL implementation
         //$id = $connection->lastInsertId($table, 'id');
@@ -425,7 +425,7 @@ class Db
 
         $prefixedTableName = $this->getDbPrefix() . $tableName;
 
-        $result = $this->connection->update($prefixedTableName, $tableColumns, $conditions, $bind);
+        $result = self::$connection->update($prefixedTableName, $tableColumns, $conditions, $bind);
 
         return $result;
     }
@@ -452,14 +452,14 @@ class Db
 
         $prefixedTableName = $this->getDbPrefix() . $tableName;
 
-        $result = $this->connection->delete($prefixedTableName, $conditions, $bind);
+        $result = self::$connection->delete($prefixedTableName, $conditions, $bind);
 
         return $result;
     }
 
     public function dbLastInsertId()
     {
-        return $this->connection->lastInsertId();
+        return self::$connection->lastInsertId();
     }
 
     /*
@@ -524,8 +524,8 @@ class Db
             $dbPassword = $this->getDbPassword();
         }
 
-        $connection_factory = new \Aura\Sql\ConnectionFactory();
-        $this->connection = $connection_factory->newInstance(
+        $connectionFactory = new \Aura\Sql\ConnectionFactory();
+        self::$connection = $connectionFactory->newInstance(
 
             // adapter name
             $dbAdapter,
@@ -572,7 +572,7 @@ class Db
 
     public function dbActiveConnect()
     {
-        $this->connection->connect();
+        self::$connection->connect();
     }
 
     /**
@@ -605,7 +605,7 @@ class Db
     {
         $pdo = null;
         try {
-            $pdo = $this->connection->getPdo();
+            $pdo = self::$connection->getPdo();
             return true;
         } catch (\PDOException $e) {
             // Continue on failure
@@ -625,7 +625,7 @@ class Db
     private $dbPrefix;
     private $dbPersistent;
     private $dbActive;
-    private $connection;
+    static private $connection;
     private $queryText;
     private $bindValues;
     private $result;
@@ -644,7 +644,7 @@ class Db
         $this->dbPrefix = null;
         $this->dbPersistent = null;
         $this->dbActive = null;
-        $this->connection = null;
+        self::$connection = null;
         $this->queryText = null;
         $this->bindValues = null;
         $this->result = null;
@@ -793,7 +793,7 @@ class Db
             $dbAdapter = $this->getDbAdapter();
         }
 
-        $this->connection = NewADOConnection($dbAdapter);
+        self::$connection = NewADOConnection($dbAdapter);
     }
 
     /**
@@ -801,7 +801,7 @@ class Db
      */
     public function getDbconnection()
     {
-        return $this->connection;
+        return self::$connection;
     }
 
     /**

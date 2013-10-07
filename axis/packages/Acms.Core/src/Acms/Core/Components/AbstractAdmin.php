@@ -2,6 +2,7 @@
 namespace Acms\Core\Components;
 
 use Acms\Core\Components\AbstractModule;
+use Acms\Core\Data\Db;
 use Acms\Core\Templates\Template;
 
 abstract class AbstractAdmin extends AbstractModule
@@ -24,8 +25,10 @@ abstract class AbstractAdmin extends AbstractModule
 
     public function getNavData()
     {
-        $this->sql->dbSelect('modules', 'folder_path, folder_name', 'active = :active', ['active' => intval(2)], 'ORDER BY weight');
-        $result = $this->sql->dbFetch();
+        $sql = new Db();
+
+        $sql->dbSelect('modules', 'folder_path, folder_name', 'active = :active', ['active' => intval(2)], 'ORDER BY weight');
+        $result = $sql->dbFetch();
 
         foreach ($result as $module) {
 

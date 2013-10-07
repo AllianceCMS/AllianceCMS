@@ -63,7 +63,6 @@ if ($dispatch) {
     $axis->sessionAxis = $sessionAxis;
     $axis->segmentUser = $segmentUser;
     $axis->currentUser = $currentUser;
-    $axis->sql = $sql;
 
     /*
      * Create Theme/Admin Template

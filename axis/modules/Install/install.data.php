@@ -1,11 +1,7 @@
 <?php
 /**
- * @todo: Test for ways to create database
- *     Problem: Having trouble connecting if the database doesn't exist, as the Db::__construct autoloads that info once DBCONNFILE is created
- *     Solution: Create DBCONNFILE at end of installation
+ * Setup $_POST variables for database insertion
  */
-
-// Setup $_POST variables for database insertion
 
 $dbInsertDatabase       = $_POST['dbDatabase'];
 
@@ -23,6 +19,10 @@ $venueInsertEmailName     = $_POST['venueEmailName'];
 
 $languageInsert           = isset($_POST['language']) ? $_POST['language'] : '';
 
+/**
+ * Create data needed during installation
+ */
+
 // Initialize $dbCreateDatabase
 $dbCreateDatabase = '';
 
@@ -37,7 +37,9 @@ $currentMySqlTimestamp = date("Y-m-d H:i:s", $currentUnixTime);
 // Include the proper database schemas
 include(dirname(__FILE__) . DS . 'schemata' . DS . 'install_alpha.php');
 
-// Create Db object, Establish Database Connection
+/**
+ * Create Db object, Establish Database Connection
+ */
 
 // Create database object
 $sql = new \Acms\Core\Data\Db;
@@ -121,7 +123,10 @@ $sql->dbConnect(
     $dbPassword
 );
 
-// Perform table creation/alteration/inserts/updates/deletes
+/**
+ * Perform table creation/alteration/inserts/updates/deletes
+ */
+
 foreach ($schema as $version) {
     // Create Tables
     if (isset($version['create']['table'])){
@@ -152,7 +157,13 @@ foreach ($schema as $version) {
     }
 }
 
-// Update database schema version
+/**
+ * Move 'assets' to 'public_html/resources/modules/$puginName/'
+ */
+
+/**
+ * Update database schema version
+ */
 
 // Get the most recent schema version for this database install
 end($schema); // move the internal pointer to the end of the array
