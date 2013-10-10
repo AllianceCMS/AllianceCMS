@@ -1,4 +1,4 @@
-<h1>AllianceCMS</h1>
+<h2>AllianceCMS</h2>
 
 <p>We are proud to announce the arrival of AllianceCMS, a Social Content Management System.</p>
 
