@@ -27,6 +27,7 @@ AllianceCMS, a Social Content Management System.
 ##Where is AllianceCMS?
 
 **Website:** [http://www.alliancecms.com](http://www.alliancecms.com)  
+**Google Group:** [https://groups.google.com/forum/#!forum/alliancecms](https://groups.google.com/forum/#!forum/alliancecms)  
 **Features:** [https://github.com/jbWebWare/AllianceCMS/wiki/AllianceCMS:-Features](https://github.com/jbWebWare/AllianceCMS/wiki/AllianceCMS:-Features)  
 **Wiki:** [https://github.com/jbWebWare/AllianceCMS/wiki](https://github.com/jbWebWare/AllianceCMS/wiki)  
 **API:** [http://api.alliancecms.com](http://api.alliancecms.com)
