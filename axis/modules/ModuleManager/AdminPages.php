@@ -2,6 +2,8 @@
 namespace ModuleManager;
 
 use Acms\Core\Components\AbstractAdmin;
+use Acms\Core\Components\Installer;
+use Acms\Core\Data\Assets;
 use Acms\Core\Data\Db;
 use Acms\Core\Templates\Template;
 use Symfony\Component\Finder\Finder;
@@ -11,8 +13,9 @@ class AdminPages extends AbstractAdmin
     public function currentModules()
     {
         $sql = new Db();
+        $assets = new Assets();
 
-        $this->addCustomHeader($this->htmlHelper->styleSheetLink('http://www.alliancecms.com/ModuleManager/project/ModuleManager/0.01/files/css/style.css'));
+        $this->addCustomHeader($this->htmlHelper->styleSheetLink($assets->getAssetPath($this->moduleName, 'css', 'style.css')));
 
         // List modules installed for all zones/domains
         $sql->dbSelect('modules',
@@ -90,8 +93,9 @@ class AdminPages extends AbstractAdmin
     public function installLocalModules()
     {
         $sql = new Db();
+        $assets = new Assets();
 
-        $this->addCustomHeader($this->htmlHelper->styleSheetLink('http://www.alliancecms.com/ModuleManager/project/ModuleManager/0.01/files/css/style.css'));
+        $this->addCustomHeader($this->htmlHelper->styleSheetLink($assets->getAssetPath($this->moduleName, 'css', 'style.css')));
 
         $zoneAllfinder = new \Symfony\Component\Finder\Finder();
         $zoneAllfinder->ignoreUnreadableDirs()->files()->name('details.php')->in(ZONES . 'all');
@@ -214,6 +218,7 @@ class AdminPages extends AbstractAdmin
     public function installModule()
     {
         $sql = new Db();
+        $installer = new Installer();
 
         // Add entry to modules database table
         $tableColumns = [
@@ -286,6 +291,10 @@ class AdminPages extends AbstractAdmin
             }
         }
 
+        // Move assets to public_html
+
+        $installer->mirrorAssets($_POST['folder_path'], $_POST['folder_name']);
+
         // Enter schema version to schemas database table
 
         // Get the most recent schema version for this database install
@@ -319,6 +328,7 @@ class AdminPages extends AbstractAdmin
     public function uninstallModule()
     {
         $sql = new Db();
+        $installer = new Installer();
 
         // Remove module from Modules Database Table
         $resultDeleteModules = $sql->dbDelete(
@@ -351,6 +361,9 @@ class AdminPages extends AbstractAdmin
                 }
             }
         }
+
+        // Remove assets from public_html
+        $installer->removeAssets($_POST['folder_path'], $_POST['folder_name']);
 
         // Remove database schema info from Schemas database table
 

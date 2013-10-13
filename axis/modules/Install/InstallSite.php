@@ -1,6 +1,7 @@
 <?php
 namespace Install;
 
+use Acms\Core\Components\Installer;
 use Acms\Core\Templates\Template;
 use Acms\Core\Html\FormHelper;
 
@@ -636,6 +637,8 @@ class InstallSite
     public function installCompleteInstallation($axis)
     {
         // Complete Installation
+
+        $installer = new Installer();
 
         // Create Database Tables
         // ??? From Old Code Base ??? If Clean Installation: Go To 'cleanup.php' File That Deletes 'Install.php', Fixes File Permissions And Links To Main Venue

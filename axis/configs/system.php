@@ -65,7 +65,7 @@ foreach ($pathArray as $val) {
  */
 
 if (!isset($subDomainFolder)) {
-    $subDomainFolder = DS;
+    $subDomainFolder = '';
 } else {
     $subDomainFolder = $subDomainFolder . DS;
 }
@@ -97,7 +97,8 @@ define('PUBLIC_HTML', BASE_DIR . 'public_html' . DS . $subDomainFolder);
  * Resource folder locations
  */
 
-define('RESOURCES', PUBLIC_HTML . 'resources' . DS);
+define('RESOURCE_PATH', PUBLIC_HTML . 'resources' . DS);
+define('RESOURCE_URL', BASE_URL . DS . 'resources' . DS);
 
 /**
  * System folder locations

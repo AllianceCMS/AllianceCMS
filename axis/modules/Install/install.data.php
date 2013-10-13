@@ -135,13 +135,17 @@ foreach ($schema as $version) {
         }
     }
 
-    // Insert Data Into Database
+    // Insert Data Into Database and mirror assets folder into public_html
     if (isset($version['insert']['table'])) {
         foreach ($version['insert']['table'] as $loopTables) {
 
             foreach ($loopTables as $tableName => $loopFields) {
                 foreach ($loopFields as $columns) {
                     $result = $sql->dbInsert($tableName, $columns, $dbPrefix);
+
+                    if ($tableName == 'modules') {
+                        $installer->mirrorAssets($columns['folder_path'], $columns['folder_name']);
+                    }
                 }
             }
         }
@@ -156,10 +160,6 @@ foreach ($schema as $version) {
         }
     }
 }
-
-/**
- * Move 'assets' to 'public_html/resources/modules/$puginName/'
- */
 
 /**
  * Update database schema version

@@ -1262,15 +1262,6 @@ $schema['0.01']['insert']['table'] = [
                 'modified' => $currentMySqlTimestamp,
             ],
         ],
-        'permissions' => [
-            [
-                'ID' => '',
-                'Lft' => '0',
-                'Rght' => '1',
-                'Title' => 'root',
-                'Description' => 'root',
-            ],
-        ],
         'modules' => [
             [
                 'id' => '',
@@ -1331,6 +1322,15 @@ $schema['0.01']['insert']['table'] = [
                 'active' => 2,
                 'created' => $currentMySqlTimestamp,
                 'modified' => $currentMySqlTimestamp,
+            ],
+        ],
+        'permissions' => [
+            [
+                'ID' => '',
+                'Lft' => '0',
+                'Rght' => '1',
+                'Title' => 'root',
+                'Description' => 'root',
             ],
         ],
         'roles' => [
