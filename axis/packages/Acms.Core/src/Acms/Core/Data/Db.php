@@ -41,7 +41,7 @@ class Db
         $this->initClassVars();
 
         if (is_file(DBCONNFILE)) {
-            if ($this->setDbInfo()) {
+            if ($this->initDbInfo()) {
                 if ($this->dbConnect()) {
                     return true;
                 } else {
@@ -61,7 +61,7 @@ class Db
      * @return boolean
      */
 
-    private function setDbInfo()
+    private function initDbInfo()
     {
         if (is_file(DBCONNFILE)) {
 
