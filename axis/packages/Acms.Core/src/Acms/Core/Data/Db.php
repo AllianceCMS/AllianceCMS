@@ -342,7 +342,6 @@ class Db
 
     public function dbFetch($fetchType = 'all')
     {
-
         switch ($fetchType) {
             case 'all':
                 return self::$connection->fetchAll($this->getQueryText(), $this->getBindValues());
@@ -456,6 +455,36 @@ class Db
 
         return $result;
     }
+
+    /**
+     * Query the database with custom query string
+     *
+     * @param string $queryString
+     *     Query you would like to execute
+     * @param array $queryBindValues
+     *
+     * Example selecting data from the database:
+     * @code
+     * $sql->dbQuery('SELECT * FROM '. DB_PREFIX . 'mytable WHERE id = :id', ['id' => inval(5)]);
+     * $result = $sql->dbFetch();
+     * @endcode
+     *
+     * @todo: Re-evaluate using Aura.SQL Query Objects
+     */
+
+    /*
+    public function dbQuery($queryString, $queryBindValues = null)
+    {
+        $queryText = $queryString;
+
+        if (isset($queryBindValues)) {
+            $bindValues = $queryBindValues;
+        }
+
+        $this->setQueryText($queryText);
+        $this->setBindValues($bindValues);
+    }
+    //*/
 
     public function dbLastInsertId()
     {
