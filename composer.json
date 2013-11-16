@@ -1,0 +1,11 @@
+{
+    "name":"alliancecms/alliancecms",
+    "description":"AllianceCMS - A secure, flexible, web standards compliant Content Management System targeting the creation of social networks",
+    "keywords":[ "CMS", "socialnetworks"],
+    "homepage":"http://www.alliancecms.com",
+    "license":["Apache-2.0"],
+    "version":"0.1",
+    "require":{
+        "php":">5.4.0"
+    }
+}
