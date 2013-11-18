@@ -458,7 +458,7 @@ $schema['0.01']['create']['table']['modules'] = [
             'not_null' => '1',
             'unsigned' => '1',
             'autoincrement' => '',
-            'default' => '2',
+            'default' => '1',
         ],
     ],
     [
@@ -988,6 +988,15 @@ $schema['0.01']['create']['table']['venues'] = [
             'autoincrement' => '1',
             'default' => '',
         ],
+    ],[
+        'column' => [
+            'name' => 'venue_type',
+            'type' => 'int(11)',
+            'not_null' => '1',
+            'unsigned' => '1',
+            'autoincrement' => '',
+            'default' => '1',
+        ],
     ],
     [
         'column' => [
@@ -1154,10 +1163,90 @@ $schema['0.01']['create']['table']['venues'] = [
             'PRIMARY KEY (id)',
             'UNIQUE KEY (name)',
             'UNIQUE KEY (venue_email)',
+            'INDEX (venue_type)',
             'INDEX (venue_admin)',
             'INDEX (default_module)',
             'INDEX (active_theme)',
             'INDEX (language)',
+        ],
+    ],
+];
+
+$schema['0.01']['create']['table']['venue_types'] = [
+    [
+        'column' => [
+            'name' => 'id',
+            'type' => 'int(11)',
+            'not_null' => '1',
+            'unsigned' => '1',
+            'autoincrement' => '1',
+            'default' => '',
+        ],
+    ],
+    [
+        'column' => [
+            'name' => 'name',
+            'type' => 'varchar(50)',
+            'not_null' => '1',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => '',
+        ],
+    ],
+    [
+        'column' => [
+            'name' => 'description',
+            'type' => 'text',
+            'not_null' => '',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => 'NULL',
+        ],
+    ],
+    [
+        'column' => [
+            'name' => 'weight',
+            'type' => 'int(11)',
+            'not_null' => '1',
+            'unsigned' => '1',
+            'autoincrement' => '',
+            'default' => '1',
+        ],
+    ],
+    [
+        'column' => [
+            'name' => 'active',
+            'type' => 'int(11)',
+            'not_null' => '1',
+            'unsigned' => '1',
+            'autoincrement' => '',
+            'default' => '2',
+        ],
+    ],
+    [
+        'column' => [
+            'name' => 'created',
+            'type' => 'timestamp',
+            'not_null' => '1',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => "'0000-00-00 00:00:00'",
+        ],
+    ],
+    [
+        'column' => [
+            'name' => 'modified',
+            'type' => 'timestamp',
+            'not_null' => '1',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => 'CURRENT_TIMESTAMP',
+        ],
+    ],
+    [
+        'keys' => [
+            'PRIMARY KEY (id)',
+            'UNIQUE KEY (name)',
         ],
     ],
 ];
@@ -1408,6 +1497,7 @@ $schema['0.01']['insert']['table'] = [
         'venues' => [
             [
                 'id' => '',
+                'venue_type' => 1,
                 'name' => $venueInsertName,
                 'title' => $venueInsertTitle,
                 'tagline' => $venueInsertTagline,
@@ -1421,6 +1511,17 @@ $schema['0.01']['insert']['table'] = [
                 'maintenance_flag' => 1,
                 'maintenance_flag_text' => '',
                 'language' => $languageInsert,
+                'active' => 2,
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
+        ],
+        'venue_types' => [
+            [
+                'id' => 1,
+                'name' => 'Default',
+                'description' => 'The Default venue type is a generic venue type. Use this venue type if you do not plan on using multiple venue types',
+                'weight' => 1,
                 'active' => 2,
                 'created' => $currentMySqlTimestamp,
                 'modified' => $currentMySqlTimestamp,
