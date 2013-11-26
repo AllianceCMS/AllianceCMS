@@ -209,8 +209,7 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
         $sql->dbSelect('venues', 'name', 'id = :id', ['id' => intval(1)]);
         $list = $sql->dbFetch();
 
-        // Redirect user to 'Venue Creation' page (Venues module)
-        header('Location: /'. $list[0]['name'] . '/admin/venues/create/'. $pathVenue);
+        header('Location: /'. $list[0]['name'] . '/venues/create/'. $pathVenue);
         exit;
     }
 }
