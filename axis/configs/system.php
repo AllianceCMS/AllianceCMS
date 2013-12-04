@@ -1,11 +1,5 @@
 <?php
 /**
- * Create random salt for blowfish crypt hash
- */
-
-$acmsSalt = sprintf('$2y$%02d$', 12).substr(str_replace('+', '.', base64_encode(pack('N4', mt_rand(), mt_rand(), mt_rand(), mt_rand()))), 0, 22).'$';
-
-/**
  * Create directory separator for file system paths
  */
 

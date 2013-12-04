@@ -10,7 +10,6 @@ abstract class AbstractModule
 
     protected $axis;
     protected $acmsLoader;
-    protected $acmsSalt;
     protected $axisRoute;
     protected $basePath;
     protected $sessionAxis;
@@ -26,7 +25,6 @@ abstract class AbstractModule
         $this->axis = $axis;
 
         $this->acmsLoader = $axis->acmsLoader;
-        $this->acmsSalt = $axis->acmsSalt;
         $this->basePath = $axis->basePath;
         $this->axisRoute = $axis->axisRoute;
         $this->sessionAxis = $axis->sessionAxis;

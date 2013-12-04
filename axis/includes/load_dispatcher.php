@@ -57,7 +57,6 @@ if ($dispatch) {
 
     $axis = new stdClass;
     $axis->acmsLoader = $acmsLoader;
-    $axis->acmsSalt = $acmsSalt;
     $axis->basePath = $basePath;
     $axis->axisRoute = $axisRoute;
     $axis->sessionAxis = $sessionAxis;

@@ -7,7 +7,7 @@ $dbInsertDatabase       = $_POST['dbDatabase'];
 
 $adminInsertLoginName   = $_POST['adminLoginName'];
 $adminInsertDisplayName = $_POST['adminLoginName'];
-$adminInsertPassword    = crypt($_POST['adminPassword'], $axis->acmsSalt);
+$adminInsertPassword    = crypt($_POST['adminPassword'], $security->randomBlowfishSalt());
 $adminInsertEmail       = $_POST['adminEmail'];
 $adminInsertHideEmail   = intval($_POST['adminHideEmail']);
 
