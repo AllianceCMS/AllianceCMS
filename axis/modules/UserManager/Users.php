@@ -7,6 +7,7 @@ use Acms\Core\Html\FormHelper;
 use Acms\Core\Html\HtmlHelper;
 use Acms\Core\Templates\Template;
 use Aura\Core\Entities\CurrentUser;
+use Acms\Core\Data\Security;
 
 /**
  * @todo: Multiple Items
@@ -75,6 +76,7 @@ class Users extends AbstractModule
     public function loginAttempt()
     {
         $sql = new Db();
+        $security = new Security();
 
         $form_helper = new FormHelper($this->basePath);
 
@@ -109,7 +111,7 @@ class Users extends AbstractModule
                 $this->segmentUser->display_name = $result['display_name'];
                 $this->sessionAxis->commit();
 
-                $acms_id = crypt($result['display_name'], $this->acmsSalt);
+                $acms_id = crypt($result['display_name'], $security->randomBlowfishSalt());
 
                 $tableColumns = [
                     'acms_id' => $acms_id,

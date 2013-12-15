@@ -4,6 +4,7 @@ namespace Install;
 use Acms\Core\Components\Installer;
 use Acms\Core\Templates\Template;
 use Acms\Core\Html\FormHelper;
+use Acms\Core\Data\Security;
 
 /**
  * @todo: Multiple Items
@@ -639,6 +640,7 @@ class InstallSite
         // Complete Installation
 
         $installer = new Installer();
+        $security = new Security();
 
         // Create Database Tables
         // ??? From Old Code Base ??? If Clean Installation: Go To 'cleanup.php' File That Deletes 'Install.php', Fixes File Permissions And Links To Main Venue
@@ -673,6 +675,7 @@ class InstallSite
     private function loginAdmin($axis, $loginName, $password)
     {
         $sql = new \Acms\Core\Data\Db;
+        $security = new Security();
 
         // Setup db connection variables
         // Started this because there was an error if the password was null,
@@ -728,7 +731,7 @@ class InstallSite
         $segmentUser->display_name = $loginName;
         $sessionAxis->commit();
 
-        $acms_id = crypt($loginName, $axis->acmsSalt);
+        $acms_id = crypt($loginName, $security->randomBlowfishSalt());
 
         $tableColumns = [
             'acms_id' => $acms_id,

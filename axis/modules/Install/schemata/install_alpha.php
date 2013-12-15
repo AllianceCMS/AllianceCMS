@@ -121,6 +121,95 @@ $schema['0.01']['create']['table']['blocks'] = [
     ],
 ];
 
+$schema['0.01']['create']['table']['labels'] = [
+    [
+        'column' => [
+            'name' => 'id',
+            'type' => 'int(11)',
+            'not_null' => '1',
+            'unsigned' => '1',
+            'autoincrement' => '1',
+            'default' => ''
+        ]
+    ],
+    [
+        'column' => [
+            'name' => 'name',
+            'type' => 'varchar(50)',
+            'not_null' => '1',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => ''
+        ]
+    ],
+    [
+        'column' => [
+            'name' => 'label',
+            'type' => 'varchar(50)',
+            'not_null' => '1',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => ''
+        ]
+    ],
+    [
+        'column' => [
+            'name' => 'comment',
+            'type' => 'text',
+            'not_null' => '',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => ''
+        ]
+    ],
+    [
+        'column' => [
+            'name' => 'order',
+            'type' => 'int(11)',
+            'not_null' => '1',
+            'unsigned' => '1',
+            'autoincrement' => '',
+            'default' => '1'
+        ]
+    ],
+    [
+        'column' => [
+            'name' => 'active',
+            'type' => 'int(11)',
+            'not_null' => '1',
+            'unsigned' => '1',
+            'autoincrement' => '',
+            'default' => '1'
+        ]
+    ],
+    [
+        'column' => [
+            'name' => 'created',
+            'type' => 'timestamp',
+            'not_null' => '1',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => "'0000-00-00 00:00:00'"
+        ]
+    ],
+    [
+        'column' => [
+            'name' => 'modified',
+            'type' => 'timestamp',
+            'not_null' => '1',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => 'CURRENT_TIMESTAMP'
+        ]
+    ],
+    [
+        'keys' => [
+            'PRIMARY KEY (id)',
+            'INDEX (label)'
+        ]
+    ],
+];
+
 $schema['0.01']['create']['table']['languages'] = [
     [
         'column' => [
@@ -1195,6 +1284,16 @@ $schema['0.01']['create']['table']['venue_types'] = [
     ],
     [
         'column' => [
+            'name' => 'label',
+            'type' => 'varchar(50)',
+            'not_null' => '1',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => '',
+        ],
+    ],
+    [
+        'column' => [
             'name' => 'description',
             'type' => 'text',
             'not_null' => '',
@@ -1283,6 +1382,16 @@ $schema['0.01']['insert']['table'] = [
                 'description' => 'AllianceCMS contact information.',
                 'block_area' => '1',
                 'block_order' => '3',
+                'active' => '2',
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
+        ],
+        'labels' => [
+            [
+                'id' => '',
+                'name' => 'Venue',
+                'label' => 'Venue',
                 'active' => '2',
                 'created' => $currentMySqlTimestamp,
                 'modified' => $currentMySqlTimestamp,
@@ -1412,6 +1521,21 @@ $schema['0.01']['insert']['table'] = [
                 'created' => $currentMySqlTimestamp,
                 'modified' => $currentMySqlTimestamp,
             ],
+            [
+                'id' => '',
+                'name' => 'Venue Manager',
+                'version' => '0.01',
+                'description' => 'This Official AllianceCMS Module allows you to manage your site Venues.',
+                'developer' => 'Jesse Burns',
+                'developer_email' => 'jesse.burns@alliancecms.com',
+                'developer_site' => 'http://www.alliancecms.com',
+                'folder_path' => 'axis/modules/',
+                'folder_name' => 'VenueManager',
+                'weight' => 5,
+                'active' => 2,
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
         ],
         'permissions' => [
             [
@@ -1520,7 +1644,8 @@ $schema['0.01']['insert']['table'] = [
             [
                 'id' => 1,
                 'name' => 'Default',
-                'description' => 'The Default venue type is a generic venue type. Use this venue type if you do not plan on using multiple venue types',
+                'label' => 'Venue',
+                'description' => 'The default venue type is a generic venue type. Use this venue type if you do not plan on using multiple venue types',
                 'weight' => 1,
                 'active' => 2,
                 'created' => $currentMySqlTimestamp,

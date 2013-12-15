@@ -6,7 +6,16 @@
     	<meta name="description" content="<?php echo $venue_description; ?>"/>
     	<meta name="keywords" content="" />
     	<meta name="author" content="AllianceCMS" />
+
+    	<!-- The styles -->
+
+        <!-- Begin PureCSS Includes -->
+        <link rel="stylesheet" href="<?php echo $templateFolder; ?>/tools/pure/0.3.0/pure-min.css">
+        <!-- End PureCSS Includes -->
+
+        <!-- Begin Emplode Includes -->
     	<link rel="stylesheet" type="text/css" href="<?php echo $theme_folder; ?>/css/style.css" media="screen" />
+        <!-- End Emplode Includes -->
 
     	<!-- START Custom Headers -->
     	<?php /* if (!empty($customHeaders)) echo $customHeaders; */ ?>
