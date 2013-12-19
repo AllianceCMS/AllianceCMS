@@ -3,6 +3,24 @@ namespace Acms\Core\Data;
 
 class Filter
 {
+	public function filterVenueName($venueName)
+	{
+		$filteredVenueName = $this->removeWhiteSpace($venueName);
+		$filteredVenueName = $this->removeDashes($filteredVenueName);
+		
+		return $filteredVenueName;
+	}
+	
+	public function removeWhiteSpace($subject)
+	{
+		return preg_replace('/^\s+|\s+$/', '', $subject);
+	}
+	
+	public function removeDashes($subject)
+	{
+		return preg_replace('/\s+/', '-', $subject);
+	}
+	
     public function alterRegex($alterFields)
     {
         foreach ($alterFields as $field) {

@@ -5,7 +5,7 @@
         <legend>Create A New Venue!</legend>
         <div class="pure-control-group">
             <label for="venue_name"><?php echo $venueLabel; ?> Name</label>
-            <?php $formHelper->inputText('venue_name'); ?>
+            <?php $formHelper->inputText('venue_name', $requestedVenueName); ?>
         </div>
     </fieldset>
 <?php $formHelper->inputFormEnd(); ?>
