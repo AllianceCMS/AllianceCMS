@@ -4,9 +4,8 @@
  *
  * If PHP version is < 5.4.0 display error message and halt execution.
  */
-?>
 
-<?php if (phpversion() < '5.4.0'): ?>
+if (phpversion() < '5.4.0'): ?>
     <h1>AllianceCMS: Error</h1>
     <h2>
         <span style="color: red;">There are one or more errors that will prevent you from installing and using AllianceCMS</span>
@@ -21,10 +20,11 @@
     <p>
         Please talk to your system administrator about upgrading your PHP server software before continuing...
     </p>
-    <?php exit; ?>
-<? endif; ?>
+    <?php
+    
+    exit;
+endif;
 
-<?php
 /**
  * Try to locate and require hub.php automatically
  */
