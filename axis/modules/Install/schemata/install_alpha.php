@@ -1091,6 +1091,16 @@ $schema['0.01']['create']['table']['venues'] = [
         'column' => [
             'name' => 'name',
             'type' => 'varchar(20)',
+            'not_null' => '',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => '',
+        ],
+    ],
+    [
+        'column' => [
+            'name' => 'label',
+            'type' => 'varchar(20)',
             'not_null' => '1',
             'unsigned' => '',
             'autoincrement' => '',
@@ -1251,6 +1261,7 @@ $schema['0.01']['create']['table']['venues'] = [
         'keys' => [
             'PRIMARY KEY (id)',
             'UNIQUE KEY (name)',
+            'UNIQUE KEY (label)',
             'UNIQUE KEY (venue_email)',
             'INDEX (venue_type)',
             'INDEX (venue_admin)',
@@ -1390,7 +1401,7 @@ $schema['0.01']['insert']['table'] = [
         'labels' => [
             [
                 'id' => '',
-                'name' => 'Venue',
+                'name' => 'venue',
                 'label' => 'Venue',
                 'active' => '2',
                 'created' => $currentMySqlTimestamp,
@@ -1622,7 +1633,8 @@ $schema['0.01']['insert']['table'] = [
             [
                 'id' => '',
                 'venue_type' => 1,
-                'name' => $venueInsertName,
+                'name' => strtolower($venueInsertLabel),
+                'label' => $venueInsertLabel,
                 'title' => $venueInsertTitle,
                 'tagline' => $venueInsertTagline,
                 'description' => '',
@@ -1643,7 +1655,7 @@ $schema['0.01']['insert']['table'] = [
         'venue_types' => [
             [
                 'id' => 1,
-                'name' => 'Default',
+                'name' => 'venue',
                 'label' => 'Venue',
                 'description' => 'The default venue type is a generic venue type. Use this venue type if you do not plan on using multiple venue types',
                 'weight' => 1,

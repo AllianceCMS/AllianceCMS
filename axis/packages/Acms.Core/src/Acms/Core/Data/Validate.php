@@ -3,11 +3,11 @@ namespace Acms\Core\Data;
 
 class Validate
 {
-    public function isValidVenueName($venueName)
+    public function isValidVenueLabel($venueLabel)
     {
-        $venueNameRegex = '/^[A-z]+[A-z0-9\s-]+[A-z0-9]$/';
+        $venueLabelRegex = '/^[A-z]+[A-z0-9\s-]+[A-z0-9]$/';
 
-        if (!preg_match($venueNameRegex, $venueName)) {
+        if (!preg_match($venueLabelRegex, $venueLabel)) {
             /*
             $this->errorRegexTrue = 1;
             $this->errorRegex .= '/' . $field . 'RegexError.' . intval(1);

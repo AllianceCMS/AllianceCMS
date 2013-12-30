@@ -7,10 +7,10 @@ class CurrentUser
 {
     public $sessionId;
 
-    private $id;
-    private $loggedIn = false;
-    private $displayName;
-    private $sessionPersistent;
+    public $id;
+    public $loggedIn = false;
+    public $displayName;
+    public $sessionPersistent;
 
     public function __construct()
     {

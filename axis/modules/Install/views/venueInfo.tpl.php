@@ -10,8 +10,8 @@
         $firstIteration = 1;
     }
 
-    if (empty($venueName)) {
-        $venueName = '';
+    if (empty($venueLabel)) {
+        $venueLabel = '';
     }
 
     if (empty($venueTitle)) {
@@ -38,12 +38,12 @@
 
 <?php if (isset($formErrors)): ?>
     <div class="error">
-    <?php if ($venueName == ''): ?>
+    <?php if ($venueLabel == ''): ?>
         <p>
             Error: Please Enter A Venue Name
         </p>
     <?php endif; ?>
-    <?php if (isset($venueNameRegexError) && $venueNameRegexError == 1): ?>
+    <?php if (isset($venueLabelRegexError) && $venueLabelRegexError == 1): ?>
         <p>
             Error: Please Enter A Valid Venue Name
         </p>
@@ -78,10 +78,10 @@
                 <span style="color: red;">*</span> <strong>Venue Name:</strong><br />
                 Must not contain numbers or symbols<br />
                 (Spaces will be converted into dashes)<br />
-                (i.e. AllianceCMS, MyVenueName)
+                (i.e. AllianceCMS, My-Venue-Name)
             </td>
             <td>
-                <?php $formHelper->inputText('venueName', (isset($formData['venueName'])) ? $formData['venueName'] : $venueName); ?>
+                <?php $formHelper->inputText('venueLabel', (isset($formData['venueLabel'])) ? $formData['venueLabel'] : $venueLabel); ?>
             </td>
         </tr>
         <tr>

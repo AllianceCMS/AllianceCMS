@@ -11,7 +11,7 @@ $adminInsertPassword    = crypt($_POST['adminPassword'], $security->randomBlowfi
 $adminInsertEmail       = $_POST['adminEmail'];
 $adminInsertHideEmail   = intval($_POST['adminHideEmail']);
 
-$venueInsertName          = preg_replace('/\s+/', '', $_POST['venueName']);
+$venueInsertLabel          = preg_replace('/\s+/', '', $_POST['venueLabel']);
 $venueInsertTitle         = isset($_POST['venueTitle']) ? $_POST['venueTitle'] : '';
 $venueInsertTagline       = isset($_POST['venueTagline']) ? $_POST['venueTagline'] : '';
 $venueInsertEmail         = $_POST['venueEmail'];

@@ -1,28 +1,21 @@
-<h2>Welcome to the <?php echo $venueLabel; ?> Creation Wizard!</h2>
+<h2>Welcome to the <?php echo $venueTypeLabel; ?> Creation Wizard!</h2>
 
-<?php $formHelper->inputFormStart('/install/confirm-venue-info', 'POST', ['class' => 'pure-form pure-form-aligned']); ?>
+<?php $formHelper->inputFormStart('/venues/create/process/' . $requestedVenueLabel, 'POST', ['class' => 'pure-form pure-form-aligned']); ?>
     <fieldset>
         <legend>Create A New Venue!</legend>
+
         <div class="pure-control-group">
-            <label for="venue_name"><?php echo $venueLabel; ?> Name</label>
-            <?php $formHelper->inputText('venue_name', $requestedVenueName); ?>
+            <label for="venue_label"><?php echo $venueTypeLabel; ?> Name</label>
+            <?php $formHelper->inputText('venue_label', $requestedVenueLabel); ?>
         </div>
-    </fieldset>
-<?php $formHelper->inputFormEnd(); ?>
 
-<?php $formHelper->inputFormStart('/install/confirm-venue-info', 'POST', ['class' => 'pure-form pure-form-aligned']); ?>
-    <fieldset>
-        <legend>Find An Existing Venue!</legend>
         <div class="pure-control-group">
-            <label for="venue_name"><?php echo $venueLabel; ?> Name</label>
-            <?php $formHelper->inputText('venue_name'); ?>
+            <label for="venue_type"><?php echo $venueTypeLabel; ?> Type</label>
+            <?php $formHelper->inputSelect('venue_type', $venueTypes); ?>
+        </div>
 
-            <label for="state">State</label>
-            <select id="state">
-                <option>AL</option>
-                <option>CA</option>
-                <option>IL</option>
-            </select>
+        <div class="pure-controls">
+            <button type="submit" class="pure-button pure-button-primary">Create</button>
         </div>
     </fieldset>
 <?php $formHelper->inputFormEnd(); ?>

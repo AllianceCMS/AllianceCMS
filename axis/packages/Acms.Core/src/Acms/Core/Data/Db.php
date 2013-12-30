@@ -394,10 +394,22 @@ class Db
 
         $result = self::$connection->insert($prefixedTableName, $tableColumns);
 
+        /*
+        try {
+            $result = self::$connection->insert($prefixedTableName, $tableColumns);
+            //return true;
+        } catch (\PDOException $e) {
+            // Continue on failure
+            //return false;
+        }
+        //*/
+
         // Save this for PostgreSQL implementation
         //$id = $connection->lastInsertId($table, 'id');
 
         return $result;
+
+        //return self::$connection->insert($prefixedTableName, $tableColumns);
     }
 
     /**
@@ -640,6 +652,14 @@ class Db
             // Continue on failure
             return false;
         }
+    }
+
+    public function getMysqlTimestamp()
+    {
+        $currentUnixTime = time();
+        $currentMySqlTimestamp = date("Y-m-d H:i:s", $currentUnixTime);
+
+        return $currentMySqlTimestamp;
     }
 
     /*
