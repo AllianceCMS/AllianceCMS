@@ -3,7 +3,7 @@
         <legend>Find An Existing Venue!</legend>
 
         <div class="pure-control-group">
-            <label for="venue_name"><?php echo $venueLabel; ?> Name</label>
+            <label for="venue_name"><?php echo $venueName; ?> Name</label>
             <?php $formHelper->inputText('venue_name'); ?>
         </div>
 

@@ -134,7 +134,7 @@ $schema['0.01']['create']['table']['labels'] = [
     ],
     [
         'column' => [
-            'name' => 'name',
+            'name' => 'cryptonym',
             'type' => 'varchar(50)',
             'not_null' => '1',
             'unsigned' => '',
@@ -144,7 +144,7 @@ $schema['0.01']['create']['table']['labels'] = [
     ],
     [
         'column' => [
-            'name' => 'label',
+            'name' => 'name',
             'type' => 'varchar(50)',
             'not_null' => '1',
             'unsigned' => '',
@@ -205,7 +205,7 @@ $schema['0.01']['create']['table']['labels'] = [
     [
         'keys' => [
             'PRIMARY KEY (id)',
-            'INDEX (label)'
+            'INDEX (cryptonym)'
         ]
     ],
 ];
@@ -1089,7 +1089,7 @@ $schema['0.01']['create']['table']['venues'] = [
     ],
     [
         'column' => [
-            'name' => 'name',
+            'name' => 'cryptonym', // Internal Name
             'type' => 'varchar(20)',
             'not_null' => '',
             'unsigned' => '',
@@ -1099,7 +1099,7 @@ $schema['0.01']['create']['table']['venues'] = [
     ],
     [
         'column' => [
-            'name' => 'label',
+            'name' => 'name',
             'type' => 'varchar(20)',
             'not_null' => '1',
             'unsigned' => '',
@@ -1260,8 +1260,8 @@ $schema['0.01']['create']['table']['venues'] = [
     [
         'keys' => [
             'PRIMARY KEY (id)',
+            'UNIQUE KEY (cryptonym)',
             'UNIQUE KEY (name)',
-            'UNIQUE KEY (label)',
             'UNIQUE KEY (venue_email)',
             'INDEX (venue_type)',
             'INDEX (venue_admin)',
@@ -1285,7 +1285,7 @@ $schema['0.01']['create']['table']['venue_types'] = [
     ],
     [
         'column' => [
-            'name' => 'name',
+            'name' => 'cryptonym', // Internal Name
             'type' => 'varchar(50)',
             'not_null' => '1',
             'unsigned' => '',
@@ -1295,7 +1295,7 @@ $schema['0.01']['create']['table']['venue_types'] = [
     ],
     [
         'column' => [
-            'name' => 'label',
+            'name' => 'name',
             'type' => 'varchar(50)',
             'not_null' => '1',
             'unsigned' => '',
@@ -1356,7 +1356,7 @@ $schema['0.01']['create']['table']['venue_types'] = [
     [
         'keys' => [
             'PRIMARY KEY (id)',
-            'UNIQUE KEY (name)',
+            'UNIQUE KEY (cryptonym)',
         ],
     ],
 ];
@@ -1401,8 +1401,8 @@ $schema['0.01']['insert']['table'] = [
         'labels' => [
             [
                 'id' => '',
-                'name' => 'venue',
-                'label' => 'Venue',
+                'cryptonym' => 'venue',
+                'name' => 'Venue',
                 'active' => '2',
                 'created' => $currentMySqlTimestamp,
                 'modified' => $currentMySqlTimestamp,
@@ -1633,8 +1633,8 @@ $schema['0.01']['insert']['table'] = [
             [
                 'id' => '',
                 'venue_type' => 1,
-                'name' => strtolower($venueInsertLabel),
-                'label' => $venueInsertLabel,
+                'cryptonym' => strtolower($venueInsertLabel),
+                'name' => $venueInsertLabel,
                 'title' => $venueInsertTitle,
                 'tagline' => $venueInsertTagline,
                 'description' => '',
@@ -1655,8 +1655,8 @@ $schema['0.01']['insert']['table'] = [
         'venue_types' => [
             [
                 'id' => 1,
-                'name' => 'venue',
-                'label' => 'Venue',
+                'cryptonym' => 'venue',
+                'name' => 'Venue',
                 'description' => 'The default venue type is a generic venue type. Use this venue type if you do not plan on using multiple venue types',
                 'weight' => 1,
                 'active' => 2,

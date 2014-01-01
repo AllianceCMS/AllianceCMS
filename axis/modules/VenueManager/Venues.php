@@ -13,25 +13,31 @@ class Venues extends AbstractModule
     {
         $content = new Template(dirname(__FILE__) . DS . 'views/venue_create_start.tpl.php');
 
-        $validate = new Validate();
         $filter = new Filter();
+        $validate = new Validate();
 
-        $filteredVenueLabel = $filter->filterVenueLabel($this->axisRoute->values['venue_label']);
+        $filteredVenueName = $filter->filterVenueName($this->axisRoute->values['venue_name']);
 
-        if ($validate->isValidVenueLabel($filteredVenueLabel)) {
-        	$content->set('requestedVenueLabel', $filteredVenueLabel);
+        if ($validate->isValidVenueName($filteredVenueName)) {
+        	$content->set('requestedVenueName', $filteredVenueName);
         } else {
-        	$content->set('requestedVenueLabel', '');
+        	$content->set('requestedVenueName', '');
         }
 
         $listVenueTypes = $this->listVenueTypes();
 
         foreach ($listVenueTypes as $key => $type) {
-            $venueTypes[$key][] = $type['label'];
             $venueTypes[$key][] = $type['name'];
+            $venueTypes[$key][] = $type['cryptonym'];
         }
 
-        $content->set('venueTypeLabel', $this->getVenueLabel());
+        if (isset($this->axisRoute->values['return_code'][0])) {
+            if ($this->axisRoute->values['return_code'][0] === "3") {
+                $content->set('invalidVenueName', true);
+            }
+        }
+
+        $content->set('venueTypeName', $this->getVenueName());
         $content->set('venueTypes', $venueTypes);
         $content->set('formHelper', $this->formHelper);
 
@@ -44,62 +50,73 @@ class Venues extends AbstractModule
          * Return Codes
          *     * 1 - Venue Creation Success
          *     * 2 - Venue Creation Failure
-         *     * 3 - Venue Exists
+         *     * 3 - Invalid Venue Name
+         *     * 4 - Venue Exists
          */
 
         if ($this->venueExists()) {
             // venue exists message
 
-            $returnCode = 3;
+            $returnCode = 4;
         } else {
             // create venue
 
-            $sql = new Db();
+            $filter = new Filter();
+            $validate = new Validate();
 
-            /*
-             * Get current users email address
-             */
-            $sql->dbSelect('users',
-                'email_address',
-                'id = :id',
-                ['id' => $this->currentUser->id]
-            );
+            $filteredVenueName = $filter->filterVenueName($this->axisRoute->values['venue_name']);
 
-            $fields = $sql->dbFetch('one');
+            if (!$validate->isValidVenueName($filteredVenueName)) {
+                $returnCode = 3;
+            } else {
 
-            $emailAddress = $fields['email_address'];
+                $sql = new Db();
 
-            /*
-             * Get requested venue types ID
-            */
-            $venueTypeId = $this->getVenueTypeId(strtolower($_POST['venue_type']));
+                /*
+                 * Get current users email address
+                 */
+                $sql->dbSelect('users',
+                    'email_address',
+                    'id = :id',
+                    ['id' => $this->currentUser->id]
+                );
 
-            $tableColumns = [
-                'venue_type' => $venueTypeId,
-                'name' => strtolower($this->axisRoute->values['venue_label']),
-                'label' => $this->axisRoute->values['venue_label'],
-                'title' => $this->axisRoute->values['venue_label'],
-                'venue_admin' => $this->currentUser->id,
-                'venue_email' => $emailAddress,
-                'venue_email_name' => $this->axisRoute->values['venue_label'] . ': Admin',
-                'active' => 2,
-                'created' => $sql->getMysqlTimestamp(),
-                'modified' => $sql->getMysqlTimestamp(),
-            ];
+                $fields = $sql->dbFetch('one');
 
-            try {
-                $sql->dbInsert('venues', $tableColumns);
+                $emailAddress = $fields['email_address'];
 
-                // Created Successfully
-                $returnCode = 1;
+                /*
+                 * Get requested venue types ID
+                */
+                $venueTypeId = $this->getVenueTypeId($_POST['venue_type']);
 
-            } catch (\PDOException $e) {
-                // Could not create venue
-                $returnCode = 2;
+                $tableColumns = [
+                    'venue_type' => $venueTypeId,
+                    'cryptonym' => strtolower($this->axisRoute->values['venue_name']),
+                    'name' => $this->axisRoute->values['venue_name'],
+                    'title' => $this->axisRoute->values['venue_name'],
+                    'venue_admin' => $this->currentUser->id,
+                    'venue_email' => $emailAddress,
+                    'venue_email_name' => $this->axisRoute->values['venue_name'] . ': Admin',
+                    'active' => 2,
+                    'created' => $sql->getMysqlTimestamp(),
+                    'modified' => $sql->getMysqlTimestamp(),
+                ];
+
+                try {
+                    $sql->dbInsert('venues', $tableColumns);
+
+                    // Created Successfully
+                    $returnCode = 1;
+
+                } catch (\PDOException $e) {
+                    // Could not create venue
+                    $returnCode = 2;
+                }
             }
         }
 
-        header('location:' . $this->basePath . '/venues/create/complete/' . $this->axisRoute->values['venue_label'] . '/' . $returnCode);
+        header('location:' . $this->basePath . '/venues/create/complete/' . $this->axisRoute->values['venue_name'] . '/' . $returnCode);
         exit;
     }
 
@@ -113,6 +130,32 @@ class Venues extends AbstractModule
         	    $content = new Template(dirname(__FILE__) . DS . 'views/venue_create_error.tpl.php');
         	    break;
         	case 3:
+
+
+        	    header('location:' . $this->basePath . '/venues/create/start/' . $this->axisRoute->values['venue_name'] . '/3');
+        	    exit;
+
+        	    /*
+        	    $content = new Template(dirname(__FILE__) . DS . 'views/venue_create_invalid_name.tpl.php');
+
+        	    $content->set('venueTypeName', $this->getVenueName());
+        	    $content->set('formHelper', $this->formHelper);
+
+        	    $filter = new Filter();
+        	    $validate = new Validate();
+
+        	    $filteredVenueName = $filter->filterVenueName($this->axisRoute->values['venue_name']);
+
+        	    if ($validate->isValidVenueName($filteredVenueName)) {
+        	        $content->set('requestedVenueName', $filteredVenueName);
+        	    } else {
+        	        $content->set('requestedVenueName', '');
+        	    }
+
+        	    break;
+        	    //*/
+
+        	case 4:
         	    $content = new Template(dirname(__FILE__) . DS . 'views/venue_create_venue_exists.tpl.php');
         	    break;
         }
@@ -134,10 +177,10 @@ class Venues extends AbstractModule
         $sql = new Db();
 
         $sql->dbSelect('venues',
-            'name',
-            'name = :name',
+            'cryptonym',
+            'cryptonym = :cryptonym',
             [
-                'name' => strtolower($this->axisRoute->values['venue_label']),
+                'cryptonym' => strtolower($this->axisRoute->values['venue_name']),
             ]
         );
 
@@ -152,16 +195,18 @@ class Venues extends AbstractModule
         return $result;
     }
 
-    public function getVenueTypeId($venueTypeName)
+    public function getVenueTypeId($venueType)
     {
         // Get Specific Venue Type ID
+
+        $venueTypeCryptonym = strtolower($venueType);
 
         $sql = new Db();
 
         $sql->dbSelect('venue_types',
             'id',
-            'name = :name',
-            ['name' => $venueTypeName]
+            'cryptonym = :cryptonym',
+            ['cryptonym' => $venueTypeCryptonym]
         );
 
         $fields = $sql->dbFetch('one');
@@ -177,7 +222,7 @@ class Venues extends AbstractModule
         $sql = new Db();
 
         $sql->dbSelect('venue_types',
-            'name, label, description',
+            'cryptonym, name, description',
             'active = :active',
             ['active' => intval(2)]);
 
@@ -186,24 +231,24 @@ class Venues extends AbstractModule
         return $fields;
     }
 
-    public function getVenueLabel()
+    public function getVenueName()
     {
 
-        // Get Specific Venue Label
+        // Get Specified Venue Name
 
         $sql = new Db();
 
         $sql->dbSelect('labels',
-            'name, label',
-            'name = :name AND active = :active',
+            'cryptonym, name',
+            'cryptonym = :cryptonym AND active = :active',
             [
-                'name' => 'Venue',
+                'cryptonym' => 'venue',
                 'active' => intval(2)
             ]
         );
 
         $fields = $sql->dbFetch('one');
 
-        return $fields['label'];
+        return $fields['name'];
     }
 }

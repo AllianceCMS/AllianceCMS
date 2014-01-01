@@ -3,22 +3,27 @@ namespace Acms\Core\Data;
 
 class Filter
 {
-	public function filterVenueLabel($venueLabel)
+	public function filterVenueName($venueName)
 	{
+	    $filteredVenueName = $this->dashToSpace($venueName);
+	    $filteredVenueName = $this->removeExtraWhiteSpace($filteredVenueName);
+	    $filteredVenueName = ucwords($filteredVenueName);
+	    $filteredVenueName = $this->whiteSpaceToDashes($filteredVenueName);
 
-	    $filteredVenueLabel = ucwords($venueLabel);
-	    $filteredVenueLabel = $this->removeWhiteSpace($filteredVenueLabel);
-	    $filteredVenueLabel = $this->removeDashes($filteredVenueLabel);
-
-		return $filteredVenueLabel;
+		return $filteredVenueName;
 	}
 
-	public function removeWhiteSpace($subject)
+	public function dashToSpace($subject)
+	{
+	    return preg_replace('/-/', ' ', $subject);
+	}
+
+	public function removeExtraWhiteSpace($subject)
 	{
 		return preg_replace('/^\s+|\s+$/', '', $subject);
 	}
 
-	public function removeDashes($subject)
+	public function whiteSpaceToDashes($subject)
 	{
 		return preg_replace('/\s+/', '-', $subject);
 	}
