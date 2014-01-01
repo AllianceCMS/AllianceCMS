@@ -14,7 +14,7 @@ $moduleRoutes['VenueManager']['Create Venue Start'] = [
 
 $moduleRoutes['VenueManager']['Create Venue Process'] = [
     'name' => 'venue_create_process', // Required: Route name
-    'path' => '/venues/create/process/{:venue_name}', // Required: Route path
+    'path' => '/venues/create/process/{:venue_name*}', // Required: Route path
     'type' => 'front', // Required: admin, front, back
     'specs' => [
         'values' => [

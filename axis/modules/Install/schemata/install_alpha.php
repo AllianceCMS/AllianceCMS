@@ -1262,7 +1262,6 @@ $schema['0.01']['create']['table']['venues'] = [
             'PRIMARY KEY (id)',
             'UNIQUE KEY (cryptonym)',
             'UNIQUE KEY (name)',
-            'UNIQUE KEY (venue_email)',
             'INDEX (venue_type)',
             'INDEX (venue_admin)',
             'INDEX (default_module)',
