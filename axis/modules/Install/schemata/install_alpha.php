@@ -121,6 +121,95 @@ $schema['0.01']['create']['table']['blocks'] = [
     ],
 ];
 
+$schema['0.01']['create']['table']['labels'] = [
+    [
+        'column' => [
+            'name' => 'id',
+            'type' => 'int(11)',
+            'not_null' => '1',
+            'unsigned' => '1',
+            'autoincrement' => '1',
+            'default' => ''
+        ]
+    ],
+    [
+        'column' => [
+            'name' => 'cryptonym',
+            'type' => 'varchar(50)',
+            'not_null' => '1',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => ''
+        ]
+    ],
+    [
+        'column' => [
+            'name' => 'name',
+            'type' => 'varchar(50)',
+            'not_null' => '1',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => ''
+        ]
+    ],
+    [
+        'column' => [
+            'name' => 'comment',
+            'type' => 'text',
+            'not_null' => '',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => ''
+        ]
+    ],
+    [
+        'column' => [
+            'name' => 'order',
+            'type' => 'int(11)',
+            'not_null' => '1',
+            'unsigned' => '1',
+            'autoincrement' => '',
+            'default' => '1'
+        ]
+    ],
+    [
+        'column' => [
+            'name' => 'active',
+            'type' => 'int(11)',
+            'not_null' => '1',
+            'unsigned' => '1',
+            'autoincrement' => '',
+            'default' => '1'
+        ]
+    ],
+    [
+        'column' => [
+            'name' => 'created',
+            'type' => 'timestamp',
+            'not_null' => '1',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => "'0000-00-00 00:00:00'"
+        ]
+    ],
+    [
+        'column' => [
+            'name' => 'modified',
+            'type' => 'timestamp',
+            'not_null' => '1',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => 'CURRENT_TIMESTAMP'
+        ]
+    ],
+    [
+        'keys' => [
+            'PRIMARY KEY (id)',
+            'INDEX (cryptonym)'
+        ]
+    ],
+];
+
 $schema['0.01']['create']['table']['languages'] = [
     [
         'column' => [
@@ -197,7 +286,7 @@ $schema['0.01']['create']['table']['links'] = [
             'not_null' => '1',
             'unsigned' => '1',
             'autoincrement' => '',
-            'default' => '',
+            'default' => '0',
         ],
     ],
     [
@@ -237,7 +326,7 @@ $schema['0.01']['create']['table']['links'] = [
             'not_null' => '1',
             'unsigned' => '1',
             'autoincrement' => '',
-            'default' => '',
+            'default' => '0',
         ],
     ],
     [
@@ -458,7 +547,7 @@ $schema['0.01']['create']['table']['modules'] = [
             'not_null' => '1',
             'unsigned' => '1',
             'autoincrement' => '',
-            'default' => '2',
+            'default' => '1',
         ],
     ],
     [
@@ -988,6 +1077,25 @@ $schema['0.01']['create']['table']['venues'] = [
             'autoincrement' => '1',
             'default' => '',
         ],
+    ],[
+        'column' => [
+            'name' => 'venue_type',
+            'type' => 'int(11)',
+            'not_null' => '1',
+            'unsigned' => '1',
+            'autoincrement' => '',
+            'default' => '1',
+        ],
+    ],
+    [
+        'column' => [
+            'name' => 'cryptonym', // Internal Name
+            'type' => 'varchar(20)',
+            'not_null' => '',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => '',
+        ],
     ],
     [
         'column' => [
@@ -1152,12 +1260,102 @@ $schema['0.01']['create']['table']['venues'] = [
     [
         'keys' => [
             'PRIMARY KEY (id)',
+            'UNIQUE KEY (cryptonym)',
             'UNIQUE KEY (name)',
-            'UNIQUE KEY (venue_email)',
+            'INDEX (venue_type)',
             'INDEX (venue_admin)',
             'INDEX (default_module)',
             'INDEX (active_theme)',
             'INDEX (language)',
+        ],
+    ],
+];
+
+$schema['0.01']['create']['table']['venue_types'] = [
+    [
+        'column' => [
+            'name' => 'id',
+            'type' => 'int(11)',
+            'not_null' => '1',
+            'unsigned' => '1',
+            'autoincrement' => '1',
+            'default' => '',
+        ],
+    ],
+    [
+        'column' => [
+            'name' => 'cryptonym', // Internal Name
+            'type' => 'varchar(50)',
+            'not_null' => '1',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => '',
+        ],
+    ],
+    [
+        'column' => [
+            'name' => 'name',
+            'type' => 'varchar(50)',
+            'not_null' => '1',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => '',
+        ],
+    ],
+    [
+        'column' => [
+            'name' => 'description',
+            'type' => 'text',
+            'not_null' => '',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => 'NULL',
+        ],
+    ],
+    [
+        'column' => [
+            'name' => 'weight',
+            'type' => 'int(11)',
+            'not_null' => '1',
+            'unsigned' => '1',
+            'autoincrement' => '',
+            'default' => '1',
+        ],
+    ],
+    [
+        'column' => [
+            'name' => 'active',
+            'type' => 'int(11)',
+            'not_null' => '1',
+            'unsigned' => '1',
+            'autoincrement' => '',
+            'default' => '2',
+        ],
+    ],
+    [
+        'column' => [
+            'name' => 'created',
+            'type' => 'timestamp',
+            'not_null' => '1',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => "'0000-00-00 00:00:00'",
+        ],
+    ],
+    [
+        'column' => [
+            'name' => 'modified',
+            'type' => 'timestamp',
+            'not_null' => '1',
+            'unsigned' => '',
+            'autoincrement' => '',
+            'default' => 'CURRENT_TIMESTAMP',
+        ],
+    ],
+    [
+        'keys' => [
+            'PRIMARY KEY (id)',
+            'UNIQUE KEY (cryptonym)',
         ],
     ],
 ];
@@ -1199,6 +1397,16 @@ $schema['0.01']['insert']['table'] = [
                 'modified' => $currentMySqlTimestamp,
             ],
         ],
+        'labels' => [
+            [
+                'id' => '',
+                'cryptonym' => 'venue',
+                'name' => 'Venue',
+                'active' => '2',
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
+        ],
         'languages' => [
             [
                 'id' => '',
@@ -1230,7 +1438,7 @@ $schema['0.01']['insert']['table'] = [
                 'comment' => '',
                 'link_parent' => '',
                 'link_area' => 1,
-                'link_order' => 4,
+                'link_order' => 2,
                 'active' => 2,
                 'created' => $currentMySqlTimestamp,
                 'modified' => $currentMySqlTimestamp,
@@ -1243,7 +1451,20 @@ $schema['0.01']['insert']['table'] = [
                 'comment' => '',
                 'link_parent' => '',
                 'link_area' => 1,
-                'link_order' => 5,
+                'link_order' => 3,
+                'active' => 2,
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
+            [
+                'id' => '',
+                'module_id' => '5',
+                'label' => 'Create Venue',
+                'url' => '/venues/create/start',
+                'comment' => '',
+                'link_parent' => '',
+                'link_area' => 1,
+                'link_order' => 4,
                 'active' => 2,
                 'created' => $currentMySqlTimestamp,
                 'modified' => $currentMySqlTimestamp,
@@ -1256,7 +1477,7 @@ $schema['0.01']['insert']['table'] = [
                 'comment' => '',
                 'link_parent' => '',
                 'link_area' => 1,
-                'link_order' => 6,
+                'link_order' => 5,
                 'active' => 2,
                 'created' => $currentMySqlTimestamp,
                 'modified' => $currentMySqlTimestamp,
@@ -1319,6 +1540,21 @@ $schema['0.01']['insert']['table'] = [
                 'folder_path' => 'axis/modules/',
                 'folder_name' => 'ModuleManager',
                 'weight' => 4,
+                'active' => 2,
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
+            [
+                'id' => '',
+                'name' => 'Venue Manager',
+                'version' => '0.01',
+                'description' => 'This Official AllianceCMS Module allows you to manage your site Venues.',
+                'developer' => 'Jesse Burns',
+                'developer_email' => 'jesse.burns@alliancecms.com',
+                'developer_site' => 'http://www.alliancecms.com',
+                'folder_path' => 'axis/modules/',
+                'folder_name' => 'VenueManager',
+                'weight' => 5,
                 'active' => 2,
                 'created' => $currentMySqlTimestamp,
                 'modified' => $currentMySqlTimestamp,
@@ -1408,7 +1644,9 @@ $schema['0.01']['insert']['table'] = [
         'venues' => [
             [
                 'id' => '',
-                'name' => $venueInsertName,
+                'venue_type' => 1,
+                'cryptonym' => strtolower($venueInsertLabel),
+                'name' => $venueInsertLabel,
                 'title' => $venueInsertTitle,
                 'tagline' => $venueInsertTagline,
                 'description' => '',
@@ -1421,6 +1659,18 @@ $schema['0.01']['insert']['table'] = [
                 'maintenance_flag' => 1,
                 'maintenance_flag_text' => '',
                 'language' => $languageInsert,
+                'active' => 2,
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
+        ],
+        'venue_types' => [
+            [
+                'id' => 1,
+                'cryptonym' => 'venue',
+                'name' => 'Venue',
+                'description' => 'The default venue type is a generic venue type. Use this venue type if you do not plan on using multiple venue types',
+                'weight' => 1,
                 'active' => 2,
                 'created' => $currentMySqlTimestamp,
                 'modified' => $currentMySqlTimestamp,

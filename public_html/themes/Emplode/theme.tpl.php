@@ -6,7 +6,25 @@
     	<meta name="description" content="<?php echo $venue_description; ?>"/>
     	<meta name="keywords" content="" />
     	<meta name="author" content="AllianceCMS" />
+
+    	<!-- The styles -->
+
+        <!-- Begin PureCSS Includes -->
+        <link rel="stylesheet" href="<?php echo $templateFolder; ?>/tools/pure/0.3.0/pure-min.css">
+        <!-- End PureCSS Includes -->
+
+        <!-- Begin Hint.css Includes -->
+        <link rel="stylesheet" href="<?php echo $templateFolder; ?>/tools/hint.css/1.3.0/hint.min.css">
+        <!-- End Hint.css Includes -->
+
+        <!-- Begin Custom Includes -->
+		<link rel="stylesheet" href="<?php echo $templateFolder; ?>/tools/acms/css/style.css"/>
+    	<link href="<?php echo $theme_folder; ?>/acms/css/style.css" rel="stylesheet">
+        <!-- End Custom Includes -->
+
+        <!-- Begin Emplode Includes -->
     	<link rel="stylesheet" type="text/css" href="<?php echo $theme_folder; ?>/css/style.css" media="screen" />
+        <!-- End Emplode Includes -->
 
     	<!-- START Custom Headers -->
     	<?php /* if (!empty($customHeaders)) echo $customHeaders; */ ?>
@@ -156,6 +174,19 @@
 
         	</div>
         </div>
+
+
+        <!-- Begin Custom Bootstrap 3.0 Includes -->
+    	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/js/alert.js"></script>
+    	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/js/collapse.js"></script>
+    	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/js/dropdown.js"></script>
+    	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/js/tab.js"></script>
+    	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/js/transition.js"></script>
+        <!-- End Custom Bootstrap 3.0 Includes -->
+
+        <!-- Begin Custom Includes -->
+    	<script src="<?php echo $templateFolder; ?>/tools/acms/js/acms.js"></script>
+        <!-- End Custom Includes -->
 
     </body>
 </html>

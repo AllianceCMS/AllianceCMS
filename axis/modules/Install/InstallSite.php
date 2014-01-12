@@ -528,7 +528,7 @@ class InstallSite
 
         // Check for missing required fields
         $requiredFields = [
-            'venueName',
+            'venueLabel',
             'venueEmail',
             'venueConfirmEmail',
         ];
@@ -538,13 +538,13 @@ class InstallSite
         ];
 
         $alterFields = [
-            ['venueName', '/^\s+|\s+$/', ''],
+            ['venueLabel', '/^\s+|\s+$/', ''],
         ];
 
         $formHelper->alterRegex($alterFields);
 
         $validateFields = [
-            'venueName' => '/^[A-z]+[A-z0-9\s-]+[A-z0-9]$/',
+            'venueLabel' => '/^[A-z]+[A-z0-9\s-]+[A-z0-9]$/',
             'venueEmail' => $formHelper->isValidEmail(),
         ];
 
@@ -555,10 +555,12 @@ class InstallSite
         $formHelper->sendErrors('/install/venue-info');
 
         $alterFields = [
-            ['venueName', '/\s+/', '-'],
+            ['venueLabel', '/\s+/', '-'],
         ];
 
         $formHelper->alterRegex($alterFields);
+
+        $_POST['venueLabel'] = ucwords($_POST['venueLabel']);
 
         // There are no missing required fields or form input errors
 

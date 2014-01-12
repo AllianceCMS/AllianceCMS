@@ -1,7 +1,7 @@
 <?php
 
-    if (empty($venueName)) {
-        $venueName = '';
+    if (empty($venueLabel)) {
+        $venueLabel = '';
     }
 
     if (empty($venueTitle)) {
@@ -34,7 +34,7 @@
             <strong>Main Venue Name:</strong>
         </td>
         <td>
-            <?php echo $venueName; ?>
+            <?php echo $venueLabel; ?>
         </td>
     </tr>
     <tr>
