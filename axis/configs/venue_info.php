@@ -1,4 +1,24 @@
 <?php
+
+/**
+ * Get Venue Name stored in 'labels' database table
+ */
+
+$sql->dbSelect('labels',
+    'cryptonym, name',
+    'cryptonym = :cryptonym AND active = :active',
+    [
+        'cryptonym' => 'venue',
+        'active' => intval(2),
+    ]
+);
+
+$fields = $sql->dbFetch('one');
+
+define("VENUE_LABEL", $fields['name']);
+
+unset($fields);
+
 /**
  * Setup Main Venue Constants
  *

@@ -209,7 +209,13 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
         $sql->dbSelect('venues', 'name', 'id = :id', ['id' => intval(1)]);
         $list = $sql->dbFetch();
 
-        header('Location: /'. $list[0]['name'] . '/venues/create/start/'. $pathVenue);
+        if ($pathVenue === 'venues') {
+            $pathVenue = '';
+        } else {
+            $pathVenue = '/' . $pathVenue;
+        }
+
+        header('Location: /'. $list[0]['name'] . '/venues/create/start'. $pathVenue);
         exit;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 $moduleRoutes['VenueManager']['Create Venue Start'] = [
     'name' => 'venue_create_start', // Required: Route name
-    'path' => '/venues/create/start/{:venue_name}/{:return_code*}', // Required: Route path
+    'path' => '/venues/create/start/{:query_string*}', // Required: Route path
     'type' => 'front', // Required: admin, front, back
     'specs' => [
             'values' => [

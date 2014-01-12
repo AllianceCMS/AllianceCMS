@@ -9,6 +9,9 @@ use Acms\Core\Data\Filter;
 
 class Venues extends AbstractModule
 {
+    /**
+     * @todo: Do not allow venue create if client is not logged in
+     */
     public function venueCreateStart()
     {
         // Initialize View
@@ -18,13 +21,19 @@ class Venues extends AbstractModule
         $validate = new Validate();
 
         // Filter requested Venue Name
-        $filteredVenueName = $filter->filterVenueName($this->axisRoute->values['venue_name']);
+        if (isset($this->axisRoute->values['query_string'][0])) {
+            $filteredVenueName = $filter->filterVenueName($this->axisRoute->values['query_string'][0]);
+        } else {
+            $filteredVenueName = '';
+        }
 
         // Make sure it's a valid Venue Name
+        // @todo: Is this really needed? The else statement did assign an empty string to 'requestedVenueName' which would leave the 'Venue Name' text field empty when redirected back to form
+
         if ($validate->isValidVenueName($filteredVenueName)) {
         	$content->set('requestedVenueName', $filteredVenueName);
         } else {
-        	$content->set('requestedVenueName', '');
+        	$content->set('requestedVenueName', $filteredVenueName);
         }
 
         // Create array of Venue Types for select input box
@@ -35,27 +44,24 @@ class Venues extends AbstractModule
             $venueTypes[$key][] = $type['cryptonym'];
         }
 
-        // If an invalid Venue Name submitted create variable that will trigger error message
-        if (isset($this->axisRoute->values['return_code'][0])) {
-            if ($this->axisRoute->values['return_code'][0] === "3") {
+        // If an invalid Venue Name is submitted, create a variable that will trigger error message
+        if (isset($this->axisRoute->values['query_string'][1])) {
+            if ($this->axisRoute->values['query_string'][1] === "3") {
                 $content->set('invalidVenueName', true);
             }
 
-            if ($this->axisRoute->values['return_code'][0] === "4") {
+            if ($this->axisRoute->values['query_string'][1] === "4") {
                 $content->set('venueNameExists', true);
-
-                $content->set('requestedVenueName', '');
             }
 
-            if ($this->axisRoute->values['return_code'][0] === "5") {
+            if ($this->axisRoute->values['query_string'][1] === "5") {
                 $content->set('blankVenueName', true);
-
                 $content->set('requestedVenueName', '');
             }
         }
 
         // Send variables to view
-        $content->set('venueTypeName', $this->getVenueLabel());
+        $content->set('venueTypeName', VENUE_LABEL);
         $content->set('venueTypes', $venueTypes);
         $content->set('formHelper', $this->formHelper);
 
@@ -176,7 +182,7 @@ class Venues extends AbstractModule
 
         	    $content = new Template(dirname(__FILE__) . DS . 'views/venue_create_complete.tpl.php');
 
-        	    $content->set('venueTypeName', $this->getVenueLabel());
+        	    $content->set('venueTypeName', VENUE_LABEL);
         	    $content->set('venueName', $this->axisRoute->values['venue_name']);
 
         	    break;
@@ -190,23 +196,16 @@ class Venues extends AbstractModule
 
         	    header('location:' . $this->basePath . '/venues/create/start/' . $this->axisRoute->values['venue_name'] . '/3');
         	    exit;
-
         	case 4:
         	    // A Venue with the requested name already exists
 
         	    header('location:' . $this->basePath . '/venues/create/start/' . $this->axisRoute->values['venue_name'] . '/4');
         	    exit;
-
-        	    /*
-        	    $content = new Template(dirname(__FILE__) . DS . 'views/venue_create_venue_exists.tpl.php');
-        	    break;
-        	    //*/
         	case 5:
         	    // Invalid Venue Name
 
         	    header('location:' . $this->basePath . '/venues/create/start/' . $this->axisRoute->values['venue_name'] . '/5');
         	    exit;
-
         }
 
         return $content;
@@ -222,7 +221,6 @@ class Venues extends AbstractModule
             'cryptonym',
             'cryptonym = :cryptonym',
             [
-                //'cryptonym' => strtolower($this->axisRoute->values['venue_name']),
                 'cryptonym' => strtolower($venueName),
             ]
         );
@@ -279,6 +277,8 @@ class Venues extends AbstractModule
         return $fields;
     }
 
+    /*
+    @todo: Should we keep this. Right now a constant is created on every load page. This would allow us to load the venue name label only when needed.
     public function getVenueLabel()
     {
 
@@ -299,4 +299,5 @@ class Venues extends AbstractModule
 
         return $fields['name'];
     }
+    //*/
 }

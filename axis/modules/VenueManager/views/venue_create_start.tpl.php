@@ -1,11 +1,11 @@
 <h2>Welcome to the <?php echo $venueTypeName; ?> Creation Wizard!</h2>
 
 <?php if ((isset($invalidVenueName)) && ($invalidVenueName)): ?>
-    <div class="error">Error: Invalid Venue Name. We have suggested a valid Venue Name.</div>
+    <div class="error">Error: Invalid Venue Name.</div>
 <?php endif; ?>
 
 <?php if ((isset($venueNameExists)) && ($venueNameExists)): ?>
-    <div class="error">Error: Venue Name Exists.</div>
+    <div class="error">Error: Requested Venue Name Exists.</div>
 <?php endif; ?>
 
 <?php if ((isset($blankVenueName)) && ($blankVenueName)): ?>
