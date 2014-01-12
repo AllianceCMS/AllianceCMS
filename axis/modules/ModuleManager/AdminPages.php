@@ -98,11 +98,11 @@ class AdminPages extends AbstractAdmin
         $this->addCustomHeader($this->htmlHelper->styleSheetLink($assets->getAssetPath($this->moduleName, 'css', 'style.css')));
 
         $zoneAllfinder = new \Symfony\Component\Finder\Finder();
-        $zoneAllfinder->ignoreUnreadableDirs()->files()->name('details.php')->in(ZONES . 'all');
+        $zoneAllfinder->ignoreUnreadableDirs()->files()->name('install.php')->in(ZONES . 'all');
 
         $currentZonePath = str_replace(DS . 'dbConnection.php', '', DBCONNFILE);
         $zoneCurrentfinder = new \Symfony\Component\Finder\Finder();
-        $zoneCurrentfinder->ignoreUnreadableDirs()->files()->name('details.php')->in($currentZonePath . DS . 'modules');
+        $zoneCurrentfinder->ignoreUnreadableDirs()->files()->name('install.php')->in($currentZonePath . DS . 'modules');
 
         foreach ($zoneAllfinder as $file) {
 
@@ -241,7 +241,7 @@ class AdminPages extends AbstractAdmin
 
             $modulePath = BASE_DIR . $_POST['folder_path'] . $_POST['folder_name'] . DS;
 
-            include $modulePath . 'details.php';
+            include $modulePath . 'install.php';
 
             // Add entries to links database table
             foreach ($details['links'] as $label => $url) {
