@@ -55,5 +55,5 @@ file_put_contents($dbConnFile, $data);
 $currentOS = strtoupper(substr(PHP_OS, 0, 3));
 
 if ($currentOS != 'WIN') {
-	chmod(DBCONNFILE, 0644);
+	chmod($dbConnFile, 0644);
 }

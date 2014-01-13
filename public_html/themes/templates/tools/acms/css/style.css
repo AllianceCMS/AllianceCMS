@@ -1,6 +1,6 @@
 /*
-Custom AllianceCMS styles.
-*/
+ * Custom AllianceCMS styles.
+ */
 
 /* For testing module grids */
 .module-nav {
@@ -8,7 +8,6 @@ Custom AllianceCMS styles.
 }
 
 /* Alerts */
-
 
 .acms-alert {
   padding: 8px 35px 8px 14px;
