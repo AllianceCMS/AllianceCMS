@@ -1,6 +1,6 @@
-<div class="block">
+<div class="widget">
 
-	<div class="block_title"><?php echo $block_title; ?></div>
+	<h2><span><?php echo $block_title; ?></span></h2>
 
 	<div class="block_content">
 		<?php echo $block_content; ?>

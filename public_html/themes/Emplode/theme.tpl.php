@@ -7,7 +7,7 @@
     	<meta name="keywords" content="" />
     	<meta name="author" content="AllianceCMS" />
 
-    	<!-- The styles -->
+    	<!-- Begin AllianceCMS styles -->
 
         <!-- Begin PureCSS Includes -->
         <link rel="stylesheet" href="<?php echo $templateFolder; ?>/tools/pure/0.3.0/pure-min.css">
@@ -21,6 +21,8 @@
 		<link rel="stylesheet" href="<?php echo $templateFolder; ?>/tools/acms/css/style.css"/>
     	<link href="<?php echo $theme_folder; ?>/acms/css/style.css" rel="stylesheet">
         <!-- End Custom Includes -->
+
+    	<!-- End AllianceCMS styles -->
 
         <!-- Begin Emplode Includes -->
     	<link rel="stylesheet" type="text/css" href="<?php echo $theme_folder; ?>/css/style.css" media="screen" />
@@ -175,8 +177,7 @@
         	</div>
         </div>
 
-
-        <!-- Begin Custom Bootstrap 3.0 Includes -->
+        <!-- Begin Custom AllianceCMS Bootstrap 3.0 Includes -->
     	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/js/alert.js"></script>
     	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/js/collapse.js"></script>
     	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/js/dropdown.js"></script>
@@ -184,9 +185,9 @@
     	<script src="<?php echo $templateFolder; ?>/tools/bootstrap/3.0.0/js/transition.js"></script>
         <!-- End Custom Bootstrap 3.0 Includes -->
 
-        <!-- Begin Custom Includes -->
+        <!-- Begin Custom AllianceCMS Includes -->
     	<script src="<?php echo $templateFolder; ?>/tools/acms/js/acms.js"></script>
-        <!-- End Custom Includes -->
+        <!-- End Custom AllianceCMS Includes -->
 
     </body>
 </html>

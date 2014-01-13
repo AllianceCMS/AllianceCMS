@@ -9,28 +9,28 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
-        <title>Brownie - Professional Portfolio &amp; Business HTML5 Template</title>
-        <meta name="description" content="" />
+        <title><?php echo $venue_title; ?></title>
+        <meta name="description" content="<?php echo $venue_description; ?>" />
         <meta name="keywords" content="" />
         <meta name="robots" content="index,follow" />
 
-        <link rel="shortcut icon" href="images/favicon.ico" />
-        <link rel="stylesheet" href="css/prettyPhoto.css" type="text/css" />
-        <link rel="stylesheet" href="css/flexslider.css" type="text/css" />
-        <link rel="stylesheet" href="css/style.css" type="text/css" />
+        <link rel="shortcut icon" href="<?php echo $theme_folder; ?>/images/favicon.ico" />
+        <link rel="stylesheet" href="<?php echo $theme_folder; ?>/css/prettyPhoto.css" type="text/css" />
+        <link rel="stylesheet" href="<?php echo $theme_folder; ?>/css/flexslider.css" type="text/css" />
+        <link rel="stylesheet" href="<?php echo $theme_folder; ?>/css/style.css" type="text/css" />
 
         <!--[if (gte IE 6)&(lte IE 8)]>
-            <script type="text/javascript" src="js/html5.js"></script>
-            <script type="text/javascript" src="js/selectivizr-min.js"></script>
-            <link rel="stylesheet" href="css/ie_7.css" type="text/css" />
+            <script type="text/javascript" src="<?php echo $theme_folder; ?>/js/html5.js"></script>
+            <script type="text/javascript" src="<?php echo $theme_folder; ?>/js/selectivizr-min.js"></script>
+            <link rel="stylesheet" href="<?php echo $theme_folder; ?>/css/ie_7.css" type="text/css" />
         <![endif]-->
 
-        <script type="text/javascript" src="js/jquery.min.js"></script>
-        <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
-        <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
-        <script type="text/javascript" src="js/all-in-one-min.js"></script>
-        <script type="text/javascript" src="js/setup.js"></script>
-        <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript" src="<?php echo $theme_folder; ?>/js/jquery.min.js"></script>
+        <script type="text/javascript" src="<?php echo $theme_folder; ?>/js/jquery.easing.1.3.js"></script>
+        <script type="text/javascript" src="<?php echo $theme_folder; ?>/js/jquery-ui-1.8.16.custom.min.js"></script>
+        <script type="text/javascript" src="<?php echo $theme_folder; ?>/js/all-in-one-min.js"></script>
+        <script type="text/javascript" src="<?php echo $theme_folder; ?>/js/setup.js"></script>
+        <script type="text/javascript" src="<?php echo $theme_folder; ?>/js/main.js"></script>
 
         <script type="text/javascript">
             $(window).load(function(){
@@ -64,12 +64,12 @@
                 <ul class="social-links">
                     <li>
                         <a href="javascript:">
-                            <img src="images/facebook.png" alt="Facebook" />
+                            <img src="<?php echo $theme_folder; ?>/images/facebook.png" alt="Facebook" />
                         </a>
                     </li>
                     <li>
                         <a href="javascript:">
-                            <img src="images/twitter.png" width="24" height="24" alt="Twitter" />
+                            <img src="<?php echo $theme_folder; ?>/images/twitter.png" width="24" height="24" alt="Twitter" />
                         </a>
                     </li>
                 </ul>
@@ -77,14 +77,40 @@
 
                 <!-- Logo -->
                 <div class="logo">
+
+                    <!--
                     <a href="index.html">
-                        <img src="images/logo.png" alt="" />
+                        <img src="<?php echo $theme_folder; ?>/images/logo.png" alt="" />
                     </a>
+                    -->
+
+                    <a href="<?php echo $base_url; ?>">
+                        <h3><?php echo $venue_title; ?></h3>
+                    </a>
+
+                    <p>
+                        <?php echo $venue_tagline; ?>
+                    </p>
+
+                    <!-- Test with text logo
+                    <div class="features">
+                        <div class="title clearfix">
+                            <a href="<?php echo $base_url; ?>">
+                                <h3><?php echo $venue_title; ?></h3>
+                            </a>
+                        </div>
+                    </div>
+                    -->
+
                 </div>
                 <!-- /Logo -->
 
                 <!-- Master Nav -->
                 <nav class="main-menu">
+
+                    <?php echo $nav1; ?>
+
+                    <!--
                     <ul>
                         <li><a href="index.html">Home</a></li>
                         <li>
@@ -126,8 +152,11 @@
                         <li><a href="blog.html">Blog</a></li>
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
+                    -->
+
                 </nav>
                 <!-- /Master Nav -->
+
             </div>
         </header>
         <!-- /Header -->
@@ -140,19 +169,19 @@
                 <div class="flexslider">
                     <ul class="slides">
                         <li>
-                            <img src="images/fslide01.jpg" alt="" />
+                            <img src="<?php echo $theme_folder; ?>/images/fslide01.jpg" alt="" />
                             <p class="flex-caption">I am Caption!</p>
                         </li>
-                        <li><a href="#"><img src="images/fslide02.jpg" alt="" /></a></li>
+                        <li><a href="#"><img src="<?php echo $theme_folder; ?>/images/fslide02.jpg" alt="" /></a></li>
                         <li>
-                            <img src="images/fslide03.jpg" alt="" />
+                            <img src="<?php echo $theme_folder; ?>/images/fslide03.jpg" alt="" />
                             <p class="flex-caption">I am Caption!</p>
                         </li>
-                        <li><img src="images/fslide04.jpg" alt="" /></li>
+                        <li><img src="<?php echo $theme_folder; ?>/images/fslide04.jpg" alt="" /></li>
 
-                        <li><img src="images/fslide05.jpg" alt="" /></li>
+                        <li><img src="<?php echo $theme_folder; ?>/images/fslide05.jpg" alt="" /></li>
 
-                        <li><img src="images/fslide06.jpg" alt="" /></li>
+                        <li><img src="<?php echo $theme_folder; ?>/images/fslide06.jpg" alt="" /></li>
                     </ul>
                 </div>
             </div>
@@ -169,7 +198,7 @@
                 <div class="features">
 
                     <div class="title clearfix">
-                        <img src="images/code-icon.png" alt="" class="alignleft" />
+                        <img src="<?php echo $theme_folder; ?>/images/code-icon.png" alt="" class="alignleft" />
                         <h3>Beautiful, Responsive and Valid Template</h3>
                     </div>
 
@@ -189,7 +218,7 @@
                 <div class="features">
 
                     <div class="title clearfix">
-                        <img src="images/intuitive-icon.png" alt="" class="alignleft" />
+                        <img src="<?php echo $theme_folder; ?>/images/intuitive-icon.png" alt="" class="alignleft" />
                         <h3>Eye Catching, Clean and Intuitive Design</h3>
                     </div>
 
@@ -209,7 +238,7 @@
                 <div class="features">
 
                     <div class="title clearfix">
-                        <img src="images/businesses-icon.png" alt="" class="alignleft" />
+                        <img src="<?php echo $theme_folder; ?>/images/businesses-icon.png" alt="" class="alignleft" />
                         <h3>Perfect for Businesses & Portfolios</h3>
                     </div>
 
@@ -247,8 +276,8 @@
                     <!-- START PORTFOLIO COLUMN #1 -->
                     <li id="id-1" class="app">
                         <span class="recent_image">
-                            <a href="images/portfolio_large.jpg" data-rel="prettyPhoto" class="img-thumb">
-                                <img class="portfolio_image" src="images/featured_work_1.jpg" alt="" />
+                            <a href="<?php echo $theme_folder; ?>/images/portfolio_large.jpg" data-rel="prettyPhoto" class="img-thumb">
+                                <img class="portfolio_image" src="<?php echo $theme_folder; ?>/images/featured_work_1.jpg" alt="" />
                             </a>
                         </span>
 
@@ -263,8 +292,8 @@
                     <!-- START PORTFOLIO COLUMN #2 -->
                     <li id="id-2" class="util">
                         <span class="recent_image">
-                            <a href="images/portfolio_large.jpg" data-rel="prettyPhoto" title="Free Admin Template from eGrappler.com" class="img-thumb">
-                                <img class="portfolio_image" src="images/featured_work_2.jpg" alt="" />
+                            <a href="<?php echo $theme_folder; ?>/images/portfolio_large.jpg" data-rel="prettyPhoto" title="Free Admin Template from eGrappler.com" class="img-thumb">
+                                <img class="portfolio_image" src="<?php echo $theme_folder; ?>/images/featured_work_2.jpg" alt="" />
                             </a>
                         </span>
 
@@ -279,8 +308,8 @@
                     <!-- START PORTFOLIO COLUMN #3 -->
                     <li id="id-3" class="app">
                         <span class="recent_image">
-                            <a href="images/portfolio_large.jpg" data-rel="prettyPhoto" title="Free Social Plugin" class="img-thumb">
-                                <img class="portfolio_image" src="images/featured_work_3.jpg" alt=""/>
+                            <a href="<?php echo $theme_folder; ?>/images/portfolio_large.jpg" data-rel="prettyPhoto" title="Free Social Plugin" class="img-thumb">
+                                <img class="portfolio_image" src="<?php echo $theme_folder; ?>/images/featured_work_3.jpg" alt=""/>
                             </a>
                         </span>
 
@@ -295,8 +324,8 @@
                     <!-- START PORTFOLIO COLUMN #3 -->
                     <li id="id-4" class="app">
                         <span class="recent_image">
-                            <a href="images/portfolio_large.jpg" data-rel="prettyPhoto" class="img-thumb">
-                                <img class="portfolio_image" src="images/portfolio_image_4.jpg" alt="" />
+                            <a href="<?php echo $theme_folder; ?>/images/portfolio_large.jpg" data-rel="prettyPhoto" class="img-thumb">
+                                <img class="portfolio_image" src="<?php echo $theme_folder; ?>/images/portfolio_image_4.jpg" alt="" />
                             </a>
                         </span>
 
@@ -311,8 +340,8 @@
                     <!-- START PORTFOLIO COLUMN #3 -->
                     <li id="id-5" class="app">
                         <span class="recent_image">
-                            <a href="images/portfolio_large.jpg" data-rel="prettyPhoto" class="img-thumb">
-                                <img class="portfolio_image" src="images/portfolio_image_5.jpg" alt="" />
+                            <a href="<?php echo $theme_folder; ?>/images/portfolio_large.jpg" data-rel="prettyPhoto" class="img-thumb">
+                                <img class="portfolio_image" src="<?php echo $theme_folder; ?>/images/portfolio_image_5.jpg" alt="" />
                             </a>
                         </span>
 
@@ -327,8 +356,8 @@
                     <!-- START PORTFOLIO COLUMN #3 -->
                     <li id="id-6" class="app">
                         <span class="recent_image">
-                            <a href="images/portfolio_large.jpg" data-rel="prettyPhoto" class="img-thumb">
-                                <img class="portfolio_image" src="images/portfolio_image_6.jpg" alt="" />
+                            <a href="<?php echo $theme_folder; ?>/images/portfolio_large.jpg" data-rel="prettyPhoto" class="img-thumb">
+                                <img class="portfolio_image" src="<?php echo $theme_folder; ?>/images/portfolio_image_6.jpg" alt="" />
                             </a>
                             </span>
 
@@ -343,8 +372,8 @@
                     <!-- START PORTFOLIO COLUMN #3 -->
                     <li id="id-7" class="app">
                         <span class="recent_image">
-                            <a href="images/portfolio_large.jpg" data-rel="prettyPhoto" class="img-thumb">
-                                <img class="portfolio_image" src="images/portfolio_image_7.jpg" alt="" />
+                            <a href="<?php echo $theme_folder; ?>/images/portfolio_large.jpg" data-rel="prettyPhoto" class="img-thumb">
+                                <img class="portfolio_image" src="<?php echo $theme_folder; ?>/images/portfolio_image_7.jpg" alt="" />
                             </a>
                         </span>
 
@@ -407,7 +436,7 @@
 
                     <div>
                         <a href="#">
-                            <img class="alignleft MT0" id="why1" src="images/content-img1.png" alt="img" />
+                            <img class="alignleft MT0" id="why1" src="<?php echo $theme_folder; ?>/images/content-img1.png" alt="img" />
                         </a>
                     </div>
 
@@ -422,7 +451,7 @@
 
                     <div>
                         <a href="#">
-                            <img class="alignleft MT0" id="why2" src="images/content-img2.png" alt="img" />
+                            <img class="alignleft MT0" id="why2" src="<?php echo $theme_folder; ?>/images/content-img2.png" alt="img" />
                         </a>
                     </div>
 
@@ -437,7 +466,7 @@
 
                     <div>
                         <a href="#">
-                            <img class="alignleft MT0" id="why3" src="images/content-img3.png" alt="img" />
+                            <img class="alignleft MT0" id="why3" src="<?php echo $theme_folder; ?>/images/content-img3.png" alt="img" />
                         </a>
                     </div>
 
