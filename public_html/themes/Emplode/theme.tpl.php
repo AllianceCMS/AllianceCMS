@@ -166,7 +166,7 @@
         	<div class="center_wrapper">
 
         		<div class="left">
-        			&copy; 2004-2013 <a href="http://www.jbwebware.com">jbWebWare.com</a> - Bringing The Web To You!!!
+        			&copy; 2004 - 2013 -- <a href="http://www.jbwebware.com">jbWebWare.com</a> - Bringing The Web To You!!!
         		</div>
         		<div class="right">
         			<a href="http://templates.arcsin.se/">Website template</a> by <a href="http://arcsin.se/">Arcsin</a>
