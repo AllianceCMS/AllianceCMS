@@ -207,7 +207,7 @@
                     <div class="clear padding20"></div>
 
                     <p>
-                        &copy; 2004 - 2014 -- <a href="http://www.jbwebware.com">jbWebWare.com</a> - Bringing The Web To You!!!
+                        &copy; 2013 - 2014 -- <a href="http://www.alliancecms.com">AllianceCMS.com</a> - Bringing Us Together!!!
                     </p>
 
                 </div>
