@@ -27,7 +27,8 @@
         </div>
 
         <div class="pure-controls">
-            <button type="submit" class="pure-button pure-button-primary">Create</button>
+            <!-- <button type="submit" class="pure-button pure-button-primary">Create</button> -->
+            <input class="button" type="submit" value="Create" name="submit"></input>
         </div>
     </fieldset>
 <?php $formHelper->inputFormEnd(); ?>

@@ -3719,30 +3719,3 @@ ul.sidebarmenu li {
 ul.sidebarmenu li:hover {
 	background:#f7f3e3;
 }
-
-/* =================  Hint.css custom styles ================= */
-
-/**
- * .hint--blend
- */
- 
- .hint--blend {
- }
- 
-.hint--blend:after {
-    background-color: #A8A08F;
-    font-weight:bold;
-    text-shadow: 0 -1px 0px #5F5747;
-}
-.hint--blend.hint--top:before {
-    border-top-color: #A8A08F;
-}
-.hint--blend.hint--bottom:before {
-    border-bottom-color: #A8A08F;
-}
-.hint--blend.hint--left:before {
-    border-left-color: #A8A08F;
-}
-.hint--blend.hint--right:before {
-    border-right-color: #A8A08F;
-}
