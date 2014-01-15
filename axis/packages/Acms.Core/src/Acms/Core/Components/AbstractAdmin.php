@@ -10,7 +10,7 @@ abstract class AbstractAdmin extends AbstractModule
     public function adminNavCategories()
     {
         $adminNavCategories = [
-            'Dashboard' => '#',
+            'Dashboard Navigation' => '#',
             'Venues' => '#',
             'Users' => '#',
             'Content' => '#',
