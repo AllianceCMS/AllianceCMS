@@ -14,7 +14,7 @@ class AdminPages extends AbstractAdmin
         $html_helper = new HtmlHelper($this->basePath);
         $form_helper = new FormHelper($this->basePath);
 
-        $content = new Template(dirname(__FILE__) . DS . 'views/dashboard.tpl.php');
+        $content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/dashboard.tpl.php');
         $content->set('theme_folder', BASE_URL . '/themes/Charisma');
 
         return $content;

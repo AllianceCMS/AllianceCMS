@@ -32,7 +32,7 @@ abstract class AbstractAdmin extends AbstractModule
 
         foreach ($result as $module) {
 
-            if (file_exists(BASE_DIR . $module['folder_path'] . $module['folder_name'] . DS . 'AdminPages.php')) {
+            if (file_exists(BASE_DIR . $module['folder_path'] . $module['folder_name'] . DIRECTORY_SEPARATOR . 'AdminPages.php')) {
 
                 $tempController = '\\' . $module['folder_name'] . '\\' . 'AdminPages';
 
@@ -112,7 +112,7 @@ abstract class AbstractAdmin extends AbstractModule
                     $buildNavigation[$categoryLabel]['activeCategoryLink'] = $categoryLink;
             }
 
-            $buildNav = new Template(THEMES . $adminTheme . DS . 'admin.nav2.tpl.php');
+            $buildNav = new Template(THEMES . $adminTheme . DIRECTORY_SEPARATOR . 'admin.nav2.tpl.php');
 
             $buildNav->set('adminNavLinks', $buildNavigation);
         }

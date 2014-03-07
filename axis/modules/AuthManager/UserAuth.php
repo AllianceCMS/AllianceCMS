@@ -37,7 +37,7 @@ class UserAuth extends AbstractModule
             $html_helper = new HtmlHelper($this->basePath);
             $form_helper = new FormHelper($this->basePath);
 
-            $block_content = new Template(dirname(__FILE__) . DS . 'views/login_block.tpl.php');
+            $block_content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/login_block.tpl.php');
             $block_content->set('html_helper', $html_helper);
             $block_content->set('form_helper', $form_helper);
             $block_content->set('logged_in', (($this->currentUser->isLoggedIn()) ? intval(1) : ''));
@@ -53,7 +53,7 @@ class UserAuth extends AbstractModule
 
     public function loginPage()
     {
-        $content = new Template(dirname(__FILE__) . DS . 'views/login.tpl.php');
+        $content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/login.tpl.php');
         $content->set('logged_in', (($this->currentUser->isLoggedIn()) ? intval(1) : ''));
         $content->set('html_helper', $this->htmlHelper);
         $content->set('form_helper', $this->formHelper);

@@ -15,7 +15,7 @@ class Venues extends AbstractModule
     public function venueCreateStart()
     {
         // Initialize View
-        $content = new Template(dirname(__FILE__) . DS . 'views/venue_create_start.tpl.php');
+        $content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/venue_create_start.tpl.php');
 
         $filter = new Filter();
         $validate = new Validate();
@@ -180,7 +180,7 @@ class Venues extends AbstractModule
         	case 1:
         	    // Venue was successfully created
 
-        	    $content = new Template(dirname(__FILE__) . DS . 'views/venue_create_complete.tpl.php');
+        	    $content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/venue_create_complete.tpl.php');
 
         	    $content->set('venueTypeName', VENUE_LABEL);
         	    $content->set('venueName', $this->axisRoute->values['venue_name']);
@@ -189,7 +189,7 @@ class Venues extends AbstractModule
         	case 2:
         	    // There was a database error while attempting to create Venue
 
-        	    $content = new Template(dirname(__FILE__) . DS . 'views/venue_create_error.tpl.php');
+        	    $content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/venue_create_error.tpl.php');
         	    break;
         	case 3:
         	    // Invalid Venue Name

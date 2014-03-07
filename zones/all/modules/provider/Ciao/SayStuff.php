@@ -43,7 +43,7 @@ class SayStuff extends AbstractModule
     public function sayHi()
     {
         // Create template, provide the view file to the constructor
-        $content = new Template(dirname(__FILE__) . DS . 'views/greetings.tpl.php');
+        $content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/greetings.tpl.php');
 
         // Send a variable to the view. The below variable can be accessed in the view (greetings.tpl.php) by using $name
         $content->set('name', $this->axisRoute->values['name'][0]);
@@ -57,7 +57,7 @@ class SayStuff extends AbstractModule
 
     public function sayBye()
     {
-        $content = new Template(dirname(__FILE__) . DS . 'views/tata.tpl.php');
+        $content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/tata.tpl.php');
         $content->set('name', $this->axisRoute->values['name'][0]);
 
         return $content;

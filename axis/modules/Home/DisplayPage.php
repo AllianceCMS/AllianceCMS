@@ -8,7 +8,7 @@ class DisplayPage extends AbstractModule
 {
     function homeFrontPage() {
 
-        $content = new Template(dirname(__FILE__) . DS . 'views/main.tpl.php');
+        $content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/main.tpl.php');
 
         return $content;
     }

@@ -38,7 +38,7 @@ define("THEME_FAVICON",     $row->fields['favicon']);
 
      $baseModuleDir = NULL;
      if (($row->fields['folder_base_dir'] != NULL) && ($row->fields['folder_base_dir'] != "basedir")) {
-     $baseModuleDir = $row->fields['folder_base_dir'].DS;
+     $baseModuleDir = $row->fields['folder_base_dir'].DIRECTORY_SEPARATOR;
      } else {
      $baseModuleDir = BASEDIR;
      }

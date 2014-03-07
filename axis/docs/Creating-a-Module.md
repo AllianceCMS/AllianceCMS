@@ -142,7 +142,7 @@ Now we are going to instantiate a Template object and assign data to a view temp
         {
             public function sayHi($values)
             {
-                $content = new Template(dirname(__FILE__) . DS . 'views/greetings.tpl.php');
+                $content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/greetings.tpl.php');
                 $content->set('name', 'World');
 
                 return $content;

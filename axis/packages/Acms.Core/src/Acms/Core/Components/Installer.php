@@ -35,9 +35,9 @@ class Installer
         $fs = new Filesystem();
 
         // Does module asset folder exist?
-        if ($fs->exists(BASE_DIR . $modulePath . $moduleName . DS . 'assets')) {
-            $fs->mkdir(RESOURCE_PATH . 'modules' . DS . $moduleName . DS . 'assets', 0755);
-            $fs->mirror(BASE_DIR . $modulePath . $moduleName . DS . 'assets', RESOURCE_PATH . 'modules' . DS . $moduleName . DS . 'assets', null, ['override' => true, 'copyonwindows' => true, 'delete' => true]);
+        if ($fs->exists(BASE_DIR . $modulePath . $moduleName . DIRECTORY_SEPARATOR . 'assets')) {
+            $fs->mkdir(RESOURCE_PATH . 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'assets', 0755);
+            $fs->mirror(BASE_DIR . $modulePath . $moduleName . DIRECTORY_SEPARATOR . 'assets', RESOURCE_PATH . 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'assets', null, ['override' => true, 'copyonwindows' => true, 'delete' => true]);
             return true;
         }
         return false;
@@ -48,12 +48,12 @@ class Installer
         $fs = new Filesystem();
 
         // Does module asset folder exist?
-        if ($fs->exists(RESOURCE_PATH . 'modules' . DS . $moduleName . DS . 'assets')) {
-            $fs->remove(RESOURCE_PATH . 'modules' . DS . $moduleName . DS . 'assets');
+        if ($fs->exists(RESOURCE_PATH . 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'assets')) {
+            $fs->remove(RESOURCE_PATH . 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'assets');
 
             // Remove module directory from resources if it is empty
-            if ($this->is_dir_empty(RESOURCE_PATH . 'modules' . DS . $moduleName)) {
-                $fs->remove(RESOURCE_PATH . 'modules' . DS . $moduleName);
+            if ($this->is_dir_empty(RESOURCE_PATH . 'modules' . DIRECTORY_SEPARATOR . $moduleName)) {
+                $fs->remove(RESOURCE_PATH . 'modules' . DIRECTORY_SEPARATOR . $moduleName);
             }
             return true;
         }

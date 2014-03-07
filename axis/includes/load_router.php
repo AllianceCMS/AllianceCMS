@@ -46,10 +46,10 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
             $loadModule = 1;
         } elseif ($module_path_array['0'] == 'zones') {
             if ($module_path_array['1'] == 'all') {
-                $module_path = ZONES . $module_path_array['1'] . DS . $module_path_array['2'] . DS . $module_path_array['3'] . DS;
+                $module_path = ZONES . $module_path_array['1'] . DIRECTORY_SEPARATOR . $module_path_array['2'] . DIRECTORY_SEPARATOR . $module_path_array['3'] . DIRECTORY_SEPARATOR;
                 $loadModule = 1;
             } elseif ($module_path_array['1'] == $_SERVER['SERVER_NAME']) {
-                $module_path = ZONES . $_SERVER['SERVER_NAME'] . DS . $module_path_array['2'] . DS . $module_path_array['3'] . DS;
+                $module_path = ZONES . $_SERVER['SERVER_NAME'] . DIRECTORY_SEPARATOR . $module_path_array['2'] . DIRECTORY_SEPARATOR . $module_path_array['3'] . DIRECTORY_SEPARATOR;
                 $loadModule = 1;
             }
         }
@@ -58,8 +58,8 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
 
         // Get routes for active modules and add module namespace to autoloader
         if ($loadModule) {
-            if (file_exists($module_path . $module_folder_name . DS . 'routes.php')) {
-                include_once($module_path . $module_folder_name . DS . 'routes.php');
+            if (file_exists($module_path . $module_folder_name . DIRECTORY_SEPARATOR . 'routes.php')) {
+                include_once($module_path . $module_folder_name . DIRECTORY_SEPARATOR . 'routes.php');
                 $acmsLoader->add($module_folder_name . '\\', $module_path);
             }
         }

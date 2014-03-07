@@ -62,13 +62,13 @@ class AdminPages extends AbstractAdmin
             'Say Goodbye',
         ];
 
-        $settingsContent = new Template(dirname(__FILE__) . DS . 'views/admin.settings.tpl.php');
+        $settingsContent = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/admin.settings.tpl.php');
         $settingsContent->set('greeting', 'Ciao AllianceCMS Admin');
 
-        $sayHelloContent = new Template(dirname(__FILE__) . DS . 'views/admin.say_hello.tpl.php');
+        $sayHelloContent = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/admin.say_hello.tpl.php');
         $sayHelloContent->set('greeting', 'Say Hello: Ciao AllianceCMS Admin');
 
-        $sayGoodbyeContent = new Template(dirname(__FILE__) . DS . 'views/admin.say_goodbye.tpl.php');
+        $sayGoodbyeContent = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/admin.say_goodbye.tpl.php');
         $sayGoodbyeContent->set('greeting', 'Say Goodbye: Ciao AllianceCMS Admin');
 
         $tabContent = [
@@ -80,7 +80,7 @@ class AdminPages extends AbstractAdmin
         $tabTemplate = $this->compileTabs($tabLabels, $tabContent, $active = 2);
 
         // Create the main template, send the tabbed template to the main template, use the main template view to output the tabbed template along with your other view html code
-        $content = new Template(dirname(__FILE__) . DS . 'views/admin.ciao.tpl.php');
+        $content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/admin.ciao.tpl.php');
         $content->set('tabTemplate', $tabTemplate);
 
         // Return $content to the route dispatcher
@@ -90,7 +90,7 @@ class AdminPages extends AbstractAdmin
     public function adminCiaoStats()
     {
         // Create a template, send the variable 'greeting' and it's value to the template, and use $greeting to access this value in the view
-        $content = new Template(dirname(__FILE__) . DS . 'views/admin.forms.tpl.php');
+        $content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/admin.forms.tpl.php');
         $content->set('greeting', 'Here\'s Some Stats For You!!!. Courtesy Of The Ciao Module!');
 
         return $content;

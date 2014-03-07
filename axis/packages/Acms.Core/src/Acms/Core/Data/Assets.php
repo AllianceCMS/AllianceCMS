@@ -5,8 +5,8 @@ class Assets
 {
     public function getAssetPath($module, $directory, $file)
     {
-        $assetDir = RESOURCE_PATH . 'modules' . DS . $module . DS . 'assets' . DS . $directory . DS;
-        $assetUrl = RESOURCE_URL . 'modules' . DS . $module . DS . 'assets' . DS . $directory . DS;
+        $assetDir = RESOURCE_PATH . 'modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . $directory . DIRECTORY_SEPARATOR;
+        $assetUrl = RESOURCE_URL . 'modules/' . $module . '/' . 'assets' . '/' . $directory . '/';
 
         if (file_exists($assetDir)) {
 

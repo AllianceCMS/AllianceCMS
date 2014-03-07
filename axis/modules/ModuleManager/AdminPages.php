@@ -61,7 +61,7 @@ class AdminPages extends AbstractAdmin
 
         $axisModules = $sql->dbFetch();
 
-        $content = new Template(dirname(__FILE__) . DS . 'views/admin.current_modules.tpl.php');
+        $content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/admin.current_modules.tpl.php');
 
         if (1 === ((int) count($this->axisRoute->values['query_string']))) {
             $content->set('uninstallationSuccessful', true);
@@ -100,18 +100,18 @@ class AdminPages extends AbstractAdmin
         $zoneAllfinder = new \Symfony\Component\Finder\Finder();
         $zoneAllfinder->ignoreUnreadableDirs()->files()->name('install.php')->in(ZONES . 'all');
 
-        $currentZonePath = str_replace(DS . 'dbConnection.php', '', DBCONNFILE);
+        $currentZonePath = str_replace(DIRECTORY_SEPARATOR . 'dbConnection.php', '', DBCONNFILE);
         $zoneCurrentfinder = new \Symfony\Component\Finder\Finder();
-        $zoneCurrentfinder->ignoreUnreadableDirs()->files()->name('install.php')->in($currentZonePath . DS . 'modules');
+        $zoneCurrentfinder->ignoreUnreadableDirs()->files()->name('install.php')->in($currentZonePath . DIRECTORY_SEPARATOR . 'modules');
 
         foreach ($zoneAllfinder as $file) {
 
-            $absoluteFolderArray = explode(DS, $file->getRealpath());
-            $relativeFolderArray = explode(DS, $file->getRelativePath());
+            $absoluteFolderArray = explode(DIRECTORY_SEPARATOR, $file->getRealpath());
+            $relativeFolderArray = explode(DIRECTORY_SEPARATOR, $file->getRelativePath());
 
             $zoneName = $absoluteFolderArray[count($absoluteFolderArray) - 5];
             $folder_name = $relativeFolderArray[count($relativeFolderArray) -1];
-            $folder_path = 'zones' . DS . $zoneName . DS . str_replace(DS . $folder_name, '', $file->getRelativePath()) . DS;
+            $folder_path = 'zones' . DIRECTORY_SEPARATOR . $zoneName . DIRECTORY_SEPARATOR . str_replace(DIRECTORY_SEPARATOR . $folder_name, '', $file->getRelativePath()) . DIRECTORY_SEPARATOR;
 
             // Is this module already installed?
             $sql->dbSelect('modules',
@@ -147,14 +147,14 @@ class AdminPages extends AbstractAdmin
 
         foreach ($zoneCurrentfinder as $file) {
 
-            $absoluteFolderArray = explode(DS, $file->getRealpath());
-            $relativeFolderArray = explode(DS, $file->getRelativePath());
+            $absoluteFolderArray = explode(DIRECTORY_SEPARATOR, $file->getRealpath());
+            $relativeFolderArray = explode(DIRECTORY_SEPARATOR, $file->getRelativePath());
 
             $zoneName = $absoluteFolderArray[count($absoluteFolderArray) - 5];
             $folder_name = $relativeFolderArray[count($relativeFolderArray) -1];
-            $folder_path = 'zones' . DS . $zoneName . DS . str_replace(DS . $folder_name, '', $file->getRelativePath()) . DS;
+            $folder_path = 'zones' . DIRECTORY_SEPARATOR . $zoneName . DIRECTORY_SEPARATOR . str_replace(DIRECTORY_SEPARATOR . $folder_name, '', $file->getRelativePath()) . DIRECTORY_SEPARATOR;
 
-            $absoluteFolderArray = explode(DS, $file->getRealpath());
+            $absoluteFolderArray = explode(DIRECTORY_SEPARATOR, $file->getRealpath());
 
             // Is this module already installed?
             $sql->dbSelect('modules',
@@ -188,7 +188,7 @@ class AdminPages extends AbstractAdmin
             }
         }
 
-        $content = new Template(dirname(__FILE__) . DS . 'views/admin.install_local_modules.tpl.php');
+        $content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/admin.install_local_modules.tpl.php');
 
         if (1 === ((int) count($this->axisRoute->values['query_string']))) {
             $content->set('installationSuccessful', true);
@@ -239,7 +239,7 @@ class AdminPages extends AbstractAdmin
         if ($result_module) {
             $lastInsertId = $sql->dbLastInsertId();
 
-            $modulePath = BASE_DIR . $_POST['folder_path'] . $_POST['folder_name'] . DS;
+            $modulePath = BASE_DIR . $_POST['folder_path'] . $_POST['folder_name'] . DIRECTORY_SEPARATOR;
 
             include $modulePath . 'install.php';
 
@@ -350,7 +350,7 @@ class AdminPages extends AbstractAdmin
 
         // Drop Module Tables
 
-        $modulePath = BASE_DIR . $_POST['folder_path'] . $_POST['folder_name'] . DS;
+        $modulePath = BASE_DIR . $_POST['folder_path'] . $_POST['folder_name'] . DIRECTORY_SEPARATOR;
 
         include $modulePath . 'schema.php';
 
@@ -404,7 +404,7 @@ class AdminPages extends AbstractAdmin
     /*
     public function installRemoteModules()
     {
-        $content = new Template(dirname(__FILE__) . DS . 'views/admin.install_remote_modules.tpl.php');
+        $content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/admin.install_remote_modules.tpl.php');
         $content->set('greeting', 'Install Remote Modules!');
 
         return $content;

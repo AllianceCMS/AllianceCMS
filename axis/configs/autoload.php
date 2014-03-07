@@ -1,13 +1,13 @@
 <?php
 // Set Paths for AuraPHP's Autoloader
-$acmsLoader = require PACKAGES . 'Aura.Autoload' . DS . 'scripts' . DS . 'instance.php';
+$acmsLoader = require PACKAGES . 'Aura.Autoload' . DIRECTORY_SEPARATOR . 'scripts' . DIRECTORY_SEPARATOR . 'instance.php';
 $acmsLoader->register();
 
 $acmsLoader->setPaths([
-    'Acms\Core\\' => PACKAGES . 'Acms.Core' . DS . 'src' . DS,
-    'Aura\Router\\' => PACKAGES . 'Aura.Router' . DS . 'src' . DS,
-    'Aura\Sql\\' => PACKAGES . 'Aura.Sql' . DS . 'src' . DS,
-    'PhpRbac\\' => PACKAGES . 'PhpRbac' . DS . 'src' . DS,
-    'Respect\Validation\\' => PACKAGES . 'Respect.Validation' . DS . 'library' . DS,
-    'Symfony\\' => PACKAGES . 'Symfony' . DS . 'src' . DS,
+    'Acms\Core\\' => PACKAGES . 'Acms.Core' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR,
+    'Aura\Router\\' => PACKAGES . 'Aura.Router' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR,
+    'Aura\Sql\\' => PACKAGES . 'Aura.Sql' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR,
+    'PhpRbac\\' => PACKAGES . 'PhpRbac' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR,
+    'Respect\Validation\\' => PACKAGES . 'Respect.Validation' . DIRECTORY_SEPARATOR . 'library' . DIRECTORY_SEPARATOR,
+    'Symfony\\' => PACKAGES . 'Symfony' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR,
 ]);

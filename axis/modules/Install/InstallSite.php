@@ -40,9 +40,9 @@ class InstallSite
 
         if (((count($serverPathArray)) < 3) || ($serverPathArray[0] == 'www')) {
             if (file_exists(ZONES . $_SERVER['SERVER_NAME'])) {
-                $moduleZones = ZONES . $_SERVER['SERVER_NAME'] . DS . 'modules';
+                $moduleZones = ZONES . $_SERVER['SERVER_NAME'] . DIRECTORY_SEPARATOR . 'modules';
             } else {
-                $moduleZones = ZONES . 'default' . DS . 'modules';
+                $moduleZones = ZONES . 'default' . DIRECTORY_SEPARATOR . 'modules';
             }
         } else {
             // This is a subdomain, check for zone folder
@@ -761,7 +761,7 @@ class InstallSite
     private function createBody($view)
     {
         // Setup content for module template
-        $this->content = new Template(dirname(__FILE__) . DS . 'views' . DS . $view);
+        $this->content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . $view);
         $this->content->set('theme_folder', BASE_URL . '/' . 'themes/Emplode');
 
     }
@@ -769,7 +769,7 @@ class InstallSite
     private function createMenu($stage)
     {
         // Create menu template
-        $this->menu[0] = new Template(dirname(__FILE__) . DS . 'views' . DS . 'menu.tpl.php');
+        $this->menu[0] = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'menu.tpl.php');
         $this->menu[0]->set('installStage', $stage);
         $this->menu[0]->set('theme_folder', BASE_URL . '/' . 'themes/Emplode');
 
@@ -782,6 +782,6 @@ class InstallSite
         $this->tpl->set('menu', $this->menu);
 
         // Render theme template (only Install module should have to do this, once installed axis will take care of this)
-        echo $this->tpl->fetch(dirname(__FILE__) . DS . 'views' . DS . 'theme.tpl.php');
+        echo $this->tpl->fetch(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'theme.tpl.php');
     }
 }

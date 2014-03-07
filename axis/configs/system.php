@@ -2,10 +2,11 @@
 /**
  * Create directory separator for file system paths
  */
-
+/*
 if (!defined('DS')) {
     define('DS', strtoupper(substr(PHP_OS, 0, 3) == 'WIN') ? '\\' : '/');
 }
+//*/
 
 /**
  * Setup base url
@@ -21,7 +22,7 @@ if (isset($_SERVER['HTTPS'])) {
  * Assign base directory path
  */
 
-$baseDir = dirname(dirname(__DIR__)) . DS;
+$baseDir = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR;
 
 /**
  * Assign file path information
@@ -61,7 +62,7 @@ foreach ($pathArray as $val) {
 if (!isset($subDomainFolder)) {
     $subDomainFolder = '';
 } else {
-    $subDomainFolder = $subDomainFolder . DS;
+    $subDomainFolder = $subDomainFolder . DIRECTORY_SEPARATOR;
 }
 
 /**
@@ -83,38 +84,43 @@ define('THIS_QUERY_STRING', $thisQueryString); // Used in nav.tpl.php
  * AllianceCMS folder locations
  */
 
-define('AXIS', BASE_DIR . 'axis' . DS);
-define('ZONES', BASE_DIR . 'zones' . DS);
-define('PUBLIC_HTML', BASE_DIR . 'public_html' . DS . $subDomainFolder);
+define('AXIS', BASE_DIR . 'axis' . DIRECTORY_SEPARATOR);
+define('ZONES', BASE_DIR . 'zones' . DIRECTORY_SEPARATOR);
+define('PUBLIC_HTML', BASE_DIR . 'public_html' . DIRECTORY_SEPARATOR . $subDomainFolder);
 
 /**
  * Resource folder locations
  */
 
-define('RESOURCE_PATH', PUBLIC_HTML . 'resources' . DS);
-define('RESOURCE_URL', BASE_URL . DS . 'resources' . DS);
+define('RESOURCE_PATH', PUBLIC_HTML . 'resources' . DIRECTORY_SEPARATOR);
+define('RESOURCE_URL', BASE_URL . '/resources/');
+
+/*
+echo '<br />RESOURCE_URL is: ' . RESOURCE_URL . '<br />';
+exit;
+//*/
 
 /**
  * System folder locations
  */
 
-define('CONFIGS', AXIS . 'configs' . DS);
-define('INCLUDES', AXIS . 'includes' . DS);
-define('TESTS', AXIS . 'tests' . DS);
+define('CONFIGS', AXIS . 'configs' . DIRECTORY_SEPARATOR);
+define('INCLUDES', AXIS . 'includes' . DIRECTORY_SEPARATOR);
+define('TESTS', AXIS . 'tests' . DIRECTORY_SEPARATOR);
 
 /**
  * Package locations
  */
 
-define('PACKAGES', AXIS . 'packages' . DS);
-define('PACKAGE_ACMS_CORE', PACKAGES . 'Acms.Core' . DS . 'src' . DS . 'Acms' . DS . 'Core' . DS);
-define('PACKAGE_AURA_SESSION', PACKAGES . 'Aura.Session' . DS);
+define('PACKAGES', AXIS . 'packages' . DIRECTORY_SEPARATOR);
+define('PACKAGE_ACMS_CORE', PACKAGES . 'Acms.Core' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Acms' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR);
+define('PACKAGE_AURA_SESSION', PACKAGES . 'Aura.Session' . DIRECTORY_SEPARATOR);
 
 /**
  * Axis module/theme folder locations
  */
 
-define('MODULES_AXIS', AXIS . 'modules' . DS);
+define('MODULES_AXIS', AXIS . 'modules' . DIRECTORY_SEPARATOR);
 
 /*
  * Domain/Subdomain module folder locations
@@ -131,13 +137,13 @@ $serverPathArray = explode('.', $_SERVER['SERVER_NAME']);
 // If this is localhost or main domain (localhost, mysite.com, www.mysite.com)
 if (((count($serverPathArray)) < 3) || ($serverPathArray[0] == 'www')) {
     if (file_exists(ZONES . $_SERVER['SERVER_NAME'])) {
-        $moduleZones = ZONES . $_SERVER['SERVER_NAME'] . DS . 'modules';
+        $moduleZones = ZONES . $_SERVER['SERVER_NAME'] . DIRECTORY_SEPARATOR . 'modules';
     } else {
-        $moduleZones = ZONES . 'default' . DS . 'modules';
+        $moduleZones = ZONES . 'default' . DIRECTORY_SEPARATOR . 'modules';
     }
 } else {
     // This is a subdomain, do not use '/default/dbConnection.php'
-    $moduleZones = ZONES . $_SERVER['SERVER_NAME'] . DS . 'modules';
+    $moduleZones = ZONES . $_SERVER['SERVER_NAME'] . DIRECTORY_SEPARATOR . 'modules';
 }
 
 define('MODULES_ZONES', $moduleZones);
@@ -146,8 +152,8 @@ define('MODULES_ZONES', $moduleZones);
  * Theme/Template folder locations
  */
 
-define('THEMES', PUBLIC_HTML . 'themes' . DS);
-define('TEMPLATES', THEMES . 'templates' . DS);
+define('THEMES', PUBLIC_HTML . 'themes' . DIRECTORY_SEPARATOR);
+define('TEMPLATES', THEMES . 'templates' . DIRECTORY_SEPARATOR);
 
 /**
  *
@@ -163,14 +169,14 @@ if (((count(explode('.', $_SERVER['SERVER_NAME']))) < 3) || ($serverPathArray[0]
     if ($serverPathArray[0] == 'www')
         $serverName = substr((string) $serverName, 4);
 
-    if (file_exists(ZONES . $serverName .  DS . 'dbConnection.php')) {
-        $dbConnFile = ZONES . $serverName .  DS . 'dbConnection.php';
+    if (file_exists(ZONES . $serverName .  DIRECTORY_SEPARATOR . 'dbConnection.php')) {
+        $dbConnFile = ZONES . $serverName .  DIRECTORY_SEPARATOR . 'dbConnection.php';
     } else {
-        $dbConnFile = ZONES . 'default' . DS . 'dbConnection.php';
+        $dbConnFile = ZONES . 'default' . DIRECTORY_SEPARATOR . 'dbConnection.php';
     }
 } else {
     // This is a subdomain, do not use '/default/dbConnection.php'
-    $dbConnFile = ZONES . $_SERVER['SERVER_NAME'] .  DS . 'dbConnection.php';
+    $dbConnFile = ZONES . $_SERVER['SERVER_NAME'] .  DIRECTORY_SEPARATOR . 'dbConnection.php';
 }
 
 define('DBCONNFILE', $dbConnFile);

@@ -35,7 +35,7 @@ $currentUnixTime = time();
 $currentMySqlTimestamp = date("Y-m-d H:i:s", $currentUnixTime);
 
 // Include the proper database schemas
-include(dirname(__FILE__) . DS . 'schemata' . DS . 'install_alpha.php');
+include(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'schemata' . DIRECTORY_SEPARATOR . 'install_alpha.php');
 
 /**
  * Create Db object, Establish Database Connection

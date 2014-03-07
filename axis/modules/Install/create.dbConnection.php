@@ -45,7 +45,7 @@ define('DB_ACTIVE', 	'1');
 ";
 
 if (file_exists(ZONES . $_SERVER['SERVER_NAME'])) {
-    $dbConnFile = ZONES . $_SERVER['SERVER_NAME'] . DS . 'dbConnection.php';
+    $dbConnFile = ZONES . $_SERVER['SERVER_NAME'] . DIRECTORY_SEPARATOR . 'dbConnection.php';
 } else {
     $dbConnFile = DBCONNFILE;
 }

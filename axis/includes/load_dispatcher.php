@@ -113,7 +113,7 @@ if ($dispatch) {
             // Create Admin/theme template vars
             $tpl->set('theme_folder', BASE_URL . '/themes/' . $adminTheme);
 
-            $load_theme = THEMES . $adminTheme . DS . 'admin.tpl.php';
+            $load_theme = THEMES . $adminTheme . DIRECTORY_SEPARATOR . 'admin.tpl.php';
 
             /*
              * Build Admin Callback
@@ -145,7 +145,7 @@ if ($dispatch) {
             $links = $sql->dbFetch();
 
             // Create navbar template
-            $nav1 = new Acms\Core\Templates\Template(THEMES . $adminTheme . DS . 'admin.nav1.tpl.php');
+            $nav1 = new Acms\Core\Templates\Template(THEMES . $adminTheme . DIRECTORY_SEPARATOR . 'admin.nav1.tpl.php');
             $nav1->set('currentVenue', $axisRoute->values['venue']);
             $nav1->set('links', $links);
 
