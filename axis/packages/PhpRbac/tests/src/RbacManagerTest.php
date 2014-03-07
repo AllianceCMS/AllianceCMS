@@ -5,10 +5,10 @@ namespace PhpRbac;
  * @file
  * Unit Tests for PhpRbac PSR Wrapper
  *
- * @defgroup phprbac_unit_test_wrapper_manager Unit Tests for RBACManager Functionality
- * @ingroup phprbac
+ * @defgroup phprbac_unit_test_wrapper_manager Unit Tests for RbacManager Functionality
+ * @ingroup phprbac_unit_tests
  * @{
- * Documentation for all Unit Tests regarding RBACManager functionality.
+ * Documentation for all Unit Tests regarding RbacManager functionality.
  */
 
 class RbacManagerTest extends \RbacSetup
@@ -21,8 +21,8 @@ class RbacManagerTest extends \RbacSetup
 
     public function testManagerAssignWithId()
     {
-        $perm_id = self::$rbac->Permissions->Add('permissions_1', 'permissions Description 1');
-        $role_id = self::$rbac->Roles->Add('roles_1', 'roles Description 1');
+        $perm_id = self::$rbac->Permissions->add('permissions_1', 'permissions Description 1');
+        $role_id = self::$rbac->Roles->add('roles_1', 'roles Description 1');
 
         self::$rbac->assign($role_id, $perm_id);
 
@@ -42,8 +42,8 @@ class RbacManagerTest extends \RbacSetup
 
     public function testManagerAssignWithTitle()
     {
-        $perm_id = self::$rbac->Permissions->Add('permissions_1', 'permissions Description 1');
-        $role_id = self::$rbac->Roles->Add('roles_1', 'roles Description 1');
+        $perm_id = self::$rbac->Permissions->add('permissions_1', 'permissions Description 1');
+        $role_id = self::$rbac->Roles->add('roles_1', 'roles Description 1');
 
         self::$rbac->assign('roles_1', 'permissions_1');
 
@@ -63,8 +63,8 @@ class RbacManagerTest extends \RbacSetup
 
     public function testManagerAssignWithPath()
     {
-        self::$rbac->Permissions->AddPath('/permissions_1/permissions_2/permissions_3');
-        self::$rbac->Roles->AddPath('/roles_1/roles_2/roles_3');
+        self::$rbac->Permissions->addPath('/permissions_1/permissions_2/permissions_3');
+        self::$rbac->Roles->addPath('/roles_1/roles_2/roles_3');
 
         self::$rbac->assign('/roles_1/roles_2', '/permissions_1/permissions_2');
 
@@ -114,11 +114,11 @@ class RbacManagerTest extends \RbacSetup
 
     public function testManagerCheckId()
     {
-        $role_id_1 = self::$rbac->Roles->Add('roles_1', 'roles Description 1');
-        $perm_id_1 = self::$rbac->Permissions->Add('permissions_1', 'permissions Description 1');
+        $role_id_1 = self::$rbac->Roles->add('roles_1', 'roles Description 1');
+        $perm_id_1 = self::$rbac->Permissions->add('permissions_1', 'permissions Description 1');
 
-        self::$rbac->Roles->Assign($role_id_1, $perm_id_1);
-        self::$rbac->Users->Assign($role_id_1, 5);
+        self::$rbac->Roles->assign($role_id_1, $perm_id_1);
+        self::$rbac->Users->assign($role_id_1, 5);
 
         $result = self::$rbac->check($perm_id_1, 5);
 
@@ -127,11 +127,11 @@ class RbacManagerTest extends \RbacSetup
 
     public function testManagerCheckTitle()
     {
-        $role_id_1 = self::$rbac->Roles->Add('roles_1', 'roles Description 1');
-        $perm_id_1 = self::$rbac->Permissions->Add('permissions_1', 'permissions Description 1');
+        $role_id_1 = self::$rbac->Roles->add('roles_1', 'roles Description 1');
+        $perm_id_1 = self::$rbac->Permissions->add('permissions_1', 'permissions Description 1');
 
-        self::$rbac->Roles->Assign($role_id_1, $perm_id_1);
-        self::$rbac->Users->Assign($role_id_1, 5);
+        self::$rbac->Roles->assign($role_id_1, $perm_id_1);
+        self::$rbac->Users->assign($role_id_1, 5);
 
         $result = self::$rbac->check('permissions_1', 5);
 
@@ -140,11 +140,14 @@ class RbacManagerTest extends \RbacSetup
 
     public function testManagerCheckPath()
     {
-        $perm_id_1 = self::$rbac->Permissions->AddPath('/permissions_1/permissions_2/permissions_3');
-        $role_id_1 = self::$rbac->Roles->AddPath('/roles_1/roles_2/roles_3');
+        self::$rbac->Permissions->addPath('/permissions_1/permissions_2/permissions_3');
+        $perm_id_1 = self::$rbac->Permissions->pathId('/permissions_1/permissions_2/permissions_3');
 
-        self::$rbac->Roles->Assign($role_id_1, 3);
-        self::$rbac->Users->Assign($role_id_1, 5);
+        self::$rbac->Roles->addPath('/roles_1/roles_2/roles_3');
+        $role_id_1 = self::$rbac->Roles->pathId('/roles_1/roles_2/roles_3');
+
+        self::$rbac->Roles->assign($role_id_1, 3);
+        self::$rbac->Users->assign($role_id_1, 5);
 
         $result = self::$rbac->check('/permissions_1/permissions_2', 5);
 
@@ -173,7 +176,7 @@ class RbacManagerTest extends \RbacSetup
 
     public function testManagerCheckWithNullPermException()
     {
-        $perm_id = self::$rbac->Permissions->Add('permissions_1', 'permissions Description 1');
+        $perm_id = self::$rbac->Permissions->add('permissions_1', 'permissions Description 1');
         self::$rbac->check(null, $perm_id);
     }
 
@@ -192,11 +195,11 @@ class RbacManagerTest extends \RbacSetup
 
     public function testManagerEnforceId()
     {
-        $role_id_1 = self::$rbac->Roles->Add('roles_1', 'roles Description 1');
-        $perm_id_1 = self::$rbac->Permissions->Add('permissions_1', 'permissions Description 1');
+        $role_id_1 = self::$rbac->Roles->add('roles_1', 'roles Description 1');
+        $perm_id_1 = self::$rbac->Permissions->add('permissions_1', 'permissions Description 1');
 
-        self::$rbac->Roles->Assign($role_id_1, $perm_id_1);
-        self::$rbac->Users->Assign($role_id_1, 5);
+        self::$rbac->Roles->assign($role_id_1, $perm_id_1);
+        self::$rbac->Users->assign($role_id_1, 5);
 
         $result = self::$rbac->enforce($perm_id_1, 5);
 
@@ -205,11 +208,11 @@ class RbacManagerTest extends \RbacSetup
 
     public function testManagerEnforceTitle()
     {
-        $role_id_1 = self::$rbac->Roles->Add('roles_1', 'roles Description 1');
-        $perm_id_1 = self::$rbac->Permissions->Add('permissions_1', 'permissions Description 1');
+        $role_id_1 = self::$rbac->Roles->add('roles_1', 'roles Description 1');
+        $perm_id_1 = self::$rbac->Permissions->add('permissions_1', 'permissions Description 1');
 
-        self::$rbac->Roles->Assign($role_id_1, $perm_id_1);
-        self::$rbac->Users->Assign($role_id_1, 5);
+        self::$rbac->Roles->assign($role_id_1, $perm_id_1);
+        self::$rbac->Users->assign($role_id_1, 5);
 
         $result = self::$rbac->enforce('permissions_1', 5);
 
@@ -218,11 +221,14 @@ class RbacManagerTest extends \RbacSetup
 
     public function testManagerEnforcePath()
     {
-        $perm_id_1 = self::$rbac->Permissions->AddPath('/permissions_1/permissions_2/permissions_3');
-        $role_id_1 = self::$rbac->Roles->AddPath('/roles_1/roles_2/roles_3');
+        self::$rbac->Permissions->addPath('/permissions_1/permissions_2/permissions_3');
+        $perm_id_1 = self::$rbac->Permissions->pathId('/permissions_1/permissions_2/permissions_3');
 
-        self::$rbac->Roles->Assign($role_id_1, 3);
-        self::$rbac->Users->Assign($role_id_1, 5);
+        self::$rbac->Roles->addPath('/roles_1/roles_2/roles_3');
+        $role_id_1 = self::$rbac->Roles->pathId('/roles_1/roles_2/roles_3');
+
+        self::$rbac->Roles->assign($role_id_1, 3);
+        self::$rbac->Users->assign($role_id_1, 5);
 
         $result = self::$rbac->enforce('/permissions_1/permissions_2', 5);
 
@@ -244,7 +250,7 @@ class RbacManagerTest extends \RbacSetup
 
     public function testManagerEnforceWithNullPermException()
     {
-        $perm_id = self::$rbac->Permissions->Add('permissions_1', 'permissions Description 1');
+        $perm_id = self::$rbac->Permissions->add('permissions_1', 'permissions Description 1');
         self::$rbac->enforce(null, $perm_id);
     }
 
@@ -263,11 +269,11 @@ class RbacManagerTest extends \RbacSetup
 
     public function testManagerReset()
     {
-        $role_id_1 = self::$rbac->Roles->Add('roles_1', 'roles Description 1');
-        $perm_id_1 = self::$rbac->Permissions->Add('permissions_1', 'permissions Description 1');
+        $role_id_1 = self::$rbac->Roles->add('roles_1', 'roles Description 1');
+        $perm_id_1 = self::$rbac->Permissions->add('permissions_1', 'permissions Description 1');
 
-        self::$rbac->Roles->Assign($role_id_1, $perm_id_1);
-        self::$rbac->Users->Assign($role_id_1, 5);
+        self::$rbac->Roles->assign($role_id_1, $perm_id_1);
+        self::$rbac->Users->assign($role_id_1, 5);
 
         $result = self::$rbac->reset(true);
 

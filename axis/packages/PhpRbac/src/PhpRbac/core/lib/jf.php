@@ -1,29 +1,31 @@
 <?php
 require_once __DIR__."/rbac.php";
 
-class jf
+class Jf
 {
 	/**
-	 * @var RBACManager
+	 * @var RbacManager
 	 */
-	public static $RBAC;
+	public static $Rbac;
 
 	public static $Db = null;
 
 	public static $TABLE_PREFIX;
 
-	static function setTablePrefix($table_prefix)
+	private static $groupConcatLimitChanged = false;
+
+	public static function setTablePrefix($tablePrefix)
 	{
-	    self::$TABLE_PREFIX = $table_prefix;
+	    self::$TABLE_PREFIX = $tablePrefix;
 	}
 
-	static function tablePrefix()
+	public static function tablePrefix()
 	{
 	    return self::$TABLE_PREFIX;
 	}
 
 	/**
-	 * The jf::SQL function. The behavior of this function is as follows:
+	 * The Jf::sql function. The behavior of this function is as follows:
 	 *
 	 * * On queries with no parameters, it should use query function and fetch all results (no prepared statement)
 	 * * On queries with parameters, parameters are provided as question marks (?) and then additional function arguments will be
@@ -38,21 +40,34 @@ class jf
 	 * @throws Exception
 	 * @return array|integer|null
 	 */
-	static function SQL($Query)
+	static function sql($Query)
 	{
 		$args = func_get_args ();
 		if (get_class ( self::$Db ) == "PDO")
-			return call_user_func_array ( "self::SQL_pdo", $args );
+			return call_user_func_array ( "self::sqlPdo", $args );
 		else
 			if (get_class ( self::$Db ) == "mysqli")
-				return call_user_func_array ( "self::SQL_mysqli", $args );
+				return call_user_func_array ( "self::sqlMysqli", $args );
 			else
 				throw new Exception ( "Unknown database interface type." );
 	}
 
-	static function SQL_pdo($Query)
+	static function sqlPdo($Query)
 	{
+	    $debug_backtrace = debug_backtrace();
+
+	    if((isset($debug_backtrace[3])) && ($debug_backtrace[3]['function'] == 'pathId')) {
+    	    if (!self::$groupConcatLimitChanged) {
+    	        $success = self::$Db->query ("SET SESSION group_concat_max_len = 1000000");
+
+    	        if ($success) {
+    	            self::$groupConcatLimitChanged = true;
+    	        }
+    	    }
+	    }
+
 		$args = func_get_args ();
+
 		if (count ( $args ) == 1)
 		{
 			$result = self::$Db->query ( $Query );
@@ -86,8 +101,8 @@ class jf
 					return $stmt->rowCount ();
 				return $res;
 			}
-			elseif ($type == "DELETE" or $type == "UPDATE" or $type == "REPLAC")
-				return $stmt->rowCount ();
+			elseif ($type == "DELETE" or $type == "UPDATE" or $type == "REPLACE")
+				return $stmt->rowCount();
 			elseif ($type == "SELECT")
 			{
 				$res=$stmt->fetchAll ( PDO::FETCH_ASSOC );
@@ -99,8 +114,20 @@ class jf
 		}
 	}
 
-	static function SQL_mysqli( $Query)
+	static function sqlMysqli( $Query)
 	{
+	    $debug_backtrace = debug_backtrace();
+
+	    if((isset($debug_backtrace[3])) && ($debug_backtrace[3]['function'] == 'pathId')) {
+    	    if (!self::$groupConcatLimitChanged) {
+    	        $success = self::$Db->query ("SET SESSION group_concat_max_len = 1000000");
+
+    	        if ($success) {
+    	            self::$groupConcatLimitChanged = true;
+    	        }
+    	    }
+	    }
+
 		$args = func_get_args ();
 		if (count ( $args ) == 1)
 		{
@@ -175,6 +202,6 @@ class jf
 	}
 }
 
-jf::setTablePrefix($table_prefix);
-jf::$RBAC=new RBACManager();
+Jf::setTablePrefix($tablePrefix);
+Jf::$Rbac=new RbacManager();
 require_once __DIR__."/../setup.php";

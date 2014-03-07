@@ -1194,7 +1194,7 @@ $schema['0.01']['create']['table']['venues'] = [
             'not_null' => '1',
             'unsigned' => '1',
             'autoincrement' => '',
-            'default' => '1',
+            'default' => '2',
         ],
     ],
     [

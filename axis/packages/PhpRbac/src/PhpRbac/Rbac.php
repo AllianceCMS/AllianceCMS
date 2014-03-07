@@ -1,13 +1,13 @@
 <?php
 namespace PhpRbac;
 
-use \jf;
+use \Jf;
 
 /**
  * @file
  * Provides NIST Level 2 Standard Role Based Access Control functionality
  *
- * @defgroup phprbac RBAC Functionality
+ * @defgroup phprbac Rbac Functionality
  * @{
  * Documentation for all PhpRbac related functionality.
  */
@@ -21,36 +21,36 @@ class Rbac
             require_once dirname(dirname(__DIR__)) . '/database/database.config';
         }
 
-        require_once 'core/lib/jf.php';
+        require_once 'core/lib/Jf.php';
 
-        $this->Permissions = jf::$RBAC->Permissions;
-        $this->Roles = jf::$RBAC->Roles;
-        $this->Users = jf::$RBAC->Users;
+        $this->Permissions = Jf::$Rbac->Permissions;
+        $this->Roles = Jf::$Rbac->Roles;
+        $this->Users = Jf::$Rbac->Users;
     }
 
     public function assign($role, $permission)
     {
-        return jf::$RBAC->Assign($role, $permission);
+        return Jf::$Rbac->assign($role, $permission);
     }
 
     public function check($permission, $user_id)
     {
-        return jf::$RBAC->Check($permission, $user_id);
+        return Jf::$Rbac->check($permission, $user_id);
     }
 
     public function enforce($permission, $user_id)
     {
-        return jf::$RBAC->Enforce($permission, $user_id);
+        return Jf::$Rbac->enforce($permission, $user_id);
     }
 
     public function reset($ensure = false)
     {
-        return jf::$RBAC->Reset($ensure);
+        return Jf::$Rbac->reset($ensure);
     }
 
     public function tablePrefix()
     {
-        return jf::$RBAC->tablePrefix();
+        return Jf::$Rbac->tablePrefix();
     }
 }
 

@@ -1,5 +1,4 @@
 <?php
-//namespace PhpRbac;
 
 use PhpRbac\Rbac;
 
@@ -8,7 +7,7 @@ use PhpRbac\Rbac;
  * Unit Tests for PhpRbac PSR Wrapper
  *
  * @defgroup phprbac_unit_test_wrapper_base Unit Tests for BaseRbac Functionality
- * @ingroup phprbac
+ * @ingroup phprbac_unit_tests
  * @{
  * Documentation for all Unit Tests regarding BaseRbac functionality.
  */
@@ -16,14 +15,14 @@ use PhpRbac\Rbac;
 class RbacBase extends \RbacSetup
 {
     /*
-     * Tests for $this->Instance()->Add()
+     * Tests for $this->Instance()->add()
      */
 
     public function testAddNullTitle()
     {
         $dataSet = $this->getConnection()->createDataSet();
 
-        $type_id = $this->Instance()->Add(null, $this->type() . ' Description');
+        $type_id = $this->Instance()->add(null, $this->type() . ' Description');
 
         $this->assertSame(0, $type_id);
     }
@@ -32,7 +31,7 @@ class RbacBase extends \RbacSetup
     {
         $dataSet = $this->getConnection()->createDataSet();
 
-        $type_id = $this->Instance()->Add($this->type() . '_title', null);
+        $type_id = $this->Instance()->add($this->type() . '_title', null);
 
         $this->assertSame(0, $type_id);
     }
@@ -41,9 +40,9 @@ class RbacBase extends \RbacSetup
     {
         $dataSet = $this->getConnection()->createDataSet();
 
-        $this->Instance()->Add($this->type() . '_title_1', $this->type() . ' Description 1');
-        $this->Instance()->Add($this->type() . '_title_2', $this->type() . ' Description 2');
-        $this->Instance()->Add($this->type() . '_title_3', $this->type() . ' Description 3');
+        $this->Instance()->add($this->type() . '_title_1', $this->type() . ' Description 1');
+        $this->Instance()->add($this->type() . '_title_2', $this->type() . ' Description 2');
+        $this->Instance()->add($this->type() . '_title_3', $this->type() . ' Description 3');
 
         $queryTable = $this->getConnection()->createQueryTable(
             $this->Instance()->tablePrefix() . $this->type(), 'SELECT * FROM ' . $this->Instance()->tablePrefix() . $this->type()
@@ -59,15 +58,15 @@ class RbacBase extends \RbacSetup
     {
         $dataSet = $this->getConnection()->createDataSet();
 
-        $type_1 = $this->Instance()->Add('blog', 'Define ' . $this->type() . ' for the Blog');
-        $this->Instance()->Add($this->type() . '_title_1', $this->type() . ' Description 1', $type_1);
-        $this->Instance()->Add($this->type() . '_title_2', $this->type() . ' Description 2', $type_1);
-        $this->Instance()->Add($this->type() . '_title_3', $this->type() . ' Description 3', $type_1);
+        $type_1 = $this->Instance()->add('blog', 'Define ' . $this->type() . ' for the Blog');
+        $this->Instance()->add($this->type() . '_title_1', $this->type() . ' Description 1', $type_1);
+        $this->Instance()->add($this->type() . '_title_2', $this->type() . ' Description 2', $type_1);
+        $this->Instance()->add($this->type() . '_title_3', $this->type() . ' Description 3', $type_1);
 
-        $type_2 = $this->Instance()->Add('forum', 'Define ' . $this->type() . ' for the Forums');
-        $this->Instance()->Add($this->type() . '_title_1', $this->type() . ' Description 1', $type_2);
-        $this->Instance()->Add($this->type() . '_title_2', $this->type() . ' Description 2', $type_2);
-        $this->Instance()->Add($this->type() . '_title_3', $this->type() . ' Description 3', $type_2);
+        $type_2 = $this->Instance()->add('forum', 'Define ' . $this->type() . ' for the Forums');
+        $this->Instance()->add($this->type() . '_title_1', $this->type() . ' Description 1', $type_2);
+        $this->Instance()->add($this->type() . '_title_2', $this->type() . ' Description 2', $type_2);
+        $this->Instance()->add($this->type() . '_title_3', $this->type() . ' Description 3', $type_2);
 
         $queryTable = $this->getConnection()->createQueryTable(
             $this->Instance()->tablePrefix() . $this->type(), 'SELECT * FROM ' . $this->Instance()->tablePrefix() . $this->type()
@@ -80,84 +79,120 @@ class RbacBase extends \RbacSetup
     }
 
     /*
-     * Tests for $this->Instance()->Count()
+     * Tests for $this->Instance()->count()
      */
 
     public function testCount()
     {
-        $this->Instance()->Add($this->type() . '_title_1', $this->type() . ' Description 1');
-        $this->Instance()->Add($this->type() . '_title_2', $this->type() . ' Description 2');
-        $this->Instance()->Add($this->type() . '_title_3', $this->type() . ' Description 3');
+        $this->Instance()->add($this->type() . '_title_1', $this->type() . ' Description 1');
+        $this->Instance()->add($this->type() . '_title_2', $this->type() . ' Description 2');
+        $this->Instance()->add($this->type() . '_title_3', $this->type() . ' Description 3');
 
-        $type_count = $this->Instance()->Count();
+        $type_count = $this->Instance()->count();
 
         $this->assertSame(4, $type_count);
     }
 
     /*
-     * Tests for $this->Instance()->TitleID()
+     * Tests for $this->Instance()->returnId()
+     */
+
+    public function testReturnIdTitle()
+    {
+        $this->Instance()->addPath('/'. $this->type() . '_1/'. $this->type() . '_2');
+
+        $entityId = $this->Instance()->returnId($this->type() . '_2');
+
+        $this->assertEquals('3', $entityId);
+    }
+
+    public function testReturnIdPath()
+    {
+        $this->Instance()->addPath('/'. $this->type() . '_1/'. $this->type() . '_2');
+
+        $entityId = $this->Instance()->returnId('/'. $this->type() . '_1/'. $this->type() . '_2');
+
+        $this->assertEquals('3', $entityId);
+    }
+
+    public function testReturnIdNullBadParameters()
+    {
+        $entityId = $this->Instance()->returnId($this->type() . '_2');
+
+        $this->assertSame(null, $entityId);
+    }
+
+    public function testReturnIdNullNoParameters()
+    {
+        $entityId = $this->Instance()->returnId();
+
+        $this->assertSame(null, $entityId);
+    }
+
+    /*
+     * Tests for $this->Instance()->titleId()
      */
 
     public function testGetTitleId()
     {
-        $this->Instance()->Add($this->type() . '_title', $this->type() . ' Description');
-        $title_id = $this->Instance()->TitleID($this->type() . '_title');
+        $this->Instance()->add($this->type() . '_title', $this->type() . ' Description');
+        $title_id = $this->Instance()->titleId($this->type() . '_title');
 
         $this->assertSame('2', $title_id);
     }
 
     public function testGetTitleIdNull()
     {
-        $title_id = $this->Instance()->TitleID($this->type() . '_title');
+        $title_id = $this->Instance()->titleId($this->type() . '_title');
 
         $this->assertNull($title_id);
     }
 
     /*
-     * Tests for $this->Instance()->GetTitle()
+     * Tests for $this->Instance()->getTitle()
      */
 
     public function testGetTitle()
     {
-        $type_id = $this->Instance()->Add($this->type() . '_title', $this->type() . ' Description');
-        $type_title = $this->Instance()->GetTitle($type_id);
+        $type_id = $this->Instance()->add($this->type() . '_title', $this->type() . ' Description');
+        $type_title = $this->Instance()->getTitle($type_id);
 
         $this->assertSame($this->type() . '_title', $type_title);
     }
 
     public function testGetTitleNull()
     {
-        $type_title = $this->Instance()->GetTitle(intval(3));
+        $type_title = $this->Instance()->getTitle(intval(3));
 
         $this->assertNull($type_title);
     }
 
     /*
-     * Tests for $this->Instance()->GetDescription()
+     * Tests for $this->Instance()->getDescription()
      */
 
     public function testGetDescription()
     {
-        $type_description = $this->Instance()->GetDescription(intval(1));
+        $type_description = $this->Instance()->getDescription(intval(1));
 
         $this->assertSame('root', $type_description);
     }
 
     public function testGetDescriptionNull()
     {
-        $type_description = $this->Instance()->GetDescription(intval(2));
+        $type_description = $this->Instance()->getDescription(intval(2));
 
         $this->assertNull($type_description);
     }
 
     /*
-     * Tests for $this->Instance()->Edit()
+     * Tests for $this->Instance()->edit()
      */
 
     public function testEditTitle()
     {
-        $type_id = $this->Instance()->Add($this->type() . '_title', $this->type() . ' Description');
-        $this->Instance()->Edit($type_id, $this->type() . '_title_edited');
+        $type_id = $this->Instance()->add($this->type() . '_title', $this->type() . ' Description');
+        $this->Instance()->edit($type_id, $this->type() . '_title_edited');
 
         $queryTable = $this->getConnection()->createQueryTable(
             $this->Instance()->tablePrefix() . $this->type(), 'SELECT * FROM ' . $this->Instance()->tablePrefix() . $this->type() . ' WHERE ID=2'
@@ -171,8 +206,8 @@ class RbacBase extends \RbacSetup
 
     public function testEditDescription()
     {
-        $type_id = $this->Instance()->Add($this->type() . '_title', $this->type() . ' Description');
-        $this->Instance()->Edit($type_id, null, $this->type() . ' Description edited');
+        $type_id = $this->Instance()->add($this->type() . '_title', $this->type() . ' Description');
+        $this->Instance()->edit($type_id, null, $this->type() . ' Description edited');
 
         $queryTable = $this->getConnection()->createQueryTable(
             $this->Instance()->tablePrefix() . $this->type(), 'SELECT * FROM ' . $this->Instance()->tablePrefix() . $this->type() . ' WHERE ID=2'
@@ -186,8 +221,8 @@ class RbacBase extends \RbacSetup
 
     public function testEditAll()
     {
-        $type_id = $this->Instance()->Add($this->type() . '_title', $this->type() . ' Description');
-        $this->Instance()->Edit($type_id, $this->type() . '_title_edited', $this->type() . ' Description edited');
+        $type_id = $this->Instance()->add($this->type() . '_title', $this->type() . ' Description');
+        $this->Instance()->edit($type_id, $this->type() . '_title_edited', $this->type() . ' Description edited');
 
         $queryTable = $this->getConnection()->createQueryTable(
             $this->Instance()->tablePrefix() . $this->type(), 'SELECT * FROM ' . $this->Instance()->tablePrefix() . $this->type() . ' WHERE ID=2'
@@ -201,27 +236,27 @@ class RbacBase extends \RbacSetup
 
     public function testEditNullId()
     {
-        $type_id = $this->Instance()->Add($this->type() . '_title', $this->type() . ' Description');
-        $result = $this->Instance()->Edit(intval(3), $this->type() . '_title', $this->type() . ' Description');
+        $type_id = $this->Instance()->add($this->type() . '_title', $this->type() . ' Description');
+        $result = $this->Instance()->edit(intval(3), $this->type() . '_title', $this->type() . ' Description');
 
         $this->assertFalse($result);
     }
 
     public function testEditNullParameters()
     {
-        $type_id = $this->Instance()->Add($this->type() . '_title', $this->type() . ' Description');
-        $result = $this->Instance()->Edit($type_id);
+        $type_id = $this->Instance()->add($this->type() . '_title', $this->type() . ' Description');
+        $result = $this->Instance()->edit($type_id);
 
         $this->assertFalse($result);
     }
 
     /*
-     * Tests for $this->Instance()->AddPath()
+     * Tests for $this->Instance()->addPath()
      */
 
     public function testAddPathSingle()
     {
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
 
         $queryTable = $this->getConnection()->createQueryTable(
             $this->Instance()->tablePrefix() . $this->type(), 'SELECT * FROM ' . $this->Instance()->tablePrefix() . $this->type()
@@ -241,7 +276,7 @@ class RbacBase extends \RbacSetup
             $this->type() . ' Description 3',
         );
 
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3', $descriptions);
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3', $descriptions);
 
         $queryTable = $this->getConnection()->createQueryTable(
             $this->Instance()->tablePrefix() . $this->type(), 'SELECT * FROM ' . $this->Instance()->tablePrefix() . $this->type()
@@ -255,9 +290,9 @@ class RbacBase extends \RbacSetup
 
     public function testAddPathSequential()
     {
-        $this->Instance()->AddPath('/' . $this->type() . '_1/');
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/');
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
+        $this->Instance()->addPath('/' . $this->type() . '_1/');
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/');
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
 
         $queryTable = $this->getConnection()->createQueryTable(
             $this->Instance()->tablePrefix() . $this->type(), 'SELECT * FROM ' . $this->Instance()->tablePrefix() . $this->type()
@@ -275,14 +310,14 @@ class RbacBase extends \RbacSetup
             $this->type() . ' Description 1',
         );
 
-        $this->Instance()->AddPath('/' . $this->type() . '_1/', $descriptions_1);
+        $this->Instance()->addPath('/' . $this->type() . '_1/', $descriptions_1);
 
         $descriptions_2 = array(
             null,
             $this->type() . ' Description 2',
         );
 
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/', $descriptions_2);
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/', $descriptions_2);
 
         $descriptions_3 = array(
             null,
@@ -290,7 +325,7 @@ class RbacBase extends \RbacSetup
             $this->type() . ' Description 3',
         );
 
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3', $descriptions_3);
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3', $descriptions_3);
 
         $queryTable = $this->getConnection()->createQueryTable(
             $this->Instance()->tablePrefix() . $this->type(), 'SELECT * FROM ' . $this->Instance()->tablePrefix() . $this->type()
@@ -305,14 +340,14 @@ class RbacBase extends \RbacSetup
     public function testAddPathHierarchy()
     {
 
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_4');
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_4');
 
-        $this->Instance()->AddPath('/' . $this->type() . '_12/' . $this->type() . '_13/' . $this->type() . '_14');
-        $this->Instance()->AddPath('/' . $this->type() . '_12/' . $this->type() . '_15/' . $this->type() . '_11');
+        $this->Instance()->addPath('/' . $this->type() . '_12/' . $this->type() . '_13/' . $this->type() . '_14');
+        $this->Instance()->addPath('/' . $this->type() . '_12/' . $this->type() . '_15/' . $this->type() . '_11');
 
-        $this->Instance()->AddPath('/' . $this->type() . '_23/' . $this->type() . '_24/' . $this->type() . '_25');
-        $this->Instance()->AddPath('/' . $this->type() . '_33/' . $this->type() . '_34/' . $this->type() . '_35');
+        $this->Instance()->addPath('/' . $this->type() . '_23/' . $this->type() . '_24/' . $this->type() . '_25');
+        $this->Instance()->addPath('/' . $this->type() . '_33/' . $this->type() . '_34/' . $this->type() . '_35');
 
         $queryTable = $this->getConnection()->createQueryTable(
             $this->Instance()->tablePrefix() . $this->type(), 'SELECT * FROM ' . $this->Instance()->tablePrefix() . $this->type()
@@ -332,7 +367,7 @@ class RbacBase extends \RbacSetup
             $this->type() . ' Description 3',
         );
 
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3', $descriptions_1);
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3', $descriptions_1);
 
         $descriptions_2 = array(
             null,
@@ -340,7 +375,7 @@ class RbacBase extends \RbacSetup
             $this->type() . ' Description 4',
         );
 
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_4', $descriptions_2);
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_4', $descriptions_2);
 
         $descriptions_3 = array(
             $this->type() . ' Description 12',
@@ -348,7 +383,7 @@ class RbacBase extends \RbacSetup
             $this->type() . ' Description 14',
         );
 
-        $this->Instance()->AddPath('/' . $this->type() . '_12/' . $this->type() . '_13/' . $this->type() . '_14', $descriptions_3);
+        $this->Instance()->addPath('/' . $this->type() . '_12/' . $this->type() . '_13/' . $this->type() . '_14', $descriptions_3);
 
         $descriptions_4 = array(
             null,
@@ -356,7 +391,7 @@ class RbacBase extends \RbacSetup
             $this->type() . ' Description 11',
         );
 
-        $this->Instance()->AddPath('/' . $this->type() . '_12/' . $this->type() . '_15/' . $this->type() . '_11', $descriptions_4);
+        $this->Instance()->addPath('/' . $this->type() . '_12/' . $this->type() . '_15/' . $this->type() . '_11', $descriptions_4);
 
         $descriptions_5 = array(
             $this->type() . ' Description 23',
@@ -364,7 +399,7 @@ class RbacBase extends \RbacSetup
             $this->type() . ' Description 25',
         );
 
-        $this->Instance()->AddPath('/' . $this->type() . '_23/' . $this->type() . '_24/' . $this->type() . '_25', $descriptions_5);
+        $this->Instance()->addPath('/' . $this->type() . '_23/' . $this->type() . '_24/' . $this->type() . '_25', $descriptions_5);
 
         $descriptions_6 = array(
             $this->type() . ' Description 33',
@@ -372,7 +407,7 @@ class RbacBase extends \RbacSetup
             $this->type() . ' Description 35',
         );
 
-        $this->Instance()->AddPath('/' . $this->type() . '_33/' . $this->type() . '_34/' . $this->type() . '_35', $descriptions_6);
+        $this->Instance()->addPath('/' . $this->type() . '_33/' . $this->type() . '_34/' . $this->type() . '_35', $descriptions_6);
 
         $queryTable = $this->getConnection()->createQueryTable(
             $this->Instance()->tablePrefix() . $this->type(), 'SELECT * FROM ' . $this->Instance()->tablePrefix() . $this->type()
@@ -384,91 +419,111 @@ class RbacBase extends \RbacSetup
         $this->assertTablesEqual($expectedTable, $queryTable);
     }
 
+    public function testAddPathReturnNodesCreatedCountTwoCreated()
+    {
+        $this->Instance()->addPath('/' . $this->type() . '_1/');
+        $nodes_created = $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
+
+        $this->assertSame(2, $nodes_created);
+    }
+
+    public function testAddPathReturnNodesCreatedCountNoneCreated()
+    {
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
+        $nodes_created = $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
+
+        $this->assertSame(0, $nodes_created);
+    }
+
+
     /**
      * @expectedException Exception
      */
 
     public function testAddPathBadPath()
     {
-        $this->Instance()->AddPath('permissions_1/permissions_2//permissions_3');
+        $this->Instance()->addPath('permissions_1/permissions_2//permissions_3');
     }
 
     /*
-     * Tests for $this->Instance()->PathID()
+     * Tests for $this->Instance()->pathId()
      */
 
     public function testPathID()
     {
-        $this->Instance()->AddPath('/' . $this->type() . '_1/');
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/');
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
+        $this->Instance()->addPath('/' . $this->type() . '_1/');
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/');
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
 
-        $path_id = $this->Instance()->PathID('/' . $this->type() . '_1/' . $this->type() . '_2');
+        $path_id = $this->Instance()->pathId('/' . $this->type() . '_1/' . $this->type() . '_2');
 
         $this->assertSame('3', $path_id);
     }
 
     public function testPathIDNullBadPath()
     {
-        $this->Instance()->AddPath('/' . $this->type() . '_1/');
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/');
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
+        $this->Instance()->addPath('/' . $this->type() . '_1/');
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/');
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
 
-        $path_id = $this->Instance()->PathID($this->type() . '_2');
+        $path_id = $this->Instance()->pathId($this->type() . '_2');
 
         $this->assertNull($path_id);
     }
 
-    /**
-     * @expectedException Exception
-     */
-
-    public function testPathIDGroupConcatExceedCharCount()
+    public function testPathIDGroupConcatMaxCharCountShortCount()
     {
-        $id = null;
-        $path = "";
-        for($i = 0; $i < 100; ++ $i)
-        {
-            $id = $this->Instance()->Add("lgd depth{$i}", "description of depth{$i}", $id);
-            $path .= "/depth{$i}";
-        }
+        $this->Instance()->addPath('/first_depth0/first_depth1/first_depth2/first_depth3/first_depth4/first_depth5/first_depth6/first_depth7/first_depth8/first_depth9/first_depth10/final_109/first_depth11');
+        $this->Instance()->addPath('/second_depth0/second_depth1/second_depth2/second_depth3/second_depth4/second_depth5/second_depth6/second_depth7/second_depth8/second_depth9/second_depth10/second_depth11/second_depth12/second_depth13/second_depth14/second_depth15/second_depth16/second_depth17/second_depth18/second_depth19/second_depth20/second_depth21/second_depth22/second_depth23/second_depth24/second_depth25/second_depth26/second_depth27/second_depth28/second_depth29/second_depth30/second_depth31/second_depth32/second_depth33/second_depth34/second_depth35/second_depth36/second_depth37/second_depth38/second_depth39/second_depth40/second_depth41/second_depth42/second_depth43/second_depth44/second_depth45/second_depth46/second_depth47/second_depth48/second_depth49/second_depth50/second_depth51/second_depth52/second_depth53/second_depth54/second_depth55/second_depth56/second_depth57/second_depth58/second_depth59/second_depth60/second_depth61/second_depth62/second_depth63/second_depth64/second_depth65/second_depth66/second_depth67/second_depth68/second_depth69/second_depth70/second_depth71/second_depth72/second_depth73/second_depth74/second_depth75/second_depth76/second_depth77/second_depth78/second_depth79/second_depth80/second_depth81/second_depth82/second_depth83/second_depth84/second_depth85/second_depth86/second_depth87/second_depth88/second_depth89/second_depth90/second_depth91/second_depth92/second_depth93/second_depth94/second_depth95/second_depth96/second_depth97/second_depth98/second_depth99/second_depth100/second_depth101/second_depth102/second_depth103/second_depth104/second_depth105/second_depth106/second_depth107/second_depth108/second_depth109/final_109');
 
-        $this->Instance()->PathID($path);
+        $path_id = $this->Instance()->pathId("/first_depth0/first_depth1/first_depth2/first_depth3/first_depth4/first_depth5/first_depth6/first_depth7/first_depth8/first_depth9/first_depth10/final_109");
+
+        $this->assertSame('13', $path_id);
+    }
+
+    public function testPathIDGroupConcatMaxCharCountLongCount()
+    {
+        $this->Instance()->addPath('/first_depth0/first_depth1/first_depth2/first_depth3/first_depth4/first_depth5/first_depth6/first_depth7/first_depth8/first_depth9/first_depth10/first_depth11');
+        $this->Instance()->addPath('/second_depth0/second_depth1/second_depth2/second_depth3/second_depth4/second_depth5/second_depth6/second_depth7/second_depth8/second_depth9/second_depth10/second_depth11/second_depth12/second_depth13/second_depth14/second_depth15/second_depth16/second_depth17/second_depth18/second_depth19/second_depth20/second_depth21/second_depth22/second_depth23/second_depth24/second_depth25/second_depth26/second_depth27/second_depth28/second_depth29/second_depth30/second_depth31/second_depth32/second_depth33/second_depth34/second_depth35/second_depth36/second_depth37/second_depth38/second_depth39/second_depth40/second_depth41/second_depth42/second_depth43/second_depth44/second_depth45/second_depth46/second_depth47/second_depth48/second_depth49/second_depth50/second_depth51/second_depth52/second_depth53/second_depth54/second_depth55/second_depth56/second_depth57/second_depth58/second_depth59/second_depth60/second_depth61/second_depth62/second_depth63/second_depth64/second_depth65/second_depth66/second_depth67/second_depth68/second_depth69/second_depth70/second_depth71/second_depth72/second_depth73/second_depth74/second_depth75/second_depth76/second_depth77/second_depth78/second_depth79/second_depth80/second_depth81/second_depth82/second_depth83/second_depth84/second_depth85/second_depth86/second_depth87/second_depth88/second_depth89/second_depth90/second_depth91/second_depth92/second_depth93/second_depth94/second_depth95/second_depth96/second_depth97/second_depth98/second_depth99/second_depth100/second_depth101/second_depth102/second_depth103/second_depth104/second_depth105/second_depth106/second_depth107/second_depth108/second_depth109/final_109');
+
+        $path_id = $this->Instance()->pathId("/second_depth0/second_depth1/second_depth2/second_depth3/second_depth4/second_depth5/second_depth6/second_depth7/second_depth8/second_depth9/second_depth10/second_depth11/second_depth12/second_depth13/second_depth14/second_depth15/second_depth16/second_depth17/second_depth18/second_depth19/second_depth20/second_depth21/second_depth22/second_depth23/second_depth24/second_depth25/second_depth26/second_depth27/second_depth28/second_depth29/second_depth30/second_depth31/second_depth32/second_depth33/second_depth34/second_depth35/second_depth36/second_depth37/second_depth38/second_depth39/second_depth40/second_depth41/second_depth42/second_depth43/second_depth44/second_depth45/second_depth46/second_depth47/second_depth48/second_depth49/second_depth50/second_depth51/second_depth52/second_depth53/second_depth54/second_depth55/second_depth56/second_depth57/second_depth58/second_depth59/second_depth60/second_depth61/second_depth62/second_depth63/second_depth64/second_depth65/second_depth66/second_depth67/second_depth68/second_depth69/second_depth70/second_depth71/second_depth72/second_depth73/second_depth74/second_depth75/second_depth76/second_depth77/second_depth78/second_depth79/second_depth80/second_depth81/second_depth82/second_depth83/second_depth84/second_depth85/second_depth86/second_depth87/second_depth88/second_depth89/second_depth90/second_depth91/second_depth92/second_depth93/second_depth94/second_depth95/second_depth96/second_depth97/second_depth98/second_depth99/second_depth100/second_depth101/second_depth102/second_depth103/second_depth104/second_depth105/second_depth106/second_depth107/second_depth108/second_depth109/final_109");
+
+        $this->assertSame('124', $path_id);
     }
 
     /*
-     * Tests for $this->Instance()->Path()
+     * Tests for $this->Instance()->getPath()
      */
 
     public function testPath()
     {
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
 
-        $path_returned = $this->Instance()->Path(intval(3));
+        $path_returned = $this->Instance()->getPath(intval(3));
 
         $this->assertSame('/' . $this->type() . '_1/' . $this->type() . '_2', $path_returned);
     }
 
-    public function testPathNull()
+    public function testgetPathNull()
     {
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
 
-        $path_returned = $this->Instance()->Path(intval(5));
+        $path_returned = $this->Instance()->getPath(intval(5));
 
         $this->assertNull($path_returned);
     }
 
     /*
-     * Tests for $this->Instance()->Children()
+     * Tests for $this->Instance()->children()
      */
 
     public function testChildren()
     {
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3/' . $this->type() . '_4/' . $this->type() . '_5');
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3/' . $this->type() . '_6/' . $this->type() . '_7');
-        $path_id = $this->Instance()->PathID('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3/' . $this->type() . '_4/' . $this->type() . '_5');
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3/' . $this->type() . '_6/' . $this->type() . '_7');
+        $path_id = $this->Instance()->pathId('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
 
-        $children = $this->Instance()->Children($path_id);
+        $children = $this->Instance()->children($path_id);
 
         $expected = array(
             array(
@@ -492,22 +547,22 @@ class RbacBase extends \RbacSetup
 
     public function testChildrenNullBadID()
     {
-        $children = $this->Instance()->Children(20);
+        $children = $this->Instance()->children(20);
 
         $this->assertNull($children);
     }
 
     /*
-     * Tests for $this->Instance()->Descendants()
+     * Tests for $this->Instance()->descendants()
      */
 
     public function testDescendants()
     {
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3/' . $this->type() . '_4/' . $this->type() . '_5');
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3/' . $this->type() . '_6/' . $this->type() . '_7');
-        $path_id = $this->Instance()->PathID('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3/' . $this->type() . '_4/' . $this->type() . '_5');
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3/' . $this->type() . '_6/' . $this->type() . '_7');
+        $path_id = $this->Instance()->pathId('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
 
-        $descendants = $this->Instance()->Descendants($path_id);
+        $descendants = $this->Instance()->descendants($path_id);
 
         $expected = array(
             $this->type() . '_4' => array(
@@ -549,43 +604,43 @@ class RbacBase extends \RbacSetup
 
     public function testDescendantsEmptyBadID()
     {
-        $descendants = $this->Instance()->Descendants(20);
+        $descendants = $this->Instance()->descendants(20);
 
         $this->assertEmpty($descendants);
     }
 
     /*
-     * Tests for $this->Instance()->Depth()
+     * Tests for $this->Instance()->depth()
      */
 
     public function testDepth()
     {
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3/' . $this->type() . '_4/' . $this->type() . '_5');
-        $path_id = $this->Instance()->PathID('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3/' . $this->type() . '_4/' . $this->type() . '_5');
+        $path_id = $this->Instance()->pathId('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
 
-        $depth = $this->Instance()->Depth($path_id);
+        $depth = $this->Instance()->depth($path_id);
 
         $this->assertSame(3, $depth);
     }
 
     public function testDepthBadID()
     {
-        $depth = $this->Instance()->Depth(20);
+        $depth = $this->Instance()->depth(20);
 
         $this->assertSame(-1, $depth);
     }
 
     /*
-     * Tests for $this->Instance()->ParentNode()
+     * Tests for $this->Instance()->parentNode()
      */
 
     public function testParentNode()
     {
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3/' . $this->type() . '_4/' . $this->type() . '_5');
-        $this->Instance()->AddPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3/' . $this->type() . '_6/' . $this->type() . '_7');
-        $path_id = $this->Instance()->PathID('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3/' . $this->type() . '_4/' . $this->type() . '_5');
+        $this->Instance()->addPath('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3/' . $this->type() . '_6/' . $this->type() . '_7');
+        $path_id = $this->Instance()->pathId('/' . $this->type() . '_1/' . $this->type() . '_2/' . $this->type() . '_3');
 
-        $parent_node = $this->Instance()->ParentNode($path_id);
+        $parent_node = $this->Instance()->parentNode($path_id);
 
         $expected = array(
             'ID' => '3',
@@ -600,21 +655,21 @@ class RbacBase extends \RbacSetup
 
     public function testParentNodeNullBadID()
     {
-        $parent_node = $this->Instance()->ParentNode(20);
+        $parent_node = $this->Instance()->parentNode(20);
 
         $this->assertNull($parent_node);
     }
 
     /*
-     * Tests for $this->Instance()->Assign()
+     * Tests for $this->Instance()->assign()
      */
 
     public function testAssignWithId()
     {
-        $perm_id = self::$rbac->Permissions->Add('permissions_1', 'permissions Description 1');
-        $role_id = self::$rbac->Roles->Add('roles_1', 'roles Description 1');
+        $perm_id = self::$rbac->Permissions->add('permissions_1', 'permissions Description 1');
+        $role_id = self::$rbac->Roles->add('roles_1', 'roles Description 1');
 
-        $this->Instance()->Assign($role_id, $perm_id);
+        $this->Instance()->assign($role_id, $perm_id);
 
         $dataSet = $this->getConnection()->createDataSet();
 
@@ -626,22 +681,116 @@ class RbacBase extends \RbacSetup
             array('AssignmentDate')
         );
 
-        $expectedDataSet = $this->createFlatXmlDataSet(dirname(__FILE__) . '/datasets/base/expected_assign_' . $this->type() . '_id.xml');
+        $expectedDataSet = $this->createFlatXmlDataSet(dirname(__FILE__) . '/datasets/base/expected_assign_' . $this->type() . '.xml');
+
+        $this->assertDataSetsEqual($expectedDataSet, $filterDataSet);
+    }
+
+    public function testAssignWithTitle()
+    {
+        self::$rbac->Permissions->add('permissions_1', 'permissions Description 1');
+        self::$rbac->Roles->add('roles_1', 'roles Description 1');
+
+        $this->Instance()->assign('roles_1', 'permissions_1');
+
+        $dataSet = $this->getConnection()->createDataSet();
+
+        $filterDataSet = new \PHPUnit_Extensions_Database_DataSet_DataSetFilter($dataSet);
+        $filterDataSet->addExcludeTables(array($this->Instance()->tablePrefix() . 'userroles'));
+
+        $filterDataSet->setExcludeColumnsForTable(
+            $this->Instance()->tablePrefix() . 'rolepermissions',
+            array('AssignmentDate')
+        );
+
+        $expectedDataSet = $this->createFlatXmlDataSet(dirname(__FILE__) . '/datasets/base/expected_assign_' . $this->type() . '.xml');
+
+        $this->assertDataSetsEqual($expectedDataSet, $filterDataSet);
+    }
+
+    public function testAssignWithPath()
+    {
+        self::$rbac->Permissions->add('permissions_1', 'permissions Description 1');
+        self::$rbac->Roles->add('roles_1', 'roles Description 1');
+
+        $this->Instance()->assign('/roles_1', '/permissions_1');
+
+        $dataSet = $this->getConnection()->createDataSet();
+
+        $filterDataSet = new \PHPUnit_Extensions_Database_DataSet_DataSetFilter($dataSet);
+        $filterDataSet->addExcludeTables(array($this->Instance()->tablePrefix() . 'userroles'));
+
+        $filterDataSet->setExcludeColumnsForTable(
+            $this->Instance()->tablePrefix() . 'rolepermissions',
+            array('AssignmentDate')
+        );
+
+        $expectedDataSet = $this->createFlatXmlDataSet(dirname(__FILE__) . '/datasets/base/expected_assign_' . $this->type() . '.xml');
 
         $this->assertDataSetsEqual($expectedDataSet, $filterDataSet);
     }
 
     /*
-     * Tests for $this->Instance()->Unassign()
+     * Tests for $this->Instance()->unassign()
      */
 
-    public function testUnassign()
+    public function testUnassignId()
     {
-        $perm_id = self::$rbac->Permissions->Add('permissions_1', 'permissions Description 1');
-        $role_id = self::$rbac->Roles->Add('roles_1', 'roles Description 1');
+        $perm_id = self::$rbac->Permissions->add('permissions_1', 'permissions Description 1');
+        $role_id = self::$rbac->Roles->add('roles_1', 'roles Description 1');
 
-        $this->Instance()->Assign($role_id, $perm_id);
-        $this->Instance()->Unassign($role_id, $perm_id);
+        $this->Instance()->assign($role_id, $perm_id);
+        $this->Instance()->unassign($role_id, $perm_id);
+
+        $dataSet = $this->getConnection()->createDataSet();
+
+        $filterDataSet = new \PHPUnit_Extensions_Database_DataSet_DataSetFilter($dataSet);
+        $filterDataSet->addIncludeTables(array(
+            self::$rbac->Users->tablePrefix() . 'rolepermissions',
+        ));
+
+        $filterDataSet->setExcludeColumnsForTable(
+            $this->Instance()->tablePrefix() . 'rolepermissions',
+            array('AssignmentDate')
+        );
+
+        $expectedDataSet = $this->createFlatXmlDataSet(dirname(__FILE__) . '/datasets/base/expected_unassign_' . $this->type() . '.xml');
+
+        $this->assertDataSetsEqual($expectedDataSet, $filterDataSet);
+    }
+
+    public function testUnassignTitle()
+    {
+        $perm_id = self::$rbac->Permissions->add('permissions_1', 'permissions Description 1');
+        $role_id = self::$rbac->Roles->add('roles_1', 'roles Description 1');
+
+        $this->Instance()->assign($role_id, $perm_id);
+        $this->Instance()->unassign('roles_1', 'permissions_1');
+
+        $dataSet = $this->getConnection()->createDataSet();
+
+        $filterDataSet = new \PHPUnit_Extensions_Database_DataSet_DataSetFilter($dataSet);
+        $filterDataSet->addIncludeTables(array(
+            self::$rbac->Users->tablePrefix() . 'rolepermissions',
+        ));
+
+        $filterDataSet->setExcludeColumnsForTable(
+            $this->Instance()->tablePrefix() . 'rolepermissions',
+            array('AssignmentDate')
+        );
+
+        $expectedDataSet = $this->createFlatXmlDataSet(dirname(__FILE__) . '/datasets/base/expected_unassign_' . $this->type() . '.xml');
+
+        $this->assertDataSetsEqual($expectedDataSet, $filterDataSet);
+    }
+
+    public function testUnassignPath()
+    {
+        $perm_id = self::$rbac->Permissions->add('permissions_1', 'permissions Description 1');
+        $role_id = self::$rbac->Roles->add('roles_1', 'roles Description 1');
+
+        $this->Instance()->assign($role_id, $perm_id);
+        $this->Instance()->unassign('/roles_1', '/permissions_1');
 
         $dataSet = $this->getConnection()->createDataSet();
 
@@ -661,24 +810,24 @@ class RbacBase extends \RbacSetup
     }
 
     /*
-     * Tests for $this->Instance()->ResetAssignments()
+     * Tests for $this->Instance()->resetAssignments()
      */
 
     public function testResetPermRoleAssignments()
     {
-        $perm_id_1 = self::$rbac->Permissions->Add('permissions_1', 'permissions Description 1');
-        $perm_id_2 = self::$rbac->Permissions->Add('permissions_2', 'permissions Description 2');
-        $perm_id_3 = self::$rbac->Permissions->Add('permissions_3', 'permissions Description 3');
+        $perm_id_1 = self::$rbac->Permissions->add('permissions_1', 'permissions Description 1');
+        $perm_id_2 = self::$rbac->Permissions->add('permissions_2', 'permissions Description 2');
+        $perm_id_3 = self::$rbac->Permissions->add('permissions_3', 'permissions Description 3');
 
-        $role_id_1 = self::$rbac->Roles->Add('roles_1', 'roles Description 1');
-        $role_id_2 = self::$rbac->Roles->Add('roles_2', 'roles Description 2');
-        $role_id_3 = self::$rbac->Roles->Add('roles_3', 'roles Description 3');
+        $role_id_1 = self::$rbac->Roles->add('roles_1', 'roles Description 1');
+        $role_id_2 = self::$rbac->Roles->add('roles_2', 'roles Description 2');
+        $role_id_3 = self::$rbac->Roles->add('roles_3', 'roles Description 3');
 
-        $this->Instance()->Assign($role_id_1, $perm_id_1);
-        $this->Instance()->Assign($role_id_2, $perm_id_2);
-        $this->Instance()->Assign($role_id_3, $perm_id_3);
+        $this->Instance()->assign($role_id_1, $perm_id_1);
+        $this->Instance()->assign($role_id_2, $perm_id_2);
+        $this->Instance()->assign($role_id_3, $perm_id_3);
 
-        $this->Instance()->ResetAssignments(true);
+        $this->Instance()->resetAssignments(true);
 
         $dataSet = $this->getConnection()->createDataSet();
 
@@ -705,20 +854,20 @@ class RbacBase extends \RbacSetup
 
     public function testResetPermRoleAssignmentsException()
     {
-        $this->Instance()->ResetAssignments();
+        $this->Instance()->resetAssignments();
     }
 
     /*
-     * Tests for $this->Instance()->Reset()
+     * Tests for $this->Instance()->reset()
      */
 
     public function testReset()
     {
-        $this->Instance()->Add($this->type() . '_title_1', $this->type() . ' Description 1');
-        $this->Instance()->Add($this->type() . '_title_2', $this->type() . ' Description 2');
-        $this->Instance()->Add($this->type() . '_title_3', $this->type() . ' Description 3');
+        $this->Instance()->add($this->type() . '_title_1', $this->type() . ' Description 1');
+        $this->Instance()->add($this->type() . '_title_2', $this->type() . ' Description 2');
+        $this->Instance()->add($this->type() . '_title_3', $this->type() . ' Description 3');
 
-        $this->Instance()->Reset(true);
+        $this->Instance()->reset(true);
 
         $dataSet = $this->getConnection()->createDataSet();
 
@@ -738,7 +887,7 @@ class RbacBase extends \RbacSetup
 
     public function testResetException()
     {
-        $this->Instance()->Reset();
+        $this->Instance()->reset();
     }
 }
 

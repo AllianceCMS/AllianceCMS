@@ -19,22 +19,23 @@ class JModel
 {
 	function tablePrefix()
 	{
-		return jf::tablePrefix();
+		return Jf::tablePrefix();
 	}
 
 	protected function isSQLite()
 	{
-		$Adapter=get_class(jf::$Db);
-		return $Adapter == "PDO" and jf::$Db->getAttribute(PDO::ATTR_DRIVER_NAME)=="sqlite";
+		$Adapter=get_class(Jf::$Db);
+		return $Adapter == "PDO" and Jf::$Db->getAttribute(PDO::ATTR_DRIVER_NAME)=="sqlite";
 	}
 	protected function isMySql()
 	{
-		$Adapter=get_class(jf::$Db);
-		return $Adapter == "mysqli" or ($Adapter == "PDO" and jf::$Db->getAttribute(PDO::ATTR_DRIVER_NAME)=="mysql");
+		$Adapter=get_class(Jf::$Db);
+		return $Adapter == "mysqli" or ($Adapter == "PDO" and Jf::$Db->getAttribute(PDO::ATTR_DRIVER_NAME)=="mysql");
 	}
 }
+
 /**
- * RBAC base class, it contains operations that are essentially the same for
+ * Rbac base class, it contains operations that are essentially the same for
  * permissions and roles
  * and is inherited by both
  *
@@ -55,33 +56,101 @@ abstract class BaseRbac extends JModel
 	 * @return string
 	 */
 	abstract protected function type();
+
 	/**
 	 * Adds a new role or permission
 	 * Returns new entry's ID
 	 *
 	 * @param string $Title
 	 *        	Title of the new entry
-	 * @param integer $Description
+	 * @param string $Description
 	 *        	Description of the new entry
 	 * @param integer $ParentID
 	 *        	optional ID of the parent node in the hierarchy
 	 * @return integer ID of the new entry
 	 */
-	function Add($Title, $Description, $ParentID = null)
+	function add($Title, $Description, $ParentID = null)
 	{
 		if ($ParentID === null)
 			$ParentID = $this->rootId ();
 		return (int)$this->{$this->type ()}->insertChildData ( array ("Title" => $Title, "Description" => $Description ), "ID=?", $ParentID );
 	}
+
+	/**
+	 * Adds a path and all its components.
+	 * Will not replace or create siblings if a component exists.
+	 *
+	 * @param string $Path
+	 *        	such as /some/role/some/where - Must begin with a / (slash)
+	 * @param array $Descriptions
+	 *        	array of descriptions (will add with empty description if not available)
+	 *
+	 * @return integer Number of nodes created (0 if none created)
+	 */
+	function addPath($Path, array $Descriptions = null)
+	{
+	    if ($Path[0] !== "/")
+	        throw new \Exception ("The path supplied is not valid.");
+
+	    $Path = substr ( $Path, 1 );
+	    $Parts = explode ( "/", $Path );
+	    $Parent = 1;
+	    $index = 0;
+	    $CurrentPath = "";
+	    $NodesCreated = 0;
+
+	    foreach ($Parts as $p)
+	    {
+	        if (isset ($Descriptions[$index]))
+	            $Description = $Descriptions[$index];
+	        else
+	            $Description = "";
+	        $CurrentPath .= "/{$p}";
+	        $t = $this->pathId($CurrentPath);
+	        if (! $t)
+	        {
+	            $IID = $this->add($p, $Description, $Parent);
+	            $Parent = $IID;
+	            $NodesCreated++;
+	        }
+	        else
+	        {
+	            $Parent = $t;
+	        }
+
+	        $index += 1;
+	    }
+
+	    return (int)$NodesCreated;
+	}
+
 	/**
 	 * Return count of the entity
 	 *
 	 * @return integer
 	 */
-	function Count()
+	function count()
 	{
-		$Res = jf::SQL ( "SELECT COUNT(*) FROM {$this->tablePrefix()}{$this->type()}" );
+		$Res = Jf::sql ( "SELECT COUNT(*) FROM {$this->tablePrefix()}{$this->type()}" );
 		return (int)$Res [0] ['COUNT(*)'];
+	}
+
+	/**
+	 * Returns ID of entity
+	 *
+	 * @param string $entity (Path or Title)
+	 *
+	 * @return mixed ID of entity or null
+	 */
+	public function returnId($entity = null)
+	{
+	    if (substr ($entity, 0, 1) == "/") {
+	        $entityID = $this->pathId($entity);
+	    } else {
+	        $entityID = $this->titleId($entity);
+	    }
+
+	    return $entityID;
 	}
 
 	/**
@@ -92,36 +161,24 @@ abstract class BaseRbac extends JModel
 	 *        	such as /role1/role2/role3 ( a single slash is root)
 	 * @return integer NULL
 	 */
-	function PathID($Path)
+	public function pathId($Path)
 	{
 		$Path = "root" . $Path;
+
 		if ($Path [strlen ( $Path ) - 1] == "/")
 			$Path = substr ( $Path, 0, strlen ( $Path ) - 1 );
 		$Parts = explode ( "/", $Path );
 
-		$Adapter = get_class(jf::$Db);
-		if ($Adapter == "mysqli" or ($Adapter == "PDO" and jf::$Db->getAttribute(PDO::ATTR_DRIVER_NAME)=="mysql")) {
+		$Adapter = get_class(Jf::$Db);
+		if ($Adapter == "mysqli" or ($Adapter == "PDO" and Jf::$Db->getAttribute(PDO::ATTR_DRIVER_NAME)=="mysql")) {
 			$GroupConcat="GROUP_CONCAT(parent.Title ORDER BY parent.Lft SEPARATOR '/')";
-
-            $query = jf::SQL ( "SELECT sum(char_length(Title)) FROM " . $this->tablePrefix() . $this->type());
-            $query_char_count = $query[0]['sum(char_length(Title))'];
-		} elseif ($Adapter == "PDO" and jf::$Db->getAttribute(PDO::ATTR_DRIVER_NAME)=="sqlite") {
+		} elseif ($Adapter == "PDO" and Jf::$Db->getAttribute(PDO::ATTR_DRIVER_NAME)=="sqlite") {
 			$GroupConcat="GROUP_CONCAT(parent.Title,'/')";
-
-            $query = jf::SQL ( "SELECT sum(length(Title)) FROM " . $this->tablePrefix() . $this->type());
-            $query_char_count = $query[0]['sum(length(Title))'];
 		} else {
 			throw new \Exception ("Unknown Group_Concat on this type of database: {$Adapter}");
 		}
 
-		$row_count = jf::SQL ( "SELECT count(*) FROM " . $this->tablePrefix() . $this->type());
-		$separator_count = --$row_count[0]['count(*)'];
-		$total_char_count = $query_char_count + $separator_count;
-
-		if ((int) $total_char_count >= 1024)
-		    throw new Exception ( "Path exceeds character count limit." );
-
-		$res = jf::SQL ( "SELECT node.ID,{$GroupConcat} AS Path
+		$res = Jf::sql ( "SELECT node.ID,{$GroupConcat} AS Path
 				FROM {$this->tablePrefix()}{$this->type()} AS node,
 				{$this->tablePrefix()}{$this->type()} AS parent
 				WHERE node.Lft BETWEEN parent.Lft AND parent.Rght
@@ -129,6 +186,7 @@ abstract class BaseRbac extends JModel
 				GROUP BY node.ID
 				HAVING Path = ?
 				", $Parts [count ( $Parts ) - 1], $Path );
+
 		if ($res)
 			return $res [0] ['ID'];
 		else
@@ -152,7 +210,8 @@ abstract class BaseRbac extends JModel
 		array_unshift ( $PartsRev, $Query );
 
 		print_ ( $PartsRev );
-		$res = call_user_func_array ( "jf::SQL", $PartsRev );
+		$res = call_user_func_array ( "Jf::sql", $PartsRev );
+
 		if ($res)
 			return $res [0] ['ID'];
 		else
@@ -164,101 +223,83 @@ abstract class BaseRbac extends JModel
 	 *
 	 * @param unknown_type $Title
 	 */
-	function TitleID($Title)
+	public function titleId($Title)
 	{
-		return $this->{$this->type ()}->GetID ( "Title=?", $Title );
+		return $this->{$this->type ()}->getID ( "Title=?", $Title );
 	}
+
 	/**
 	 * Return the whole record of a single entry (including Rght and Lft fields)
 	 *
 	 * @param integer $ID
 	 */
-	protected function GetRecord($ID)
+	protected function getRecord($ID)
 	{
 		$args = func_get_args ();
-		return call_user_func_array ( array ($this->{$this->type ()}, "GetRecord" ), $args );
+		return call_user_func_array ( array ($this->{$this->type ()}, "getRecord" ), $args );
 	}
+
 	/**
 	 * Returns title of entity
 	 *
 	 * @param integer $ID
 	 * @return string NULL
 	 */
-	function GetTitle($ID)
+	function getTitle($ID)
 	{
-		$r = $this->GetRecord ( "ID=?", $ID );
+		$r = $this->getRecord ( "ID=?", $ID );
 		if ($r)
 			return $r ['Title'];
 		else
 			return null;
 	}
+
+	/**
+	 * Returns path of a node
+	 *
+	 * @param integer $ID
+	 * @return string path
+	 */
+	function getPath($ID)
+	{
+	    $res = $this->{$this->type ()}->pathConditional ( "ID=?", $ID );
+	    $out = null;
+	    if (is_array ( $res ))
+	        foreach ( $res as $r )
+	            if ($r ['ID'] == 1)
+	                $out = '/';
+	            else
+	                $out .= "/" . $r ['Title'];
+	            if (strlen ( $out ) > 1)
+	                return substr ( $out, 1 );
+	            else
+	                return $out;
+	}
+
 	/**
 	 * Return description of entity
 	 *
 	 * @param integer $ID
 	 * @return string NULL
 	 */
-	function GetDescription($ID)
+	function getDescription($ID)
 	{
-		$r = $this->GetRecord ( "ID=?", $ID );
-		if ($r)
-			return $r ['Description'];
-		else
-			return null;
-	}
-	/**
-	 * Adds a path and all its components.
-	 * Will not replace or create siblings if a component exists.
-	 *
-	 * @param string $Path
-	 *        	such as /some/role/some/where - Must begin with a / (slash)
-	 * @param array $Descriptions
-	 *        	array of descriptions (will add with empty description if not available)
-	 *
-	 * @return integer NULL components ID
-	 */
-	function AddPath($Path, array $Descriptions = null)
-	{
-		if ($Path[0] !== "/")
-	        throw new \Exception ("The path supplied is not valid.");
-
-		$Path = substr ( $Path, 1 );
-		$Parts = explode ( "/", $Path );
-		$Parent = 1;
-		$index = 0;
-		$CurrentPath = "";
-		foreach ( $Parts as $p )
-		{
-			if (isset ( $Descriptions [$index] ))
-				$Description = $Descriptions [$index];
-			else
-				$Description = "";
-			$CurrentPath .= "/{$p}";
-			$t = $this->PathID ( $CurrentPath );
-			if (! $t)
-			{
-				$IID = $this->Add ( $p, $Description, $Parent );
-				$Parent = $IID;
-			}
-			else
-			{
-				$Parent = $t;
-			}
-
-			$index += 1;
-		}
-		return (int)$Parent;
+	    $r = $this->getRecord ( "ID=?", $ID );
+	    if ($r)
+	        return $r ['Description'];
+	    else
+	        return null;
 	}
 
 	/**
-	 * Edits an entity, changing title and/or description
+	 * Edits an entity, changing title and/or description. Maintains Id.
 	 *
 	 * @param integer $ID
 	 * @param string $NewTitle
 	 * @param string $NewDescription
 	 *
 	 */
-	function Edit($ID, $NewTitle = null, $NewDescription = null)
+	function edit($ID, $NewTitle = null, $NewDescription = null)
 	{
 		$Data = array ();
 
@@ -268,7 +309,7 @@ abstract class BaseRbac extends JModel
 		if ($NewDescription !== null)
 			$Data ['Description'] = $NewDescription;
 
-        return $this->{$this->type ()}->EditData ( $Data, "ID=?", $ID ) == 1;
+        return $this->{$this->type ()}->editData ( $Data, "ID=?", $ID ) == 1;
 	}
 
 	/**
@@ -277,9 +318,9 @@ abstract class BaseRbac extends JModel
 	 * @return array
 	 *
 	 */
-	function Children($ID)
+	function children($ID)
 	{
-		return $this->{$this->type ()}->ChildrenConditional ( "ID=?", $ID );
+		return $this->{$this->type ()}->childrenConditional ( "ID=?", $ID );
 	}
 
 	/**
@@ -289,9 +330,9 @@ abstract class BaseRbac extends JModel
 	 * @return array with keys as titles and Title,ID, Depth and Description
 	 *
 	 */
-	function Descendants($ID)
+	function descendants($ID)
 	{
-		$res = $this->{$this->type ()}->DescendantsConditional(/* absolute depths*/false, "ID=?", $ID );
+		$res = $this->{$this->type ()}->descendantsConditional(/* absolute depths*/false, "ID=?", $ID );
 		$out = array ();
 		if (is_array ( $res ))
 			foreach ( $res as $v )
@@ -304,31 +345,9 @@ abstract class BaseRbac extends JModel
 	 *
 	 * @param integer $ID
 	 */
-	function Depth($ID)
+	function depth($ID)
 	{
-		return $this->{$this->type ()}->DepthConditional ( "ID=?", $ID );
-	}
-
-	/**
-	 * Returns path of a node
-	 *
-	 * @param integer $ID
-	 * @return string path
-	 */
-	function Path($ID)
-	{
-		$res = $this->{$this->type ()}->PathConditional ( "ID=?", $ID );
-		$out = null;
-		if (is_array ( $res ))
-			foreach ( $res as $r )
-				if ($r ['ID'] == 1)
-					$out = '/';
-				else
-					$out .= "/" . $r ['Title'];
-		if (strlen ( $out ) > 1)
-			return substr ( $out, 1 );
-		else
-			return $out;
+		return $this->{$this->type ()}->depthConditional ( "ID=?", $ID );
 	}
 
 	/**
@@ -338,9 +357,9 @@ abstract class BaseRbac extends JModel
 	 * @return array including Title, Description and ID
 	 *
 	 */
-	function ParentNode($ID)
+	function parentNode($ID)
 	{
-		return $this->{$this->type ()}->ParentNodeConditional ( "ID=?", $ID );
+		return $this->{$this->type ()}->parentNodeConditional ( "ID=?", $ID );
 	}
 
 	/**
@@ -353,53 +372,97 @@ abstract class BaseRbac extends JModel
 	 * @return integer number of deleted entries
 	 *
 	 */
-	function Reset($Ensure = false)
+	function reset($Ensure = false)
 	{
 		if ($Ensure !== true)
 		{
 			throw new \Exception ("You must pass true to this function, otherwise it won't work.");
 			return;
 		}
-		$res = jf::SQL ( "DELETE FROM {$this->tablePrefix()}{$this->type()}" );
-		$Adapter = get_class(jf::$Db);
+		$res = Jf::sql ( "DELETE FROM {$this->tablePrefix()}{$this->type()}" );
+		$Adapter = get_class(Jf::$Db);
 		if ($this->isMySql())
-			jf::SQL ( "ALTER TABLE {$this->tablePrefix()}{$this->type()} AUTO_INCREMENT=1 " );
+			Jf::sql ( "ALTER TABLE {$this->tablePrefix()}{$this->type()} AUTO_INCREMENT=1 " );
 		elseif ($this->isSQLite())
-			jf::SQL ( "delete from sqlite_sequence where name=? ", $this->tablePrefix () . "{$this->type()}" );
+			Jf::sql ( "delete from sqlite_sequence where name=? ", $this->tablePrefix () . "{$this->type()}" );
 		else
-			throw new \Exception ( "RBAC can not reset table on this type of database: {$Adapter}" );
-		$iid = jf::SQL ( "INSERT INTO {$this->tablePrefix()}{$this->type()} (Title,Description,Lft,Rght) VALUES (?,?,?,?)", "root", "root",0,1 );
+			throw new \Exception ( "Rbac can not reset table on this type of database: {$Adapter}" );
+		$iid = Jf::sql ( "INSERT INTO {$this->tablePrefix()}{$this->type()} (Title,Description,Lft,Rght) VALUES (?,?,?,?)", "root", "root",0,1 );
 		return (int)$res;
 	}
 
-
 	/**
-	 * Assigns a role to a permission (or vice-versa)
+	 * Assigns a role to a permission (or vice-verse)
 	 *
-	 * @param integer $Role
-	 * @param integer $Permission
+	 * @param mixed $Role
+	 *         Id, Title and Path
+	 * @param mixed $Permission
+	 *         Id, Title and Path
 	 * @return boolean inserted or existing
 	 *
 	 * @todo: Check for valid permissions/roles
 	 * @todo: Implement custom error handler
 	 */
-	function Assign($Role, $Permission)
+	function assign($Role, $Permission)
 	{
-		return jf::SQL ( "INSERT INTO {$this->tablePrefix()}rolepermissions
-		(RoleID,PermissionID,AssignmentDate)
-		VALUES (?,?,?)", $Role, $Permission, jf::time () ) >= 1;
+	    if (is_numeric($Role))
+	    {
+	        $RoleID = $Role;
+	    } else {
+	        if (substr($Role, 0, 1) == "/")
+	            $RoleID = Jf::$Rbac->Roles->pathId($Role);
+	        else
+	            $RoleID = Jf::$Rbac->Roles->titleId($Role);
+	    }
+
+	    if (is_numeric($Permission))
+	    {
+	        $PermissionID = $Permission;
+	    }  else {
+	        if (substr($Permission, 0, 1) == "/")
+	            $PermissionID = Jf::$Rbac->Permissions->pathId($Permission);
+	        else
+	            $PermissionID = Jf::$Rbac->Permissions->titleId($Permission);
+	    }
+
+	    return Jf::sql("INSERT INTO {$this->tablePrefix()}rolepermissions
+	        (RoleID,PermissionID,AssignmentDate)
+	        VALUES (?,?,?)", $RoleID, $PermissionID, Jf::time()) >= 1;
 	}
+
 	/**
 	 * Unassigns a role-permission relation
 	 *
-	 * @param integer $Role
-	 * @param integer $Permission
+	 * @param mixed $Role
+	 *         Id, Title and Path
+	 * @param mixed $Permission:
+	 *         Id, Title and Path
 	 * @return boolean
 	 */
-	function Unassign($Role, $Permission)
+	function unassign($Role, $Permission)
 	{
-		return jf::SQL ( "DELETE FROM {$this->tablePrefix()}rolepermissions WHERE
-	RoleID=? AND PermissionID=?", $Role, $Permission ) == 1;
+	    if (is_numeric($Role))
+	    {
+	        $RoleID = $Role;
+	    }  else {
+	        if (substr($Role, 0, 1) == "/")
+	            $RoleID = Jf::$Rbac->Roles->pathId($Role);
+	        else
+	            $RoleID = Jf::$Rbac->Roles->titleId($Role);
+	    }
+
+	    if (is_numeric($Permission))
+	    {
+	        $PermissionID = $Permission;
+	    }  else {
+	        if (substr($Permission, 0, 1) == "/")
+	            $PermissionID = Jf::$Rbac->Permissions->pathId($Permission);
+	        else
+	            $PermissionID = Jf::$Rbac->Permissions->titleId($Permission);
+	    }
+
+		return Jf::sql("DELETE FROM {$this->tablePrefix()}rolepermissions WHERE
+		    RoleID=? AND PermissionID=?", $RoleID, $PermissionID) == 1;
 	}
 
 	/**
@@ -410,31 +473,217 @@ abstract class BaseRbac extends JModel
 	 *        	must set or throws error
 	 * @return number of deleted relations
 	 */
-	function ResetAssignments($Ensure = false)
+	function resetAssignments($Ensure = false)
 	{
 		if ($Ensure !== true)
 		{
 			throw new \Exception ("You must pass true to this function, otherwise it won't work.");
 			return;
 		}
-		$res = jf::SQL ( "DELETE FROM {$this->tablePrefix()}rolepermissions" );
+		$res = Jf::sql ( "DELETE FROM {$this->tablePrefix()}rolepermissions" );
 
-		$Adapter = get_class(jf::$Db);
+		$Adapter = get_class(Jf::$Db);
 		if ($this->isMySql())
-			jf::SQL ( "ALTER TABLE {$this->tablePrefix()}rolepermissions AUTO_INCREMENT =1 " );
+			Jf::sql ( "ALTER TABLE {$this->tablePrefix()}rolepermissions AUTO_INCREMENT =1 " );
 		elseif ($this->isSQLite())
-			jf::SQL ( "delete from sqlite_sequence where name=? ", $this->tablePrefix () . "_rolepermissions" );
+			Jf::sql ( "delete from sqlite_sequence where name=? ", $this->tablePrefix () . "_rolepermissions" );
 		else
-			throw new \Exception ( "RBAC can not reset table on this type of database: {$Adapter}" );
-		$this->Assign ( $this->rootId(), $this->rootId());
+			throw new \Exception ( "Rbac can not reset table on this type of database: {$Adapter}" );
+		$this->assign ( $this->rootId(), $this->rootId());
 		return $res;
 	}
 }
 
+/**
+ * @defgroup phprbac_manager Documentation regarding Rbac Manager Functionality
+ * @ingroup phprbac
+ * @{
+ *
+ * Documentation regarding Rbac Manager functionality.
+ *
+ * Rbac Manager: Provides NIST Level 2 Standard Hierarchical Role Based Access Control
+ *
+ * Has three members, Roles, Users and Permissions for specific operations
+ *
+ * @author abiusx
+ * @version 1.0
+ */
+class RbacManager extends JModel
+{
+    function __construct()
+    {
+        $this->Users = new RbacUserManager ();
+        $this->Roles = new RoleManager ();
+        $this->Permissions = new PermissionManager ();
+    }
+
+    /**
+     *
+     * @var \Jf\PermissionManager
+     */
+    public $Permissions;
+
+    /**
+     *
+     * @var \Jf\RoleManager
+     */
+    public $Roles;
+
+    /**
+     *
+     * @var \Jf\RbacUserManager
+     */
+    public $Users;
+
+    /**
+     * Assign a role to a permission.
+     * Alias for what's in the base class
+     *
+     * @param string|integer $Role
+     *        	Id, Title or Path
+     * @param string|integer $Permission
+     *        	Id, Title or Path
+     * @return boolean
+     */
+    function assign($Role, $Permission)
+    {
+        return $this->Roles->assign($Role, $Permission);
+    }
+
+    /**
+     * Prepared statement for check query
+     *
+     * @var BaseDatabaseStatement
+     */
+    private $ps_Check = null;
+
+    /**
+     * Checks whether a user has a permission or not.
+     *
+     * @param string|integer $Permission
+     *        	you can provide a path like /some/permission, a title, or the
+     *        	permission ID.
+     *        	in case of ID, don't forget to provide integer (not a string
+     *        	containing a number)
+     * @param string|integer $UserID
+     *        	User ID of a user
+     *
+     * @throws RbacPermissionNotFoundException
+     * @throws RbacUserNotProvidedException
+     * @return boolean
+     */
+    function check($Permission, $UserID = null)
+    {
+        if ($UserID === null)
+            throw new \RbacUserNotProvidedException ("\$UserID is a required argument.");
+
+        // convert permission to ID
+        if (is_numeric ( $Permission ))
+        {
+            $PermissionID = $Permission;
+        }
+        else
+        {
+            if (substr ( $Permission, 0, 1 ) == "/")
+                $PermissionID = $this->Permissions->pathId ( $Permission );
+            else
+                $PermissionID = $this->Permissions->titleId ( $Permission );
+        }
+
+        // if invalid, throw exception
+        if ($PermissionID === null)
+            throw new RbacPermissionNotFoundException ( "The permission '{$Permission}' not found." );
+
+        if ($this->isSQLite())
+        {
+            $LastPart="AS Temp ON ( TR.ID = Temp.RoleID)
+ 							WHERE
+ 							TUrel.UserID=?
+ 							AND
+ 							Temp.ID=?";
+        }
+        else //mysql
+        {
+            $LastPart="ON ( TR.ID = TRel.RoleID)
+ 							WHERE
+ 							TUrel.UserID=?
+ 							AND
+ 							TPdirect.ID=?";
+        }
+        $Res=Jf::sql ( "SELECT COUNT(*) AS Result
+            FROM
+            {$this->tablePrefix()}userroles AS TUrel
+
+            JOIN {$this->tablePrefix()}roles AS TRdirect ON (TRdirect.ID=TUrel.RoleID)
+            JOIN {$this->tablePrefix()}roles AS TR ON ( TR.Lft BETWEEN TRdirect.Lft AND TRdirect.Rght)
+            JOIN
+            (	{$this->tablePrefix()}permissions AS TPdirect
+            JOIN {$this->tablePrefix()}permissions AS TP ON ( TPdirect.Lft BETWEEN TP.Lft AND TP.Rght)
+            JOIN {$this->tablePrefix()}rolepermissions AS TRel ON (TP.ID=TRel.PermissionID)
+            ) $LastPart",
+            $UserID, $PermissionID );
+
+        return $Res [0] ['Result'] >= 1;
+    }
+
+    /**
+    * Enforce a permission on a user
+    *
+    * @param string|integer $Permission
+    *        	path or title or ID of permission
+    *
+    * @param integer $UserID
+    *
+    * @throws RbacUserNotProvidedException
+    */
+	function enforce($Permission, $UserID = null)
+	{
+	if ($UserID === null)
+                throw new \RbacUserNotProvidedException ("\$UserID is a required argument.");
+
+		if (! $this->check($Permission, $UserID)) {
+            header('HTTP/1.1 403 Forbidden');
+            die("<strong>Forbidden</strong>: You do not have permission to access this resource.");
+        }
+
+        return true;
+	}
+
+    /**
+    * Remove all roles, permissions and assignments
+    * mostly used for testing
+    *
+    * @param boolean $Ensure
+	*        	must set or throws error
+	* @return boolean
+    */
+    function reset($Ensure = false)
+    {
+        if ($Ensure !== true) {
+            throw new \Exception ("You must pass true to this function, otherwise it won't work.");
+            return;
+        }
+
+        $res = true;
+        $res = $res and $this->Roles->resetAssignments ( true );
+        $res = $res and $this->Roles->reset ( true );
+		$res = $res and $this->Permissions->reset ( true );
+		$res = $res and $this->Users->resetAssignments ( true );
+
+		return $res;
+	}
+}
+
+/** @} */ // End group phprbac_manager */
 
 /**
- * RBAC Permission Manager
- * holds specific operations for permissions
+ * @defgroup phprbac_permission_manager Documentation regarding Permission Manager Functionality
+ * @ingroup phprbac
+ * @{
+ *
+ * Documentation regarding Permission Manager functionality.
+ *
+ * Permission Manager: Contains functionality specific to Permissions
  *
  * @author abiusx
  * @version 1.0
@@ -447,16 +696,19 @@ class PermissionManager extends BaseRbac
 	 * @var FullNestedSet
 	 */
 	protected $permissions;
+
 	protected function type()
 	{
 		return "permissions";
 	}
+
 	function __construct()
 	{
 		$this->permissions = new FullNestedSet ( $this->tablePrefix () . "permissions", "ID", "Lft", "Rght" );
 	}
+
 	/**
-	 * Remove a permission from system
+	 * Remove permissions from system
 	 *
 	 * @param integer $ID
 	 *        	permission id
@@ -464,24 +716,25 @@ class PermissionManager extends BaseRbac
 	 *        	delete all descendants
 	 *
 	 */
-	function Remove($ID, $Recursive = false)
+	function remove($ID, $Recursive = false)
 	{
-		$this->UnassignRoles ( $ID );
+		$this->unassignRoles ( $ID );
 		if (! $Recursive)
-			return $this->permissions->DeleteConditional ( "ID=?", $ID );
+			return $this->permissions->deleteConditional ( "ID=?", $ID );
 		else
-			return $this->permissions->DeleteSubtreeConditional ( "ID=?", $ID );
+			return $this->permissions->deleteSubtreeConditional ( "ID=?", $ID );
 	}
 
 	/**
 	 * Unassignes all roles of this permission, and returns their number
 	 *
 	 * @param integer $ID
+	 *      Permission Id
 	 * @return integer
 	 */
-	function UnassignRoles($ID)
+	function unassignRoles($ID)
 	{
-		$res = jf::SQL ( "DELETE FROM {$this->tablePrefix()}rolepermissions WHERE
+		$res = Jf::sql ( "DELETE FROM {$this->tablePrefix()}rolepermissions WHERE
 			PermissionID=?", $ID );
 		return (int)$res;
 	}
@@ -495,14 +748,16 @@ class PermissionManager extends BaseRbac
 	 *        	if true, result would be a 1D array of IDs
 	 * @return Array 2D or 1D or null
 	 */
-	function Roles($Permission, $OnlyIDs = true)
+	function roles($Permission, $OnlyIDs = true)
 	{
-		if (! is_numeric ( $Permission ))
-			$Permission = $this->Permission_ID ( $Permission );
+		if (!is_numeric($Permission))
+			$Permission = $this->returnId($Permission);
+
 		if ($OnlyIDs)
 		{
-			$Res = jf::SQL ( "SELECT RoleID AS `ID` FROM
+			$Res = Jf::sql ( "SELECT RoleID AS `ID` FROM
 				{$this->tablePrefix()}rolepermissions WHERE PermissionID=? ORDER BY RoleID", $Permission );
+
 			if (is_array ( $Res ))
 			{
 				$out = array ();
@@ -512,18 +767,24 @@ class PermissionManager extends BaseRbac
 			}
 			else
 				return null;
+		} else {
+		    return Jf::sql ( "SELECT `TP`.ID, `TP`.Title, `TP`.Description FROM {$this->tablePrefix()}roles AS `TP`
+    		    LEFT JOIN {$this->tablePrefix()}rolepermissions AS `TR` ON (`TR`.RoleID=`TP`.ID)
+    		    WHERE PermissionID=? ORDER BY TP.ID", $Permission );
 		}
-		else
-			return jf::SQL ( "SELECT `TP`.* FROM {$this->tablePrefix()}rolepermissions AS `TR`
-				RIGHT JOIN {$this->tablePrefix()}roles AS `TP` ON (`TR`.RoleID=`TP`.ID)
-				WHERE PermissionID=? ORDER BY TP.RoleID", $Permission );
 	}
 }
 
+/** @} */ // End group phprbac_permission_manager */
 
 /**
- * RBAC Role Manager
- * it has specific functions to the roles
+ * @defgroup phprbac_role_manager Documentation regarding Role Manager Functionality
+ * @ingroup phprbac
+ * @{
+ *
+ * Documentation regarding Role Manager functionality.
+ *
+ * Role Manager: Contains functionality specific to Roles
  *
  * @author abiusx
  * @version 1.0
@@ -536,10 +797,12 @@ class RoleManager extends BaseRbac
 	 * @var FullNestedSet
 	 */
 	protected $roles = null;
+
 	protected function type()
 	{
 		return "roles";
 	}
+
 	function __construct()
 	{
 		$this->type = "roles";
@@ -547,7 +810,7 @@ class RoleManager extends BaseRbac
 	}
 
 	/**
-	 * Remove a role from system
+	 * Remove roles from system
 	 *
 	 * @param integer $ID
 	 *        	role id
@@ -555,15 +818,16 @@ class RoleManager extends BaseRbac
 	 *        	delete all descendants
 	 *
 	 */
-	function Remove($ID, $Recursive = false)
+	function remove($ID, $Recursive = false)
 	{
-		$this->UnassignPermissions ( $ID );
-		$this->UnassignUsers ( $ID );
+		$this->unassignPermissions ( $ID );
+		$this->unassignUsers ( $ID );
 		if (! $Recursive)
-			return $this->roles->DeleteConditional ( "ID=?", $ID );
+			return $this->roles->deleteConditional ( "ID=?", $ID );
 		else
-			return $this->roles->DeleteSubtreeConditional ( "ID=?", $ID );
+			return $this->roles->deleteSubtreeConditional ( "ID=?", $ID );
 	}
+
 	/**
 	 * Unassigns all permissions belonging to a role
 	 *
@@ -571,12 +835,13 @@ class RoleManager extends BaseRbac
 	 *        	role ID
 	 * @return integer number of assignments deleted
 	 */
-	function UnassignPermissions($ID)
+	function unassignPermissions($ID)
 	{
-		$r = jf::SQL ( "DELETE FROM {$this->tablePrefix()}rolepermissions WHERE
+		$r = Jf::sql ( "DELETE FROM {$this->tablePrefix()}rolepermissions WHERE
 			RoleID=? ", $ID );
 		return $r;
 	}
+
 	/**
 	 * Unassign all users that have a certain role
 	 *
@@ -584,9 +849,9 @@ class RoleManager extends BaseRbac
 	 *        	role ID
 	 * @return integer number of deleted assignments
 	 */
-	function UnassignUsers($ID)
+	function unassignUsers($ID)
 	{
-		return jf::SQL ( "DELETE FROM {$this->tablePrefix()}userroles WHERE
+		return Jf::sql ( "DELETE FROM {$this->tablePrefix()}userroles WHERE
 			RoleID=?", $ID );
 	}
 
@@ -601,9 +866,9 @@ class RoleManager extends BaseRbac
 	 *
 	 * @todo: If we pass a Role that doesn't exist the method just returns false. We may want to check for a valid Role.
 	 */
-	function HasPermission($Role, $Permission)
+	function hasPermission($Role, $Permission)
 	{
-		$Res = jf::SQL ( "
+		$Res = Jf::sql ( "
 					SELECT COUNT(*) AS Result
 					FROM {$this->tablePrefix()}rolepermissions AS TRel
 					JOIN {$this->tablePrefix()}permissions AS TP ON ( TP.ID= TRel.PermissionID)
@@ -628,6 +893,7 @@ class RoleManager extends BaseRbac
 					", $Role, $Role, $Permission );
 		return $Res [0] ['Result'] >= 1;
 	}
+
 	/**
 	 * Returns all permissions assigned to a role
 	 *
@@ -638,11 +904,14 @@ class RoleManager extends BaseRbac
 	 * @return Array 2D or 1D or null
 	 *         the two dimensional array would have ID,Title and Description of permissions
 	 */
-	function Permissions($Role, $OnlyIDs = true)
+	function permissions($Role, $OnlyIDs = true)
 	{
+	    if (! is_numeric ($Role))
+	        $Role = $this->returnId($Role);
+
 		if ($OnlyIDs)
 		{
-			$Res = jf::SQL ( "SELECT PermissionID AS `ID` FROM {$this->tablePrefix()}rolepermissions WHERE RoleID=? ORDER BY PermissionID", $Role );
+			$Res = Jf::sql ( "SELECT PermissionID AS `ID` FROM {$this->tablePrefix()}rolepermissions WHERE RoleID=? ORDER BY PermissionID", $Role );
 			if (is_array ( $Res ))
 			{
 				$out = array ();
@@ -652,22 +921,29 @@ class RoleManager extends BaseRbac
 			}
 			else
 				return null;
+		} else {
+	        return Jf::sql ( "SELECT `TP`.ID, `TP`.Title, `TP`.Description FROM {$this->tablePrefix()}permissions AS `TP`
+		        LEFT JOIN {$this->tablePrefix()}rolepermissions AS `TR` ON (`TR`.PermissionID=`TP`.ID)
+		        WHERE RoleID=? ORDER BY TP.ID", $Role );
 		}
-		else
-			return jf::SQL ( "SELECT `TP`.* FROM {$this->tablePrefix()}rolepermissions AS `TR`
-			RIGHT JOIN {$this->tablePrefix()}permissions AS `TP` ON (`TR`.PermissionID=`TP`.ID)
-			WHERE RoleID=? ORDER BY TP.PermissionID", $Role );
 	}
 }
 
+/** @} */ // End group phprbac_role_manager */
+
 /**
- * RBAC User Manager
- * holds specific operations for users
+ * @defgroup phprbac_user_manager Documentation regarding Rbac User Manager Functionality
+ * @ingroup phprbac
+ * @{
+ *
+ * Documentation regarding Rbac User Manager functionality.
+ *
+ * Rbac User Manager: Contains functionality specific to Users
  *
  * @author abiusx
  * @version 1.0
  */
-class RBACUserManager extends JModel
+class RbacUserManager extends JModel
 {
 	/**
 	 * Checks to see whether a user has a role or not
@@ -680,24 +956,24 @@ class RBACUserManager extends JModel
 	 * @throws RbacUserNotProvidedException
 	 * @return boolean success
 	 */
-	function HasRole($Role, $UserID = null)
+	function hasRole($Role, $UserID = null)
 	{
 	    if ($UserID === null)
 		    throw new \RbacUserNotProvidedException ("\$UserID is a required argument.");
 
-		if (is_int ( $Role ))
+		if (is_numeric ( $Role ))
 		{
 			$RoleID = $Role;
 		}
 		else
 		{
 			if (substr ( $Role, 0, 1 ) == "/")
-				$RoleID = jf::$RBAC->Roles->PathID ( $Role );
+				$RoleID = Jf::$Rbac->Roles->pathId ( $Role );
 			else
-				$RoleID = jf::$RBAC->Roles->TitleID ( $Role );
+				$RoleID = Jf::$Rbac->Roles->titleId ( $Role );
 		}
 
-		$R = jf::SQL ( "SELECT * FROM {$this->tablePrefix()}userroles AS TUR
+		$R = Jf::sql ( "SELECT * FROM {$this->tablePrefix()}userroles AS TUR
 			JOIN {$this->tablePrefix()}roles AS TRdirect ON (TRdirect.ID=TUR.RoleID)
 			JOIN {$this->tablePrefix()}roles AS TR ON (TR.Lft BETWEEN TRdirect.Lft AND TRdirect.Rght)
 
@@ -705,57 +981,69 @@ class RBACUserManager extends JModel
 			TUR.UserID=? AND TR.ID=?", $UserID, $RoleID );
 		return $R !== null;
 	}
+
 	/**
 	 * Assigns a role to a user
 	 *
-	 * @param integer|string $Role
-	 *        	id or path or title
+	 * @param mixed $Role
+	 *        	Id, Path or Title
 	 * @param integer $UserID
 	 *        	UserID (use 0 for guest)
 	 *
 	 * @throws RbacUserNotProvidedException
-	 * @return inserted or existing
+	 * @return boolean inserted or existing
 	 */
-	function Assign($Role, $UserID = null)
+	function assign($Role, $UserID = null)
 	{
-	   if ($UserID === null)
+	    if ($UserID === null)
 		    throw new \RbacUserNotProvidedException ("\$UserID is a required argument.");
 
-		if (is_int ( $Role ))
+		if (is_numeric($Role))
 		{
 			$RoleID = $Role;
-		}
-		else
-		{
-			if (substr ( $Role, 0, 1 ) == "/")
-				$RoleID = jf::$RBAC->Roles->PathID ( $Role );
+		} else {
+			if (substr($Role, 0, 1) == "/")
+				$RoleID = Jf::$Rbac->Roles->pathId($Role);
 			else
-				$RoleID = jf::$RBAC->Roles->TitleID ( $Role );
+				$RoleID = Jf::$Rbac->Roles->titleId($Role);
 		}
-		$res = jf::SQL ( "INSERT INTO {$this->tablePrefix()}userroles
+
+		$res = Jf::sql ( "INSERT INTO {$this->tablePrefix()}userroles
 				(UserID,RoleID,AssignmentDate)
 				VALUES (?,?,?)
-				", $UserID, $RoleID, jf::time () );
+				", $UserID, $RoleID, Jf::time () );
 		return $res >= 1;
 	}
+
 	/**
 	 * Unassigns a role from a user
 	 *
-	 * @param integer $Role
-	 *        	ID
+	 * @param mixed $Role
+	 *        	Id, Title, Path
 	 * @param integer $UserID
 	 *        	UserID (use 0 for guest)
 	 *
 	 * @throws RbacUserNotProvidedException
 	 * @return boolean success
 	 */
-	function Unassign($Role, $UserID = null)
+	function unassign($Role, $UserID = null)
 	{
-	   if ($UserID === null)
-		    throw new \RbacUserNotProvidedException ("\$UserID is a required argument.");
+	    if ($UserID === null)
+	        throw new \RbacUserNotProvidedException ("\$UserID is a required argument.");
 
-		return jf::SQL ( "DELETE FROM {$this->tablePrefix()}userroles
-		WHERE UserID=? AND RoleID=?", $UserID, $Role ) >= 1;
+	    if (is_numeric($Role))
+	    {
+	        $RoleID = $Role;
+
+	    } else {
+
+	        if (substr($Role, 0, 1) == "/")
+	            $RoleID = Jf::$Rbac->Roles->pathId($Role);
+	        else
+	            $RoleID = Jf::$Rbac->Roles->titleId($Role);
+	    }
+
+	    return Jf::sql("DELETE FROM {$this->tablePrefix()}userroles WHERE UserID=? AND RoleID=?", $UserID, $RoleID) >= 1;
 	}
 
 	/**
@@ -768,18 +1056,19 @@ class RBACUserManager extends JModel
 	 * @return array null
 	 *
 	 */
-	function AllRoles($UserID = null)
+	function allRoles($UserID = null)
 	{
 	   if ($UserID === null)
 		    throw new \RbacUserNotProvidedException ("\$UserID is a required argument.");
 
-		return jf::SQL ( "SELECT TR.*
+		return Jf::sql ( "SELECT TR.*
 			FROM
 			{$this->tablePrefix()}userroles AS `TRel`
 			JOIN {$this->tablePrefix()}roles AS `TR` ON
 			(`TRel`.RoleID=`TR`.ID)
 			WHERE TRel.UserID=?", $UserID );
 	}
+
 	/**
 	 * Return count of roles for a user
 	 *
@@ -788,12 +1077,12 @@ class RBACUserManager extends JModel
 	 * @throws RbacUserNotProvidedException
 	 * @return integer
 	 */
-	function RoleCount($UserID = null)
+	function roleCount($UserID = null)
 	{
 		if ($UserID === null)
 		    throw new \RbacUserNotProvidedException ("\$UserID is a required argument.");
 
-		$Res = jf::SQL ( "SELECT COUNT(*) AS Result FROM {$this->tablePrefix()}userroles WHERE UserID=?", $UserID );
+		$Res = Jf::sql ( "SELECT COUNT(*) AS Result FROM {$this->tablePrefix()}userroles WHERE UserID=?", $UserID );
 		return (int)$Res [0] ['Result'];
 	}
 
@@ -805,219 +1094,25 @@ class RBACUserManager extends JModel
 	 *        	must set or throws error
 	 * @return number of deleted relations
 	 */
-	function ResetAssignments($Ensure = false)
+	function resetAssignments($Ensure = false)
 	{
 		if ($Ensure !== true)
 		{
 			throw new \Exception ("You must pass true to this function, otherwise it won't work.");
 			return;
 		}
-		$res = jf::SQL ( "DELETE FROM {$this->tablePrefix()}userroles" );
+		$res = Jf::sql ( "DELETE FROM {$this->tablePrefix()}userroles" );
 
-		$Adapter = get_class(jf::$Db);
+		$Adapter = get_class(Jf::$Db);
 		if ($this->isMySql())
-			jf::SQL ( "ALTER TABLE {$this->tablePrefix()}userroles AUTO_INCREMENT =1 " );
+			Jf::sql ( "ALTER TABLE {$this->tablePrefix()}userroles AUTO_INCREMENT =1 " );
 		elseif ($this->isSQLite())
-			jf::SQL ( "delete from sqlite_sequence where name=? ", $this->tablePrefix () . "_userroles" );
+			Jf::sql ( "delete from sqlite_sequence where name=? ", $this->tablePrefix () . "_userroles" );
 		else
-			throw new \Exception ("RBAC can not reset table on this type of database: {$Adapter}");
-		$this->Assign ( "root", 1 /* root user */ );
+			throw new \Exception ("Rbac can not reset table on this type of database: {$Adapter}");
+		$this->assign ( "root", 1 /* root user */ );
 		return $res;
 	}
 }
 
-
-/**
- * RBACManager class, provides NIST Level 2 Standard Hierarchical Role Based
- * Access Control
- * Has three members, Roles, Users and Permissions for specific operations
- *
- * @author abiusx
- * @version 1.0
- */
-class RBACManager extends JModel
-{
-	function __construct()
-	{
-		$this->Users = new RBACUserManager ();
-		$this->Roles = new RoleManager ();
-		$this->Permissions = new PermissionManager ();
-	}
-	/**
-	 *
-	 * @var \jf\PermissionManager
-	 */
-	public $Permissions;
-	/**
-	 *
-	 * @var \jf\RoleManager
-	 */
-	public $Roles;
-	/**
-	 *
-	 * @var \jf\RBACUserManager
-	 */
-	public $Users;
-
-
-	/**
-	 * Assign a role to a permission.
-	 * Alias for what's in the base class
-	 *
-	 * @param string|integer $Role
-	 *        	path or string title or integer id
-	 * @param string|integer $Permission
-	 *        	path or string title or integer id
-	 * @return boolean
-	 */
-	function Assign($Role, $Permission)
-	{
-		if (is_int ( $Permission ))
-		{
-			$PermissionID = $Permission;
-		}
-		else
-		{
-			if (substr ( $Permission, 0, 1 ) == "/")
-				$PermissionID = $this->Permissions->PathID ( $Permission );
-			else
-				$PermissionID = $this->Permissions->TitleID ( $Permission );
-		}
-		if (is_int ( $Role ))
-		{
-			$RoleID = $Role;
-		}
-		else
-		{
-			if (substr ( $Role, 0, 1 ) == "/")
-				$RoleID = $this->Roles->PathID ( $Role );
-			else
-				$RoleID = $this->Roles->TitleID ( $Role );
-		}
-
-		return $this->Roles->Assign ( $RoleID, $PermissionID );
-	}
-
-	/**
-	 * Prepared statement for check query
-	 *
-	 * @var BaseDatabaseStatement
-	 */
-	private $ps_Check = null;
-
-	/**
-	 * Checks whether a user has a permission or not.
-	 *
-	 * @param string|integer $Permission
-	 *        	you can provide a path like /some/permission, a title, or the
-	 *        	permission ID.
-	 *        	in case of ID, don't forget to provide integer (not a string
-	 *        	containing a number)
-	 * @param string|integer $UserID
-	 *        	User ID of a user
-	 *
-	 * @throws RbacPermissionNotFoundException
-	 * @throws RbacUserNotProvidedException
-	 * @return boolean
-	 */
-	function Check($Permission, $UserID = null)
-	{
-	    if ($UserID === null)
-	        throw new \RbacUserNotProvidedException ("\$UserID is a required argument.");
-
-		// convert permission to ID
-		if (is_int ( $Permission ))
-		{
-			$PermissionID = $Permission;
-		}
-		else
-		{
-			if (substr ( $Permission, 0, 1 ) == "/")
-				$PermissionID = $this->Permissions->PathID ( $Permission );
-			else
-				$PermissionID = $this->Permissions->TitleID ( $Permission );
-		}
-
-		// if invalid, throw exception
-		if ($PermissionID === null)
-			throw new RbacPermissionNotFoundException ( "The permission '{$Permission}' not found." );
-
-		if ($this->isSQLite())
-		{
-			$LastPart="AS Temp ON ( TR.ID = Temp.RoleID)
- 							WHERE
- 							TUrel.UserID=?
- 							AND
- 							Temp.ID=?";
-		}
-		else //mysql
-		{
-			$LastPart="ON ( TR.ID = TRel.RoleID)
- 							WHERE
- 							TUrel.UserID=?
- 							AND
- 							TPdirect.ID=?";
-		}
-		$Res=jf::SQL ( "SELECT COUNT(*) AS Result
- 							FROM
- 							{$this->tablePrefix()}userroles AS TUrel
-
- 							JOIN {$this->tablePrefix()}roles AS TRdirect ON (TRdirect.ID=TUrel.RoleID)
- 							JOIN {$this->tablePrefix()}roles AS TR ON ( TR.Lft BETWEEN TRdirect.Lft AND TRdirect.Rght)
- 							JOIN
-	 							(	{$this->tablePrefix()}permissions AS TPdirect
-	 							JOIN {$this->tablePrefix()}permissions AS TP ON ( TPdirect.Lft BETWEEN TP.Lft AND TP.Rght)
-	 							JOIN {$this->tablePrefix()}rolepermissions AS TRel ON (TP.ID=TRel.PermissionID)
-						) $LastPart",
-				$UserID, $PermissionID );
-
-		return $Res [0] ['Result'] >= 1;
-	}
-
-	/**
-	 * Enforce a permission on a user
-	 *
-	 * @param string|integer $Permission
-	 *        	path or title or ID of permission
-	 *
-	 * @param integer $UserID
-	 *
-	 * @throws RbacUserNotProvidedException
-	 */
-	function Enforce($Permission, $UserID = null)
-	{
-		if ($UserID === null)
-	        throw new \RbacUserNotProvidedException ("\$UserID is a required argument.");
-
-		if (! $this->Check($Permission, $UserID)) {
-		    header('HTTP/1.1 403 Forbidden');
-            die("<strong>Forbidden</strong>: You do not have permission to access this resource.");
-		}
-
-		return true;
-	}
-
-	/**
-	 * Remove all roles, permissions and assignments
-	 * mostly used for testing
-	 *
-	 * @param boolean $Ensure
-	 *        	must set or throws error
-	 * @return boolean
-	 */
-	function Reset($Ensure = false)
-	{
-		if ($Ensure !== true)
-		{
-			throw new \Exception ("You must pass true to this function, otherwise it won't work.");
-			return;
-		}
-		$res = true;
-		$res = $res and $this->Roles->ResetAssignments ( true );
-		$res = $res and $this->Roles->Reset ( true );
-		$res = $res and $this->Permissions->Reset ( true );
-		$res = $res and $this->Users->ResetAssignments ( true );
-		return $res;
-	}
-}
-
+/** @} */ // End group phprbac_user_manager */

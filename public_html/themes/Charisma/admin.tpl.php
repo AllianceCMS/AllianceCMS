@@ -212,7 +212,7 @@
     		</div>
 
     		<footer>
-    			<p class="pull-left">&copy; 2012 - 2013 <a href="http://www.alliancecms.com" target="_blank">AllianceCMS</a>. All rights reserved.</p>
+    			<p class="pull-left">&copy; 2012 - 2014 <a href="http://www.alliancecms.com" target="_blank">AllianceCMS</a>. All rights reserved.</p>
     			<p class="pull-right">Brought to you by: <a id="poweredBy" href="http://www.jbwebware.com" target="_blank" title="jbWebWare.com: Bringing The Web To You!">jbWebWare.com</a> - Bringing The Web To You!</p>
     		</footer>
 
