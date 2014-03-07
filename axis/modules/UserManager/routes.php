@@ -1,5 +1,5 @@
 <?php
-
+/*
 $moduleRoutes['UserManager']['Login Block'] = [
     'name' => 'login_block', // Required: Route name
     'path' => '', // Required: Route path
@@ -51,3 +51,4 @@ $moduleRoutes['UserManager']['Logout Attempt'] = [
         ] // Required: namespace/controller/action
     ]
 ];
+//*/
