@@ -1,14 +1,5 @@
 <?php
 /**
- * Create directory separator for file system paths
- */
-/*
-if (!defined('DS')) {
-    define('DS', strtoupper(substr(PHP_OS, 0, 3) == 'WIN') ? '\\' : '/');
-}
-//*/
-
-/**
  * Setup base url
  */
 
@@ -89,18 +80,6 @@ define('ZONES', BASE_DIR . 'zones' . DIRECTORY_SEPARATOR);
 define('PUBLIC_HTML', BASE_DIR . 'public_html' . DIRECTORY_SEPARATOR . $subDomainFolder);
 
 /**
- * Resource folder locations
- */
-
-define('RESOURCE_PATH', PUBLIC_HTML . 'resources' . DIRECTORY_SEPARATOR);
-define('RESOURCE_URL', BASE_URL . '/resources/');
-
-/*
-echo '<br />RESOURCE_URL is: ' . RESOURCE_URL . '<br />';
-exit;
-//*/
-
-/**
  * System folder locations
  */
 
@@ -121,6 +100,13 @@ define('PACKAGE_AURA_SESSION', PACKAGES . 'Aura.Session' . DIRECTORY_SEPARATOR);
  */
 
 define('MODULES_AXIS', AXIS . 'modules' . DIRECTORY_SEPARATOR);
+
+/**
+ * Resource folder locations
+ */
+
+define('RESOURCE_PATH', PUBLIC_HTML . 'resources' . DIRECTORY_SEPARATOR);
+define('RESOURCE_URL', BASE_URL . '/resources/');
 
 /*
  * Domain/Subdomain module folder locations
