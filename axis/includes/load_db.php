@@ -27,7 +27,7 @@ if (file_exists(DBCONNFILE)) {
 
         include_once(BASE_DIR . 'axis/modules/Install/routes.php');
 
-        $acmsLoader->add('Install\\', MODULES_AXIS);
+        $acmsLoader->addPrefix('Install', MODULES_AXIS);
 
         $installRoutes = require PACKAGES . 'Aura.Router/scripts/instance.php';
 

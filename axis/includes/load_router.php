@@ -60,7 +60,7 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
         if ($loadModule) {
             if (file_exists($module_path . $module_folder_name . DIRECTORY_SEPARATOR . 'routes.php')) {
                 include_once($module_path . $module_folder_name . DIRECTORY_SEPARATOR . 'routes.php');
-                $acmsLoader->add($module_folder_name . '\\', $module_path);
+                $acmsLoader->addPrefix($module_folder_name . '\\', $module_path);
             }
         }
     }
