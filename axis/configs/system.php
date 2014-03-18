@@ -88,12 +88,10 @@ define('INCLUDES', AXIS . 'includes' . DIRECTORY_SEPARATOR);
 define('TESTS', AXIS . 'tests' . DIRECTORY_SEPARATOR);
 
 /**
- * Package locations
+ * Vendor locations
  */
 
-define('PACKAGES', AXIS . 'packages' . DIRECTORY_SEPARATOR);
-define('PACKAGE_ACMS_CORE', PACKAGES . 'Acms.Core' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Acms' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR);
-define('PACKAGE_AURA_SESSION', PACKAGES . 'Aura.Session' . DIRECTORY_SEPARATOR);
+define('VENDOR', AXIS . 'vendor' . DIRECTORY_SEPARATOR);
 
 /**
  * Axis module/theme folder locations

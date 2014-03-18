@@ -29,7 +29,7 @@ if (file_exists(DBCONNFILE)) {
 
         $acmsLoader->addPrefix('Install', MODULES_AXIS);
 
-        $installRoutes = require PACKAGES . 'Aura.Router/scripts/instance.php';
+        $installRoutes = require VENDOR . 'aura/router/scripts/instance.php';
 
         // @todo: The next two 'if' statements should be a class method
         if (isset($moduleRoutes)) {

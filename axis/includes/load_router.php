@@ -15,7 +15,7 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
 } else {
 
     // Initialize Aura.Router
-    $mapRoutes = require PACKAGES . 'Aura.Router/scripts/instance.php';
+    $mapRoutes = require VENDOR . 'aura/router/scripts/instance.php';
 
     /**
      * Query Db and find out which modules are installed

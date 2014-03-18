@@ -4,14 +4,14 @@
 
 **Code Libraries**
 
-* Aura.Autoload 1.0.1-0 - http://auraphp.com/Aura.Autoload/
 * Aura.Router 1.1.0-0 - http://auraphp.com/Aura.Router/
 * Aura.Session 1.0.0-0 - http://auraphp.com/Aura.Session/
 * Aura.Sql 1.1.0-0 - http://auraphp.com/Aura.Sql/
 * PhpRbac 2.0 - https://github.com/OWASP/rbac
-* Symfony Components 2.3
-    * Filesystem 2.3.5 - http://symfony.com/doc/2.3/components/filesystem.html
-    * Finder 2.3.5 - http://symfony.com/doc/2.3/components/finder.html
+* Symfony Components 2.4
+    * ClassLoader v2.4.2 - http://symfony.com/doc/2.4/components/class_loader/introduction.html
+    * Filesystem v2.4.2 - http://symfony.com/doc/2.4/components/filesystem.html
+    * Finder v2.4.2 - http://symfony.com/doc/2.4/components/finder.html
 
 **Front End Tools**
 
