@@ -6,6 +6,7 @@
         "symfony/class-loader": "v2.4.2",
         "symfony/config": "v2.4.2",
         "symfony/debug": "v2.4.2",
+        "symfony/dependency-injection": "v2.4.2",
         "symfony/event-dispatcher": "v2.4.2",
         "symfony/filesystem": "v2.4.2",
         "symfony/finder": "v2.4.2",
