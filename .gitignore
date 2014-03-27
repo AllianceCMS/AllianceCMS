@@ -10,10 +10,8 @@
 *Component*
 *svn*
 *git*
-API/*
 *phpdoc-*
 *phpdoc_output*
-Doxygen_Docs/*
 nbproject/*
 zones/*.*.com
 zones/*localhost*
