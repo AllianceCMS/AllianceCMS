@@ -1,19 +1,27 @@
 <?php
-namespace Acms\Core\EventDispatcher\EventListener;
+namespace Acms\Core\System\EventListener;
 
-//use Acms\Core\EventDispatcher\Event\GetResponseEvent;
-use Acms\Core\Paths\FileSystemPaths;
+use Acms\Core\System\PathContext;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class PathsListener implements EventSubscriberInterface
+class PathContextListener implements EventSubscriberInterface
 {
-    public function __construct(FileSystemPaths $fileSystemPaths)
+    public function __construct(PathContext $pathContext)
     {
+        /*
+        echo '<br /><pre>$context_listener: ';
+        echo var_dump($context);
+        echo '</pre><br />';
+        //exit;
+        //*/
+
+        //$pathContext = new $context();
+
         //*
-        echo '<br /><pre>$fileSystemPaths: ';
-        echo var_dump($fileSystemPaths);
+        echo '<br /><pre>$pathContext_listener: ';
+        echo var_dump($pathContext);
         echo '</pre><br />';
         //exit;
         //*/
@@ -22,12 +30,12 @@ class PathsListener implements EventSubscriberInterface
     public function onRequest(GetResponseEvent $event)
     {
 
-        //*
+        /*
         echo '<br />I am here: ' . __FILE__ . ': ' . __LINE__ . '<br />';
         //exit;
         //*/
 
-        //*
+        /*
         echo '<br /><pre>$event: ';
         echo var_dump($event);
         echo '</pre><br />';
@@ -35,6 +43,15 @@ class PathsListener implements EventSubscriberInterface
         //*/
 
         $request = $event->getRequest();
+
+
+        /*
+        echo '<br /><pre>$request: ';
+        echo var_dump($request);
+        echo '</pre><br />';
+        exit;
+        //*/
+
 
         $baseDir = dirname(dirname(dirname(__DIR__)));
 
@@ -46,23 +63,12 @@ class PathsListener implements EventSubscriberInterface
         echo '</pre><br />';
         exit;
         //*/
-
-        /*
-        $response = $event->getResponse();
-        $headers = $response->headers;
-
-        if (!$headers->has('Content-Length') && !$headers->has('Transfer-Encoding')) {
-            $headers->set('Content-Length', strlen($response->getContent()));
-        }
-        //*/
-
-
     }
 
     public static function getSubscribedEvents()
     {
 
-        //*
+        /*
         echo '<br />I am here: ' . __FILE__ . ': ' . __LINE__ . '<br />';
         //exit;
         //*/

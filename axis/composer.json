@@ -13,6 +13,7 @@
         "symfony/http-foundation": "v2.4.2",
         "symfony/http-kernel": "v2.4.2",
         "symfony/routing": "v2.4.2",
-        "symfony/security": "v2.4.2"
+        "symfony/security": "v2.4.2",
+        "symfony/yaml": "v2.4.2"
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Acms\Core\EventDispatcher;
+namespace Acms\Core\EventDispatcher\Event;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -10,9 +10,10 @@
 
 error_reporting(-1);
 
-require_once ('includes/autoload.php');
-require_once ('configs/system.php');
-//require_once (AXIS . 'front.php');
+require_once (__DIR__ . '/includes/autoload.php');
+require_once (__DIR__ . '/configs/system.php');
+require_once (__DIR__ . '/front.php');
+/*
 require_once (INCLUDES . 'load_db.php');
 require_once (INCLUDES . 'load_user.php');
 require_once (INCLUDES . 'load_router.php');
@@ -21,3 +22,4 @@ require_once (INCLUDES . 'load_templates.php');
 //require_once (INCLUDES . 'load_http_kernel.php');
 require_once (INCLUDES . 'load_dispatcher.php');
 require_once (INCLUDES . 'test_code.php');
+//*/

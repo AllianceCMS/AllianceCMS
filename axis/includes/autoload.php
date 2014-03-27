@@ -21,6 +21,7 @@ $acmsLoader = new ClassLoader();
 $acmsLoader->addPrefixes([
     'Acms\\Core' => $vendorDir . '/acms/src/',
     'PhpRbac' => $vendorDir . '/PhpRbac/src/',
+    'Home' => $baseDir . '/axis/modules/',
 ]);
 
 $acmsLoader->register();
