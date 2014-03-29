@@ -1,17 +1,7 @@
 <?php
 
-$baseDir = dirname(dirname(dirname(__FILE__)));
-$vendorDir = $baseDir . '/axis/vendor';
-
-/*
-echo '<br />$baseDir is: ' . $baseDir . '<br />';
-//exit;
-//*/
-
-/*
-echo '<br />$vendorDir is: ' . $vendorDir . '<br />';
-//exit;
-//*/
+$rootDir = dirname(dirname(dirname(__FILE__)));
+$vendorDir = $rootDir . '/axis/vendor';
 
 require_once $vendorDir . '/autoload.php';
 use Symfony\Component\ClassLoader\ClassLoader;
@@ -21,7 +11,7 @@ $acmsLoader = new ClassLoader();
 $acmsLoader->addPrefixes([
     'Acms\\Core' => $vendorDir . '/acms/src/',
     'PhpRbac' => $vendorDir . '/PhpRbac/src/',
-    'Home' => $baseDir . '/axis/modules/',
+    'Home' => $rootDir . '/axis/modules/',
 ]);
 
 $acmsLoader->register();

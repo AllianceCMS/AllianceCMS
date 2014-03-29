@@ -1,5 +1,5 @@
 <?php
-namespace Acms\Core\Calendar\Controller;
+namespace Acms\Core\ErrorHandler\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\FlattenException;

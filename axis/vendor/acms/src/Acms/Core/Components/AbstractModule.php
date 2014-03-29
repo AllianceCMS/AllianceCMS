@@ -3,6 +3,7 @@ namespace Acms\Core\Components;
 
 use Acms\Core\Html\FormHelper;
 use Acms\Core\Html\HtmlHelper;
+use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractModule
 {
@@ -20,8 +21,30 @@ abstract class AbstractModule
     protected $htmlHelper;
     protected $customHeaders;
 
-    public function __construct($axis)
+    public function __construct(Request $request, \stdClass $axis)
     {
+        $rootDir = $request->systemPaths->get('dir.root');
+
+        //*
+        echo '<br />$rootDir is: ' . $rootDir . '<br />';
+        //exit;
+        //*/
+
+        //*
+        echo '<br /><pre>$request_AbstractModule: ';
+        echo var_dump($request);
+        echo '</pre><br />';
+        //exit;
+        //*/
+
+        //*
+        echo '<br /><pre>$axis_AbstractModule: ';
+        echo var_dump($axis);
+        echo '</pre><br />';
+        //exit;
+        //*/
+
+        /*
         $this->axis = $axis;
 
         $this->acmsLoader = $axis->acmsLoader;
@@ -35,6 +58,7 @@ abstract class AbstractModule
 
         $this->formHelper = new FormHelper($this->basePath);
         $this->htmlHelper = new HtmlHelper($this->basePath);
+        //*/
     }
 
     public function getThisObject()

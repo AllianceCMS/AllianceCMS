@@ -13,17 +13,17 @@ class FilesystemBag extends ParameterBag
     /**
      * Constructor.
      *
-     * @param string $baseDir A string containing the path of the base directory (i.e. /path/to/AllianceCMS)
+     * @param string $rootDir A string containing the path of the base directory (i.e. /path/to/AllianceCMS)
      *
      * @api
      */
-    public function __construct($baseDir = null)
+    public function __construct($rootDir = null)
     {
-        $this->setPaths($baseDir);
+        $this->setPaths($rootDir);
     }
 
     /**
-     * Parses $baseDir to create filesystem parameters
+     * Parses $rootDir to create filesystem parameters
      *
      * Parameters:
      *      dir.current - was THIS_DIR
@@ -43,10 +43,10 @@ class FilesystemBag extends ParameterBag
      *      file.current - was THIS_FILE
      *      file.db_conn
      */
-    public function setPaths($baseDir = null)
+    public function setPaths($rootDir = null)
     {
         //*
-        echo '<br />$baseDir_bag is: ' . $baseDir . '<br />';
+        echo '<br />$rootDir_bag is: ' . $rootDir . '<br />';
         //exit;
         //*/
 

@@ -7,7 +7,10 @@ $collection->add(
     'homepage',
     new Route(
         '/', // path
-        array('_controller' => 'Home\\DisplayPage::homeFrontPage'), // default values
+        array(
+            '_controller' => 'Home\\DisplayPage::homeFrontPage',
+            'axis' => 'axisObject'
+        ), // default values
         array(), // requirements
         array(), // options
         '', // host

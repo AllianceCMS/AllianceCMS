@@ -14,12 +14,17 @@ class PathContext
     /**
      * Constructor.
      *
-     * @param string $baseDir       A string containing the path of the base directory (i.e. /path/to/AllianceCMS)
+     * @param string $rootDir       A string containing the path of the base directory (i.e. /path/to/AllianceCMS)
      * @param string $baseUrl       A string containing the base url (i.e. http://www.mysite.com)
      */
-    public function __construct($baseDir = null, $baseUrl = null)
+    public function __construct($rootDir = null, $baseUrl = null)
     {
-        $this->initialize($baseDir, $baseUrl);
+        //*
+        echo '<br />I am here: ' . __FILE__ . ': ' . __LINE__ . '<br />';
+        //exit;
+        //*/
+
+        $this->initialize($rootDir, $baseUrl);
     }
 
     /**
@@ -27,12 +32,12 @@ class PathContext
      *
      * This method also re-initializes all properties.
      *
-     * @param string $baseDir       A string containing the path of the base directory (i.e. /path/to/AllianceCMS)
+     * @param string $rootDir       A string containing the path of the base directory (i.e. /path/to/AllianceCMS)
      * @param string $baseUrl       A string containing the base url (i.e. http://www.mysite.com)
      */
-    public function initialize($baseDir = null, $baseUrl = null)
+    public function initialize($rootDir = null, $baseUrl = null)
     {
-        $this->filesystem = new FilesystemBag($baseDir);
+        $this->filesystem = new FilesystemBag($rootDir);
         $this->url = new UrlBag($baseUrl);
     }
 }
