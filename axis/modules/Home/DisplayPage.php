@@ -10,7 +10,7 @@ class DisplayPage extends AbstractModule
     function homeFrontPage($axis = null)
     {
 
-        //*
+        /*
         echo '<br /><pre>$axis_homeFrontPage: ';
         echo var_dump($axis);
         echo '</pre><br />';
@@ -48,6 +48,6 @@ class DisplayPage extends AbstractModule
         $content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/main.tpl.php');
 
         //return $content;
-        return new Response('What up!');
+        return new Response('<p>Greetings from your favorite home page!!!</p>');
     }
 }

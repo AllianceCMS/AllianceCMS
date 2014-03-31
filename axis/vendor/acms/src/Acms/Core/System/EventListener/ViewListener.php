@@ -1,7 +1,6 @@
 <?php
 namespace Acms\Core\System\EventListener;
 
-use Acms\Core\System\Event\SystemInitEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;

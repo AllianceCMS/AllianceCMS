@@ -19,6 +19,7 @@ return array(
     'Symfony\\Component\\Config\\' => array($vendorDir . '/symfony/config'),
     'Symfony\\Component\\ClassLoader\\' => array($vendorDir . '/symfony/class-loader'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
+    'Pimple' => array($vendorDir . '/pimple/pimple/lib'),
     'Aura\\Sql' => array($vendorDir . '/aura/sql/src'),
     'Aura\\Session' => array($vendorDir . '/aura/session/src'),
     'Aura\\Router' => array($vendorDir . '/aura/router/src'),

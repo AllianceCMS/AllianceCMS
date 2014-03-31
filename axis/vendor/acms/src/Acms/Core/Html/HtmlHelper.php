@@ -5,7 +5,7 @@
  */
 
 /**
- * @defgroup HtmlHelpers HTML Helpers
+ * @defgroup AcmsHtmlHelpers HTML Helpers
  * @{
  * Documentation for all HTML Helper related functionality.
  * @}
@@ -13,13 +13,15 @@
 
 /**
  *
- * @defgroup HtmlHelper HtmlHelper Functionality
- * @ingroup HtmlHelpers
+ * @defgroup AcmsHtmlHelper HtmlHelper Functionality
+ * @ingroup AcmsHtmlHelpers
  * @{
  *
  * Documentation for HtmlHelper Class
  *
  */
+
+namespace Acms\Core\Html;
 
 /**
  * Class HtmlHelper
@@ -31,8 +33,6 @@
  * Improve Security by Validating Input and Escape Output on the fly
  *
  */
-
-namespace Acms\Core\Html;
 
 class HtmlHelper
 {
@@ -123,5 +123,5 @@ class HtmlHelper
     }
 }
 
-/** @} */ // End group HtmlHelper */
+/** @} */ // End group AcmsHtmlHelper */
 

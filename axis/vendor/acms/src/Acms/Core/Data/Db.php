@@ -5,11 +5,14 @@
  */
 
 /**
- * @defgroup database Database Abstraction Layer
+ * @defgroup AcmsDatabase Database Abstraction Layer
  * @{
  * Documentation for all Database related functionality.
  */
 
+/**
+ * @namespace
+ */
 namespace Acms\Core\Data;
 
 /**
@@ -20,8 +23,10 @@ namespace Acms\Core\Data;
  * The routines here define the methods and properties needed to handle database connectivity and functionality.
  *
  * We use Aura.Sql for minor database abstraction. The available databases (at this time) are: MySQL
+ *
+ * @todo: Possibly add the following methods:
+ *      * dbQuery($queryString, $queryBindValues = null) - Query the database with custom query string
  */
-
 class Db
 {
 
@@ -468,7 +473,7 @@ class Db
         return $result;
     }
 
-    /**
+    /*
      * Query the database with custom query string
      *
      * @param string $queryString
@@ -906,4 +911,4 @@ class Db
     }
 }
 
-/** @} */ // End group database */
+/** @} */ // End group AcmsDatabase */

@@ -23,21 +23,21 @@ abstract class AbstractModule
 
     public function __construct(Request $request, \stdClass $axis)
     {
-        $rootDir = $request->systemPaths->get('dir.root');
+        $acmsBaseDir = $request->systemPaths->get('dir.base');
 
-        //*
-        echo '<br />$rootDir is: ' . $rootDir . '<br />';
+        /*
+        echo '<br />$acmsBaseDir is: ' . $acmsBaseDir . '<br />';
         //exit;
         //*/
 
-        //*
+        /*
         echo '<br /><pre>$request_AbstractModule: ';
         echo var_dump($request);
         echo '</pre><br />';
         //exit;
         //*/
 
-        //*
+        /*
         echo '<br /><pre>$axis_AbstractModule: ';
         echo var_dump($axis);
         echo '</pre><br />';

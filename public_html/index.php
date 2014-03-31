@@ -5,60 +5,82 @@
  * If PHP version is < 5.4.0 display error message and halt execution.
  */
 
-if (phpversion() < '5.4.0'): ?>
-    <h1>AllianceCMS: Error</h1>
-    <h2>
-        <span style="color: red;">There are one or more errors that will prevent you from installing and using AllianceCMS</span>
-    </h2>
-
-    <p>
-        Current PHP version: <strong><?php echo phpversion(); ?></strong>
-    </p>
-    <p>
-        Required PHP version: <strong>5.4+</strong>
-    </p>
-    <p>
-        Please talk to your system administrator about upgrading your PHP server software before continuing...
-    </p>
-    <?php
-    
-    exit;
-endif;
-
-/**
- * Try to locate and require hub.php automatically
- */
-
-if (file_exists(dirname(__dir__) . ('/axis/hub.php'))):
-    $subDomainFolder = null;
-    require_once (dirname(__dir__) . ('/axis/hub.php'));
-elseif (dirname(dirname(__dir__)) . ('/axis/hub.php')):
-    if ((count($serverNameArray = explode('.', $_SERVER['SERVER_NAME']))) > 2) {
-        $subDomainFolder = $serverNameArray[0];
+try {
+    if (phpversion() < '5.4.0') {
+        throw new Exception('AllianceCMS requires PHP v5.4+');
     }
-    require_once (dirname(dirname(__dir__)) . ('/axis/hub.php'));
-else:
-    // Can't find hub.php, display error message
-?>
-    <p>
-        You may have a problem with your folder structure. You may have placed the AllianceCMS installation folders in the wrong place, please check your installation carefully.
-    </p>
-    <p>
-        You may also have a non-standard folder structure. If that is the case, please alter index.php and manually include the file /axis/hub.php.
-    </p>
-    <p>
-        <strong>NEVER, NEVER, NEVER PLACE THE 'axis' OR 'zones' FOLDERS INSIDE THE DOCUMENT ROOT OF YOUR WEB SERVER!!!</strong>
-    </p>
-<?php
-endif;
+} catch(Exception $e) {
+    echo '<p>System Error!</p>' .
+        '<p>Location: ' . $e->getFile() . ': ' . $e->getLine() . '</p>' .
+        '<p>Error message: ' . $e->getMessage() . '</p>';
+    exit;
+}
 
 /**
- * Directory path for non-standard directory structure
- *     Domain: docs.mysite.com
- *     Folder Structure: /home/username/docs
+ * Directory path for a non-standard directory structure
+ *      Example:
+ *          Domain: docs.mysite.com
+ *          Location of AllianceCMS folder: /home/username/AllianceCMS
+ *          Location of subdomain folder: /home/username/public_html/domains/docs
  *
- *     Comment the above if statements, uncomment the following statements and make sure to read the comments
+ *          $acmsBaseDir = '/home/username/AllianceCMS';
+ *          $subDomainFolder = 'docs'
+ *
+ *
+ *     Uncomment the following statements and make sure to read the above example
  */
 
-//$subDomainFolder = ''; // Enter subdomain folder name (i.e $subDomainFolder = 'docs';)
-//require_once (dirname(dirname(__dir__)) . ('/axis/hub.php')); // Change location to include hub.php if needed
+/*
+$acmsBaseDir = '/path/to/AllianceCMS'; // No trailing slash
+$subDomainFolder = ''; // Enter subdomain folder name (i.e $subDomainFolder = 'docs';)
+*/
+
+/**
+ * Attempt to automatically locate both AllianceCMS's base directory and the subdomain folder name (if one exists)
+ */
+
+try {
+    if (file_exists(dirname(__DIR__) . '/axis')) {
+
+        $acmsBaseDir = dirname(__DIR__);
+        $subDomainFolder = '';
+
+    } elseif (file_exists(dirname(dirname(__DIR__)) . '/axis')) {
+
+        $acmsBaseDir = dirname(dirname(__DIR__));
+
+        if ((count($serverNameArray = explode('.', $_SERVER['SERVER_NAME']))) > 2) {
+            $subDomainFolder = '/' . $serverNameArray[0];
+        } else {
+            $subDomainFolder = '/' . basename(__DIR__, __FILE__);
+        }
+
+    } else {
+        if (!isset($acmsBaseDir) || empty($acmsBaseDir)) {
+            throw new Exception('Can not locate base directory');
+        }
+
+    }
+} catch(Exception $e) {
+    echo '<p>System Error!</p>' .
+        '<p>Location: ' . $e->getFile() . ': ' . $e->getLine() . '</p>' .
+        '<p>Error message: ' . $e->getMessage() . '</p>';
+    exit;
+}
+
+/**
+ * Attempt to include /path/to/AllianceCMS/axis/hub.php
+ */
+
+try {
+    if (file_exists($acmsBaseDir . '/axis/hub.php')) {
+        require_once ($acmsBaseDir . '/axis/hub.php');
+    } else {
+        throw new Exception('Can not locate hub.php');
+    }
+} catch(Exception $e) {
+    echo '<p>System Error!</p>' .
+        '<p>Location: ' . $e->getFile() . ': ' . $e->getLine() . '</p>' .
+        '<p>Error message: ' . $e->getMessage() . '</p>';
+    exit;
+}

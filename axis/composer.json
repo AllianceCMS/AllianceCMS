@@ -1,19 +1,21 @@
 {
-    "require": {
-        "aura/router": "1.1.0",
-        "aura/session": "1.0.0",
-        "aura/sql": "1.1.0",
-        "symfony/class-loader": "v2.4.2",
-        "symfony/config": "v2.4.2",
-        "symfony/debug": "v2.4.2",
-        "symfony/dependency-injection": "v2.4.2",
-        "symfony/event-dispatcher": "v2.4.2",
-        "symfony/filesystem": "v2.4.2",
-        "symfony/finder": "v2.4.2",
-        "symfony/http-foundation": "v2.4.2",
-        "symfony/http-kernel": "v2.4.2",
-        "symfony/routing": "v2.4.2",
-        "symfony/security": "v2.4.2",
-        "symfony/yaml": "v2.4.2"
-    }
+	"require" : {
+		"aura/router" : "1.1.0",
+		"aura/session" : "1.0.0",
+		"aura/sql" : "1.1.0",
+		"monolog/monolog": "1.8.0",
+		"pimple/pimple" : "v2.0.0",
+		"symfony/class-loader" : "v2.4.2",
+		"symfony/config" : "v2.4.2",
+		"symfony/debug" : "v2.4.2",
+		"symfony/dependency-injection" : "v2.4.2",
+		"symfony/event-dispatcher" : "v2.4.2",
+		"symfony/filesystem" : "v2.4.2",
+		"symfony/finder" : "v2.4.2",
+		"symfony/http-foundation" : "v2.4.2",
+		"symfony/http-kernel" : "v2.4.2",
+		"symfony/routing" : "v2.4.2",
+		"symfony/security" : "v2.4.2",
+		"symfony/yaml" : "v2.4.2"
+	}
 }

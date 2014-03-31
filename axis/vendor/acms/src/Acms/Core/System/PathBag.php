@@ -13,19 +13,19 @@ class PathBag extends ParameterBag
     /**
      * Constructor.
      *
-     * @param string $rootDir A string containing the path of the base directory (i.e. /path/to/AllianceCMS)
+     * @param string $acmsBaseDir A string containing the path of the base directory (i.e. /path/to/AllianceCMS)
      *
      * @api
      */
     /*
-    public function __construct($rootDir = null)
+    public function __construct($acmsBaseDir = null)
     {
-        $this->setPaths($rootDir);
+        $this->setPaths($acmsBaseDir);
     }
     //*/
 
     /**
-     * Parses $rootDir to create filesystem parameters
+     * Parses $acmsBaseDir to create filesystem parameters
      *
      * Parameters:
      *      dir.current - was THIS_DIR
@@ -45,10 +45,10 @@ class PathBag extends ParameterBag
      *      file.current - was THIS_FILE
      *      file.db_conn
      */
-    public function setPaths($rootDir = null)
+    public function buildPaths($acmsBaseDir = null)
     {
         //*
-        echo '<br />$rootDir_bag is: ' . $rootDir . '<br />';
+        echo '<br />$acmsBaseDir_bag is: ' . $acmsBaseDir . '<br />';
         //exit;
         //*/
 

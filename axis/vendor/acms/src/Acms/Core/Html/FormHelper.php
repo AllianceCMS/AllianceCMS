@@ -4,16 +4,10 @@
  * Form Helper.
  */
 
-/*
- * @todo: Multiple Items
- * - Finish documenting class
- * - Find a way for devs to add errors before calling FormHelper::sendErrors()
- */
-
 /**
  *
- * @defgroup FormHelper FormHelper Functionality
- * @ingroup HtmlHelpers
+ * @defgroup AcmsFormHelper FormHelper Functionality
+ * @ingroup AcmsHtmlHelpers
  * @{
  *
  * Documentation for FormHelper Class
@@ -30,6 +24,16 @@ namespace Acms\Core\Html;
  *     * Create and Setup Forms
  *     * Create and Setup Common Form Input Fields
  *     * Validate form input and send form data back to the form's controller if there are any errors
+ *
+ * @todo: Multiple Items:
+ * * Finish documenting class
+ * * Find a way for devs to add errors before calling FormHelper::sendErrors()
+ * * Possibly add the following methods:
+ *      * inputFormDisplay(): - Accept Form Inputs And Create A Complete Form
+ *      * inputButton() - Create A Form Button
+ *      * inputFile() - Create A File Field Tag
+ *      * inputReset() - Create A Reset Field Tag
+ *      * inputGeneric() - Create A Generic Input Tag
  */
 
 class FormHelper
@@ -100,19 +104,6 @@ class FormHelper
 
         echo $completeTag;
     }
-
-    /*
-     * Accept Form Inputs And Create A Complete Form
-     *
-     * @param array $inputTags
-     * @return string
-     */
-
-    /*
-    public function inputFormDisplay() {
-
-    }
-    //*/
 
     /**
      * Create A Text Field Tag
@@ -411,36 +402,6 @@ class FormHelper
         echo $completeTag;
     }
 
-    /*
-     * Create A Form Button
-     *
-     * @param
-     * @param
-     * @param
-     * @return string
-     */
-
-    /*
-    public function inputButton() {
-
-    }
-    //*/
-
-    /*
-     * Create A File Field Tag
-     *
-     * @param
-     * @param
-     * @param
-     * @return string
-     */
-
-    /*
-    public function inputFile() {
-
-    }
-    //*/
-
     /**
      * Create A Hidden Field Tag
      *
@@ -469,21 +430,6 @@ class FormHelper
 
         echo $completeTag;
     }
-
-    /*
-     * Create A Reset Field Tag
-     *
-     * @param
-     * @param
-     * @param
-     * @return string
-     */
-
-    /*
-    public function inputReset() {
-
-    }
-    //*/
 
     /**
      * Create A Submit Button Tag
@@ -530,21 +476,6 @@ class FormHelper
 
         echo $completeTag;
     }
-
-    /*
-     * Create A Generic Input Tag
-     *
-     * @param
-     * @param
-     * @param
-     * @return string
-     */
-
-    /*
-    public function inputGeneric() {
-
-    }
-    //*/
 
     /**
      * Check if required fields are present in $_POST or $_GET
@@ -792,4 +723,4 @@ class FormHelper
     }
 }
 
-/** @} */ // End group FormHelper */
+/** @} */ // End group AcmsFormHelper */
