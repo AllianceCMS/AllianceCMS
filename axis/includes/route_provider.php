@@ -9,7 +9,7 @@ $collection->add(
         '/', // path
         array(
             '_controller' => 'Home\\DisplayPage::homeFrontPage',
-            'axis' => 'axisObject'
+            //'axis' => 'axisObject'
         ), // default values
         array(), // requirements
         array(), // options

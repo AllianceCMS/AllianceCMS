@@ -1,6 +1,6 @@
 <?php
 use Acms\Core\HttpKernel;
-//use Acms\Core\System\PathBag;
+use Acms\Core\System\PathBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\Reference;
 
@@ -32,7 +32,7 @@ $container->setParameter('routes', $collection);
 //$request->systemPaths = new PathBag();
 //$request->systemPaths->add($pathParameters);
 
-//*
+/*
 echo '<br /><pre>$request: ';
 echo var_dump($request);
 echo '</pre><br />';

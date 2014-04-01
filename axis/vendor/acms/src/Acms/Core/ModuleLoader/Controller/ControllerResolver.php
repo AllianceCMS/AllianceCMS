@@ -1,18 +1,21 @@
 <?php
 namespace Acms\Core\ModuleLoader\Controller;
 
+use Acms\Core\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver as SymfonyControllerResolver;
 
 class ControllerResolver extends SymfonyControllerResolver
 {
+    private $app;
     private $request;
 
-    public function __construct(Request $request)
+    public function __construct(Application $app, LoggerInterface $logger = null)
     {
-        parent::__construct();
+        parent::__construct($logger);
 
-        $this->request = $request;
+        $this->app = $app;
+        $this->request = $app['request'];
     }
 
     /**
@@ -64,14 +67,14 @@ class ControllerResolver extends SymfonyControllerResolver
         //*/
 
         $axis = new \stdClass;
-        $axis->acmsLoader = 'acmsLoader';
-        $axis->basePath = 'basePath';
-        $axis->axisRoute = 'axisRoute';
+        //$axis->acmsLoader = 'acmsLoader';
+        //$axis->basePath = 'basePath';
+        //$axis->axisRoute = 'axisRoute';
         $axis->sessionAxis = 'sessionAxis';
         $axis->segmentUser = 'segmentUser';
         $axis->currentUser = 'currentUser';
 
-        return array(new $class($this->request, $axis), $method);
+        return array(new $class($this->app, $this->request), $method);
     }
 
     protected function doGetArguments(Request $request, $controller, array $parameters)

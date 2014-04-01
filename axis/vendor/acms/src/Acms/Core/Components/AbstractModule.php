@@ -1,6 +1,7 @@
 <?php
 namespace Acms\Core\Components;
 
+use Acms\Core\Application;
 use Acms\Core\Html\FormHelper;
 use Acms\Core\Html\HtmlHelper;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,10 +10,12 @@ abstract class AbstractModule
 {
     protected $moduleName;
 
+    protected $app;
+
     protected $axis;
-    protected $acmsLoader;
-    protected $axisRoute;
-    protected $basePath;
+    //protected $acmsLoader;
+    //protected $axisRoute;
+    //protected $basePath;
     protected $sessionAxis;
     protected $segmentUser;
     protected $currentUser;
@@ -21,9 +24,22 @@ abstract class AbstractModule
     protected $htmlHelper;
     protected $customHeaders;
 
-    public function __construct(Request $request, \stdClass $axis)
+    //public function __construct(Request $request, \stdClass $axis)
+    public function __construct(Application $app, Request $request)
     {
-        $acmsBaseDir = $request->systemPaths->get('dir.base');
+        $this->app = $app;
+        /*
+        $var_array = get_defined_vars();
+        //*/
+
+        /*
+        echo '<br /><pre>$var_array: ';
+        echo var_dump($var_array);
+        echo '</pre><br />';
+        exit;
+        //*/
+
+        //$acmsBaseDir = $request->systemPaths->get('dir.base');
 
         /*
         echo '<br />$acmsBaseDir is: ' . $acmsBaseDir . '<br />';

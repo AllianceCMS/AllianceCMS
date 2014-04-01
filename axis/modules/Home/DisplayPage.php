@@ -7,8 +7,36 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DisplayPage extends AbstractModule
 {
-    function homeFrontPage($axis = null)
+    //function homeFrontPage($axis = null)
+    function homeFrontPage()
     {
+        /*
+        echo '<br /><pre>$this->app["paths"]->all(): ';
+        echo print_r($this->app['paths']->all());
+        echo '</pre><br />';
+        //exit;
+        //*/
+
+        //*
+        echo '<br /><pre>$this->app["request"]->attributes->get("axis"): ';
+        echo print_r($this->app['request']->attributes->get('axis'));
+        echo '</pre><br />';
+        //exit;
+        //*/
+
+        //*
+        echo '<br /><pre>$this->app["request"]: ';
+        echo print_r($this->app['request']);
+        echo '</pre><br />';
+        //exit;
+        //*/
+
+        /*
+        echo '<br /><pre>$this: ';
+        echo var_dump($this);
+        echo '</pre><br />';
+        //exit;
+        //*/
 
         /*
         echo '<br /><pre>$axis_homeFrontPage: ';

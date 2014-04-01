@@ -1,6 +1,6 @@
 <?php
 /**
- * Setup root url, i.e. http://www.mysite.com
+ * Get base url, i.e. http://www.mysite.com
  */
 
 if (isset($_SERVER['HTTPS'])) {
@@ -9,7 +9,8 @@ if (isset($_SERVER['HTTPS'])) {
     $acmsBaseUrl = 'http://' . $_SERVER['SERVER_NAME'];
 }
 
-$zonesDir = $systemPaths['base'] . '/zones';
+//$zonesDir = $systemPaths['dir.base'] . '/zones';
+$zonesDir = $systemPaths['dir.zones'];
 
 /**
  * Domain/Subdomain module folder locations
@@ -35,7 +36,7 @@ if (((count($serverPathArray)) < 3) || ($serverPathArray[0] == 'www')) {
  *     Dynamically load dbConnection.php, dependent on which domain/subdomain we're on
  */
 
-// If this is localhost or main domain (localhost/mysite.com/www.mysite.com)
+// If this is localhost or main domain (localhost or mysite.com or www.mysite.com)
 if (((count($serverPathArray)) < 3) || ($serverPathArray[0] == 'www')) {
 
     $serverName = $_SERVER['SERVER_NAME'];
@@ -54,19 +55,19 @@ if (((count($serverPathArray)) < 3) || ($serverPathArray[0] == 'www')) {
 }
 
 $pathParameters = [
-	//'dir.root' => $systemPaths['base'], // Defined in 'axis/includes/autoload.php
-	//'dir.axis' => $systemPaths['base'] . '/axis',
-	//'dir.public_html' => $systemPaths['base'] . '/public_html' . $subDomainFolder,
-	//'dir.zones' => $systemPaths['base'] . '/zones',
-	'dir.configs' => $systemPaths['base'] . '/axis/configs',
-	'dir.includes' => $systemPaths['base'] . '/axis/includes',
-	'dir.tests' => $systemPaths['base'] . '/axis/tests',
-    'dir.vendor' => $systemPaths['axis'] . '/vendor',
-	'dir.axis_modules' => $systemPaths['base'] . '/axis/modules',
+	//'dir.root' => $systemPaths['dir.base'], // Defined in 'axis/includes/autoload.php
+	//'dir.axis' => $systemPaths['dir.base'] . '/axis',
+	//'dir.public_html' => $systemPaths['dir.base'] . '/public_html' . $subDomainFolder,
+	//'dir.zones' => $systemPaths['dir.base'] . '/zones',
+	//'dir.configs' => $systemPaths['dir.base'] . '/axis/configs',
+	//'dir.includes' => $systemPaths['dir.base'] . '/axis/includes',
+	//'dir.tests' => $systemPaths['dir.base'] . '/axis/tests',
+    //'dir.vendor' => $systemPaths['dir.axis'] . '/vendor',
+	//'dir.axis_modules' => $systemPaths['dir.base'] . '/axis/modules',
 	'dir.zones_modules' => $moduleZones,
-	'dir.resources' => $systemPaths['base'] . '/public_html/resources',
-	'dir.themes' => $systemPaths['base'] . '/public_html/themes',
-	'dir.templates' => $systemPaths['base'] . '/public_html/templates',
+	//'dir.resources' => $systemPaths['dir.base'] . '/public_html/resources',
+	//'dir.themes' => $systemPaths['dir.base'] . '/public_html/themes',
+	//'dir.templates' => $systemPaths['dir.base'] . '/public_html/templates',
 	'file.db_conn' => $dbConnFile,
 	'url.base' => $acmsBaseUrl,
 	'url.resources' => $acmsBaseUrl . '/resources',

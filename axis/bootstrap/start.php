@@ -1,9 +1,21 @@
 <?php
+/*
+$var_array = get_defined_vars();
+//*/
 
-$systemPaths = require_once __DIR__ . '/paths.php';
+/*
+echo '<br /><pre>$var_array: ';
+echo var_dump($var_array);
+echo '</pre><br />';
+exit;
+//*/
 
+$paths['paths']['dir.base'] = $acmsBaseDir;
+$paths['paths']['folder.subdomain'] = $subDomainFolder;
+
+unset($acmsBaseDir);
 unset($subDomainFolder);
 
-require_once __DIR__ . '/system.php';
+$app = new Acms\Core\Application($paths);
 
-require_once $systemPaths['axis'] . '/front.php';
+$app->run();
