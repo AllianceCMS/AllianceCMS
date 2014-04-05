@@ -532,7 +532,7 @@ class FormHelper
                 if (($_POST[$key] != '') && ($_POST[$value] != '')) {
                     if ($_POST[$key] != $_POST[$value]) {
                         $this->errorMatchesTrue = true;
-                        $this->errorMatches .= '/' . $key . 'MatchError.' . intval(1);
+                        $this->errorMatches .= '&' . $key . 'MatchError=' . intval(1);
                     }
                 }
             }
@@ -544,7 +544,7 @@ class FormHelper
                 if (($_GET[$key] != '') && ($_GET[$value] != '')) {
                     if ($_GET[$key] != $_GET[$value]) {
                         $this->errorMatchesTrue = true;
-                        $this->errorMatches .= '/' . $key . 'MatchError.' . intval(1);
+                        $this->errorMatches .= '&' . $key . 'MatchError=' . intval(1);
                     }
                 }
             }
@@ -583,7 +583,7 @@ class FormHelper
                 //if (!preg_match($regex, $_POST[$field])) {
                 if (!preg_match($regex, $_POST[$field])) {
                     $this->errorRegexTrue = 1;
-                    $this->errorRegex .= '/' . $field . 'RegexError.' . intval(1);
+                    $this->errorRegex .= '&' . $field . 'RegexError=' . intval(1);
                 }
             }
         }
@@ -644,10 +644,10 @@ class FormHelper
                 }
 
                 // Convert periods to |_|, and convert / to |-| (if not, URLs will break routing)
-                $this->processedErrors .= '/' . $key . '.' . str_replace('#', '||', str_replace('.', '|_|', str_replace('/', '|-|', $value)));
+                $this->processedErrors .= '&' . $key . '=' . str_replace('#', '||', str_replace('.', '|_|', str_replace('/', '|-|', $value)));
             }
 
-            header('Location: ' . $this->basePath . $route . '/formErrors.' . intval(1) . $this->processedErrors);
+            header('Location: ' . $this->basePath . $route . '?formErrors=' . intval(1) . $this->processedErrors);
             exit;
         } else {
 
@@ -674,7 +674,7 @@ class FormHelper
         if (!empty($error)) {
 
             $this->addErrorTrue = true;
-            $this->addError .= '/' . $error . '.' . intval(1);
+            $this->addError .= '&' . $error . '=' . intval(1);
 
             return true;
         }
@@ -697,26 +697,58 @@ class FormHelper
 
     public function processErrors($formErrors)
     {
+        /*
+        echo '<br /><pre>$formErrors: ';
+        echo print_r($formErrors);
+        echo '</pre><br />';
+        exit;
+        //*/
+
+        /*
         // Break down 'errors' route value into error array
         foreach ($formErrors as $value) {
-            $errorsArray[] = explode('.', $value);
+            $errorsArray[] = explode('=', $value);
         }
+        //*/
 
         // Setup associative array so we can parse it and send it to the template via Template::set()
-        if (isset($errorsArray)) {
+        if (isset($formErrors)) {
+            /*
             foreach ($errorsArray as $valueArray) {
                 // Convert |_| back to periods, and convert |-| back to / (if not, URLs will break routing)
                 $errors[$valueArray[0]] = str_replace('||', '#', str_replace('|_|', '.', str_replace('|-|', '/', $valueArray[1])));
             }
+            //*/
 
+            foreach ($formErrors as $key => $val) {
+                // Convert |_| back to periods, and convert |-| back to / (if not, URLs will break routing)
+                $errors[$key] = str_replace('||', '#', str_replace('|_|', '.', str_replace('|-|', '/', $val)));
+            }
+
+            /*
+            echo '<br /><pre>$errors: ';
+            echo print_r($errors);
+            echo '</pre><br />';
+            //exit;
+            //*/
+
+            /*
             // Setup any form data that's in $errors (since we don't have $_POST)
             foreach($errors as $key => $value) {
                 $formData[$key] = $value;
             }
+            //*/
         }
 
-        if (isset($formData)) {
-            return $formData;
+        /*
+        echo '<br /><pre>$formData: ';
+        echo print_r($formData);
+        echo '</pre><br />';
+        exit;
+        //*/
+
+        if (isset($errors)) {
+            return $errors;
         } else {
             return false;
         }

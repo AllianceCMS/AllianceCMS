@@ -3,6 +3,13 @@
  * Setup $_POST variables for database insertion
  */
 
+/*
+echo '<br /><pre>$this->app["paths"]->all(): ';
+echo var_dump($this->app['paths']->all());
+echo '</pre><br />';
+exit;
+//*/
+
 $dbInsertDatabase       = $_POST['dbDatabase'];
 
 $adminInsertLoginName   = $_POST['adminLoginName'];
@@ -42,7 +49,8 @@ include(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'schemata' . DIRECTORY_SEPARAT
  */
 
 // Create database object
-$sql = new \Acms\Core\Data\Db;
+$sql = $this->app['model'];
+
 // Setup db connection variables
 //     Started this because there was an error if the password was null,
 //     then decided we might as well do this for all $_POST database elements)

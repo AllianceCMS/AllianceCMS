@@ -18,7 +18,7 @@ $data =	 "<?php
  * Support Site: www.alliancecms.com
  * Lead Developer: Jesse Burns (jesse.burns@alliancecms.com)
  *
- * Copyright 2013 AllianceCMS
+ * Copyright 2013-2014 AllianceCMS
  *
  * Licensed under the Apache License, Version 2.0 (the \"License\");
  * you may not use this file except in compliance with the License.
@@ -44,16 +44,30 @@ define('DB_PREFIX', 	'".$_POST['dbDatabasePrefix']."');
 define('DB_ACTIVE', 	'1');
 ";
 
+/*
 if (file_exists(ZONES . $_SERVER['SERVER_NAME'])) {
     $dbConnFile = ZONES . $_SERVER['SERVER_NAME'] . DIRECTORY_SEPARATOR . 'dbConnection.php';
 } else {
     $dbConnFile = DBCONNFILE;
 }
+//*/
 
-file_put_contents($dbConnFile, $data);
+try {
+    //file_put_contents($this->app['paths']->get('file.db_connection'), $data);
+    $filesystem->dumpFile($this->app['paths']->get('file.db_connection'), $data);
+    $dumpFileSuccess = true;
+} catch (IOExceptionInterface $e) {
+    $dumpFileDbConfig = false;
+}
 
 $currentOS = strtoupper(substr(PHP_OS, 0, 3));
 
-if ($currentOS != 'WIN') {
-	chmod($dbConnFile, 0644);
-}
+//if ($currentOS != 'WIN') {
+	//chmod($dbConnFile, 0644);
+	try {
+	    $filesystem->chmod($this->app['paths']->get('file.db_connection'), 0644);
+	    $chmodSuccess = true;
+	} catch (IOExceptionInterface $e) {
+	    $chmodSuccess = false;
+	}
+//}

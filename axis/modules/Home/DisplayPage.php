@@ -3,11 +3,13 @@ namespace Home;
 
 use Acms\Core\Templates\Template;
 use Acms\Core\Components\AbstractModule;
+//*
+// Temporary: Response will be built in the KernelEvents::VIEW listener
 use Symfony\Component\HttpFoundation\Response;
+//*/
 
 class DisplayPage extends AbstractModule
 {
-    //function homeFrontPage($axis = null)
     function homeFrontPage()
     {
         /*
@@ -17,14 +19,14 @@ class DisplayPage extends AbstractModule
         //exit;
         //*/
 
-        //*
+        /*
         echo '<br /><pre>$this->app["request"]->attributes->get("axis"): ';
         echo print_r($this->app['request']->attributes->get('axis'));
         echo '</pre><br />';
         //exit;
         //*/
 
-        //*
+        /*
         echo '<br /><pre>$this->app["request"]: ';
         echo print_r($this->app['request']);
         echo '</pre><br />';
@@ -76,6 +78,9 @@ class DisplayPage extends AbstractModule
         $content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/main.tpl.php');
 
         //return $content;
+
+        //*
         return new Response('<p>Greetings from your favorite home page!!!</p>');
+        //*/
     }
 }

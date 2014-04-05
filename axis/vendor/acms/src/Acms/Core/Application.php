@@ -1,0 +1,422 @@
+<?php
+namespace Acms\Core;
+
+use Acms\Core\Data\Db;
+use Acms\Core\ModuleLoader\Controller\ControllerResolver;
+use Symfony\Component\HttpKernel\HttpKernel;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\TerminableInterface;
+use Symfony\Component\HttpKernel\EventListener\ResponseListener;
+use Symfony\Component\HttpKernel\EventListener\RouterListener;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+//*
+// Remove after testing
+use Symfony\Component\Routing\Route;
+//*/
+use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\Matcher\UrlMatcher;
+
+class Application extends \Pimple implements HttpKernelInterface, TerminableInterface
+{
+    private $booted = false;
+    private $route_collection;
+
+    /**
+     * Instantiate a new Application.
+     *
+     * Objects and parameters can be passed as argument to the constructor.
+     *
+     * @param array $values The parameters or objects.
+     */
+    public function __construct(array $values = array())
+    {
+        // Setup system paths
+        if (isset($values['paths'])) {
+            // Add systemPaths to request
+            $values['paths'] = $this->buildPaths($values['paths']);
+        }
+
+        parent::__construct($values);
+
+        $this->buildServiceContainers();
+
+        /*
+        // @todo: Taken from Sillex, may need in the future
+        foreach ($values as $key => $value) {
+            $this[$key] = $value;
+        }
+        //*/
+    }
+
+    protected function buildServiceContainers()
+    {
+        /**
+         * Service Containers
+         */
+
+        $this['logger'] = null;
+
+        $this['class_loader_class'] = 'Symfony\\Component\\ClassLoader\\ClassLoader';
+        $this['class_loader'] = function ($c) {
+            return new $c['class_loader_class']();
+        };
+
+        /*
+         $this['routes'] = function () {
+        return new RouteCollection();
+        };
+
+        $routes = $this['routes'];
+
+        // Remove after testing
+        $routes->add(
+            'homepage',
+            new Route(
+                '/', // path
+                array(
+                    '_controller' => 'Home\\DisplayPage::homeFrontPage',
+                ), // default values
+                array(), // requirements
+                array(), // options
+                '', // host
+                array(), // schemes
+                array() // methods
+            )
+        );
+        //*/
+
+        /*
+         // Remove after testing
+        $routes->add(
+            'install_site',
+            new Route(
+                '/install', // path
+                array(
+                    '_controller' => 'Install\\InstallSite::installWelcome',
+                ), // default values
+                array(), // requirements
+                array(), // options
+                '', // host
+                array(), // schemes
+                array() // methods
+            )
+        );
+        //*/
+
+        /*
+         $this['controllers'] = $this->share(function ($c) {
+             return $c['controllers_factory'];
+             });
+
+        $this['controllers_factory'] = function ($c) {
+        return new ControllerCollection($c['route_factory']);
+        };
+
+        $this['route_class'] = 'Silex\\Route';
+        $this['route_factory'] = function ($c) {
+        return new $c['route_class']();
+        };
+
+        $this['exception_handler'] = $this->share(function ($c {
+            return new ExceptionHandler($c['debug']);
+            });
+            //*/
+
+        $this['resolver'] = function ($c) {
+            return new ControllerResolver($c, $c['logger']);
+        };
+
+        $this['kernel'] = function ($c) {
+            return new HttpKernel($c['dispatcher'], $c['resolver'], $c['request_stack']);
+        };
+
+
+        $this['request'] = function () {
+            return Request::createFromGlobals();;
+        };
+
+        $this['request_stack'] = function () {
+            if (class_exists('Symfony\Component\HttpFoundation\RequestStack')) {
+                return new RequestStack();
+            }
+
+            return null;
+        };
+
+        $this['request_context'] = function ($c) {
+            $context = new RequestContext();
+
+            $context->setHttpPort($c['request.http_port']);
+            $context->setHttpsPort($c['request.https_port']);
+
+            return $context;
+        };
+
+        /*
+         $this['url_matcher'] = $this->share(function ($c) {
+             return new RedirectableUrlMatcher($c['routes'], $c['request_context']);
+             });
+        //*/
+
+        /*
+        $this['url_matcher'] = function ($c) {
+            return new UrlMatcher($c['routes'], $c['request_context']);
+        };
+
+        $this['url_generator'] = function ($c) {
+            return new UrlGenerator($c['routes'], $c['request_context']);
+        };
+        //*/
+
+        $this['model'] = function ($c) {
+            return new Db($c);
+        };
+
+        /**
+         * Event Dispatcher
+         */
+
+        $this['dispatcher_class'] = 'Symfony\\Component\\EventDispatcher\\EventDispatcher';
+        $this['dispatcher'] = function ($c) {
+            $dispatcher = new $c['dispatcher_class']();
+
+            $dispatcher->addSubscriber(new RouterListener($c['url_matcher'], $c['request_context'], $c['logger'], $c['request_stack']));
+
+            if (isset($c['exception_handler'])) {
+                $dispatcher->addSubscriber($c['exception_handler']);
+            }
+            $dispatcher->addSubscriber(new ResponseListener($c['charset']));
+
+            /*
+             $urlMatcher = new LazyUrlMatcher(function ($c) {
+                 return $c['url_matcher'];
+                 });
+            $dispatcher->addSubscriber(new RouterListener($urlMatcher, $c['request_context'], $c['logger'], $c['request_stack']));
+            $dispatcher->addSubscriber(new StringToResponseListener());
+            $dispatcher->addSubscriber(new LocaleListener($c, $urlMatcher, $c['request_stack']));
+            $dispatcher->addSubscriber(new MiddlewareListener($c));
+            $dispatcher->addSubscriber(new ConverterListener($c['routes']));
+            //*/
+
+            return $dispatcher;
+        };
+
+        /**
+         * Parameters
+         */
+        $this['request_error'] = $this->protect(function () {
+            throw new \RuntimeException('Accessed request service outside of request scope. Try moving that call to a before handler or controller.');
+        });
+
+            $this['request'] = $this['request_error'];
+
+            $this['request.http_port'] = 80;
+            $this['request.https_port'] = 443;
+            $this['debug'] = false;
+            $this['charset'] = 'UTF-8';
+            $this['locale'] = 'en';
+    }
+
+    /**
+     * Handles the request and delivers the response.
+     *
+     * @param Request|null $request Request to process
+     */
+    public function run(Request $request = null)
+    {
+        //$this['paths']->all();
+
+        /*
+        echo '<br />I am here: ' . __FILE__ . ': ' . __LINE__ . '<br />';
+        //exit;
+        //*/
+
+        /*
+        echo '<br /><pre>$this["paths"]->all(): ';
+        echo print_r($this['paths']->all());
+        echo '</pre><br />';
+        //exit;
+        //*/
+
+        /*
+        echo '<br /><pre>$this: ';
+        echo var_dump($this);
+        echo '</pre><br />';
+        //exit;
+        //*/
+
+        //*
+        if (null === $request) {
+            $request = Request::createFromGlobals();
+            //$request = $this->raw('request');
+        }
+        //*/
+
+        $response = $this->handle($request);
+        $response->send();
+        $this->terminate($request, $response);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * If you call this method directly instead of run(), you must call the
+     * terminate() method yourself if you want the finish filters to be run.
+     */
+    public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
+    {
+        if (!$this->booted) {
+            $this->boot();
+        }
+
+        $current = HttpKernelInterface::SUB_REQUEST === $type ? $this['request'] : $this['request_error'];
+
+        $this['request'] = $request;
+
+        $this->flush();
+
+        $response = $this['kernel']->handle($request, $type, $catch);
+
+        $this['request'] = $current;
+
+        return $response;
+    }
+
+    public function boot()
+    {
+        // Either connect the Model or start installation
+
+        if (!file_exists($this['paths']->get('file.db_connection'))) {
+            /*
+            echo '<br />Install Site - I am here: ' . __FILE__ . ': ' . __LINE__ . '<br />';
+            //exit;
+            //*/
+
+            /*
+            echo '<br /><pre>$this["request"]: ';
+            echo print_r($this['request']);
+            echo '</pre><br />';
+            //exit;
+            //*/
+
+            $this->installSite();
+
+        } else {
+            //*
+            echo '<br />Site is Installed - I am here: ' . __FILE__ . ': ' . __LINE__ . '<br />';
+            //exit;
+            //*/
+            $classLoader = $this['class_loader'];
+            $classLoader->addPrefix('Home', $this['paths']->get('dir.axis_modules'));
+            $classLoader->register();
+
+            $this['url_matcher'] = function ($c) {
+                return new UrlMatcher($c->route_collection, $c['request_context']);
+            };
+        }
+
+        $this->booted = true;
+    }
+
+    /**
+     * Flushes the controller collection.
+     *
+     * @param string $prefix The route prefix
+     */
+    public function flush($prefix = '')
+    {
+        //$this['routes']->addCollection($this['controllers']->flush($prefix));
+    }
+
+    public function terminate(Request $request, Response $response)
+    {
+        $this['kernel']->terminate($request, $response);
+    }
+
+    protected function buildPaths($paths = array())
+    {
+        $acmsBaseDir = $paths['dir.base'];
+        $acmsBaseUrl = $this->getBaseUrl();
+        $activeZone = $this->getActiveZone($paths['dir.base']);
+
+        return new \Acms\Core\System\PathBag([
+            'dir.base' => $acmsBaseDir,
+            'dir.axis' => $acmsBaseDir . '/axis',
+            'dir.public_html' => $acmsBaseDir . '/public_html' . $paths['folder.subdomain'],
+            'dir.zones' => $acmsBaseDir . '/zones',
+            'dir.storage' => $acmsBaseDir . '/axis/storage',
+            'dir.configs' => $acmsBaseDir . '/axis/configs',
+            'dir.includes' => $acmsBaseDir . '/axis/includes',
+            'dir.tests' => $acmsBaseDir . '/axis/tests',
+            'dir.vendor' => $acmsBaseDir . '/axis/vendor',
+            'dir.axis_modules' => $acmsBaseDir . '/axis/modules',
+            'dir.zones_modules' => $activeZone . '/modules',
+            'dir.www_resources' => $acmsBaseDir . '/public_html/resources',
+            'dir.themes' => $acmsBaseDir . '/public_html/themes',
+            'dir.templates' => $acmsBaseDir . '/public_html/templates',
+            'file.db_connection' => $activeZone . '/dbConnection.php',
+            'folder.subDomainFolder' => $paths['folder.subdomain'],
+            'url.base' => $acmsBaseUrl,
+            'url.resources' => $acmsBaseUrl . '/resources',
+        ]);
+    }
+
+    /**
+     * Get base url, i.e. http://www.mysite.com
+     */
+    protected function getBaseUrl()
+    {
+        if (isset($_SERVER['HTTPS'])) {
+            return $acmsBaseUrl = 'https://' . $_SERVER['SERVER_NAME'];
+        } else {
+            return $acmsBaseUrl = 'http://' . $_SERVER['SERVER_NAME'];
+        }
+    }
+
+    /**
+     * Locate/define active zone folder
+     */
+    protected function getActiveZone($acmsBaseDir)
+    {
+        $zonesDir = $acmsBaseDir . '/zones';
+        $serverPathArray = explode('.', $_SERVER['SERVER_NAME']);
+
+        // If this is localhost or main domain (localhost or mysite.com or www.mysite.com)
+        if (((count($serverPathArray)) < 3) || ($serverPathArray[0] == 'www')) {
+
+            $serverName = $_SERVER['SERVER_NAME'];
+
+            if ($serverPathArray[0] == 'www')
+                $serverName = substr((string) $serverName, 4);
+
+            if (file_exists($zonesDir . '/' . $serverName)) {
+                return $activeZone = $zonesDir . '/' . $serverName;
+            } else {
+                return $activeZone = $zonesDir . '/default';
+            }
+        } else {
+            // This is a subdomain, do not use '/default/dbConnection.php'
+            return $activeZone = $zonesDir . '/' . $_SERVER['SERVER_NAME'];
+        }
+    }
+
+    protected function installSite()
+    {
+        $classLoader = $this['class_loader'];
+        $classLoader->addPrefix('Install', $this['paths']->get('dir.axis_modules'));
+        $classLoader->register();
+
+        // look inside *this* directory
+        $locator = new \Symfony\Component\Config\FileLocator(array($this['paths']->get('dir.axis_modules') . '/Install'));
+        $loader = new \Symfony\Component\Routing\Loader\PhpFileLoader($locator);
+        $this->route_collection = $loader->load('routes.php');
+
+        $this['url_matcher'] = function ($c) {
+            return new UrlMatcher($c->route_collection, $c['request_context']);
+        };
+    }
+}

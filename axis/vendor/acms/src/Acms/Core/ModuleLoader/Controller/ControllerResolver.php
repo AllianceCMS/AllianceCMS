@@ -29,18 +29,6 @@ class ControllerResolver extends SymfonyControllerResolver
      */
     protected function createController($controller)
     {
-        /*
-        echo '<br />I am here: ' . __FILE__ . ': ' . __LINE__ . '<br />';
-        //exit;
-        //*/
-
-        /*
-        echo '<br /><pre>$controller: ';
-        echo var_dump($controller);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
         if (false === strpos($controller, '::')) {
             throw new \InvalidArgumentException(sprintf('Unable to find controller "%s".', $controller));
         }
@@ -51,21 +39,6 @@ class ControllerResolver extends SymfonyControllerResolver
             throw new \InvalidArgumentException(sprintf('Class "%s" does not exist.', $class));
         }
 
-        /*
-        echo '<br />$class is: ' . $class . '<br />';
-        //exit;
-        //*/
-
-        /*
-        echo '<br />$method is: ' . $method . '<br />';
-        //exit;
-        //*/
-
-        /*
-        echo '<br />I am here: ' . __FILE__ . ': ' . __LINE__ . '<br />';
-        //exit;
-        //*/
-
         $axis = new \stdClass;
         //$axis->acmsLoader = 'acmsLoader';
         //$axis->basePath = 'basePath';
@@ -74,31 +47,12 @@ class ControllerResolver extends SymfonyControllerResolver
         $axis->segmentUser = 'segmentUser';
         $axis->currentUser = 'currentUser';
 
-        return array(new $class($this->app, $this->request), $method);
+        return array(new $class($this->app), $method);
     }
 
     protected function doGetArguments(Request $request, $controller, array $parameters)
     {
-        /*
-        echo '<br />I am here: ' . __FILE__ . ': ' . __LINE__ . '<br />';
-        //exit;
-        //*/
-
-        /*
-        echo '<br /><pre>$parameters: ';
-        echo print_r($parameters);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
         $attributes = $request->attributes->all();
-
-        /*
-        echo '<br /><pre>$attributes: ';
-        echo print_r($attributes);
-        echo '</pre><br />';
-        //exit;
-        //*/
 
         $arguments = array();
         foreach ($parameters as $param) {
@@ -120,18 +74,6 @@ class ControllerResolver extends SymfonyControllerResolver
                 throw new \RuntimeException(sprintf('Controller "%s" requires that you provide a value for the "$%s" argument (because there is no default value or because there is a non optional argument after this one).', $repr, $param->name));
             }
         }
-
-        /*
-        echo '<br /><pre>$arguments: ';
-        echo print_r($arguments);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
-        /*
-        echo '<br />I am here: ' . __FILE__ . ': ' . __LINE__ . '<br />';
-        //exit;
-        //*/
 
         return $arguments;
     }

@@ -2,8 +2,9 @@
 	"require" : {
 		"aura/router" : "1.1.0",
 		"aura/session" : "1.0.0",
-		"aura/sql" : "1.1.0",
-		"monolog/monolog": "1.8.0",
+		"aura/sql": "1.1.0",
+		"doctrine/dbal" : "2.3.4",
+		"monolog/monolog" : "1.8.0",
 		"pimple/pimple" : "v2.0.0",
 		"symfony/class-loader" : "v2.4.2",
 		"symfony/config" : "v2.4.2",

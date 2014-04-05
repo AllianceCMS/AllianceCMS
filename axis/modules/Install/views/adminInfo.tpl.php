@@ -94,7 +94,7 @@
                 <span style="color: red;">*</span> <strong>Login Name:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('adminLoginName', (isset($formData['adminLoginName'])) ? $formData['adminLoginName'] : $adminLoginName); ?>
+                <?php $formHelper->inputText('adminLoginName', ((isset($formData['adminLoginName'])) ? $formData['adminLoginName'] : $adminLoginName), 'required'); ?>
             </td>
         </tr>
         <tr>
@@ -102,7 +102,7 @@
                 <span style="color: red;">*</span> <strong>Password:</strong>
             </td>
             <td>
-                <?php $formHelper->inputPassword('adminPassword', ''); ?>
+                <?php $formHelper->inputPassword('adminPassword', '', 'required'); ?>
             </td>
         </tr>
         <tr>
@@ -110,7 +110,7 @@
                 <span style="color: red;">*</span> <strong>Confirm Password:</strong>
             </td>
             <td>
-                <?php $formHelper->inputPassword('adminConfirmPassword', ''); ?>
+                <?php $formHelper->inputPassword('adminConfirmPassword', '', 'required'); ?>
             </td>
         </tr>
         <tr>
@@ -118,8 +118,8 @@
                 <span style="color: red;">*</span> <strong>Email Address:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('adminEmail', (isset($formData['adminEmail'])) ? $formData['adminEmail'] : $adminEmail); ?>
-                <strong>Hide:</strong> 
+                <?php $formHelper->inputText('adminEmail', ((isset($formData['adminEmail'])) ? $formData['adminEmail'] : $adminEmail), 'required'); ?>
+                <strong>Hide:</strong>
                 <?php $formHelper->inputRadio('adminHideEmail', '1', '', ((((isset($formData['adminHideEmail'])) ? $formData['adminHideEmail'] : $adminHideEmail) != 2) ? '1' : NULL)); ?>
                 Yes
                 <?php $formHelper->inputRadio('adminHideEmail', '2', '', ((((isset($formData['adminHideEmail'])) ? $formData['adminHideEmail'] : $adminHideEmail) == 2) ? '1' : NULL)); ?>
@@ -131,7 +131,7 @@
                 <span style="color: red;">*</span> <strong>Confirm Email Address:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('adminConfirmEmail', (isset($formData['adminConfirmEmail'])) ? $formData['adminConfirmEmail'] : $adminConfirmEmail); ?>
+                <?php $formHelper->inputText('adminConfirmEmail', ((isset($formData['adminConfirmEmail'])) ? $formData['adminConfirmEmail'] : $adminConfirmEmail), 'required'); ?>
             </td>
         </tr>
     </table>

@@ -81,7 +81,7 @@
                 (i.e. AllianceCMS, My-Venue-Name)
             </td>
             <td>
-                <?php $formHelper->inputText('venueLabel', (isset($formData['venueLabel'])) ? $formData['venueLabel'] : $venueLabel); ?>
+                <?php $formHelper->inputText('venueLabel', ((isset($formData['venueLabel'])) ? $formData['venueLabel'] : $venueLabel), 'required'); ?>
             </td>
         </tr>
         <tr>
@@ -106,7 +106,7 @@
                 Email Address That Users Will Receive Emails From (admin@yoursite.com)
             </td>
             <td>
-                <?php $formHelper->inputText('venueEmail', (isset($formData['venueEmail'])) ? $formData['venueEmail'] : $venueEmail); ?>
+                <?php $formHelper->inputText('venueEmail', ((isset($formData['venueEmail'])) ? $formData['venueEmail'] : $venueEmail), 'required'); ?>
             </td>
         </tr>
         <tr>
@@ -115,7 +115,7 @@
                 Email Address That Users Will Receive Emails From (admin@yoursite.com)
             </td>
             <td>
-                <?php $formHelper->inputText('venueConfirmEmail', (isset($formData['venueConfirmEmail'])) ? $formData['venueConfirmEmail'] : $venueConfirmEmail); ?>
+                <?php $formHelper->inputText('venueConfirmEmail', ((isset($formData['venueConfirmEmail'])) ? $formData['venueConfirmEmail'] : $venueConfirmEmail), 'required'); ?>
             </td>
         </tr>
         <tr>

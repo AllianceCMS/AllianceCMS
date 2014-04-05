@@ -25,7 +25,7 @@ abstract class AbstractModule
     protected $customHeaders;
 
     //public function __construct(Request $request, \stdClass $axis)
-    public function __construct(Application $app, Request $request)
+    public function __construct(Application $app)
     {
         $this->app = $app;
         /*
@@ -37,27 +37,6 @@ abstract class AbstractModule
         echo var_dump($var_array);
         echo '</pre><br />';
         exit;
-        //*/
-
-        //$acmsBaseDir = $request->systemPaths->get('dir.base');
-
-        /*
-        echo '<br />$acmsBaseDir is: ' . $acmsBaseDir . '<br />';
-        //exit;
-        //*/
-
-        /*
-        echo '<br /><pre>$request_AbstractModule: ';
-        echo var_dump($request);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
-        /*
-        echo '<br /><pre>$axis_AbstractModule: ';
-        echo var_dump($axis);
-        echo '</pre><br />';
-        //exit;
         //*/
 
         /*

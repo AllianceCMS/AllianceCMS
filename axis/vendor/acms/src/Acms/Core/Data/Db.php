@@ -15,6 +15,8 @@
  */
 namespace Acms\Core\Data;
 
+use Acms\Core\Application;
+
 /**
  * Db
  *
@@ -29,6 +31,24 @@ namespace Acms\Core\Data;
  */
 class Db
 {
+    /*
+     * /** Database Attributes ******************************************************************************
+     */
+
+    private $app;
+    private $dbAdapter;
+    private $dbHost;
+    private $dbUser;
+    private $dbPassword;
+    private $dbName;
+    private $dbPrefix;
+    private $dbPersistent;
+    private $dbActive;
+    static private $connection;
+    private $queryText;
+    private $bindValues;
+    private $result;
+
 
     /**
      * 1. Initialize all class properties to null
@@ -41,11 +61,23 @@ class Db
      *     to the database."
      */
 
-    public function __construct()
+    public function __construct(Application $app)
     {
+        $this->app = $app;
+
+        /*
+        echo '<br /><pre>$this->app: ';
+        echo print_r($this->app);
+        echo '</pre><br />';
+        exit;
+        //*/
+
         $this->initClassVars();
 
-        if (is_file(DBCONNFILE)) {
+        $paths = $this->app['paths'];
+
+        //if (is_file(DBCONNFILE)) {//$this['paths']->all()
+        if (is_file($this->app['paths']->get('file.db_connection'))) {
             if ($this->initDbInfo()) {
                 if ($this->dbConnect()) {
                     return true;
@@ -68,9 +100,9 @@ class Db
 
     private function initDbInfo()
     {
-        if (is_file(DBCONNFILE)) {
+        if (is_file($this->app['paths']->get('file.db_connection'))) {
 
-            require_once(DBCONNFILE);
+            require_once($this->app['paths']->get('file.db_connection'));
 
             $this->setDbAdapter(DB_ADAPTER);
             $this->setDbHost(DB_HOST);
@@ -666,23 +698,6 @@ class Db
 
         return $currentMySqlTimestamp;
     }
-
-    /*
-     * /** Database Attributes ******************************************************************************
-     */
-
-    private $dbAdapter;
-    private $dbHost;
-    private $dbUser;
-    private $dbPassword;
-    private $dbName;
-    private $dbPrefix;
-    private $dbPersistent;
-    private $dbActive;
-    static private $connection;
-    private $queryText;
-    private $bindValues;
-    private $result;
 
     /**
      * Initialize all class variables to null

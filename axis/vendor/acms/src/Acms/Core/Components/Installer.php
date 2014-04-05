@@ -1,10 +1,17 @@
 <?php
 namespace Acms\Core\Components;
 
+use Acms\Core\Application;
 use Symfony\Component\Filesystem\Filesystem;
 
 class Installer
 {
+    protected $app;
+
+    public function __construct(Application $app)
+    {
+        $this->app = $app;
+    }
     public function checkDependencies()
     {
         return true;
@@ -35,9 +42,9 @@ class Installer
         $fs = new Filesystem();
 
         // Does module asset folder exist?
-        if ($fs->exists(BASE_DIR . $modulePath . $moduleName . DIRECTORY_SEPARATOR . 'assets')) {
-            $fs->mkdir(RESOURCE_PATH . 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'assets', 0755);
-            $fs->mirror(BASE_DIR . $modulePath . $moduleName . DIRECTORY_SEPARATOR . 'assets', RESOURCE_PATH . 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'assets', null, ['override' => true, 'copyonwindows' => true, 'delete' => true]);
+        if ($fs->exists($this->app['paths']->get('dir.base') . $modulePath . $moduleName . DIRECTORY_SEPARATOR . 'assets')) {
+            $fs->mkdir($this->app['paths']->get('dir.www_resources') . 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'assets', 0755);
+            $fs->mirror($this->app['paths']->get('dir.base') . $modulePath . $moduleName . DIRECTORY_SEPARATOR . 'assets', $this->app['paths']->get('dir.www_resources') . 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'assets', null, ['override' => true, 'copyonwindows' => true, 'delete' => true]);
             return true;
         }
         return false;
@@ -48,12 +55,12 @@ class Installer
         $fs = new Filesystem();
 
         // Does module asset folder exist?
-        if ($fs->exists(RESOURCE_PATH . 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'assets')) {
-            $fs->remove(RESOURCE_PATH . 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'assets');
+        if ($fs->exists($this->app['paths']->get('dir.www_resources') . 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'assets')) {
+            $fs->remove($this->app['paths']->get('dir.www_resources') . 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'assets');
 
             // Remove module directory from resources if it is empty
-            if ($this->is_dir_empty(RESOURCE_PATH . 'modules' . DIRECTORY_SEPARATOR . $moduleName)) {
-                $fs->remove(RESOURCE_PATH . 'modules' . DIRECTORY_SEPARATOR . $moduleName);
+            if ($this->is_dir_empty($this->app['paths']->get('dir.www_resources') . 'modules' . DIRECTORY_SEPARATOR . $moduleName)) {
+                $fs->remove($this->app['paths']->get('dir.www_resources') . 'modules' . DIRECTORY_SEPARATOR . $moduleName);
             }
             return true;
         }

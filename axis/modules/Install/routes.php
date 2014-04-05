@@ -1,4 +1,10 @@
 <?php
+use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Routing\Route;
+
+$collection = new RouteCollection();
+
+/*
 // Create route for Installation: Welcome page
 $moduleRoutes['Install']['Start Installation'] = [
     'name' => 'install_welcome', // Required: Route name
@@ -12,7 +18,22 @@ $moduleRoutes['Install']['Start Installation'] = [
         ] // Required: namespace/controller/action
     ]
 ];
+//*/
 
+$collection->add(
+    'install_welcome',
+    new Route(
+        '/install', // path
+        array('_controller' => 'Install\InstallSite::installWelcome'), // default values
+        array(), // requirements
+        array(), // options
+        '', // host
+        array(), // schemes
+        array('GET') // methods
+    )
+);
+
+/*
 // Create route for Installation: Language page
 $moduleRoutes['Install']['Select Language'] = [
     'name' => 'install_language', // Required: Route name
@@ -29,7 +50,22 @@ $moduleRoutes['Install']['Select Language'] = [
         ] // Required: namespace/controller/action
     ]
 ];
+//*/
 
+$collection->add(
+    'install_language',
+    new Route(
+        '/install/language', // path
+        array('_controller' => 'Install\InstallSite::installLanguage'), // default values
+        array(), // requirements
+        array(), // options
+        '', // host
+        array(), // schemes
+        array('POST') // methods
+    )
+);
+
+/*
 // Create route for Installation: Database Info page
 $moduleRoutes['Install']['Prompt For DB Info'] = [
     'name' => 'install_db_info', // Required: Route name
@@ -47,7 +83,22 @@ $moduleRoutes['Install']['Prompt For DB Info'] = [
         ] // Required: namespace/controller/action
     ]
 ];
+//*/
 
+$collection->add(
+    'install_db_info',
+    new Route(
+        '/install/database-info', // path
+        array('_controller' => 'Install\InstallSite::installDbInfo'), // default values
+        array(), // requirements
+        array(), // options
+        '', // host
+        array(), // schemes
+        array('POST', 'GET') // methods
+    )
+);
+
+/*
 // Create route for Installation: Confirm Database Info page
 $moduleRoutes['Install']['Confirm DB Info'] = [
     'name' => 'install_confirm_db_info', // Required: Route name
@@ -62,7 +113,22 @@ $moduleRoutes['Install']['Confirm DB Info'] = [
         ] // Required: namespace/controller/action
     ]
 ];
+//*/
 
+$collection->add(
+    'install_confirm_db_info',
+    new Route(
+        '/install/confirm-database-info', // path
+        array('_controller' => 'Install\InstallSite::installConfirmDbInfo'), // default values
+        array(), // requirements
+        array(), // options
+        '', // host
+        array(), // schemes
+        array('POST') // methods
+    )
+);
+
+/*
 // Create route for Installation: Test/Confirm Database Connection page
 $moduleRoutes['Install']['Test/Confirm DB Connection'] = [
     'name' => 'install_test_db_connection', // Required: Route name
@@ -77,7 +143,22 @@ $moduleRoutes['Install']['Test/Confirm DB Connection'] = [
         ] // Required: namespace/controller/action
     ]
 ];
+//*/
 
+$collection->add(
+    'install_test_db_connection',
+    new Route(
+        '/install/test-database-connection', // path
+        array('_controller' => 'Install\InstallSite::installTestDbConnection'), // default values
+        array(), // requirements
+        array(), // options
+        '', // host
+        array(), // schemes
+        array('POST') // methods
+    )
+);
+
+/*
 // Create route for Installation: Prompt For Admin Info page
 $moduleRoutes['Install']['Prompt For Admin Info'] = [
     'name' => 'install_admin_info', // Required: Route name
@@ -95,7 +176,22 @@ $moduleRoutes['Install']['Prompt For Admin Info'] = [
         ] // Required: namespace/controller/action
     ]
 ];
+//*/
 
+$collection->add(
+    'install_admin_info',
+    new Route(
+        '/install/admin-info', // path
+        array('_controller' => 'Install\InstallSite::installAdminInfo'), // default values
+        array(), // requirements
+        array(), // options
+        '', // host
+        array(), // schemes
+        array('POST', 'GET') // methods
+    )
+);
+
+/*
 // Create route for Installation: Confirm Admin Info page
 $moduleRoutes['Install']['Confirm Admin Info'] = [
     'name' => 'install_confirm_admin_info', // Required: Route name
@@ -110,7 +206,22 @@ $moduleRoutes['Install']['Confirm Admin Info'] = [
         ] // Required: namespace/controller/action
     ]
 ];
+//*/
 
+$collection->add(
+    'install_confirm_admin_info',
+    new Route(
+        '/install/confirm-admin-info', // path
+        array('_controller' => 'Install\InstallSite::installConfirmAdminInfo'), // default values
+        array(), // requirements
+        array(), // options
+        '', // host
+        array(), // schemes
+        array('POST') // methods
+    )
+);
+
+/*
 // Create route for Installation: Prompt For Venue Info page
 $moduleRoutes['Install']['Prompt For Venue Info'] = [
     'name' => 'install_venue_info', // Required: Route name
@@ -125,7 +236,22 @@ $moduleRoutes['Install']['Prompt For Venue Info'] = [
         ] // Required: namespace/controller/action
     ]
 ];
+//*/
 
+$collection->add(
+    'install_venue_info',
+    new Route(
+        '/install/venue-info', // path
+        array('_controller' => 'Install\InstallSite::installVenueInfo'), // default values
+        array(), // requirements
+        array(), // options
+        '', // host
+        array(), // schemes
+        array('POST', 'GET') // methods
+    )
+);
+
+/*
 // Create route for Installation: Confirm Venue Info page
 $moduleRoutes['Install']['Confirm Venue Info'] = [
     'name' => 'install_confirm_venue_info', // Required: Route name
@@ -140,7 +266,22 @@ $moduleRoutes['Install']['Confirm Venue Info'] = [
         ] // Required: namespace/controller/action
     ]
 ];
+//*/
 
+$collection->add(
+    'install_confirm_venue_info',
+    new Route(
+        '/install/confirm-venue-info', // path
+        array('_controller' => 'Install\InstallSite::installConfirmVenueInfo'), // default values
+        array(), // requirements
+        array(), // options
+        '', // host
+        array(), // schemes
+        array('POST') // methods
+    )
+);
+
+/*
 // Create route for Installation: Confirm Installation page
 $moduleRoutes['Install']['Confirm Installation'] = [
     'name' => 'install_confirm_installation', // Required: Route name
@@ -155,7 +296,22 @@ $moduleRoutes['Install']['Confirm Installation'] = [
         ] // Required: namespace/controller/action
     ]
 ];
+//*/
 
+$collection->add(
+    'install_confirm_installation',
+    new Route(
+        '/install/confirm-installation', // path
+        array('_controller' => 'Install\InstallSite::installConfirmInstallation'), // default values
+        array(), // requirements
+        array(), // options
+        '', // host
+        array(), // schemes
+        array('POST') // methods
+    )
+);
+
+/*
 // Create route for Installation: Complete Installation page
 $moduleRoutes['Install']['Complete Installation'] = [
     'name' => 'install_installation_complete', // Required: Route name
@@ -170,3 +326,19 @@ $moduleRoutes['Install']['Complete Installation'] = [
         ] // Required: namespace/controller/action
     ]
 ];
+//*/
+
+$collection->add(
+    'install_installation_complete',
+    new Route(
+        '/install/installation-complete', // path
+        array('_controller' => 'Install\InstallSite::installCompleteInstallation'), // default values
+        array(), // requirements
+        array(), // options
+        '', // host
+        array(), // schemes
+        array('POST') // methods
+    )
+);
+
+return $collection;
