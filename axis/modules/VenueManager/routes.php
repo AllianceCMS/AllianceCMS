@@ -1,4 +1,23 @@
 <?php
+use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Routing\Route;
+
+$collection = new RouteCollection();
+
+$collection->add(
+    'venue_create_start',
+    new Route(
+        '/venues/create/start', // path
+        array('_controller' => 'VenueManager\Venues::venueCreateStart'), // default values
+        array(), // requirements
+        array(), // options
+        '', // host
+        array(), // schemes
+        array('GET') // methods
+    )
+);
+
+/*
 $moduleRoutes['VenueManager']['Create Venue Start'] = [
     'name' => 'venue_create_start', // Required: Route name
     'path' => '/venues/create/start/{:query_string*}', // Required: Route path
@@ -37,3 +56,6 @@ $moduleRoutes['VenueManager']['Create Venue Complete'] = [
         ] // Required: namespace/controller/action
     ]
 ];
+//*/
+
+return $collection;

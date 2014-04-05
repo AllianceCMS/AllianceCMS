@@ -1,10 +1,13 @@
 <?php
 namespace Acms\Core\Entities;
 
-use \Acms\Core\Data\Db;
+use Acms\Core\Application;
+use Acms\Core\Data\Db;
 
 class CurrentUser
 {
+    protected $app;
+
     public $sessionId;
 
     public $id;
@@ -12,8 +15,33 @@ class CurrentUser
     public $displayName;
     public $sessionPersistent;
 
-    public function __construct()
+    public function __construct(Application $app)
     {
+        //$this->app = $app;
+
+        /*
+        echo '<br /><pre>$this->app: ';
+        echo var_dump($this->app['request']);
+        echo '</pre><br />';
+        //exit;
+        //*/
+
+        $request = $app['request'];
+
+        //*
+        echo '<br /><pre>$request: ';
+        echo print_r($request['this']);
+        echo '</pre><br />';
+        //exit;
+        //*/
+
+        /*
+        echo '<br /><pre>$request->server->all(): ';
+        echo print_r($request->server->all());
+        echo '</pre><br />';
+        exit;
+        //*/
+
         $cookieName = str_replace('.', '_', $_SERVER['SERVER_NAME']) . '_acms';
 
         if (isset($_COOKIE[$cookieName])) {

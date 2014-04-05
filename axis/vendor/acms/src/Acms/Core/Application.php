@@ -1,6 +1,7 @@
 <?php
 namespace Acms\Core;
 
+use Acms\Core\Entities\CurrentUser;
 use Acms\Core\Data\Db;
 use Acms\Core\ModuleLoader\Controller\ControllerResolver;
 use Symfony\Component\HttpKernel\HttpKernel;
@@ -156,6 +157,10 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
             return $context;
         };
 
+        $this['url_matcher'] = function ($c) {
+            return new UrlMatcher($c->route_collection, $c['request_context']);
+        };
+
         /*
          $this['url_matcher'] = $this->share(function ($c) {
              return new RedirectableUrlMatcher($c['routes'], $c['request_context']);
@@ -174,6 +179,14 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
 
         $this['model'] = function ($c) {
             return new Db($c);
+        };
+
+        $this['session'] = function () {
+            return include $this['paths']->get('dir.vendor') . '/aura/session/scripts/instance.php';
+        };
+
+        $this['current_user'] = function ($c) {
+            return new CurrentUser($c);
         };
 
         /**
@@ -279,6 +292,13 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
 
         $this->flush();
 
+        /*
+        echo '<br /><pre>$this: ';
+        echo print_r($this);
+        echo '</pre><br />';
+        //exit;
+        //*/
+
         $response = $this['kernel']->handle($request, $type, $catch);
 
         $this['request'] = $current;
@@ -291,32 +311,15 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
         // Either connect the Model or start installation
 
         if (!file_exists($this['paths']->get('file.db_connection'))) {
-            /*
-            echo '<br />Install Site - I am here: ' . __FILE__ . ': ' . __LINE__ . '<br />';
-            //exit;
-            //*/
 
-            /*
-            echo '<br /><pre>$this["request"]: ';
-            echo print_r($this['request']);
-            echo '</pre><br />';
-            //exit;
-            //*/
-
+            // The dbConnection.php file doesn't exist
+            // Send user to the Site Installation process
             $this->installSite();
 
         } else {
-            //*
-            echo '<br />Site is Installed - I am here: ' . __FILE__ . ': ' . __LINE__ . '<br />';
-            //exit;
-            //*/
-            $classLoader = $this['class_loader'];
-            $classLoader->addPrefix('Home', $this['paths']->get('dir.axis_modules'));
-            $classLoader->register();
 
-            $this['url_matcher'] = function ($c) {
-                return new UrlMatcher($c->route_collection, $c['request_context']);
-            };
+            $this->buildRoutes();
+
         }
 
         $this->booted = true;
@@ -418,5 +421,71 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
         $this['url_matcher'] = function ($c) {
             return new UrlMatcher($c->route_collection, $c['request_context']);
         };
+    }
+
+    protected function buildRoutes()
+    {
+        $modules = $this->getActiveModules();
+        $this->autoloadModules($modules);
+        $this->buildModuleRoutes($modules);
+    }
+    protected function getActiveModules()
+    {
+        $sql = $this['model'];
+
+        // Include only installed modules 'routes.php' so we have access to routes
+        $sql->dbSelect('modules', 'folder_path, folder_name', 'active = :active', ['active' => intval(2)]);
+
+        $result = $sql->dbFetch();
+
+        foreach ($result as $row => $val) {
+            $modules[$val['folder_name']] = $this['paths']->get('dir.base') . '/' . $val['folder_path'] . $val['folder_name'];
+        }
+
+        return $modules;
+    }
+
+    protected function autoloadModules($modules)
+    {
+        $classLoader = $this['class_loader'];
+
+        foreach ($modules as $row => $val) {
+
+            $classLoader->addPrefix($row, $this['paths']->get('dir.axis_modules'));
+
+        }
+
+        $classLoader->register();
+
+        return true;
+    }
+
+    protected function buildModuleRoutes($modules)
+    {
+        $this->route_collection = new RouteCollection();
+
+        foreach ($modules as $row => $val) {
+
+            // look inside *this* directory
+            $locator = new \Symfony\Component\Config\FileLocator(array($this['paths']->get('dir.axis_modules') . '/' . $row));
+            $loader = new \Symfony\Component\Routing\Loader\PhpFileLoader($locator);
+            $this->route_collection->addCollection($loader->load('routes.php'));
+
+        }
+    }
+
+    protected function loadUser()
+    {
+        // Start session
+        $session = $this['session'];
+        $session->start();
+        $segmentUser = $session->newSegment('User');
+        $session->commit();
+
+        $currentUser = $this['current_user'];
+
+
+        exit;
+        return true;
     }
 }

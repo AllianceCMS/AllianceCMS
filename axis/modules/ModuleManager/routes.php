@@ -1,4 +1,23 @@
 <?php
+use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Routing\Route;
+
+$collection = new RouteCollection();
+
+$collection->add(
+    'module_manager',
+    new Route(
+        '/module-manager/current-modules/', // path
+        array('_controller' => 'ModuleManager\AdminPages::currentModules'), // default values
+        array(), // requirements
+        array(), // options
+        '', // host
+        array(), // schemes
+        array('GET') // methods
+    )
+);
+
+/*
 $moduleRoutes['ModuleManager']['Current Modules'] = [
     'name' => 'module_manager', // Required: Route name
     'path' => '/module-manager/current-modules/{:query_string*}', // Required: Route path
@@ -63,6 +82,7 @@ $moduleRoutes['ModuleManager']['Uninstall Module'] = [
         ] // Required: namespace/controller/action
     ]
 ];
+//*/
 
 /*
 $moduleRoutes['ModuleManager']['Install Remote Modules'] = [
@@ -78,3 +98,5 @@ $moduleRoutes['ModuleManager']['Install Remote Modules'] = [
     ]
 ];
 //*/
+
+return $collection;

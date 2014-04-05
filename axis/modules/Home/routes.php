@@ -8,28 +8,16 @@ $collection->add(
     'homepage',
     new Route(
         '/', // path
-        array('_controller' => 'Home\\DisplayPage::homeFrontPage'), // default values
+        array('_controller' => 'Home\DisplayPage::homeFrontPage'), // default values
         array(), // requirements
         array(), // options
         '', // host
         array(), // schemes
-        array() // methods
+        array('') // methods
     )
 );
 
 return $collection;
-
-/*
-$route = new Route(
-    '/archive/{month}', // path
-    array('controller' => 'showArchive'), // default values
-    array('month' => '[0-9]{4}-[0-9]{2}', 'subdomain' => 'www|m'), // requirements
-    array(), // options
-    '{subdomain}.example.com', // host
-    array(), // schemes
-    array() // methods
-);
-//*/
 
 /*
 $moduleRoutes['Home']['Front Page'] = [

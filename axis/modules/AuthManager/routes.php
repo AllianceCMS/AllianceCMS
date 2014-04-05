@@ -1,5 +1,23 @@
 <?php
+use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Routing\Route;
 
+$collection = new RouteCollection();
+
+$collection->add(
+    'login_page',
+    new Route(
+        '/user/login', // path
+        array('_controller' => 'AuthManager\UserAuth::loginPage'), // default values
+        array(), // requirements
+        array(), // options
+        '', // host
+        array(), // schemes
+        array('GET') // methods
+    )
+);
+
+/*
 $moduleRoutes['AuthManager']['Login Block'] = [
     'name' => 'login_block', // Required: Route name
     'path' => '', // Required: Route path
@@ -51,3 +69,6 @@ $moduleRoutes['AuthManager']['Logout Attempt'] = [
         ] // Required: namespace/controller/action
     ]
 ];
+//*/
+
+return $collection;
