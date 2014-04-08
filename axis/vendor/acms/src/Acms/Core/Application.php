@@ -1,10 +1,10 @@
 <?php
 namespace Acms\Core;
 
+use Acms\Core\HttpKernel;
 use Acms\Core\Entities\CurrentUser;
 use Acms\Core\Data\Db;
 use Acms\Core\ModuleLoader\Controller\ControllerResolver;
-use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\TerminableInterface;
 use Symfony\Component\HttpKernel\EventListener\ResponseListener;
@@ -13,10 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGenerator;
-//*
-// Remove after testing
-use Symfony\Component\Routing\Route;
-//*/
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
@@ -46,7 +42,7 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
         $this->buildServiceContainers();
 
         /*
-        // @todo: Taken from Sillex, may need in the future
+        // @reminder: Taken from Sillex, may need in the future
         foreach ($values as $key => $value) {
             $this[$key] = $value;
         }
@@ -65,67 +61,6 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
         $this['class_loader'] = function ($c) {
             return new $c['class_loader_class']();
         };
-
-        /*
-         $this['routes'] = function () {
-        return new RouteCollection();
-        };
-
-        $routes = $this['routes'];
-
-        // Remove after testing
-        $routes->add(
-            'homepage',
-            new Route(
-                '/', // path
-                array(
-                    '_controller' => 'Home\\DisplayPage::homeFrontPage',
-                ), // default values
-                array(), // requirements
-                array(), // options
-                '', // host
-                array(), // schemes
-                array() // methods
-            )
-        );
-        //*/
-
-        /*
-         // Remove after testing
-        $routes->add(
-            'install_site',
-            new Route(
-                '/install', // path
-                array(
-                    '_controller' => 'Install\\InstallSite::installWelcome',
-                ), // default values
-                array(), // requirements
-                array(), // options
-                '', // host
-                array(), // schemes
-                array() // methods
-            )
-        );
-        //*/
-
-        /*
-         $this['controllers'] = $this->share(function ($c) {
-             return $c['controllers_factory'];
-             });
-
-        $this['controllers_factory'] = function ($c) {
-        return new ControllerCollection($c['route_factory']);
-        };
-
-        $this['route_class'] = 'Silex\\Route';
-        $this['route_factory'] = function ($c) {
-        return new $c['route_class']();
-        };
-
-        $this['exception_handler'] = $this->share(function ($c {
-            return new ExceptionHandler($c['debug']);
-            });
-            //*/
 
         $this['resolver'] = function ($c) {
             return new ControllerResolver($c, $c['logger']);
@@ -161,21 +96,9 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
             return new UrlMatcher($c->route_collection, $c['request_context']);
         };
 
-        /*
-         $this['url_matcher'] = $this->share(function ($c) {
-             return new RedirectableUrlMatcher($c['routes'], $c['request_context']);
-             });
-        //*/
-
-        /*
-        $this['url_matcher'] = function ($c) {
-            return new UrlMatcher($c['routes'], $c['request_context']);
-        };
-
         $this['url_generator'] = function ($c) {
             return new UrlGenerator($c['routes'], $c['request_context']);
         };
-        //*/
 
         $this['model'] = function ($c) {
             return new Db($c);
@@ -189,6 +112,30 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
             return new CurrentUser($c);
         };
 
+        /*
+        // @reminder: Custom stuff from Silex
+        $this['url_matcher'] = $this->share(function ($c) {
+            return new RedirectableUrlMatcher($c['routes'], $c['request_context']);
+        });
+
+        $this['controllers'] = $this->share(function ($c) {
+            return $c['controllers_factory'];
+        });
+
+        $this['controllers_factory'] = function ($c) {
+            return new ControllerCollection($c['route_factory']);
+        };
+
+        $this['route_class'] = 'Silex\\Route';
+        $this['route_factory'] = function ($c) {
+            return new $c['route_class']();
+        };
+
+        $this['exception_handler'] = $this->share(function ($c {
+            return new ExceptionHandler($c['debug']);
+        });
+        //*/
+
         /**
          * Event Dispatcher
          */
@@ -198,17 +145,20 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
             $dispatcher = new $c['dispatcher_class']();
 
             $dispatcher->addSubscriber(new RouterListener($c['url_matcher'], $c['request_context'], $c['logger'], $c['request_stack']));
+            $dispatcher->addSubscriber(new ResponseListener($c['charset']));
 
             if (isset($c['exception_handler'])) {
                 $dispatcher->addSubscriber($c['exception_handler']);
             }
-            $dispatcher->addSubscriber(new ResponseListener($c['charset']));
 
             /*
-             $urlMatcher = new LazyUrlMatcher(function ($c) {
+            // @reminder: Custom stuff from Silex
+            $urlMatcher = new LazyUrlMatcher(function ($c) {
                  return $c['url_matcher'];
-                 });
+             });
+
             $dispatcher->addSubscriber(new RouterListener($urlMatcher, $c['request_context'], $c['logger'], $c['request_stack']));
+
             $dispatcher->addSubscriber(new StringToResponseListener());
             $dispatcher->addSubscriber(new LocaleListener($c, $urlMatcher, $c['request_stack']));
             $dispatcher->addSubscriber(new MiddlewareListener($c));
@@ -225,13 +175,13 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
             throw new \RuntimeException('Accessed request service outside of request scope. Try moving that call to a before handler or controller.');
         });
 
-            $this['request'] = $this['request_error'];
+        $this['request'] = $this['request_error'];
 
-            $this['request.http_port'] = 80;
-            $this['request.https_port'] = 443;
-            $this['debug'] = false;
-            $this['charset'] = 'UTF-8';
-            $this['locale'] = 'en';
+        $this['request.http_port'] = 80;
+        $this['request.https_port'] = 443;
+        $this['debug'] = false;
+        $this['charset'] = 'UTF-8';
+        $this['locale'] = 'en';
     }
 
     /**
@@ -241,33 +191,9 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
      */
     public function run(Request $request = null)
     {
-        //$this['paths']->all();
-
-        /*
-        echo '<br />I am here: ' . __FILE__ . ': ' . __LINE__ . '<br />';
-        //exit;
-        //*/
-
-        /*
-        echo '<br /><pre>$this["paths"]->all(): ';
-        echo print_r($this['paths']->all());
-        echo '</pre><br />';
-        //exit;
-        //*/
-
-        /*
-        echo '<br /><pre>$this: ';
-        echo var_dump($this);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
-        //*
         if (null === $request) {
             $request = Request::createFromGlobals();
-            //$request = $this->raw('request');
         }
-        //*/
 
         $response = $this->handle($request);
         $response->send();
@@ -292,13 +218,6 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
 
         $this->flush();
 
-        /*
-        echo '<br /><pre>$this: ';
-        echo print_r($this);
-        echo '</pre><br />';
-        //exit;
-        //*/
-
         $response = $this['kernel']->handle($request, $type, $catch);
 
         $this['request'] = $current;
@@ -308,17 +227,16 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
 
     public function boot()
     {
-        // Either connect the Model or start installation
-
+        // Does 'zones/{zone.folder}/dbConnection.php' exist?
         if (!file_exists($this['paths']->get('file.db_connection'))) {
 
-            // The dbConnection.php file doesn't exist
-            // Send user to the Site Installation process
+            // dbConnection.php doesn't exist. Send user to the Site Installation process.
             $this->installSite();
 
         } else {
 
-            $this->buildRoutes();
+            $this->buildRoutes(); // Shoud be in RequestListener
+            $this->addKernelListeners();
 
         }
 
@@ -472,6 +390,44 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
             $this->route_collection->addCollection($loader->load('routes.php'));
 
         }
+    }
+
+    protected function addKernelListeners()
+    {
+        $this['listener.system_request'] = function ($c) {
+            return new \Acms\Core\EventDispatcher\EventListener\RequestListener($c);
+        };
+
+        $this['listener.system_controller'] = function ($c) {
+            return new \Acms\Core\EventDispatcher\EventListener\ControllerListener($c);
+        };
+
+        $this['listener.system_view'] = function ($c) {
+            return new \Acms\Core\EventDispatcher\EventListener\ViewListener($c);
+        };
+
+        $this['listener.system_response'] = function ($c) {
+            return new \Acms\Core\EventDispatcher\EventListener\ResponseListener($c);
+        };
+
+        $this['listener.system_finish_request'] = function ($c) {
+            return new \Acms\Core\EventDispatcher\EventListener\FinishRequestListener($c);
+        };
+
+        $this['listener.system_terminate'] = function ($c) {
+            return new \Acms\Core\EventDispatcher\EventListener\TerminateListener($c);
+        };
+
+        $this->extend('dispatcher', function($dispatcher, $c) {
+            $dispatcher->addSubscriber($c['listener.system_request']);
+            $dispatcher->addSubscriber($c['listener.system_controller']);
+            $dispatcher->addSubscriber($c['listener.system_view']);
+            $dispatcher->addSubscriber($c['listener.system_response']);
+            $dispatcher->addSubscriber($c['listener.system_finish_request']);
+            $dispatcher->addSubscriber($c['listener.system_terminate']);
+
+            return $dispatcher;
+        });
     }
 
     protected function loadUser()

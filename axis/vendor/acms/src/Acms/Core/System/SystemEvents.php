@@ -33,7 +33,9 @@ final class SystemEvents
      *
      * @api
      */
-    const SYSTEM_PATH_LOADER = 'system.path_loader';
+    //const SYSTEM_PATH_LOADER = 'system.path_loader';
+
+    const SYSTEM_MAINTENANCE_FLAG = 'system.maintenance_flag';
 
     /**
      * The EXCEPTION event occurs when an uncaught exception appears

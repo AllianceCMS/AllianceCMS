@@ -55,23 +55,23 @@ $container->register('system.path_bag', 'Acms\Core\System\PathBag')
 ;
 //*/
 
-$container->register('listener.system_request', 'Acms\Core\System\EventListener\RequestListener');
+$container->register('listener.system_request', 'Acms\Core\EventDispatcher\EventListener\RequestListener');
 
 /*
- $container->register('listener.system_context', 'Acms\Core\System\EventListener\SystemContextListener')
+ $container->register('listener.system_context', 'Acms\Core\EventDispatcher\EventListener\SystemContextListener')
     ->setArguments(array(new Reference('system.context')))
 ;
 //*/
 
-$container->register('listener.system_controller', 'Acms\Core\System\EventListener\ControllerListener');
+$container->register('listener.system_controller', 'Acms\Core\EventDispatcher\EventListener\ControllerListener');
 
-$container->register('listener.system_view', 'Acms\Core\System\EventListener\ViewListener');
+$container->register('listener.system_view', 'Acms\Core\EventDispatcher\EventListener\ViewListener');
 
-$container->register('listener.system_response', 'Acms\Core\System\EventListener\ResponseListener');
+$container->register('listener.system_response', 'Acms\Core\EventDispatcher\EventListener\ResponseListener');
 
-$container->register('listener.system_finish_request', 'Acms\Core\System\EventListener\FinishRequestListener');
+$container->register('listener.system_finish_request', 'Acms\Core\EventDispatcher\EventListener\FinishRequestListener');
 
-$container->register('listener.system_terminate', 'Acms\Core\System\EventListener\TerminateListener');
+$container->register('listener.system_terminate', 'Acms\Core\EventDispatcher\EventListener\TerminateListener');
 
 $container->register('httpkernel', 'Acms\Core\HttpKernel')
     ->setArguments(array(new Reference('dispatcher'), new Reference('resolver')))

@@ -1,17 +1,10 @@
 <?php
-namespace Acms\Core\System\EventListener;
+namespace Acms\Core\EventDispatcher\EventListener;
 
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-//use Symfony\Component\HttpFoundation\Request;
-//use Symfony\Component\HttpFoundation\RequestStack;
-//use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
-//use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
-//use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
-//use Symfony\Component\Routing\RequestContext;
-//use Symfony\Component\Routing\RequestContextAwareInterface;
 
 class ControllerListener implements EventSubscriberInterface
 {

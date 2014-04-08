@@ -1,9 +1,9 @@
 <?php
-namespace Acms\Core\System\EventListener;
+namespace Acms\Core\EventDispatcher\EventListener;
 
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 //use Symfony\Component\HttpFoundation\Request;
 //use Symfony\Component\HttpFoundation\RequestStack;
@@ -13,19 +13,19 @@ use Symfony\Component\HttpKernel\KernelEvents;
 //use Symfony\Component\Routing\RequestContext;
 //use Symfony\Component\Routing\RequestContextAwareInterface;
 
-class FinishRequestListener implements EventSubscriberInterface
+class ResponseListener implements EventSubscriberInterface
 {
-    public function onFinishRequestPre(FinishRequestEvent $event)
+    public function onResponsePre(FilterResponseEvent $event)
     {
         return true;
     }
 
-    public function onFinishRequestMid(FinishRequestEvent $event)
+    public function onResponseMid(FilterResponseEvent $event)
     {
         return true;
     }
 
-    public function onFinishRequestPost(FinishRequestEvent $event)
+    public function onResponsePost(FilterResponseEvent $event)
     {
         return true;
     }
@@ -33,10 +33,10 @@ class FinishRequestListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::FINISH_REQUEST => [
-                ['onFinishRequestPre', 100],
-                ['onFinishRequestMid', 50],
-                ['onFinishRequestPost', 0],
+            KernelEvents::RESPONSE => [
+                ['onResponsePre', 100],
+                ['onResponseMid', 50],
+                ['onResponsePost', 0],
             ]
         ];
     }

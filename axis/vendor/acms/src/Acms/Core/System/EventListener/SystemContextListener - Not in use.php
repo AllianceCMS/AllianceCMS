@@ -1,5 +1,5 @@
 <?php
-namespace Acms\Core\System\EventListener;
+namespace Acms\Core\EventDispatcher\EventListener;
 
 use Acms\Core\System\SystemContext;
 use Acms\Core\System\Event\SystemPathLoaderEvent;

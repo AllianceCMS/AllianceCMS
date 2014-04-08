@@ -24,6 +24,21 @@
  * ];
  * @endcode
  */
+
+$collection->add(
+    'tell_hi',
+    new Route(
+        '/ciao/hey/{name}', // path
+        array('_controller' => 'Ciao\SayStuff::sayHi'), // default values
+        array(), // requirements
+        array('name' => 'User'), // options
+        '', // host
+        array(), // schemes
+        array('GET') // methods
+    )
+);
+
+/*
 $moduleRoutes['Ciao']['Page Name 01'] = [
     'name' => 'tell_hi', // Required: Route name
     'path' => '/ciao/hey/{:name*}', // Required: Route path
@@ -38,7 +53,22 @@ $moduleRoutes['Ciao']['Page Name 01'] = [
         ] // Required: namespace/controller/action
     ]
 ];
+//*/
 
+$collection->add(
+    'tell_bye',
+    new Route(
+        '/ciao/later/{name}', // path
+        array('_controller' => 'Ciao\SayStuff::sayBye'), // default values
+        array(), // requirements
+        array('name' => 'User'), // options
+        '', // host
+        array(), // schemes
+        array('GET') // methods
+    )
+);
+
+/*
 $moduleRoutes['Ciao']['Page Name 02'] = [
     'name' => 'tell_bye', // Required: Route name
     'path' => '/ciao/later/{:name*}', // Required: Route path
@@ -53,7 +83,22 @@ $moduleRoutes['Ciao']['Page Name 02'] = [
         ] // Required: namespace/controller/action
     ]
 ];
+//*/
 
+$collection->add(
+    'admin_ciao',
+    new Route(
+        '/ciao', // path
+        array('_controller' => 'Ciao\AdminPages::adminCiao'), // default values
+        array(), // requirements
+        array('name' => 'Wonderful AllianceCMS User'), // options
+        '', // host
+        array(), // schemes
+        array('GET') // methods
+    )
+);
+
+/*
 $moduleRoutes['Ciao']['Page Name 03'] = [
     'name' => 'admin_ciao', // Required: Route name
     'path' => '/ciao', // Required: Route path
@@ -67,7 +112,22 @@ $moduleRoutes['Ciao']['Page Name 03'] = [
         ] // Required: namespace/controller/action
     ]
 ];
+//*/
 
+$collection->add(
+    'ciao_stats',
+    new Route(
+        '/ciao/forms/{wildcard}', // path
+        array('_controller' => 'Ciao\AdminPages::adminCiaoStats'), // default values
+        array(), // requirements
+        array(), // options
+        '', // host
+        array(), // schemes
+        array('GET') // methods
+    )
+);
+
+/*
 $moduleRoutes['Ciao']['Stats'] = [
     'name' => 'ciao_stats', // Required: Route name
     'path' => '/ciao/forms/{:wildcard*}', // Required: Route path
@@ -80,3 +140,4 @@ $moduleRoutes['Ciao']['Stats'] = [
         ] // Required: namespace/controller/action
     ]
 ];
+//*/
