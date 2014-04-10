@@ -1,7 +1,3 @@
-**IMPORTANT!!!** The AllianceCMS installer is now functional, feel free to play with the system, try to break it, and submit bug reports! Be sure to read Install.md, as the core system is located outside of the web server Document Root!
-
-(The installer will be updated periodically as we move towards an official Alpha release, so check back often for updates!)
-
 #AllianceCMS
 
 AllianceCMS, a Social Content Management System.
