@@ -1,0 +1,61 @@
+
+/* =================  AllianceCMS custom styles ================= */
+
+/**
+ * Lists
+ */
+
+ul {
+    list-style: disc inside none;
+}
+
+/**
+ * Definition Lists
+ */
+
+dt {
+    background-color: #716457;
+    border-bottom: 1px solid #CCB;
+    color: #FFFFFF;
+    font-weight: bold;
+    
+    font-size: 18px;
+    line-height: 26px;
+    border-bottom: 1px solid rgb(217, 217, 217);
+    padding: 15px 15px 15px 10px;
+    margin: 0px 0px 13px;
+    background: none repeat scroll 0% 0% rgb(113, 100, 87);
+}
+
+dd {
+    /* background: url('img/grain_light.gif'); */
+    border-bottom: 1px solid #DDC;
+    padding-left: 16px;
+}
+
+/* =================  Hint.css custom styles ================= */
+
+/**
+ * .hint--blend
+ */
+ 
+ .hint--blend {
+ }
+ 
+.hint--blend:after {
+    background-color: #A8A08F;
+    font-weight:bold;
+    text-shadow: 0 -1px 0px #5F5747;
+}
+.hint--blend.hint--top:before {
+    border-top-color: #A8A08F;
+}
+.hint--blend.hint--bottom:before {
+    border-bottom-color: #A8A08F;
+}
+.hint--blend.hint--left:before {
+    border-left-color: #A8A08F;
+}
+.hint--blend.hint--right:before {
+    border-right-color: #A8A08F;
+}

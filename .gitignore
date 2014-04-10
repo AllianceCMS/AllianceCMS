@@ -7,6 +7,12 @@
 *draft*
 *blacklist*
 *Not In Use*
+*Component*
+*svn*
+*git*
+API/*
+*phpdoc-*
+*phpdoc_output*
 Doxygen_Docs/*
 nbproject/*
 zones/*.*.com

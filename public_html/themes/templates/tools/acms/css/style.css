@@ -1,0 +1,180 @@
+/*
+ * Custom AllianceCMS styles.
+ */
+
+/* For testing module grids */
+
+.module-nav {
+    padding: 0.75em 0.5em;
+}
+
+/* Alerts */
+
+.acms-alert {
+  padding: 8px 35px 8px 14px;
+  margin-bottom: 18px;
+  color: #c09853;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  background-color: #fcf8e3;
+  border: 1px solid #fbeed5;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+
+.alert-heading {
+  color: inherit;
+}
+
+.acms-alert .close {
+  position: relative;
+  top: -2px;
+  right: -21px;
+  line-height: 18px;
+}
+
+.alert-success {
+  color: #468847;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+
+.alert-danger,
+.alert-error {
+  color: #b94a48;
+  background-color: #f2dede;
+  border-color: #eed3d7;
+}
+
+.alert-info {
+  color: #3a87ad;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+
+.alert-block {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.alert-block > p,
+.alert-block > ul {
+  margin-bottom: 0;
+}
+
+.alert-block p + p {
+  margin-top: 5px;
+}
+
+.fade {
+  opacity: 0;
+  -webkit-transition: opacity 0.15s linear;
+     -moz-transition: opacity 0.15s linear;
+      -ms-transition: opacity 0.15s linear;
+       -o-transition: opacity 0.15s linear;
+          transition: opacity 0.15s linear;
+}
+
+.fade.in {
+  opacity: 1;
+}
+
+
+/* Tabs */
+
+.acms-tabs {
+    margin-bottom: 18px;
+    margin-left: 0;
+    list-style: none;
+}
+
+.acms-tabs > li > a {
+    display: block;
+}
+
+.acms-tabs > li > a:hover {
+    text-decoration: none;
+    background-color: #eeeeee;
+}
+
+.tabbable {
+    *zoom: 1;
+}
+
+.tabbable:before,
+.tabbable:after {
+    display: table;
+    content: "";
+}
+
+.tabbable:after {
+    clear: both;
+}
+
+.acms-tabs {
+    border-bottom: 1px solid #ddd;
+}
+
+.acms-tabs > li {
+    margin-bottom: -1px;
+}
+
+.acms-tabs > li {
+    float: left;
+}
+
+.acms-tabs > .active > a,
+.acms-tabs > .active > a:hover {
+    color: #555555;
+    cursor: default;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+}
+
+.acms-tabs > li > a {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    line-height: 18px;
+    border: 1px solid transparent;
+    -webkit-border-radius: 4px 4px 0 0;
+        -moz-border-radius: 4px 4px 0 0;
+            border-radius: 4px 4px 0 0;
+}
+
+.acms-tabs > li > a {
+    padding-right: 12px;
+    padding-left: 12px;
+    margin-right: 2px;
+    line-height: 14px;
+}
+
+.acms-tabs {
+    *zoom: 1;
+}
+
+.acms-tabs:before,
+.acms-tabs:after {
+    display: table;
+    content: "";
+}
+
+.acms-tabs:after {
+    clear: both;
+}
+
+.acms-tabs > li > a:hover {
+    border-color: #eeeeee #eeeeee #dddddd;
+}
+
+.tab-content {
+  overflow: auto;
+}
+
+.tab-content > .tab-pane {
+  display: none;
+}
+
+.tab-content > .active {
+  display: block;
+}

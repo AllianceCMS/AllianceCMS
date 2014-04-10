@@ -1,0 +1,10 @@
+language: php
+php:
+  - "5.5"
+  - "5.4"
+  
+# whitelist branches
+branches:
+  only:
+    - acms/alpha1/dev
+
