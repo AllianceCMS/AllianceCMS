@@ -35,5 +35,3 @@
     * dropdown.js
     * tabs.js
     * transition.js
-    
-Testing TBG again, again, again, again
