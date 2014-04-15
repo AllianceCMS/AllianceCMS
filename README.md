@@ -49,6 +49,8 @@ AllianceCMS, a Social Content Management System.
 
 AllianceCMS is still under development, with new features added frequently. If you would like to get involved, please contact us at [contribute@alliancecms.com](mailto:contribute@alliancecms.com)
 
+If you are new to Github this article is a great introduction: [Contributing to Open Source on GitHub](https://guides.github.com/overviews/os-contributing/)
+
 Here are some areas that could use a contribution:
 
 * Graphic Design/Theme Creation
