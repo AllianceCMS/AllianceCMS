@@ -1,7 +1,3 @@
-**IMPORTANT!!!** The AllianceCMS installer is now functional, feel free to play with the system, try to break it, and submit bug reports! Be sure to read Install.md, as the core system is located outside of the web server Document Root!
-
-(The installer will be updated periodically as we move towards an official Alpha release, so check back often for updates!)
-
 #AllianceCMS
 
 AllianceCMS, a Social Content Management System.
@@ -27,9 +23,8 @@ AllianceCMS, a Social Content Management System.
 ##Where is AllianceCMS?
 
 **Website:** [http://www.alliancecms.com](http://www.alliancecms.com)  
+**Documentation:** [https://github.com/AllianceCMS/AllianceCMS/wiki](https://github.com/AllianceCMS/AllianceCMS/wiki)  
 **Google Group:** [https://groups.google.com/forum/#!forum/alliancecms](https://groups.google.com/forum/#!forum/alliancecms)  
-**Features:** [https://github.com/jbWebWare/AllianceCMS/wiki/AllianceCMS:-Features](https://github.com/jbWebWare/AllianceCMS/wiki/AllianceCMS:-Features)  
-**Wiki:** [https://github.com/jbWebWare/AllianceCMS/wiki](https://github.com/jbWebWare/AllianceCMS/wiki)  
 **API:** [http://api.alliancecms.com](http://api.alliancecms.com)
 
 ##What Is AllianceCMS?
