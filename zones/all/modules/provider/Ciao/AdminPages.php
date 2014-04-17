@@ -5,7 +5,6 @@
  * Use the same name as the module folder to comply with PSR-0 and so internal autoloader will load this controller properly
  *
  */
-
 namespace Ciao;
 
 /**

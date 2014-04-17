@@ -1,7 +1,7 @@
 <?php
 namespace Acms\Core\Templates;
 
-use Acms\Core\Components\AbstractModule;
+use Acms\Core\ModuleLoader\AbstractModule;
 use Acms\Core\Templates\Template;
 use Acms\Core\Data\Db;
 

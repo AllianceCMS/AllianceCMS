@@ -2,7 +2,7 @@
 namespace Home;
 
 use Acms\Core\Templates\Template;
-use Acms\Core\Components\AbstractModule;
+use Acms\Core\ModuleLoader\AbstractModule;
 //*
 // Temporary: Response will be built in the KernelEvents::VIEW listener
 use Symfony\Component\HttpFoundation\Response;
