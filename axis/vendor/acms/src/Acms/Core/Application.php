@@ -343,7 +343,7 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
         //exit;
         //*/
 
-        //*
+        /*
         echo '<br /><pre>$this["url_matcher"]: ';
         echo var_dump($this['url_matcher']);
         echo '</pre><br />';
@@ -398,10 +398,14 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
 
         foreach ($modules as $row => $val) {
 
-            // look inside *this* directory
-            $locator = new \Symfony\Component\Config\FileLocator(array($this['paths']->get('dir.axis_modules') . '/' . $row));
-            $loader = new \Symfony\Component\Routing\Loader\PhpFileLoader($locator);
-            $this->route_collection->addCollection($loader->load('routes.php'));
+            if(file_exists($this['paths']->get('dir.axis_modules') . '/' . $row . '/routes.php')) {
+
+                // look inside *this* directory
+                $locator = new \Symfony\Component\Config\FileLocator(array($this['paths']->get('dir.axis_modules') . '/' . $row));
+                $loader = new \Symfony\Component\Routing\Loader\PhpFileLoader($locator);
+                $this->route_collection->addCollection($loader->load('routes.php'));
+
+            }
 
         }
     }

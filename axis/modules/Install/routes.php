@@ -23,7 +23,7 @@ $moduleRoutes['Install']['Start Installation'] = [
 $collection->add(
     'install_welcome',
     new Route(
-        '/install', // path
+        '/', // path
         array('_controller' => 'Install\InstallSite::installWelcome'), // default values
         array(), // requirements
         array(), // options

@@ -1,4 +1,9 @@
 <?php
+use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Routing\Route;
+
+$collection = new RouteCollection();
+
 /*
 $moduleRoutes['UserManager']['Login Block'] = [
     'name' => 'login_block', // Required: Route name
@@ -52,3 +57,5 @@ $moduleRoutes['UserManager']['Logout Attempt'] = [
     ]
 ];
 //*/
+
+return $collection;
