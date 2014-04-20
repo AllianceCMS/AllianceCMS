@@ -1574,6 +1574,21 @@ $schema['0.01']['insert']['table'] = [
                 'created' => $currentMySqlTimestamp,
                 'modified' => $currentMySqlTimestamp,
             ],
+            [
+                'id' => '',
+                'name' => 'DevMod',
+                'version' => '0.01',
+                'description' => 'A Module to play around with while working on the Module API.',
+                'developer' => 'Jesse Burns',
+                'developer_email' => 'jesse.burns@alliancecms.com',
+                'developer_site' => 'http://www.alliancecms.com',
+                'folder_path' => 'axis/modules/',
+                'folder_name' => 'DevMod',
+                'weight' => 7,
+                'active' => 2,
+                'created' => $currentMySqlTimestamp,
+                'modified' => $currentMySqlTimestamp,
+            ],
         ],
         'permissions' => [
             [
