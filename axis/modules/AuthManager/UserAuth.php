@@ -124,14 +124,21 @@ class UserAuth extends AbstractModule
 
                 $result = $sql->dbUpdate('users', $tableColumns, $conditions, $bind);
 
+                // This if statement resolves the issue where Google Chrome will not create cookies for 'localhost' or IP addresses
+                if (($_SERVER['SERVER_NAME'] == 'localhost') || ($_SERVER['SERVER_NAME'] == '127.0.0.1')) {
+                    $server_name = null;
+                } else {
+                    $server_name = $_SERVER['SERVER_NAME'];
+                }
+
                 $cookieName = str_replace('.', '_', $_SERVER['SERVER_NAME']) . '_acms';
 
-                setcookie($_SERVER['SERVER_NAME'] . '_acms', false, time() - 3600, '/', $_SERVER['SERVER_NAME']);
+                setcookie($_SERVER['SERVER_NAME'] . '_acms', false, time() - 3600, '/', $server_name);
 
                 if ((isset($_POST['stay_logged_in'])) && ($_POST['stay_logged_in'] === '1')) {
-                    setcookie($_SERVER['SERVER_NAME'] . '_acms', $acms_id, time()+60*60*24*365, '/', $_SERVER['SERVER_NAME']);
+                    setcookie($_SERVER['SERVER_NAME'] . '_acms', $acms_id, time()+60*60*24*365, '/', $server_name);
                 } else {
-                    setcookie($_SERVER['SERVER_NAME'] . '_acms', $acms_id, 0, '/', $_SERVER['SERVER_NAME']);
+                    setcookie($_SERVER['SERVER_NAME'] . '_acms', $acms_id, 0, '/', $server_name);
                 }
 
                 header('Location: ' . $this->basePath);
@@ -172,9 +179,16 @@ class UserAuth extends AbstractModule
 
         $this->sessionAxis->destroy();
 
+        // This if statement resolves the issue where Google Chrome will not create cookies for 'localhost' or IP addresses
+        if (($_SERVER['SERVER_NAME'] == 'localhost') || ($_SERVER['SERVER_NAME'] == '127.0.0.1')) {
+            $server_name = null;
+        } else {
+            $server_name = $_SERVER['SERVER_NAME'];
+        }
+
         $cookieName = str_replace('.', '_', $_SERVER['SERVER_NAME']) . '_acms';
 
-        setcookie($_SERVER['SERVER_NAME'] . '_acms', false, time() - 3600, '/', $_SERVER['SERVER_NAME']);
+        setcookie($_SERVER['SERVER_NAME'] . '_acms', false, time() - 3600, '/', $server_name);
 
         header('Location: ' . $this->basePath);
         exit;

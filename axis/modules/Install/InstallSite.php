@@ -745,7 +745,14 @@ class InstallSite
 
         $sql->dbUpdate('users', $tableColumns, $conditions, $bind, $dbPrefix);
 
-        setcookie($_SERVER['SERVER_NAME'] . '_acms', $acms_id, 0, '/', $_SERVER['SERVER_NAME']);
+        // This if statement resolves the issue where Google Chrome will not create cookies for 'localhost' or IP addresses
+        if (($_SERVER['SERVER_NAME'] == 'localhost') || ($_SERVER['SERVER_NAME'] == '127.0.0.1')) {
+            $server_name = null;
+        } else {
+            $server_name = $_SERVER['SERVER_NAME'];
+        }
+
+        setcookie($_SERVER['SERVER_NAME'] . '_acms', $acms_id, 0, '/', $server_name);
     }
 
     private function startTemplate()
