@@ -336,6 +336,20 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
         $loader = new \Symfony\Component\Routing\Loader\PhpFileLoader($locator);
         $this->route_collection = $loader->load('routes.php');
 
+        /*
+        echo '<br /><pre>$this->route_collection: ';
+        echo var_dump($this->route_collection);
+        echo '</pre><br />';
+        //exit;
+        //*/
+
+        //*
+        echo '<br /><pre>$this["url_matcher"]: ';
+        echo var_dump($this['url_matcher']);
+        echo '</pre><br />';
+        //exit;
+        //*/
+
         $this['url_matcher'] = function ($c) {
             return new UrlMatcher($c->route_collection, $c['request_context']);
         };
