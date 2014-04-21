@@ -1,5 +1,5 @@
 <?php
-namespace Acms\Core\ModuleLoader;
+namespace Acms\Core\ModuleBuilder;
 
 use Acms\Core\Application;
 use Acms\Core\Html\FormHelper;

@@ -1,7 +1,7 @@
 <?php
 namespace AuthManager;
 
-use Acms\Core\ModuleLoader\AbstractModule;
+use Acms\Core\ModuleBuilder\AbstractModule;
 use Acms\Core\Data\Db;
 use Acms\Core\Html\FormHelper;
 use Acms\Core\Html\HtmlHelper;

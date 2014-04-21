@@ -4,7 +4,8 @@ namespace Acms\Core;
 use Acms\Core\HttpKernel;
 use Acms\Core\Entities\CurrentUser;
 use Acms\Core\Data\Db;
-use Acms\Core\ModuleLoader\Controller\ControllerResolver;
+use Acms\Core\ModuleBuilder\ModuleLoader;
+use Acms\Core\ModuleBuilder\Controller\ControllerResolver;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\TerminableInterface;
 use Symfony\Component\HttpKernel\EventListener\ResponseListener;
@@ -19,8 +20,8 @@ use Symfony\Component\Routing\Matcher\UrlMatcher;
 
 class Application extends \Pimple implements HttpKernelInterface, TerminableInterface
 {
+    public $route_collection;
     private $booted = false;
-    private $route_collection;
 
     /**
      * Instantiate a new Application.
@@ -72,7 +73,7 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
 
 
         $this['request'] = function () {
-            return Request::createFromGlobals();;
+            return Request::createFromGlobals();
         };
 
         $this['request_stack'] = function () {
@@ -111,6 +112,13 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
         $this['current_user'] = function ($c) {
             return new CurrentUser($c);
         };
+
+
+        $this['module_loader_class'] = 'Acms\\Core\\ModuleBuilder\\ModuleLoader';
+        $this['module_loader'] = function ($c) {
+            return new $c['module_loader_class']($c);
+        };
+
 
         /*
         // @reminder: Custom stuff from Silex
@@ -235,9 +243,10 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
 
         } else {
 
-            $this->buildRoutes(); // Shoud be in RequestListener
-            $this->addKernelListeners();
+            $moduleBuilder = $this['module_loader'];
+            $moduleBuilder->loadActiveModules();
 
+            $this->addKernelListeners();
         }
 
         $this->booted = true;
@@ -355,61 +364,6 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
         };
     }
 
-    protected function buildRoutes()
-    {
-        $modules = $this->getActiveModules();
-        $this->autoloadModules($modules);
-        $this->buildModuleRoutes($modules);
-    }
-    protected function getActiveModules()
-    {
-        $sql = $this['model'];
-
-        // Include only installed modules 'routes.php' so we have access to routes
-        $sql->dbSelect('modules', 'folder_path, folder_name', 'active = :active', ['active' => intval(2)]);
-
-        $result = $sql->dbFetch();
-
-        foreach ($result as $row => $val) {
-            $modules[$val['folder_name']] = $this['paths']->get('dir.base') . '/' . $val['folder_path'] . $val['folder_name'];
-        }
-
-        return $modules;
-    }
-
-    protected function autoloadModules($modules)
-    {
-        $classLoader = $this['class_loader'];
-
-        foreach ($modules as $row => $val) {
-
-            $classLoader->addPrefix($row, $this['paths']->get('dir.axis_modules'));
-
-        }
-
-        $classLoader->register();
-
-        return true;
-    }
-
-    protected function buildModuleRoutes($modules)
-    {
-        $this->route_collection = new RouteCollection();
-
-        foreach ($modules as $row => $val) {
-
-            if(file_exists($this['paths']->get('dir.axis_modules') . '/' . $row . '/routes.php')) {
-
-                // look inside *this* directory
-                $locator = new \Symfony\Component\Config\FileLocator(array($this['paths']->get('dir.axis_modules') . '/' . $row));
-                $loader = new \Symfony\Component\Routing\Loader\PhpFileLoader($locator);
-                $this->route_collection->addCollection($loader->load('routes.php'));
-
-            }
-
-        }
-    }
-
     protected function addKernelListeners()
     {
         $this['listener.system_request'] = function ($c) {
@@ -448,6 +402,7 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
         });
     }
 
+    /*
     protected function loadUser()
     {
         // Start session
@@ -462,4 +417,5 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
         exit;
         return true;
     }
+    //*/
 }

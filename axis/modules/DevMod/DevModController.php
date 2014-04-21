@@ -1,16 +1,17 @@
 <?php
-namespace Home;
+namespace DevMod;
 
 use Acms\Core\Templates\Template;
 use Acms\Core\ModuleBuilder\AbstractModule;
+
 //*
 // Temporary: Response will be built in the KernelEvents::VIEW listener
 use Symfony\Component\HttpFoundation\Response;
 //*/
 
-class DisplayPage extends AbstractModule
+class DevModController extends AbstractModule
 {
-    function homeFrontPage()
+    function indexAction()
     {
         /*
         echo '<br /><pre>$this->app["paths"]->all(): ';
@@ -80,7 +81,7 @@ class DisplayPage extends AbstractModule
         //return $content;
 
         //*
-        return new Response('<p>Greetings from your favorite home page!!!</p>');
+        return new Response('<p>Greetings from your favorite DevMod!!!</p>');
         //*/
     }
 }

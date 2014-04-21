@@ -1,5 +1,5 @@
 <?php
-namespace Acms\Core\ModuleLoader\Controller;
+namespace Acms\Core\ModuleBuilder\Controller;
 
 use Acms\Core\Application;
 use Symfony\Component\HttpFoundation\Request;

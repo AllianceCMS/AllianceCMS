@@ -5,14 +5,10 @@ use Symfony\Component\Routing\Route;
 $collection = new RouteCollection();
 
 $collection->add(
-    'homepage',
+    'devmod_home',
     new Route(
-        '/', // path
-        array(
-            '_namespace' => 'Home',
-            '_controller' => 'Home\DisplayPage::homeFrontPage',
-            '_action' => 'homeFrontPage',
-        ), // default values
+        '/devmod', // path
+        array('_controller' => 'DevMod\DevModController::indexAction'), // default values
         array(), // requirements
         array(), // options
         '', // host

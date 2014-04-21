@@ -1,7 +1,7 @@
 <?php
 namespace VenueManager;
 
-use Acms\Core\ModuleLoader\AbstractModule;
+use Acms\Core\ModuleBuilder\AbstractModule;
 use Acms\Core\Templates\Template;
 use Acms\Core\Data\Db;
 use Acms\Core\Data\Validate;
