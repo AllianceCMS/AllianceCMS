@@ -98,9 +98,9 @@ class AdminPages extends AbstractAdmin
         $this->addCustomHeader($this->htmlHelper->styleSheetLink($assets->getAssetPath($this->moduleName, 'css', 'style.css')));
 
         $zoneAllfinder = new \Symfony\Component\Finder\Finder();
-        $zoneAllfinder->ignoreUnreadableDirs()->files()->name('install.php')->in(ZONES . 'all');
+        $zoneAllfinder->ignoreUnreadableDirs()->files()->name('install.php')->in(ZONES_DIR . '/all');
 
-        $currentZonePath = str_replace(DIRECTORY_SEPARATOR . 'dbConnection.php', '', DBCONNFILE);
+        $currentZonePath = str_replace('/dbConnection.php', '', DB_CONNECTION_FILE);
         $zoneCurrentfinder = new \Symfony\Component\Finder\Finder();
         $zoneCurrentfinder->ignoreUnreadableDirs()->files()->name('install.php')->in($currentZonePath . DIRECTORY_SEPARATOR . 'modules');
 
@@ -239,7 +239,7 @@ class AdminPages extends AbstractAdmin
         if ($result_module) {
             $lastInsertId = $sql->dbLastInsertId();
 
-            $modulePath = BASE_DIR . $_POST['folder_path'] . $_POST['folder_name'] . DIRECTORY_SEPARATOR;
+            $modulePath = BASE_DIR . '/' . $_POST['folder_path'] . $_POST['folder_name'] . DIRECTORY_SEPARATOR;
 
             include $modulePath . 'install.php';
 
@@ -350,7 +350,7 @@ class AdminPages extends AbstractAdmin
 
         // Drop Module Tables
 
-        $modulePath = BASE_DIR . $_POST['folder_path'] . $_POST['folder_name'] . DIRECTORY_SEPARATOR;
+        $modulePath = BASE_DIR . '/' . $_POST['folder_path'] . $_POST['folder_name'] . DIRECTORY_SEPARATOR;
 
         include $modulePath . 'schema.php';
 

@@ -15,7 +15,7 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
 } else {
 
     // Initialize Aura.Router
-    $mapRoutes = require PACKAGES . 'Aura.Router/scripts/instance.php';
+    $mapRoutes = require VENDOR_DIR . '/aura/router/scripts/instance.php';
 
     /**
      * Query Db and find out which modules are installed
@@ -42,14 +42,14 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
         $module_path_array = explode('/', $row['folder_path']);
 
         if ($module_path_array['0'] == 'axis') {
-            $module_path = MODULES_AXIS;
+            $module_path = AXIS_MODULES_DIR;
             $loadModule = 1;
         } elseif ($module_path_array['0'] == 'zones') {
             if ($module_path_array['1'] == 'all') {
-                $module_path = ZONES . $module_path_array['1'] . DIRECTORY_SEPARATOR . $module_path_array['2'] . DIRECTORY_SEPARATOR . $module_path_array['3'] . DIRECTORY_SEPARATOR;
+                $module_path = ZONES_DIR . '/' . $module_path_array['1'] . DIRECTORY_SEPARATOR . $module_path_array['2'] . DIRECTORY_SEPARATOR . $module_path_array['3'];
                 $loadModule = 1;
             } elseif ($module_path_array['1'] == $_SERVER['SERVER_NAME']) {
-                $module_path = ZONES . $_SERVER['SERVER_NAME'] . DIRECTORY_SEPARATOR . $module_path_array['2'] . DIRECTORY_SEPARATOR . $module_path_array['3'] . DIRECTORY_SEPARATOR;
+                $module_path = ZONES_DIR . '/' . $_SERVER['SERVER_NAME'] . DIRECTORY_SEPARATOR . $module_path_array['2'] . DIRECTORY_SEPARATOR . $module_path_array['3'];
                 $loadModule = 1;
             }
         }
@@ -58,8 +58,8 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
 
         // Get routes for active modules and add module namespace to autoloader
         if ($loadModule) {
-            if (file_exists($module_path . $module_folder_name . DIRECTORY_SEPARATOR . 'routes.php')) {
-                include_once($module_path . $module_folder_name . DIRECTORY_SEPARATOR . 'routes.php');
+            if (file_exists($module_path . '/' . $module_folder_name . DIRECTORY_SEPARATOR . 'routes.php')) {
+                include_once($module_path . '/' . $module_folder_name . DIRECTORY_SEPARATOR . 'routes.php');
                 $acmsLoader->addPrefix($module_folder_name . '\\', $module_path);
             }
         }
@@ -132,7 +132,7 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
 
     // If there is no venue in the path, send user to main venue
     if ((strtolower($pathVenue) === strtolower('Install'))) {
-        if (file_exists(DBCONNFILE)) {
+        if (file_exists(DB_CONNECTION_FILE)) {
 
             // Send user to main venue
 

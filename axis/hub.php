@@ -10,12 +10,16 @@
 
 error_reporting(-1);
 
-require_once ('configs/system.php');
-require_once (CONFIGS . 'autoload.php');
-require_once (INCLUDES . 'load_db.php');
-require_once (INCLUDES . 'load_user.php');
-require_once (INCLUDES . 'load_router.php');
-require_once (CONFIGS . 'venue_info.php');
-require_once (INCLUDES . 'load_templates.php');
-require_once (INCLUDES . 'load_dispatcher.php');
-require_once (INCLUDES . 'test_code.php');
+require_once $acmsBaseDir . '/axis/bootstrap/autoload.php';
+require_once $acmsBaseDir . '/axis/bootstrap/load_system_paths.php';
+
+require_once (INCLUDES_DIR . '/load_db.php');
+require_once (INCLUDES_DIR . '/load_user.php');
+require_once (INCLUDES_DIR . '/load_router.php');
+require_once (CONFIGS_DIR . '/venue_info.php');
+require_once (INCLUDES_DIR . '/load_templates.php');
+require_once (INCLUDES_DIR . '/load_dispatcher.php');
+require_once (INCLUDES_DIR . '/test_code.php');
+
+// Attempt to calculate execution time
+$execution_time = microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"];

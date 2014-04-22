@@ -44,10 +44,10 @@ define('DB_PREFIX', 	'".$_POST['dbDatabasePrefix']."');
 define('DB_ACTIVE', 	'1');
 ";
 
-if (file_exists(ZONES . $_SERVER['SERVER_NAME'])) {
-    $dbConnFile = ZONES . $_SERVER['SERVER_NAME'] . DIRECTORY_SEPARATOR . 'dbConnection.php';
+if (file_exists(ZONES_DIR . '/' . $_SERVER['SERVER_NAME'])) {
+    $dbConnFile = ZONES_DIR . '/' . $_SERVER['SERVER_NAME'] . DIRECTORY_SEPARATOR . 'dbConnection.php';
 } else {
-    $dbConnFile = DBCONNFILE;
+    $dbConnFile = DB_CONNECTION_FILE;
 }
 
 file_put_contents($dbConnFile, $data);

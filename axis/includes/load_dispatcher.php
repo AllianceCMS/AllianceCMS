@@ -113,7 +113,7 @@ if ($dispatch) {
             // Create Admin/theme template vars
             $tpl->set('theme_folder', BASE_URL . '/themes/' . $adminTheme);
 
-            $load_theme = THEMES . $adminTheme . DIRECTORY_SEPARATOR . 'admin.tpl.php';
+            $load_theme = THEMES_DIR . '/' . $adminTheme . '/admin.tpl.php';
 
             /*
              * Build Admin Callback
@@ -145,7 +145,7 @@ if ($dispatch) {
             $links = $sql->dbFetch();
 
             // Create navbar template
-            $nav1 = new Acms\Core\Templates\Template(THEMES . $adminTheme . DIRECTORY_SEPARATOR . 'admin.nav1.tpl.php');
+            $nav1 = new Acms\Core\Templates\Template(THEMES_DIR . '/' . $adminTheme . '/admin.nav1.tpl.php');
             $nav1->set('currentVenue', $axisRoute->values['venue']);
             $nav1->set('links', $links);
 
@@ -174,7 +174,7 @@ if ($dispatch) {
         // Create base/theme template vars
         $tpl->set('theme_folder', BASE_URL . '/' . $theme_path);
 
-        $load_theme = PUBLIC_HTML . $theme_path . '/theme.tpl.php';
+        $load_theme = WWW_DIR . '/' . $theme_path . '/theme.tpl.php';
 
         /**
          * Process Navigation Links
@@ -189,7 +189,7 @@ if ($dispatch) {
         $links = $sql->dbFetch();
 
         // Create navbar template
-        $nav1 = new Acms\Core\Templates\Template(TEMPLATES . 'nav.tpl.php');
+        $nav1 = new Acms\Core\Templates\Template(TEMPLATES_DIR . '/nav.tpl.php');
         $nav1->set('currentVenue', $axisRoute->values['venue']);
         $nav1->set('links', $links);
 
@@ -212,7 +212,7 @@ if ($dispatch) {
 
                     $block_area_label = 'block_area_' . $block_area;
 
-                    $build_block = new Acms\Core\Templates\Template(TEMPLATES . 'block.tpl.php');
+                    $build_block = new Acms\Core\Templates\Template(TEMPLATES_DIR . '/block.tpl.php');
                     $build_block->set('block_title', $block['title']);
                     $build_block->set('block_content', $block['content']);
 

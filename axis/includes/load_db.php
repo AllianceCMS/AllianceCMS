@@ -3,7 +3,7 @@
 use Acms\Core\Data\Db;
 
 // If the database config file (dbConnection.php) exists create database object
-if (file_exists(DBCONNFILE)) {
+if (file_exists(DB_CONNECTION_FILE)) {
 
     $sql = new Db;
 
@@ -25,11 +25,11 @@ if (file_exists(DBCONNFILE)) {
         exit;
     } else {
 
-        include_once(BASE_DIR . 'axis/modules/Install/routes.php');
+        include_once(BASE_DIR . '/axis/modules/Install/routes.php');
 
-        $acmsLoader->addPrefix('Install', MODULES_AXIS);
+        $acmsLoader->addPrefix('Install', AXIS_MODULES_DIR);
 
-        $installRoutes = require PACKAGES . 'Aura.Router/scripts/instance.php';
+        $installRoutes = require VENDOR_DIR . '/aura/router/scripts/instance.php';
 
         // @todo: The next two 'if' statements should be a class method
         if (isset($moduleRoutes)) {
