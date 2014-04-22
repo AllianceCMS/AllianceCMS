@@ -53,7 +53,7 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
     protected function buildServiceContainers()
     {
         /**
-         * Service Containers
+         * Symfony Service Containers
          */
 
         $this['logger'] = null;
@@ -100,6 +100,10 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
         $this['url_generator'] = function ($c) {
             return new UrlGenerator($c['routes'], $c['request_context']);
         };
+
+        /**
+         * AllianceCMS Service Containers
+         */
 
         $this['model'] = function ($c) {
             return new Db($c);
@@ -177,7 +181,7 @@ class Application extends \Pimple implements HttpKernelInterface, TerminableInte
         };
 
         /**
-         * Parameters
+         * Service Container Parameters
          */
         $this['request_error'] = $this->protect(function () {
             throw new \RuntimeException('Accessed request service outside of request scope. Try moving that call to a before handler or controller.');
