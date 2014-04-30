@@ -10,7 +10,7 @@ $acmsLoader = new ClassLoader();
 $acmsLoader->addPrefixes([
     'Acms\\Core' => $acmsBaseDir . '/axis/src/',
     'PhpRbac' => $acmsBaseDir . '/axis/src/PhpRbac/src/',
-    ]);
+]);
 
 $acmsLoader->register();
 

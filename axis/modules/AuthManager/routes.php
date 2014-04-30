@@ -6,7 +6,7 @@ $moduleRoutes['AuthManager']['Login Block'] = [
     'type' => 'block', // Required: admin, front, back
     'specs' => [
         'values' => [
-            'namespace' => 'AuthManager',
+            'namespace' => 'AuthManager\Authentication',
             'controller' => 'UserAuth',
             'action' => 'loginBlock',
         ] // Required: namespace/controller/action
@@ -19,7 +19,7 @@ $moduleRoutes['AuthManager']['Login Page'] = [
     'type' => 'front', // Required: admin, front, back
     'specs' => [
         'values' => [
-            'namespace' => 'AuthManager',
+            'namespace' => 'AuthManager\Authentication',
             'controller' => 'UserAuth',
             'action' => 'loginPage',
         ] // Required: namespace/controller/action
@@ -32,7 +32,7 @@ $moduleRoutes['AuthManager']['Login Attempt'] = [
     'type' => 'front', // Required: admin, front, back
     'specs' => [
         'values' => [
-            'namespace' => 'AuthManager',
+            'namespace' => 'AuthManager\Authentication',
             'controller' => 'UserAuth',
             'action' => 'loginAttempt',
         ] // Required: namespace/controller/action
@@ -45,7 +45,7 @@ $moduleRoutes['AuthManager']['Logout Attempt'] = [
     'type' => 'front', // Required: admin, front, back
     'specs' => [
         'values' => [
-            'namespace' => 'AuthManager',
+            'namespace' => 'AuthManager\Authentication',
             'controller' => 'UserAuth',
             'action' => 'logoutAttempt',
         ] // Required: namespace/controller/action

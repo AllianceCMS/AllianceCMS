@@ -2,14 +2,18 @@
 
 use Acms\Core\Data\Db;
 
-// If the database config file (dbConnection.php) exists create database object
+/**
+ * Does dbConnection.php exist?
+ */
 if (file_exists(DB_CONNECTION_FILE)) {
 
     $sql = new Db;
 
 } else {
 
-    // If the database config file (dbConnection.php) does not exist send user to installation page
+    /**
+     * Send user to installation page
+     */
 
     // Match Routes
     // @todo: The following five lines of active code needs to be a class method

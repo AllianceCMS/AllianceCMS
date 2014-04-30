@@ -1,12 +1,12 @@
 <?php
-namespace AuthManager;
+namespace AuthManager\Authentication;
 
-use Acms\Core\Components\AbstractModule;
+use Acms\Core\ModuleSystem\ModuleBuilder\AbstractModule;
 use Acms\Core\Data\Db;
 use Acms\Core\Html\FormHelper;
 use Acms\Core\Html\HtmlHelper;
 use Acms\Core\Templates\Template;
-use Aura\Core\Entities\CurrentUser;
+use Acms\Core\Entities\CurrentUser;
 use Acms\Core\Data\Security;
 
 /**

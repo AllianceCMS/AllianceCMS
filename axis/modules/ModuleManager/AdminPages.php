@@ -1,7 +1,7 @@
 <?php
 namespace ModuleManager;
 
-use Acms\Core\Components\AbstractAdmin;
+use Acms\Core\ModuleSystem\ModuleBuilder\AbstractAdmin;
 use Acms\Core\Components\Installer;
 use Acms\Core\Data\Assets;
 use Acms\Core\Data\Db;
@@ -54,8 +54,8 @@ class AdminPages extends AbstractAdmin
             'id, name, version, description, developer, developer_email, developer_site, created',
             'active = :active AND folder_path = :folder_path',
             [
-            'active' => intval(2),
-            'folder_path' => 'axis/modules/',
+                'active' => intval(2),
+                'folder_path' => 'axis/modules/',
             ],
             'ORDER BY weight');
 
@@ -130,17 +130,15 @@ class AdminPages extends AbstractAdmin
 
                 include $file->getRealpath();
 
-                $zoneAllModules = [
-                    [
-                        'name' => $details['name'],
-                        'version' => $details['version'],
-                        'description' => urlencode($details['description']),
-                        'developer' => $details['developer'],
-                        'developer_site' => $details['developer_site'],
-                        'developer_email' => $details['developer_email'],
-                        'folder_path' => $folder_path,
-                        'folder_name' => $folder_name,
-                    ],
+                $zoneAllModules[] = [
+                    'name' => $details['name'],
+                    'version' => $details['version'],
+                    'description' => urlencode($details['description']),
+                    'developer' => $details['developer'],
+                    'developer_site' => $details['developer_site'],
+                    'developer_email' => $details['developer_email'],
+                    'folder_path' => $folder_path,
+                    'folder_name' => $folder_name,
                 ];
             }
         }
@@ -173,17 +171,15 @@ class AdminPages extends AbstractAdmin
 
                 include $file->getRealpath();
 
-                $zoneSpecificModules = [
-                    [
-                        'name' => $details['name'],
-                        'version' => $details['version'],
-                        'description' => urlencode($details['description']),
-                        'developer' => $details['developer'],
-                        'developer_site' => $details['developer_site'],
-                        'developer_email' => $details['developer_email'],
-                        'folder_path' => $folder_path,
-                        'folder_name' => $folder_name,
-                    ],
+                $zoneSpecificModules[] = [
+                    'name' => $details['name'],
+                    'version' => $details['version'],
+                    'description' => urlencode($details['description']),
+                    'developer' => $details['developer'],
+                    'developer_site' => $details['developer_site'],
+                    'developer_email' => $details['developer_email'],
+                    'folder_path' => $folder_path,
+                    'folder_name' => $folder_name,
                 ];
             }
         }

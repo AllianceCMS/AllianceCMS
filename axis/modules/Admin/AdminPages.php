@@ -1,8 +1,8 @@
 <?php
 namespace Admin;
 
-use Acms\Core\Components\AbstractAdmin;
-use Aura\Core\Entities\CurrentUser;
+use Acms\Core\ModuleSystem\ModuleBuilder\AbstractAdmin;
+use Acms\Core\Entities\CurrentUser;
 use Acms\Core\Templates\Template;
 use Acms\Core\Html\FormHelper;
 use Acms\Core\Html\HtmlHelper;
