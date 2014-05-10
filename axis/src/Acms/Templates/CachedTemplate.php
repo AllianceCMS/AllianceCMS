@@ -1,6 +1,6 @@
 <?php
 
-namespace Acms\Core\Templates;
+namespace Acms\Templates;
 
 /**
  * An extension to Template that provides automatic caching of

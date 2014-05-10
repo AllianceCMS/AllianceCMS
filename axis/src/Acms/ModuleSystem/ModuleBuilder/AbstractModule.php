@@ -1,8 +1,8 @@
 <?php
-namespace Acms\Core\ModuleSystem\ModuleBuilder;
+namespace Acms\ModuleSystem\ModuleBuilder;
 
-use Acms\Core\Html\FormHelper;
-use Acms\Core\Html\HtmlHelper;
+use Acms\Html\FormHelper;
+use Acms\Html\HtmlHelper;
 
 abstract class AbstractModule
 {

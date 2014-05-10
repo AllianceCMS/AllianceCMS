@@ -1,11 +1,11 @@
 <?php
 namespace VenueManager;
 
-use Acms\Core\ModuleSystem\ModuleBuilder\AbstractModule;
-use Acms\Core\Templates\Template;
-use Acms\Core\Data\Db;
-use Acms\Core\Data\Validate;
-use Acms\Core\Data\Filter;
+use Acms\ModuleSystem\ModuleBuilder\AbstractModule;
+use Acms\Templates\Template;
+use Acms\Data\Db;
+use Acms\Data\Validate;
+use Acms\Data\Filter;
 
 class Venues extends AbstractModule
 {

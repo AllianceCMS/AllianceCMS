@@ -1,8 +1,8 @@
 <?php
 namespace Home;
 
-use Acms\Core\Templates\Template;
-use Acms\Core\ModuleSystem\ModuleBuilder\AbstractModule;
+use Acms\Templates\Template;
+use Acms\ModuleSystem\ModuleBuilder\AbstractModule;
 
 class DisplayPage extends AbstractModule
 {

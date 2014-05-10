@@ -1,11 +1,11 @@
 <?php
 namespace ModuleManager;
 
-use Acms\Core\ModuleSystem\ModuleBuilder\AbstractAdmin;
-use Acms\Core\Components\Installer;
-use Acms\Core\Data\Assets;
-use Acms\Core\Data\Db;
-use Acms\Core\Templates\Template;
+use Acms\ModuleSystem\ModuleBuilder\AbstractAdmin;
+use Acms\Components\Installer;
+use Acms\Data\Assets;
+use Acms\Data\Db;
+use Acms\Templates\Template;
 use Symfony\Component\Finder\Finder;
 
 class AdminPages extends AbstractAdmin

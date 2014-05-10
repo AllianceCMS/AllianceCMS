@@ -1,9 +1,9 @@
 <?php
-namespace Acms\Core\Templates;
+namespace Acms\Templates;
 
-use Acms\Core\ModuleSystem\ModuleBuilder\AbstractModule;
-use Acms\Core\Templates\Template;
-use Acms\Core\Data\Db;
+use Acms\ModuleSystem\ModuleBuilder\AbstractModule;
+use Acms\Templates\Template;
+use Acms\Data\Db;
 
 class Blocks extends AbstractModule
 {

@@ -5,7 +5,7 @@
  * Documentation for all Database related functionality.
  */
 
-namespace Acms\Core\Data;
+namespace Acms\Data;
 
 /**
  * Database connection/usage class.
@@ -524,7 +524,7 @@ class Db
      *
      * Example: Manually creating 'lazy-connect' connection (Should not have to instantiate a new Db object. Use Axis $sql Db object, which is already available to you):
      * @code
-     * $sql = new Acms\Core\Data\Db;
+     * $sql = new Acms\Data\Db;
      * $sql->dbConnect(
      *     $dbAdapter,
      *     $dbHost,
@@ -589,7 +589,7 @@ class Db
      *
      * Example:
      * @code
-     * $sql = new Acms\Core\Data\Db;
+     * $sql = new Acms\Data\Db;
      * $sql->dbConnect(); // Needed to create active connection. Creates lazy-load connection. Will only create active connection once a query is executed.
      *
      * try {

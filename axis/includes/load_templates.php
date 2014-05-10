@@ -7,8 +7,8 @@
 // ???Load custom templates???
 // Create
 
-use Acms\Core\Templates\Menus;
-use Acms\Core\Templates\Template;
+use Acms\Templates\Menus;
+use Acms\Templates\Template;
 
 /**
  * Setup Theme Constants

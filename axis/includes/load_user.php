@@ -1,6 +1,6 @@
 <?php
-//use Acms\Core\Users\AxisRole;
-use Acms\Core\Entities\CurrentUser;
+//use Acms\Users\AxisRole;
+use Acms\Entities\CurrentUser;
 use PhpRbac\Rbac;
 
 //*

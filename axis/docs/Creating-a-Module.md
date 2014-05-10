@@ -136,7 +136,7 @@ Now we are going to instantiate a Template object and assign data to a view temp
 
         namespace HelloWorld;
 
-        use Acms\Core\Templates\Template;
+        use Acms\Templates\Template;
 
         class SaySomething
         {

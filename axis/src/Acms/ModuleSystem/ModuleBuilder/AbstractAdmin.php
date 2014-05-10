@@ -1,9 +1,9 @@
 <?php
-namespace Acms\Core\ModuleSystem\ModuleBuilder;
+namespace Acms\ModuleSystem\ModuleBuilder;
 
-use Acms\Core\ModuleSystem\ModuleBuilder\AbstractModule;
-use Acms\Core\Data\Db;
-use Acms\Core\Templates\Template;
+use Acms\ModuleSystem\ModuleBuilder\AbstractModule;
+use Acms\Data\Db;
+use Acms\Templates\Template;
 
 abstract class AbstractAdmin extends AbstractModule
 {

@@ -1,11 +1,11 @@
 <?php
 namespace Admin;
 
-use Acms\Core\ModuleSystem\ModuleBuilder\AbstractAdmin;
-use Acms\Core\Entities\CurrentUser;
-use Acms\Core\Templates\Template;
-use Acms\Core\Html\FormHelper;
-use Acms\Core\Html\HtmlHelper;
+use Acms\ModuleSystem\ModuleBuilder\AbstractAdmin;
+use Acms\Entities\CurrentUser;
+use Acms\Templates\Template;
+use Acms\Html\FormHelper;
+use Acms\Html\HtmlHelper;
 
 class AdminPages extends AbstractAdmin
 {

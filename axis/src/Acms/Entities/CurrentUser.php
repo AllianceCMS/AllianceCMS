@@ -1,7 +1,7 @@
 <?php
-namespace Acms\Core\Entities;
+namespace Acms\Entities;
 
-use \Acms\Core\Data\Db;
+use \Acms\Data\Db;
 
 class CurrentUser
 {

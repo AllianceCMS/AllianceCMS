@@ -20,7 +20,7 @@
  *
  */
 
-namespace Acms\Core\Html;
+namespace Acms\Html;
 
 /**
  * This Class is used to process forms.

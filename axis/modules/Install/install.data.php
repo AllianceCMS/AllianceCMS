@@ -42,7 +42,7 @@ include(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'schemata' . DIRECTORY_SEPARAT
  */
 
 // Create database object
-$sql = new \Acms\Core\Data\Db;
+$sql = new \Acms\Data\Db;
 // Setup db connection variables
 //     Started this because there was an error if the password was null,
 //     then decided we might as well do this for all $_POST database elements)

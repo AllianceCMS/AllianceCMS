@@ -1,13 +1,13 @@
 <?php
 namespace AuthManager\Authentication;
 
-use Acms\Core\ModuleSystem\ModuleBuilder\AbstractModule;
-use Acms\Core\Data\Db;
-use Acms\Core\Html\FormHelper;
-use Acms\Core\Html\HtmlHelper;
-use Acms\Core\Templates\Template;
-use Acms\Core\Entities\CurrentUser;
-use Acms\Core\Data\Security;
+use Acms\ModuleSystem\ModuleBuilder\AbstractModule;
+use Acms\Data\Db;
+use Acms\Html\FormHelper;
+use Acms\Html\HtmlHelper;
+use Acms\Templates\Template;
+use Acms\Entities\CurrentUser;
+use Acms\Data\Security;
 
 /**
  * @todo: Multiple Items
@@ -164,7 +164,7 @@ class UserAuth extends AbstractModule
 
         $this->sessionAxis->start();
 
-        $currentUser = new \Acms\Core\Entities\CurrentUser($this->sessionAxis);
+        $currentUser = new \Acms\Entities\CurrentUser($this->sessionAxis);
 
         $tableColumns = [
             'acms_id' => '',

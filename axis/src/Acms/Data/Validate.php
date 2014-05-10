@@ -1,5 +1,5 @@
 <?php
-namespace Acms\Core\Data;
+namespace Acms\Data;
 
 class Validate
 {

@@ -1,7 +1,7 @@
 <?php
 namespace Home;
 
-use Acms\Core\Templates\Template;
+use Acms\Templates\Template;
 
 class HomeBlocks{
 

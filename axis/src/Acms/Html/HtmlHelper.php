@@ -32,7 +32,7 @@
  *
  */
 
-namespace Acms\Core\Html;
+namespace Acms\Html;
 
 class HtmlHelper
 {

@@ -1,5 +1,5 @@
 <?php
-use Acms\Core\Data\Security;
+use Acms\Data\Security;
 
 $testSalt = new Security();
 

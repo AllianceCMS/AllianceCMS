@@ -1,10 +1,10 @@
 <?php
 namespace Install;
 
-use Acms\Core\Components\Installer;
-use Acms\Core\Templates\Template;
-use Acms\Core\Html\FormHelper;
-use Acms\Core\Data\Security;
+use Acms\Components\Installer;
+use Acms\Templates\Template;
+use Acms\Html\FormHelper;
+use Acms\Data\Security;
 
 /**
  * @todo: Multiple Items
@@ -246,7 +246,7 @@ class InstallSite
         // Test/Confirm DB Connection
 
         // Create database object for testing purposes
-        $sql = new \Acms\Core\Data\Db;
+        $sql = new \Acms\Data\Db;
 
         // Setup db connection variables
         // Started this because there was an error if the password was null,
@@ -676,7 +676,7 @@ class InstallSite
 
     private function loginAdmin($axis, $loginName, $password)
     {
-        $sql = new \Acms\Core\Data\Db;
+        $sql = new \Acms\Data\Db;
         $security = new Security();
 
         // Setup db connection variables

@@ -1,6 +1,6 @@
 <?php
 
-namespace Acms\Core\Templates;
+namespace Acms\Templates;
 
 class Template {
     private $vars; /// Holds all the template variables

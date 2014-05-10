@@ -1,5 +1,5 @@
 <?php
-use Acms\Core\Templates\Template;
+use Acms\Templates\Template;
 
 if ($dispatch) {
 
@@ -145,7 +145,7 @@ if ($dispatch) {
             $links = $sql->dbFetch();
 
             // Create navbar template
-            $nav1 = new Acms\Core\Templates\Template(THEMES_DIR . '/' . $adminTheme . '/admin.nav1.tpl.php');
+            $nav1 = new Acms\Templates\Template(THEMES_DIR . '/' . $adminTheme . '/admin.nav1.tpl.php');
             $nav1->set('currentVenue', $axisRoute->values['venue']);
             $nav1->set('links', $links);
 
@@ -188,7 +188,7 @@ if ($dispatch) {
         $links = $sql->dbFetch();
 
         // Create navbar template
-        $nav1 = new Acms\Core\Templates\Template(TEMPLATES_DIR . '/nav.tpl.php');
+        $nav1 = new Acms\Templates\Template(TEMPLATES_DIR . '/nav.tpl.php');
         $nav1->set('currentVenue', $axisRoute->values['venue']);
         $nav1->set('links', $links);
 
@@ -199,9 +199,9 @@ if ($dispatch) {
          * Process Blocks
         */
 
-        $finished_blocks = new Acms\Core\Templates\Template();
+        $finished_blocks = new Acms\Templates\Template();
 
-        $process_blocks = new Acms\Core\Templates\Blocks($axis);
+        $process_blocks = new Acms\Templates\Blocks($axis);
         $active_blocks = $process_blocks->getBlocks($block_routes);
 
         if(!empty($active_blocks)) {
@@ -211,7 +211,7 @@ if ($dispatch) {
 
                     $block_area_label = 'block_area_' . $block_area;
 
-                    $build_block = new Acms\Core\Templates\Template(TEMPLATES_DIR . '/block.tpl.php');
+                    $build_block = new Acms\Templates\Template(TEMPLATES_DIR . '/block.tpl.php');
                     $build_block->set('block_title', $block['title']);
                     $build_block->set('block_content', $block['content']);
 

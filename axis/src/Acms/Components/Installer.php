@@ -1,5 +1,5 @@
 <?php
-namespace Acms\Core\Components;
+namespace Acms\Components;
 
 use Symfony\Component\Filesystem\Filesystem;
 

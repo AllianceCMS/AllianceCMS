@@ -1,6 +1,6 @@
 <?php
 
-use Acms\Core\Data\Db;
+use Acms\Data\Db;
 
 /**
  * Does dbConnection.php exist?
