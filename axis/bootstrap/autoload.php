@@ -9,8 +9,8 @@ use Symfony\Component\ClassLoader\ClassLoader;
 $acmsLoader = new ClassLoader();
 
 $acmsLoader->addPrefixes([
-    'Acms\\Core' => $vendorDir . '/acms/src/',
-    'PhpRbac' => $vendorDir . '/PhpRbac/src/',
+    'Acms\\Core' => $acmsBaseDir . '/axis/src/acms/src/',
+    'PhpRbac' => $acmsBaseDir . '/axis/src/PhpRbac/src/',
 ]);
 
 $acmsLoader->register();
