@@ -88,4 +88,3 @@ define('THIS_QUERY_STRING', $thisQueryString); // Used in nav.tpl.php
 unset($acmsBaseDir);
 unset($subDomainFolder);
 unset($activeZone);
-//*/

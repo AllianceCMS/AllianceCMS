@@ -1,34 +1,29 @@
 <?php
 /**
- * @file
  * Generic Database Handler.
- */
-
-/**
- * @defgroup database Database Abstraction Layer
- * @{
+ *
  * Documentation for all Database related functionality.
  */
 
 namespace Acms\Core\Data;
 
 /**
- * Db
- *
  * Database connection/usage class.
  *
  * The routines here define the methods and properties needed to handle database connectivity and functionality.
- *
  * We use Aura.Sql for minor database abstraction. The available databases (at this time) are: MySQL
+ *
  */
 
 class Db
 {
 
     /**
+     * Sets up Database object
+     *
      * 1. Initialize all class properties to null
      * 2. Checks if dbConnection.php exists
-     * 3. Sets up class properies related to database connection
+     * 3. Sets up class properties related to database connection
      * 4. Creates database connection using a lazy-connect method
      *
      *     From the Aura.Sql documentation: "The connection will lazy-connect to the database the first time you issue a query
