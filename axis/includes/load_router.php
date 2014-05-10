@@ -115,7 +115,7 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
 
     }
 
-    // Match Routes
+    // Parse Requested Route
     // @todo: The following five lines of active code should be a class method
     $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); // Used in this file and in load_dispatcher.php
     $pathArray = explode('/', $path);
