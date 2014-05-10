@@ -14,7 +14,7 @@ namespace Ciao;
  * Eases access to the AbstractModule and Template Classes
  */
 
-use Acms\Core\Components\AbstractModule;
+use Acms\Core\ModuleSystem\ModuleBuilder\AbstractModule;
 use Acms\Core\Templates\Template;
 
 /**

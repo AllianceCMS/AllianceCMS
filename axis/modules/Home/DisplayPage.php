@@ -2,7 +2,7 @@
 namespace Home;
 
 use Acms\Core\Templates\Template;
-use Acms\Core\Components\AbstractModule;
+use Acms\Core\ModuleSystem\ModuleBuilder\AbstractModule;
 
 class DisplayPage extends AbstractModule
 {

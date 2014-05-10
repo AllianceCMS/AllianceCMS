@@ -14,7 +14,7 @@ namespace Ciao;
  * Eases access to the AbstractAdmin and Template Classes
  */
 
-use Acms\Core\Components\AbstractAdmin;
+use Acms\Core\ModuleSystem\ModuleBuilder\AbstractAdmin;
 use Acms\Core\Templates\Template;
 
 /**

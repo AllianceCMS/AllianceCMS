@@ -39,14 +39,14 @@ class InstallSite
         $serverPathArray = explode('.', $_SERVER['SERVER_NAME']);
 
         if (((count($serverPathArray)) < 3) || ($serverPathArray[0] == 'www')) {
-            if (file_exists(ZONES . $_SERVER['SERVER_NAME'])) {
-                $moduleZones = ZONES . $_SERVER['SERVER_NAME'] . DIRECTORY_SEPARATOR . 'modules';
+            if (file_exists(ZONES_DIR . '/' . $_SERVER['SERVER_NAME'])) {
+                $moduleZones = ZONES_DIR . '/' . $_SERVER['SERVER_NAME'] . DIRECTORY_SEPARATOR . 'modules';
             } else {
-                $moduleZones = ZONES . 'default' . DIRECTORY_SEPARATOR . 'modules';
+                $moduleZones = ZONES_DIR . '/default/modules';
             }
         } else {
             // This is a subdomain, check for zone folder
-            if (!file_exists(ZONES . $_SERVER['SERVER_NAME'])) {
+            if (!file_exists(ZONES_DIR . '/' . $_SERVER['SERVER_NAME'])) {
                 $missingZone = 1;
             }
         }
@@ -761,7 +761,7 @@ class InstallSite
         $this->tpl = new Template();
         $this->tpl->set('title', 'AllianceCMS: Installation');
         $this->tpl->set('author', 'AllianceCMS Dev Team');
-        $this->tpl->set('theme_folder', BASE_URL . '/' . 'themes/Emplode');
+        $this->tpl->set('theme_folder', BASE_URL . '/themes/Emplode');
 
     }
 
@@ -769,7 +769,7 @@ class InstallSite
     {
         // Setup content for module template
         $this->content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . $view);
-        $this->content->set('theme_folder', BASE_URL . '/' . 'themes/Emplode');
+        $this->content->set('theme_folder', BASE_URL . '/themes/Emplode');
 
     }
 
@@ -778,7 +778,7 @@ class InstallSite
         // Create menu template
         $this->menu[0] = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'menu.tpl.php');
         $this->menu[0]->set('installStage', $stage);
-        $this->menu[0]->set('theme_folder', BASE_URL . '/' . 'themes/Emplode');
+        $this->menu[0]->set('theme_folder', BASE_URL . '/themes/Emplode');
 
     }
 
