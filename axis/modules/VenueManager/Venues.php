@@ -10,7 +10,7 @@ use Acms\Core\Data\Filter;
 class Venues extends AbstractModule
 {
     /**
-     * @todo: Do not allow venue create if client is not logged in
+     * @todo: Do not allow venue creation if client is not logged in
      */
     public function venueCreateStart()
     {

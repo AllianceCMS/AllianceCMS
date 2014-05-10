@@ -168,7 +168,6 @@ if ($dispatch) {
         // Assign the controller to the body of the base/theme template
         $page = new $controller($axis);
 
-        // @todo: Can we get rid of 'axis' parameter yet???
         $content = $page->$action();
 
         // Create base/theme template vars
