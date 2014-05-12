@@ -14,8 +14,8 @@ namespace Ciao;
  * Eases access to the AbstractAdmin and Template Classes
  */
 
-use Acms\Core\ModuleSystem\ModuleBuilder\AbstractAdmin;
-use Acms\Core\Templates\Template;
+use Acms\ModuleSystem\ModuleBuilder\AbstractAdmin;
+use Acms\Templates\Template;
 
 /**
  * Class Definition
@@ -48,7 +48,7 @@ class AdminPages extends AbstractAdmin
      * Most 'front' and 'admin' actions will need to return $content. $content should contain a processed template/view so content will display inside of the site theme, but this is not required.
      *     The only time (that I can think of at this time) a routed action does not need to return $content is if the routed action only processes form data and redirects the user agent to another route, i.e. processing for input and then redirecting them to a success page using "header('Location: ' . $this->basePath. '/success');".
      *
-     * @return \Acms\Core\Templates\Template
+     * @return \Acms\Templates\Template
      */
 
     public function adminCiao()
