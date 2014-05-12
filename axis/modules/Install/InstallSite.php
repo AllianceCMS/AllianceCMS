@@ -727,7 +727,7 @@ class InstallSite
         );
 
         // Setup Session
-        $sessionAxis = include PACKAGE_AURA_SESSION . 'scripts/instance.php';
+        $sessionAxis = include AXIS_DIR . '/vendor/aura/session/scripts/instance.php';
         $sessionAxis->start();
         $segmentUser = $sessionAxis->newSegment('User');
         $segmentUser->display_name = $loginName;
