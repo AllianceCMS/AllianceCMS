@@ -1,5 +1,7 @@
 <?php
 
+use Acms\ModuleSystem\ModuleLoader;
+
 // Don't dispatch route if not explicitly told to do so
 $dispatch = false;
 
@@ -21,14 +23,27 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
      * Query Db and find out which modules are installed
      */
 
+    /*
     // Include only installed modules 'routes.php' so we have access to routes
     $sql->dbSelect('modules', 'folder_path, folder_name', 'active = :active', ['active' => intval(2)]);
     $result = $sql->dbFetch();
+    //*/
 
-    foreach ($result as $row) {
+    $moduleLoader = new ModuleLoader();
+    $activeModules = $moduleLoader->listActiveModules();
+
+    /*
+    echo '<br /><pre>$activeModules: ';
+    echo print_r($activeModules);
+    echo '</pre><br />';
+    exit;
+    //*/
+
+    //foreach ($result as $row) {
+    foreach ($activeModules as $row) {
 
         /**
-         * Dynamically load modules based on 'folder_path' ('modules' db table field)
+         * Dynamically include Module Routes and then autoload Modules based on 'folder_path' ('modules' db table field)
          *
          * The module folder must reside in '/axis/modules' or '/zones/some-zone/modules/some-directory'
          *     (i.e.  '/zones/all/modules/provider', '/zones/subdomain.mysite.com/modules/custom')
