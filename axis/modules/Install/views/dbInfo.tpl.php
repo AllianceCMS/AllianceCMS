@@ -63,7 +63,7 @@
                 <span style="color: red;">*</span> <strong>Host Name:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('dbHost', ((isset($formData['dbHost'])) ? $formData['dbHost'] : $dbHost)); ?>
+                <?php $formHelper->inputText('dbHost', ((isset($formData['dbHost'])) ? $formData['dbHost'] : $dbHost), 'required'); ?>
             </td>
         </tr>
         <tr>
@@ -71,7 +71,7 @@
                 <span style="color: red;">*</span> <strong>Database:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('dbDatabase', (isset($formData['dbDatabase'])) ? $formData['dbDatabase'] : $dbDatabase); ?>
+                <?php $formHelper->inputText('dbDatabase', ((isset($formData['dbDatabase'])) ? $formData['dbDatabase'] : $dbDatabase), 'required'); ?>
                 <?php $formHelper->inputCheckBox('dbCreateDatabase', '1', '', ((isset($formData['dbCreateDatabase'])) && ($formData['dbCreateDatabase'] == '1') ? '1' : NULL)); ?>
                 Create?
             </td>
@@ -81,7 +81,7 @@
                 <span style="color: red;">*</span> <strong>User Name:</strong>
             </td>
             <td>
-                <?php $formHelper->inputText('dbUserName', ((isset($formData['dbUserName'])) ? $formData['dbUserName'] : $dbUserName)); ?>
+                <?php $formHelper->inputText('dbUserName', ((isset($formData['dbUserName'])) ? $formData['dbUserName'] : $dbUserName), 'required'); ?>
             </td>
         </tr>
         <tr>

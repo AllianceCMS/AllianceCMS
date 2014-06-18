@@ -7,7 +7,7 @@
     </div>
 
     <hr>
-    
+
     <div style="float: left; margin:0 5px 5px 0;">
         <?php
             $formHelper->inputFormStart('/install/database-info');
@@ -25,19 +25,15 @@
 <?php elseif ((!$validConnection) && (!$dbCreateDatabase)): ?>
 
     <div class="error">Error: Can Not Connect To The Database!!!</div>
-    
+
     <div class="notice">
         <p>
-            Hint: Verify that your database credentials are correct!<br />
-            Hint: Verify that the specified database exists!
-        </p>
-        <p>
-            Please Review The Database Connection Information You Entered And Try Again
+            Please Review The Database Connection Information You Have Entered And Try Again.
         </p>
     </div>
 
     <hr>
-    
+
     <div style="float: left; margin:0 5px 5px 0;">
         <?php
             $formHelper->inputFormStart('/install/database-info');

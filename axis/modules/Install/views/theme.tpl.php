@@ -6,6 +6,7 @@
     	<meta name="description" content=""/>
     	<meta name="keywords" content="" />
     	<meta name="author" content="<?php echo $author; ?>" />
+    	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.1/pure-min.css">
     	<link rel="stylesheet" type="text/css" href="<?php echo $theme_folder; ?>/css/style.css" media="screen" />
     	<title><?php echo $title; ?></title>
     </head>

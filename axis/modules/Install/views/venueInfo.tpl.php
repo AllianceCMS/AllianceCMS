@@ -10,9 +10,11 @@
         $firstIteration = 1;
     }
 
+    /*
     if (empty($venueLabel)) {
         $venueLabel = '';
     }
+    //*/
 
     if (empty($venueTitle)) {
         $venueTitle = '';
@@ -38,16 +40,18 @@
 
 <?php if (isset($formErrors)): ?>
     <div class="error">
-    <?php if ($venueLabel == ''): ?>
+    <!--
+    <?php /* if ($venueLabel == ''): */ ?>
         <p>
             Error: Please Enter A Venue Name
         </p>
-    <?php endif; ?>
-    <?php if (isset($venueLabelRegexError) && $venueLabelRegexError == 1): ?>
+    <?php /* endif; */ ?>
+    <?php /* if (isset($venueLabelRegexError) && $venueLabelRegexError == 1): */ ?>
         <p>
             Error: Please Enter A Valid Venue Name
         </p>
-    <?php endif; ?>
+    <?php /* endif; */ ?>
+    -->
     <?php if ($venueEmail == ''): ?>
         <p>
             Error: Please Enter An Email Address
@@ -73,6 +77,7 @@
 
 <?php $formHelper->inputFormStart('/install/confirm-venue-info'); ?>
     <table class="data_table">
+        <!--
         <tr>
             <td>
                 <span style="color: red;">*</span> <strong>Venue Name:</strong><br />
@@ -81,9 +86,10 @@
                 (i.e. AllianceCMS, My-Venue-Name)
             </td>
             <td>
-                <?php $formHelper->inputText('venueLabel', (isset($formData['venueLabel'])) ? $formData['venueLabel'] : $venueLabel); ?>
+                <?php /* $formHelper->inputText('venueLabel', ((isset($formData['venueLabel'])) ? $formData['venueLabel'] : $venueLabel), 'required'); */ ?>
             </td>
         </tr>
+        -->
         <tr>
             <td>
                 <strong>Title:</strong>
@@ -106,7 +112,7 @@
                 Email Address That Users Will Receive Emails From (admin@yoursite.com)
             </td>
             <td>
-                <?php $formHelper->inputText('venueEmail', (isset($formData['venueEmail'])) ? $formData['venueEmail'] : $venueEmail); ?>
+                <?php $formHelper->inputText('venueEmail', ((isset($formData['venueEmail'])) ? $formData['venueEmail'] : $venueEmail), 'required'); ?>
             </td>
         </tr>
         <tr>
@@ -115,7 +121,7 @@
                 Email Address That Users Will Receive Emails From (admin@yoursite.com)
             </td>
             <td>
-                <?php $formHelper->inputText('venueConfirmEmail', (isset($formData['venueConfirmEmail'])) ? $formData['venueConfirmEmail'] : $venueConfirmEmail); ?>
+                <?php $formHelper->inputText('venueConfirmEmail', ((isset($formData['venueConfirmEmail'])) ? $formData['venueConfirmEmail'] : $venueConfirmEmail), 'required'); ?>
             </td>
         </tr>
         <tr>

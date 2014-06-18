@@ -1,8 +1,10 @@
 <?php
 
+    /*
     if (empty($venueLabel)) {
         $venueLabel = '';
     }
+    //*/
 
     if (empty($venueTitle)) {
         $venueTitle = '';
@@ -29,14 +31,16 @@
 <hr>
 
 <table class="data_table">
+    <!--
     <tr>
         <td>
             <strong>Main Venue Name:</strong>
         </td>
         <td>
-            <?php echo $venueLabel; ?>
+            <?php /* echo $venueLabel; */ ?>
         </td>
     </tr>
+    -->
     <tr>
         <td>
             <strong>Title:</strong>
