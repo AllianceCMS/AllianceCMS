@@ -54,4 +54,4 @@ $sql->dbSelect('themes',
     'id = :id',
     ['id' => intval(VENUE_THEME)]);
 $fields = $sql->dbFetch('one');
-$theme_path = $fields['folder_path'] . $fields['folder_name'];
+$theme_path = $fields['folder_path'] . '/' . $fields['folder_name'];

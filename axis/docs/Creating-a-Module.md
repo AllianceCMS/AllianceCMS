@@ -16,7 +16,7 @@ Since we're keeping this nice and simple we're not going to explain advanced mod
 
 Let's name our module HelloWorld.
 
-* Create a folder named 'HelloWorld' in the '/zones/all/modules/custom/' folder (this is a custom module after all). The folder path should now be '/zones/all/modules/custom/HelloWorld'
+* Create a folder named 'HelloWorld' in the '/zones/all/modules/custom' folder (this is a custom module after all). The folder path should now be '/zones/all/modules/custom/HelloWorld'
 
 ##Routes
 
@@ -97,7 +97,7 @@ Until the ModuleManager module is complete you will need to use your favorite da
 Here are the required fields and the values you should use:
 
 * name = Hello World
-* folder_path = zones/all/modules/custom/
+* folder_path = /zones/all/modules/custom
 * folder_name = HelloWorld
 * active = 2
 

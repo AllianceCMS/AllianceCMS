@@ -33,7 +33,9 @@ foreach ($pathArray as $val) {
 if (!isset($subDomainFolder)) {
     $subDomainFolder = '';
 } else {
-    $subDomainFolder = $subDomainFolder;
+    if (!empty($subDomainFolder)) {
+        $subDomainFolder = '/' . $subDomainFolder;
+    }
 }
 
 /**
@@ -67,7 +69,7 @@ if (((count($serverPathArray)) < 3) || ($serverPathArray[0] == 'www')) {
 
 define('BASE_DIR', $acmsBaseDir);
 define('AXIS_DIR', $acmsBaseDir . '/axis');
-define('WWW_DIR', $acmsBaseDir . '/public_html/' . $subDomainFolder);
+define('WWW_DIR', $acmsBaseDir . '/public_html' . $subDomainFolder);
 define('ZONES_DIR', $acmsBaseDir . '/zones');
 define('STORAGE_DIR', $acmsBaseDir . '/axis/storage');
 define('CONFIGS_DIR', $acmsBaseDir . '/axis/configs');

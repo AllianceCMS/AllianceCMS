@@ -5,6 +5,11 @@ use Acms\Data\Db;
 
 class ModuleLoader
 {
+    public function setupActiveModules()
+    {
+        $activeModulePaths = getActiveModulePaths();
+    }
+
     public function listActiveModules()
     {
         $sql = new Db();

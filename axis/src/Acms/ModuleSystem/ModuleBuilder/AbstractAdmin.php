@@ -32,7 +32,7 @@ abstract class AbstractAdmin extends AbstractModule
 
         foreach ($result as $module) {
 
-            if (file_exists(BASE_DIR . '/' . $module['folder_path'] . $module['folder_name'] . DIRECTORY_SEPARATOR . 'AdminPages.php')) {
+            if (file_exists(BASE_DIR . $module['folder_path'] . '/' . $module['folder_name'] . DIRECTORY_SEPARATOR . 'AdminPages.php')) {
 
                 $tempController = '\\' . $module['folder_name'] . '\\' . 'AdminPages';
 

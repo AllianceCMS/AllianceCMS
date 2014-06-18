@@ -25,8 +25,8 @@ class AdminPages extends AbstractAdmin
             OR folder_path = :folder_path2',
             [
                 'active' => intval(2),
-                'folder_path1' => 'zones/all/modules/provider/',
-                'folder_path2' => 'zones/all/modules/custom/',
+                'folder_path1' => '/zones/all/modules/provider',
+                'folder_path2' => '/zones/all/modules/custom',
             ],
             'ORDER BY weight');
 
@@ -41,9 +41,9 @@ class AdminPages extends AbstractAdmin
             AND folder_path != :folder_path3',
             [
                 'active' => intval(2),
-                'folder_path1' => 'zones/all/modules/provider/',
-                'folder_path2' => 'zones/all/modules/custom/',
-                'folder_path3' => 'axis/modules/',
+                'folder_path1' => '/zones/all/modules/provider',
+                'folder_path2' => '/zones/all/modules/custom',
+                'folder_path3' => '/axis/modules',
             ],
             'ORDER BY weight');
 
@@ -55,7 +55,7 @@ class AdminPages extends AbstractAdmin
             'active = :active AND folder_path = :folder_path',
             [
                 'active' => intval(2),
-                'folder_path' => 'axis/modules/',
+                'folder_path' => '/axis/modules',
             ],
             'ORDER BY weight');
 
@@ -111,7 +111,7 @@ class AdminPages extends AbstractAdmin
 
             $zoneName = $absoluteFolderArray[count($absoluteFolderArray) - 5];
             $folder_name = $relativeFolderArray[count($relativeFolderArray) -1];
-            $folder_path = 'zones' . DIRECTORY_SEPARATOR . $zoneName . DIRECTORY_SEPARATOR . str_replace(DIRECTORY_SEPARATOR . $folder_name, '', $file->getRelativePath()) . DIRECTORY_SEPARATOR;
+            $folder_path = '/zones' . DIRECTORY_SEPARATOR . $zoneName . DIRECTORY_SEPARATOR . str_replace(DIRECTORY_SEPARATOR . $folder_name, '', $file->getRelativePath());
 
             // Is this module already installed?
             $sql->dbSelect('modules',
@@ -150,7 +150,7 @@ class AdminPages extends AbstractAdmin
 
             $zoneName = $absoluteFolderArray[count($absoluteFolderArray) - 5];
             $folder_name = $relativeFolderArray[count($relativeFolderArray) -1];
-            $folder_path = 'zones' . DIRECTORY_SEPARATOR . $zoneName . DIRECTORY_SEPARATOR . str_replace(DIRECTORY_SEPARATOR . $folder_name, '', $file->getRelativePath()) . DIRECTORY_SEPARATOR;
+            $folder_path = '/zones' . DIRECTORY_SEPARATOR . $zoneName . DIRECTORY_SEPARATOR . str_replace(DIRECTORY_SEPARATOR . $folder_name, '', $file->getRelativePath());
 
             $absoluteFolderArray = explode(DIRECTORY_SEPARATOR, $file->getRealpath());
 
@@ -235,9 +235,9 @@ class AdminPages extends AbstractAdmin
         if ($result_module) {
             $lastInsertId = $sql->dbLastInsertId();
 
-            $modulePath = BASE_DIR . '/' . $_POST['folder_path'] . $_POST['folder_name'] . DIRECTORY_SEPARATOR;
+            $modulePath = BASE_DIR . $_POST['folder_path'] . '/' . $_POST['folder_name'];
 
-            include $modulePath . 'install.php';
+            include $modulePath . '/install.php';
 
             // Add entries to links database table
             foreach ($details['links'] as $label => $url) {
@@ -255,7 +255,7 @@ class AdminPages extends AbstractAdmin
 
         // Create module tables and insert data
 
-        include $modulePath . 'schema.php';
+        include $modulePath . '/schema.php';
 
         foreach ($schema as $version) {
             // Create Tables
@@ -346,9 +346,9 @@ class AdminPages extends AbstractAdmin
 
         // Drop Module Tables
 
-        $modulePath = BASE_DIR . '/' . $_POST['folder_path'] . $_POST['folder_name'] . DIRECTORY_SEPARATOR;
+        $modulePath = BASE_DIR . $_POST['folder_path'] . '/' . $_POST['folder_name'];
 
-        include $modulePath . 'schema.php';
+        include $modulePath . '/schema.php';
 
         foreach ($schema as $version) {
             if (isset($version['create']['table'])){
@@ -367,7 +367,7 @@ class AdminPages extends AbstractAdmin
             'schemas',
             'system_name = :system_name',
             [
-            'system_name' => $_POST['folder_name'],
+                'system_name' => $_POST['folder_name'],
             ]
         );
 
@@ -412,7 +412,7 @@ class AdminPages extends AbstractAdmin
         $adminNav = [
             'Module Manager' => [
                 'Current Modules' => '/module-manager/current-modules',
-                'Install Modules' => '/module-manager/install-local-modules',
+                'Install a Module' => '/module-manager/install-local-modules',
                 //'Install Remote Modules' => '/module-manager/install-remote-modules',
             ],
         ];

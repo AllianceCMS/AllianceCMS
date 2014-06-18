@@ -171,9 +171,9 @@ if ($dispatch) {
         $content = $page->$action();
 
         // Create base/theme template vars
-        $tpl->set('theme_folder', BASE_URL . '/' . $theme_path);
+        $tpl->set('theme_folder', BASE_URL . $theme_path);
 
-        $load_theme = WWW_DIR . '/' . $theme_path . '/theme.tpl.php';
+        $load_theme = WWW_DIR . $theme_path . '/theme.tpl.php';
 
         /**
          * Process Navigation Links

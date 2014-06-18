@@ -23,3 +23,8 @@ require_once (INCLUDES_DIR . '/test_code.php');
 
 // Attempt to calculate execution time
 $execution_time = microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"];
+
+/*
+echo '<br /><h1>Execution Time is: ' . $execution_time . '</h1><br />';
+//exit;
+//*/

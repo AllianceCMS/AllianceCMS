@@ -23,23 +23,9 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
      * Query Db and find out which modules are installed
      */
 
-    /*
-    // Include only installed modules 'routes.php' so we have access to routes
-    $sql->dbSelect('modules', 'folder_path, folder_name', 'active = :active', ['active' => intval(2)]);
-    $result = $sql->dbFetch();
-    //*/
-
     $moduleLoader = new ModuleLoader();
     $activeModules = $moduleLoader->listActiveModules();
 
-    /*
-    echo '<br /><pre>$activeModules: ';
-    echo print_r($activeModules);
-    echo '</pre><br />';
-    exit;
-    //*/
-
-    //foreach ($result as $row) {
     foreach ($activeModules as $row) {
 
         /**
@@ -55,6 +41,7 @@ if ((int) $result['maintenance_flag'] === intval(2)) {
         $module_folder_name = null;
 
         $module_path_array = explode('/', $row['folder_path']);
+        array_shift($module_path_array);
 
         if ($module_path_array['0'] == 'axis') {
             $module_path = AXIS_MODULES_DIR;

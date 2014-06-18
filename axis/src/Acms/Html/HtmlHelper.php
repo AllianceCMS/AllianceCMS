@@ -60,16 +60,6 @@ class HtmlHelper
         $has_protocal = preg_match('/^[http|https]/', $address);
         $is_external_address = preg_match('/[.][A-z]{2,4}/', $address);
 
-        /*
-        echo '<br />$address is: ' . $address . '<br />';
-        //*/
-
-        /*
-        echo '<br />$is_external_address is: ' . $is_external_address . '<br />';
-        //*/
-
-        //exit;
-
         if (!empty($is_external_address)) {
             if ($has_protocal) {
                 $completeTag = '<a href="' . $address . '"';
