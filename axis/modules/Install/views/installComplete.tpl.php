@@ -2,7 +2,7 @@
     <strong>Installation Complete!!!</strong>
 </p>
 
-<?php if (!$dumpFileSuccess): ?>
+<?php if ($dumpFileSuccess === false): ?>
     <div class="notice">
         <strong>Notice:</strong>
         <p>
@@ -11,7 +11,7 @@
     </div>
 <?php endif; ?>
 
-<?php if (!$chmodSuccess): ?>
+<?php if ($chmodSuccess === false): ?>
     <div class="notice">
         <strong>Notice:</strong>
         <p>

@@ -672,6 +672,10 @@ class InstallSite
         // Send formHelper to template
         $this->content->set('formHelper', $formHelper);
 
+        // Send error data to template
+        $this->content->set('dumpFileSuccess', $dumpFileSuccess);
+        $this->content->set('chmodSuccess', $chmodSuccess);
+
         $this->createMenu('9');
         $this->renderTemplate();
 

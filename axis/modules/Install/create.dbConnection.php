@@ -50,10 +50,10 @@ if (file_exists(ZONES_DIR . '/' . $_SERVER['SERVER_NAME'])) {
     $dbConnFile = DB_CONNECTION_FILE;
 }
 
-file_put_contents($dbConnFile, $data);
+$dumpFileSuccess = file_put_contents($dbConnFile, $data);
 
 $currentOS = strtoupper(substr(PHP_OS, 0, 3));
 
 if ($currentOS != 'WIN') {
-	chmod($dbConnFile, 0644);
+	$chmodSuccess = chmod($dbConnFile, 0644);
 }
