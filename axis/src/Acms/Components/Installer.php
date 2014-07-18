@@ -53,7 +53,7 @@ class Installer
             $fs->remove(WWW_RESOURCES_DIR . '/modules/' . $moduleName . '/assets');
 
             // Remove module directory from resources if it is empty
-            if ($this->is_dir_empty(WWW_RESOURCES_DIR . '/modules/' . $moduleName)) {
+            if ($this->isDirEmpty(WWW_RESOURCES_DIR . '/modules/' . $moduleName)) {
                 $fs->remove(WWW_RESOURCES_DIR . '/modules/' . $moduleName);
             }
             return true;
@@ -61,7 +61,7 @@ class Installer
         return false;
     }
 
-    public function is_dir_empty($dir) {
+    public function isDirEmpty($dir) {
         if (!is_readable($dir)) return NULL;
         $handle = opendir($dir);
         while (false !== ($entry = readdir($handle))) {
