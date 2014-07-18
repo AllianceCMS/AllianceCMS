@@ -14,12 +14,12 @@ class Assets
                 // Return Asset URL
                 return $assetUrl . '/' . $file;
             } else {
-                throw new Exception('Asset Does Not Exist.');
+                throw new \Exception('Asset Does Not Exist.');
             }
         } else {
 
             // $directory does not exist
-            throw new Exception('Asset Directory Does Not Exist.');
+            throw new \Exception('Asset Directory Does Not Exist.');
         }
     }
 }

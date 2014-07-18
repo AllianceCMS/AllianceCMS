@@ -35,9 +35,10 @@ class Installer
         $fs = new Filesystem();
 
         // Does module asset folder exist?
-        if ($fs->exists(BASE_DIR . '/' . $modulePath . $moduleName . DIRECTORY_SEPARATOR . 'assets')) {
-            $fs->mkdir(WWW_RESOURCES_DIR . '/modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'assets', 0755);
-            $fs->mirror(BASE_DIR . '/' . $modulePath . $moduleName . DIRECTORY_SEPARATOR . 'assets', WWW_RESOURCES_DIR . '/modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'assets', null, ['override' => true, 'copyonwindows' => true, 'delete' => true]);
+        if ($fs->exists(BASE_DIR . $modulePath . '/' . $moduleName . '/assets')) {
+            $fs->mkdir(WWW_RESOURCES_DIR . '/modules/' . $moduleName . '/assets', 0755);
+            $fs->mirror(BASE_DIR . $modulePath . '/' . $moduleName . '/assets', WWW_RESOURCES_DIR . '/modules/' . $moduleName . '/assets', null, ['override' => true, 'copyonwindows' => true, 'delete' => true]);
+
             return true;
         }
         return false;
@@ -48,12 +49,12 @@ class Installer
         $fs = new Filesystem();
 
         // Does module asset folder exist?
-        if ($fs->exists(WWW_RESOURCES_DIR . '/modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'assets')) {
-            $fs->remove(WWW_RESOURCES_DIR . '/modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'assets');
+        if ($fs->exists(WWW_RESOURCES_DIR . '/modules/' . $moduleName . '/assets')) {
+            $fs->remove(WWW_RESOURCES_DIR . '/modules/' . $moduleName . '/assets');
 
             // Remove module directory from resources if it is empty
-            if ($this->is_dir_empty(WWW_RESOURCES_DIR . '/modules' . DIRECTORY_SEPARATOR . $moduleName)) {
-                $fs->remove(WWW_RESOURCES_DIR . '/modules' . DIRECTORY_SEPARATOR . $moduleName);
+            if ($this->is_dir_empty(WWW_RESOURCES_DIR . '/modules/' . $moduleName)) {
+                $fs->remove(WWW_RESOURCES_DIR . '/modules/' . $moduleName);
             }
             return true;
         }
