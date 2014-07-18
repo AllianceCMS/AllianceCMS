@@ -7,7 +7,11 @@ use Acms\Data\Db;
  */
 if (file_exists(DB_CONNECTION_FILE)) {
 
-    $sql = new Db;
+    $sql = new Db();
+
+    if (!$sql->dbValidConnection()) {
+        throw new Exception('There is not a valid Database Connection.');
+    }
 
 } else {
 
