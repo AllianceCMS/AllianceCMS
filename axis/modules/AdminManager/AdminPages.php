@@ -1,5 +1,5 @@
 <?php
-namespace Admin;
+namespace AdminManager;
 
 use Acms\ModuleSystem\ModuleBuilder\AbstractAdmin;
 use Acms\Entities\CurrentUser;

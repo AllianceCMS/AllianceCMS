@@ -186,7 +186,13 @@
                     <!-- Module content starts -->
 
                     <div id="acms_content">
+                        <p>
+                            Before Content
+                        </p>
                         <?php echo $content; ?>
+                        <p>
+                            After Content
+                        </p>
             	    </div>
 
                     <!-- Module content ends -->

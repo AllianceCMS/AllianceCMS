@@ -1,7 +1,7 @@
 <?php
 namespace Ciao;
 
-class Perms
+class ModulePerms
 {
     public function definePerms()
     {
@@ -10,7 +10,7 @@ class Perms
            'edit_ciao' => 'User Can Edit Ciao Content',
            'delete_ciao' => 'User Can Delete Ciao Content',
         ];
-        
+
         return $perms;
     }
 }

@@ -1,4 +1,17 @@
 <?php
+$moduleRoutes['ModuleManager']['List Modules'] = [
+    'name' => 'list_modules', // Required: Route name
+    'path' => '/module-manager/list-modules/{:query_string*}', // Required: Route path
+    'type' => 'admin', // Required: admin, front, back
+    'specs' => [
+        'values' => [
+            'namespace' => 'ModuleManager',
+            'controller' => 'AdminPages',
+            'action' => 'listModules',
+        ] // Required: namespace/controller/action
+    ]
+];
+
 $moduleRoutes['ModuleManager']['Current Modules'] = [
     'name' => 'module_manager', // Required: Route name
     'path' => '/module-manager/current-modules/{:query_string*}', // Required: Route path

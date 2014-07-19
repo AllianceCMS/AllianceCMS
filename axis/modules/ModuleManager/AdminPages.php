@@ -10,6 +10,341 @@ use Symfony\Component\Finder\Finder;
 
 class AdminPages extends AbstractAdmin
 {
+    public function listModules()
+    {
+        $sql = new Db();
+        $assets = new Assets();
+
+        $this->addCustomHeader($this->htmlHelper->styleSheetLink($assets->getAssetPath($this->moduleName, 'css', 'style.css')));
+
+        /**
+         * Start Code from currentModules()
+         */
+
+        /* Experimental Query for new Module Manager landing page
+        // List modules for this specific zone/domain and modules located in the 'all' zone folder
+        $sql->dbSelect('modules',
+            'id, name, version, description, developer, developer_email, developer_site, created',
+            'active = :active
+            AND folder_path = :folder_path1
+            AND folder_path = :folder_path2
+            AND folder_path = :folder_path3',
+            [
+                'active' => intval(2),
+                'folder_path1' => '/zones/all/modules/provider',
+                'folder_path2' => '/zones/all/modules/custom',
+                'folder_path3' => '/axis/modules',
+            ],
+            'ORDER BY weight'
+        );
+
+        $moduleList = $sql->dbFetch();
+
+        // List currently installed Axis modules
+        $sql->dbSelect('modules',
+            'id, name, version, description, developer, developer_email, developer_site, created',
+            'active = :active AND folder_path = :folder_path',
+            [
+                'active' => intval(2),
+                'folder_path' => '/axis/modules',
+            ],
+            'ORDER BY weight'
+        );
+
+        $axisModules = $sql->dbFetch();
+        //*/
+
+        /*
+        // List modules installed for all zones/domains
+        $sql->dbSelect('modules',
+            'id, name, version, description, developer, developer_site, developer_email, folder_path, folder_name, created',
+            'active = :active
+            AND folder_path = :folder_path1
+            OR folder_path = :folder_path2',
+            [
+                'active' => intval(2),
+                'folder_path1' => '/zones/all/modules/provider',
+                'folder_path2' => '/zones/all/modules/custom',
+            ],
+            'ORDER BY weight'
+        );
+
+        $zoneAllModules = $sql->dbFetch();
+
+        // List modules installed for this specific zone/domain
+        $sql->dbSelect('modules',
+            'id, name, version, description, developer, developer_email, developer_site, created',
+            'active = :active
+            AND folder_path != :folder_path1
+            AND folder_path != :folder_path2
+            AND folder_path != :folder_path3',
+            [
+                'active' => intval(2),
+                'folder_path1' => '/zones/all/modules/provider',
+                'folder_path2' => '/zones/all/modules/custom',
+                'folder_path3' => '/axis/modules',
+            ],
+            'ORDER BY weight'
+        );
+
+        $zoneSpecificModules = $sql->dbFetch();
+
+        // List currently installed Axis modules
+        $sql->dbSelect('modules',
+            'id, name, version, description, developer, developer_email, developer_site, created',
+            'active = :active AND folder_path = :folder_path',
+            [
+                'active' => intval(2),
+                'folder_path' => '/axis/modules',
+            ],
+            'ORDER BY weight'
+        );
+
+        $axisModules = $sql->dbFetch();
+        //*/
+
+        /*
+        $content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/admin.list_modules.tpl.php');
+
+        if (1 === ((int) count($this->axisRoute->values['query_string']))) {
+            $content->set('uninstallationSuccessful', true);
+        } else {
+            if (isset($this->axisRoute->values['query_string'][1])) {
+                $content->set($this->axisRoute->values['query_string'][1], true);
+            }
+
+            if (isset($this->axisRoute->values['query_string'][2])) {
+                $content->set($this->axisRoute->values['query_string'][2], true);
+            }
+            if (isset($this->axisRoute->values['query_string'][3])) {
+                $content->set($this->axisRoute->values['query_string'][3], true);
+            }
+
+            if (isset($this->axisRoute->values['query_string'][4])) {
+                $content->set($this->axisRoute->values['query_string'][4], true);
+            }
+        }
+
+        $content->set('zoneAllModules', $zoneAllModules);
+        $content->set('zoneSpecificModules', $zoneSpecificModules);
+        $content->set('axisModules', $axisModules);
+        $content->set('formHelper', $this->formHelper);
+        //*/
+
+        /**
+         * End Code from currentModules()
+         */
+
+        /**
+         * Start Code from installLocalModules()
+         */
+
+        $coreModulesFinder = new \Symfony\Component\Finder\Finder();
+        //$coreModulesFinder->ignoreUnreadableDirs()->files()->name('install.php')->in(AXIS_MODULES_DIR);
+        $coreModulesFinder->ignoreUnreadableDirs()->files()->name('details.php')->in(AXIS_MODULES_DIR);
+
+        $zoneAllFinder = new \Symfony\Component\Finder\Finder();
+        //$zoneAllFinder->ignoreUnreadableDirs()->files()->name('install.php')->in(ZONES_DIR . '/all');
+        $zoneAllFinder->ignoreUnreadableDirs()->files()->name('details.php')->in(ZONES_DIR . '/all');
+
+        $currentZonePath = str_replace('/dbConnection.php', '', DB_CONNECTION_FILE);
+
+        $zoneCurrentFinder = new \Symfony\Component\Finder\Finder();
+        //$zoneCurrentFinder->ignoreUnreadableDirs()->files()->name('install.php')->in($currentZonePath . DIRECTORY_SEPARATOR . 'modules');
+        $zoneCurrentFinder->ignoreUnreadableDirs()->files()->name('details.php')->in($currentZonePath . DIRECTORY_SEPARATOR . 'modules');
+
+        foreach ($coreModulesFinder as $file) {
+
+            $absoluteFolderArray = explode(DIRECTORY_SEPARATOR, $file->getRealpath());
+            $relativeFolderArray = explode(DIRECTORY_SEPARATOR, $file->getRelativePath());
+
+            $zoneName = $absoluteFolderArray[count($absoluteFolderArray) - 5];
+            $folder_name = $relativeFolderArray[count($relativeFolderArray) -1];
+            $folder_path = '/zones' . DIRECTORY_SEPARATOR . $zoneName . DIRECTORY_SEPARATOR . str_replace(DIRECTORY_SEPARATOR . $folder_name, '', $file->getRelativePath());
+
+            /*
+            echo '<br />$folder_name is: ' . $folder_name . '<br />';
+            //exit;
+            //*/
+
+            // Is this module already installed?
+            $sql->dbSelect('modules',
+                'name, version, description, developer, developer_email, developer_site, created',
+                'active = :active
+                AND folder_name = :folder_name',
+                [
+                    'active' => intval(2),
+                    'folder_name' => $folder_name,
+                ],
+                'ORDER BY weight'
+            );
+
+            $installedCoreModules = $sql->dbFetch();
+
+            if ($installedCoreModules) {
+
+                include $file->getRealpath();
+
+                $coreModules[] = [
+                    'name' => $details['name'],
+                    'version' => $details['version'],
+                    'description' => urlencode($details['description']),
+                    'developer' => $details['developer'],
+                    'developer_site' => $details['developer_site'],
+                    'developer_email' => $details['developer_email'],
+                    'folder_path' => $folder_path,
+                    'folder_name' => $folder_name,
+                ];
+
+                /*
+                echo '<br /><pre>$coreModules: ';
+                echo print_r($coreModules);
+                echo '</pre><br />';
+                //exit;
+                //*/
+
+            }
+        }
+
+        /*
+        echo '<br /><pre>$coreModules: ';
+        echo print_r($coreModules);
+        echo '</pre><br />';
+        //exit;
+        //*/
+
+        foreach ($zoneAllFinder as $file) {
+
+            $absoluteFolderArray = explode(DIRECTORY_SEPARATOR, $file->getRealpath());
+            $relativeFolderArray = explode(DIRECTORY_SEPARATOR, $file->getRelativePath());
+
+            $zoneName = $absoluteFolderArray[count($absoluteFolderArray) - 5];
+            $folder_name = $relativeFolderArray[count($relativeFolderArray) -1];
+            $folder_path = '/zones' . DIRECTORY_SEPARATOR . $zoneName . DIRECTORY_SEPARATOR . str_replace(DIRECTORY_SEPARATOR . $folder_name, '', $file->getRelativePath());
+
+            // Is this module already installed?
+            $sql->dbSelect('modules',
+                'name, version, description, developer, developer_email, developer_site, created',
+                'active = :active
+                AND folder_name = :folder_name',
+                [
+                    'active' => intval(2),
+                    'folder_name' => $folder_name,
+                ]
+            );
+
+            $installedZoneAllModules = $sql->dbFetch();
+
+            if (!$installedZoneAllModules) {
+
+                include $file->getRealpath();
+
+                $zoneAllModules[] = [
+                    'name' => $details['name'],
+                    'version' => $details['version'],
+                    'description' => urlencode($details['description']),
+                    'developer' => $details['developer'],
+                    'developer_site' => $details['developer_site'],
+                    'developer_email' => $details['developer_email'],
+                    'folder_path' => $folder_path,
+                    'folder_name' => $folder_name,
+                ];
+
+                /*
+                echo '<br /><pre>$zoneAllModules: ';
+                echo print_r($zoneAllModules);
+                echo '</pre><br />';
+                //exit;
+                //*/
+
+            }
+        }
+
+        foreach ($zoneCurrentFinder as $file) {
+
+            $absoluteFolderArray = explode(DIRECTORY_SEPARATOR, $file->getRealpath());
+            $relativeFolderArray = explode(DIRECTORY_SEPARATOR, $file->getRelativePath());
+
+            $zoneName = $absoluteFolderArray[count($absoluteFolderArray) - 5];
+            $folder_name = $relativeFolderArray[count($relativeFolderArray) -1];
+            $folder_path = '/zones' . DIRECTORY_SEPARATOR . $zoneName . DIRECTORY_SEPARATOR . str_replace(DIRECTORY_SEPARATOR . $folder_name, '', $file->getRelativePath());
+
+            $absoluteFolderArray = explode(DIRECTORY_SEPARATOR, $file->getRealpath());
+
+            // Is this module already installed?
+            $sql->dbSelect('modules',
+                'name, version, description, developer, developer_email, developer_site, created',
+                'active = :active
+                AND folder_name = :folder_name',
+                [
+                    'active' => intval(2),
+                    'folder_name' => $folder_name,
+                ]
+            );
+
+            $installedZoneSpecificModules = $sql->dbFetch();
+
+            if (!$installedZoneSpecificModules) {
+
+                include $file->getRealpath();
+
+                $zoneSpecificModules[] = [
+                    'name' => $details['name'],
+                    'version' => $details['version'],
+                    'description' => urlencode($details['description']),
+                    'developer' => $details['developer'],
+                    'developer_site' => $details['developer_site'],
+                    'developer_email' => $details['developer_email'],
+                    'folder_path' => $folder_path,
+                    'folder_name' => $folder_name,
+                ];
+
+                /*
+                echo '<br /><pre>$zoneSpecificModules: ';
+                echo print_r($zoneSpecificModules);
+                echo '</pre><br />';
+                //exit;
+                //*/
+
+            }
+        }
+
+        $content = new Template(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views/admin.list_modules.tpl.php');
+
+        if (1 === ((int) count($this->axisRoute->values['query_string']))) {
+            $content->set('installationSuccessful', true);
+        } else {
+            if (isset($this->axisRoute->values['query_string'][1])) {
+                $content->set($this->axisRoute->values['query_string'][1], true);
+            }
+
+            if (isset($this->axisRoute->values['query_string'][2])) {
+                $content->set($this->axisRoute->values['query_string'][2], true);
+            }
+        }
+
+        if (!isset($coreModules))
+            $coreModules = '';
+
+        if (!isset($zoneAllModules))
+            $zoneAllModules = '';
+
+        if (!isset($zoneSpecificModules))
+            $zoneSpecificModules = '';
+
+        $content->set('coreModules', $coreModules);
+        $content->set('zoneAllModules', $zoneAllModules);
+        $content->set('zoneSpecificModules', $zoneSpecificModules);
+        $content->set('formHelper', $this->formHelper);
+
+
+        /**
+         * End Code from installLocalModules()
+         */
+
+        return $content;
+    }
+
     public function currentModules()
     {
         $sql = new Db();
@@ -97,14 +432,17 @@ class AdminPages extends AbstractAdmin
 
         $this->addCustomHeader($this->htmlHelper->styleSheetLink($assets->getAssetPath($this->moduleName, 'css', 'style.css')));
 
-        $zoneAllfinder = new \Symfony\Component\Finder\Finder();
-        $zoneAllfinder->ignoreUnreadableDirs()->files()->name('install.php')->in(ZONES_DIR . '/all');
+        $zoneAllFinder = new \Symfony\Component\Finder\Finder();
+        //$zoneAllFinder->ignoreUnreadableDirs()->files()->name('install.php')->in(ZONES_DIR . '/all');
+        $zoneAllFinder->ignoreUnreadableDirs()->files()->name('details.php')->in(ZONES_DIR . '/all');
 
         $currentZonePath = str_replace('/dbConnection.php', '', DB_CONNECTION_FILE);
-        $zoneCurrentfinder = new \Symfony\Component\Finder\Finder();
-        $zoneCurrentfinder->ignoreUnreadableDirs()->files()->name('install.php')->in($currentZonePath . DIRECTORY_SEPARATOR . 'modules');
 
-        foreach ($zoneAllfinder as $file) {
+        $zoneCurrentFinder = new \Symfony\Component\Finder\Finder();
+        //$zoneCurrentFinder->ignoreUnreadableDirs()->files()->name('install.php')->in($currentZonePath . DIRECTORY_SEPARATOR . 'modules');
+        $zoneCurrentFinder->ignoreUnreadableDirs()->files()->name('details.php')->in($currentZonePath . DIRECTORY_SEPARATOR . 'modules');
+
+        foreach ($zoneAllFinder as $file) {
 
             $absoluteFolderArray = explode(DIRECTORY_SEPARATOR, $file->getRealpath());
             $relativeFolderArray = explode(DIRECTORY_SEPARATOR, $file->getRelativePath());
@@ -143,7 +481,7 @@ class AdminPages extends AbstractAdmin
             }
         }
 
-        foreach ($zoneCurrentfinder as $file) {
+        foreach ($zoneCurrentFinder as $file) {
 
             $absoluteFolderArray = explode(DIRECTORY_SEPARATOR, $file->getRealpath());
             $relativeFolderArray = explode(DIRECTORY_SEPARATOR, $file->getRelativePath());
@@ -237,7 +575,8 @@ class AdminPages extends AbstractAdmin
 
             $modulePath = BASE_DIR . $_POST['folder_path'] . '/' . $_POST['folder_name'];
 
-            include $modulePath . '/install.php';
+            //include $modulePath . '/install.php';
+            include $modulePath . '/details.php';
 
             // Add entries to links database table
             foreach ($details['links'] as $label => $url) {
@@ -411,6 +750,7 @@ class AdminPages extends AbstractAdmin
     {
         $adminNav = [
             'Module Manager' => [
+                'Module Manager' => '/module-manager/list-modules',
                 'Current Modules' => '/module-manager/current-modules',
                 'Install a Module' => '/module-manager/install-local-modules',
                 //'Install Remote Modules' => '/module-manager/install-remote-modules',
