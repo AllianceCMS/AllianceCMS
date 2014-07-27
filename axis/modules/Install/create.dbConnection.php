@@ -56,4 +56,7 @@ $currentOS = strtoupper(substr(PHP_OS, 0, 3));
 
 if ($currentOS != 'WIN') {
 	$chmodSuccess = chmod($dbConnFile, 0644);
+} else {
+    // @todo: Need to come back and find a better alternative to this
+    $chmodSuccess = true;
 }
