@@ -1,8 +1,30 @@
 <?php
 /**
+ * AllianceCMS
+ *
+ * PHP Version 5.4+
+ *
+ * * Website:       {@link http://www.alliancecms.com}
+ * * Documentation: {@link https://github.com/AllianceCMS/AllianceCMS/wiki}
+ * * Google Group:  {@link https://groups.google.com/forum/#!forum/alliancecms}
+ * * API:           {@link http://api.alliancecms.com}
+ * * Issue Tracker: {@link https://github.com/AllianceCMS/AllianceCMS/issues}
+ *
+ * @author Jesse Burns <jesse.burns@alliancecms.com>
+ * @version 0.0.1
+ * @copyright 2013-2014 AllianceCMS
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @package Acms
+ * @filesource
+ * @since Initial Pre-Alpha Code Base
+ */
+
+/**
  * Make sure PHP version is not < 5.4.0
  *
  * If PHP version is < 5.4.0 display error message and halt execution.
+ *
+ * @throws \Exception If PHP Version is less than PHP v5.4
  */
 
 try {

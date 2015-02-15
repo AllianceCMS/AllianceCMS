@@ -2,8 +2,22 @@
 /**
  * Ciao Module namespace
  *
- * Use the same name as the module folder to comply with PSR-0 and so internal autoloader will load this controller properly
+ * Use the same name as the module folder to comply with PSR-0 and so internal autoloader will load this
+ * controller properly
  *
+ * * Website:       {@link http://www.alliancecms.com}
+ * * Documentation: {@link https://github.com/AllianceCMS/AllianceCMS/wiki}
+ * * Google Group:  {@link https://groups.google.com/forum/#!forum/alliancecms}
+ * * API:           {@link http://api.alliancecms.com}
+ * * Issue Tracker: {@link https://github.com/AllianceCMS/AllianceCMS/issues}
+ *
+ * @author Jesse Burns <jesse.burns@alliancecms.com>
+ * @copyright 2013-2014 AllianceCMS
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @package Acms
+ * @version 0.0.1
+ * @since Initial Pre-Alpha Code Base
+ * @filesource
  */
 
 namespace Ciao;
@@ -37,7 +51,6 @@ use Acms\Templates\Template;
  *     This should not be a common occurence, as the route dispatcher should be the only entity to load controllers attached to routes
  *
  */
-
 class SayStuff extends AbstractModule
 {
     public function sayHi()
